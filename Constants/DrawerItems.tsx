@@ -95,6 +95,7 @@ export default [
                 name: 'პრემიუმ სივრცე'
             },
         ],
+        routeName: 'Stores',
         id:3
     },
     {

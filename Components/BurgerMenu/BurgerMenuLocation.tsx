@@ -26,8 +26,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = (props) => {
             return false;
         }
     };
-
-
+console.log('*')
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => hasCategories() ? setIsCollapsed(!isCollapsed) : navigate(props.routeName!)}>
