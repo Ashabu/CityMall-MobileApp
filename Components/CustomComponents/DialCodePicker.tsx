@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, StyleSheet, View, Modal, TouchableOpacity } from 'react-native';
+import { Text, StyleSheet, View, Modal, TouchableOpacity, Platform } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import countryCodes from '../DialCodePIcker/CountryCodes';
 import { Colors } from '../../Colors/Colors';
 import { AppContext } from '../../AppContext/AppContext';
+import { useRef } from 'react';
 
 
 const DialCodePicker = (props: any) => {
@@ -82,12 +83,22 @@ const DialCodePicker = (props: any) => {
     useEffect(() => {
         if(selectedValue !== '') {
             props.onSelect(selectedValue);
+            setIsSelecting(false);
         }
     }, [selectedValue]);
 
+    const picker = useRef<any>();
+
+    useEffect(() => {
+        if(isSelecting) {
+            picker.current.focus()
+        }
+        }, [isSelecting])
+     
+
     return (
         <>
-        {isSelecting ?
+        {(isSelecting && Platform.OS === 'ios') ?
             <TouchableOpacity style={styles.centeredView} onPress={() => setIsSelecting(false)}>
                 <Modal
                     animationType="fade"
@@ -122,8 +133,21 @@ const DialCodePicker = (props: any) => {
                     </View>
                 </Modal>
             </TouchableOpacity>
-            :
-            null}
+            : (isSelecting && Platform.OS === 'android') ?
+            <Picker ref={picker}
+            style={styles.pickerStyle}
+            itemStyle={styles.textStyles}
+            selectedValue={selectedValue}
+            onValueChange={(itemValue, itemIndex) =>
+                setSelectedValue(itemValue)}
+        >
+            {countryCodes.map((item: any, index: number) => (
+                <Picker.Item
+                    key={item.code}
+                    label={item.dial_code + ' ' + item.name} value={item.dial_code} />
+
+            ))}
+        </Picker> : null}
             <TouchableOpacity
                 style={styles.selectedItem}
                 onPress={() => setIsSelecting(true)}>
