@@ -28,7 +28,7 @@ const Parameters = () => {
         <View style={styles.nameWrapper}>
           <Text style={styles.name}>გვანცა გაბუნია</Text>
         </View>
-        <View style={{top: 83, height: 110, justifyContent: 'space-between' }}>
+        <View style={{top: 83, height: 80, justifyContent: 'space-between' }}>
           <View style={styles.desighnView}>
               <View style={styles.iconView}>
               <View style={{width: 30}}>
