@@ -8,7 +8,7 @@ export interface RoadMap{
     name: string,
     icon: string,
     content: JSX.Element
-   
+    routeName?: string
 }
 
 export default [
@@ -16,15 +16,15 @@ export default [
         id: 1,
         name: 'ქალაქის რუკა',
         icon:  require('../assets/images/bigArrow.png'),
-        content: <></>
-     
+        content: <></>,
+        routeName: 'GoogleMap'
     },
     {
         id: 2,
         name: 'სართულის გეგმა',
         icon:  require('../assets/images/bigArrow.png'),
-        content: <></>
-      
+        content: <></>,
+        routeName: 'FloorMap'
     },
     {
         id: 3,

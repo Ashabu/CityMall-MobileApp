@@ -40,9 +40,10 @@ const SingleOfferScreen = () => {
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={styles.offerTitleBox}>
+                <View style={[styles.offerTitleBox, {backgroundColor: singleOffer.offerType.color}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {CategoryTypes[singleOffer.offerType]}
+                    {/* {CategoryTypes[singleOffer.offerType.name]} */}
+                    {singleOffer.offerType.name}
                     </Text>
                 </View>
                 <View style={{ marginTop: 23 }}>
