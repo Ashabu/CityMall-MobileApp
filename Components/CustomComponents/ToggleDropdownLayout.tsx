@@ -10,15 +10,17 @@ import {
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import data from '../../Constants/ToggleData';
+import { navigate } from '../../Services/NavigationServices';
 
 export interface ToggleListProps {
   name: string;
   icon: ImageSourcePropType;
   Content: React.FC;
+  routeName?: string;
 }
 
 const ToggleDropdownLayout: React.FC<ToggleListProps> = props => {
-  const {name, icon, Content} = props;
+  const {name, icon, Content, routeName} = props;
   const [collapse, setCollapse] = useState<boolean>(false);
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
@@ -26,7 +28,13 @@ const ToggleDropdownLayout: React.FC<ToggleListProps> = props => {
   return (
     <>
       <TouchableOpacity
-        onPress={() => setCollapse(!collapse)}
+        onPress={() => {
+          if(!routeName) {
+            setCollapse(!collapse)
+          } else {
+            navigate(routeName);
+          }
+        }}
         style={[
           styles.main,
           {backgroundColor: isDarkTheme ? Colors.black : Colors.white},

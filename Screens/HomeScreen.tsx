@@ -13,12 +13,6 @@ import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
 import { GetOffers } from "../Services/Api/OffersApi";
 
-
-enum mallIds {
-    citiMallGldan = 1,
-    cityMallSaburtalo = 2,
-}
-
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, offersArray, isDarkTheme } = state;
@@ -121,12 +115,6 @@ const HomeScreen = () => {
                 </View>
             
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
-                <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
-                    <Text style={{color: 'red', textAlign: 'center'}}>FLOOR MAP</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigate('GoogleMap')} style={{backgroundColor: '#fcfcfc', paddingVertical: 15}}>
-                    <Text style={{color: 'red', textAlign: 'center'}}>GoogleMap</Text>
-                </TouchableOpacity>
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>

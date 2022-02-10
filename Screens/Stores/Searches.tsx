@@ -29,20 +29,19 @@ export default () => {
   };
 
   useEffect(() => {
-    if(ttlRef.current) clearTimeout(ttlRef.current);
+    if (ttlRef.current) clearTimeout(ttlRef.current);
     if (!keyword) {
-        if(merchants?.length) {
-            setMerchants([]);
-        }
-        return;
+      if (merchants?.length) {
+        setMerchants([]);
+      }
+      return;
     }
 
     ttlRef.current = setTimeout(() => {
-        axios
+      axios
         .get(`${envs.API_URL}/api/Mobile/SearchMerchants?keyword=${keyword}`)
-        .then(res => { 
-            if(res.data?.data)
-                  setMerchants(res.data?.data);
+        .then(res => {
+          if (res.data?.data) setMerchants(res.data?.data);
         });
     }, 1500);
   }, [keyword]);
@@ -59,54 +58,58 @@ export default () => {
       <View
         style={{
           flex: 1,
-          paddingHorizontal: '7%',
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingTop: 20,
         }}>
-        <View
-          style={{
-            borderBottomColor: '#fff',
-            borderBottomWidth: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <TextInput
-            placeholder="ძიება"
-            placeholderTextColor={'#fff'}
-            style={{color: '#fff'}}
-            value={keyword}
-            onChangeText={e => setKeyword(e)}
-          />
-          <Image
-            source={require('./../../assets/images/icon-search-red.png')}
-          />
+        <View style={{paddingHorizontal: '7%'}}>
+          <View
+            style={{
+              borderBottomColor: '#fff',
+              borderBottomWidth: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TextInput
+              placeholder="ძიება"
+              placeholderTextColor={'#fff'}
+              style={{color: '#fff'}}
+              value={keyword}
+              onChangeText={e => setKeyword(e)}
+              autoFocus={true}
+            />
+            <Image
+              source={require('./../../assets/images/icon-search-red.png')}
+            />
+          </View>
         </View>
+        <View
+          style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
+            horizontal>
+            {merchants.length > 0 && (
+              <ScrollView
+                scrollToOverflowEnabled={true}
+                style={[styles.dataScroller]}
+                showsHorizontalScrollIndicator={false}>
+                {chunkedData.map((data, i) => (
+                  <View key={i} style={[styles.dataContent, itemStyle]}>
+                    {data.map((item, index) => (
+                      <ShopDetailBox
+                        index={index}
+                        data={item}
+                        key={item.name! + index}
+                        style={styles.dataItem}
+                      />
+                    ))}
 
-      <View style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white,}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}} horizontal>
-          {merchants.length > 0 && (
-            <ScrollView
-              scrollToOverflowEnabled={true}
-              style={[styles.dataScroller]}
-              showsHorizontalScrollIndicator={false} >
-              {chunkedData.map((data, i) => (
-                <View key={i} style={[styles.dataContent, itemStyle]}>
-                  {data.map((item, index) => (
-                    <ShopDetailBox
-                      index={index}
-                      data={item}
-                      key={item.name! + index}
-                      style={styles.dataItem}
-                    />
-                  ))}
-
-                  {fillSpace(data.length)}
-                </View>
-              ))}
-            </ScrollView>
-          )}
-        </ScrollView>
+                    {fillSpace(data.length)}
+                  </View>
+                ))}
+              </ScrollView>
+            )}
+          </ScrollView>
         </View>
       </View>
     </AppLayout>
