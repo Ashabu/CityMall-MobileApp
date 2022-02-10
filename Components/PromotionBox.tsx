@@ -42,11 +42,22 @@ const PromotionBox: React.FC<IPromotionData> = ({ data, index, style }) => {
 
     };
 
+function extractor(obj: any, key: string) {
+    if(!obj || obj === null || typeof obj === null) {
+        return undefined;
+    }
+
+    try{
+        return obj[key]
+    } catch(_) {
+        return undefined;
+    }
+}
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={style}>
             <View style={styles.promotionBox}>
-                <View style={[styles.container, {backgroundColor: data.offerType.color}]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {data.offerType.name}</Text>
+                <View style={[styles.container, {backgroundColor: extractor(data.offerType, 'color')}]}>
+                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {extractor(data.offerType, 'name')}</Text>
                 </View>
                 <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
