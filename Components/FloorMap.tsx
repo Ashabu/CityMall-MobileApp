@@ -53,7 +53,7 @@ export default () => {
   useEffect(() => {
     axios
       .get(
-        `${envs.API_URL}/api/Connect/GetFloorsMap?address=${route.params.mallId}`,
+        `${envs.API_URL}/api/Connect/GetFloorsMap?address=${route.params?.mallId || 1}`,
       )
       .then(res => {
         setFloors(res.data.floors);

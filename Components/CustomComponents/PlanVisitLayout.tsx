@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {Colors} from '../../Colors/Colors';
 import data from '../../Constants/PlanVisitData';
+import { navigate } from '../../Services/NavigationServices';
 
 
 
@@ -16,18 +17,25 @@ export interface IAppBtnProps {
     title: string;
     icon: ImageSourcePropType;
     Content: any
+    routeName?: string
   }
 
 
 const PlanVisitLayout:React.FC<IAppBtnProps> = props => {
-  const {title, icon, Content} = props;
+  const {title, icon, Content, routeName} = props;
   const [collapse, setCollapse] = useState<boolean>(false);
 
 
 
   return (
     <>
-    <TouchableOpacity onPress={() =>setCollapse(!collapse)} style={styles.main}>
+    <TouchableOpacity onPress={() => {
+      if(!routeName) {
+        setCollapse(!collapse)
+      } else {
+        navigate(routeName);
+      }
+    }} style={styles.main}>
     <Text style={styles.name}>{title}</Text>
                <Image source={icon} style={collapse ?
                      {
