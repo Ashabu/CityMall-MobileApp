@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   cardWrapper: {
     flex: 1,
     alignItems: 'center',
+    padding: 15
   },
 });
 

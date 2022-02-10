@@ -6,6 +6,7 @@ import { Colors } from '../Colors/Colors'
 import { useDimension } from "../Hooks/UseDimension";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {navigate} from '../Services/NavigationServices';
+import ToggleDropdown from "./ToggleDropdown/ToggleDropdown";
 
 
 
@@ -13,13 +14,26 @@ import {navigate} from '../Services/NavigationServices';
 const AppHeader = (props: any) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme, clientDetails } = state;
+    const [visible, setVisible] = useState(false);
 
-    const { width } = useDimension();
+    const { width, height } = useDimension();
     const [isLocationActive, setIsLocationActive] = useState<boolean>(false);
 
     const themeBgColor = {
         backgroundColor: isDarkTheme ? Colors.white : Colors.black
     };
+
+    const toggleDropdown = () => {
+        setVisible(!visible);
+      };
+    //   const renderDropdown = () =>(
+    //           <View style={{zIndex: 13}}>
+    //             <ToggleDropdown />
+    //           </View>
+             
+          
+    //   );
+      
 
     const handleIconPress = () => {
         if(clientDetails.length === 0) {
@@ -30,6 +44,11 @@ const AppHeader = (props: any) => {
     }
 
     return (
+   <>{visible?
+       <TouchableOpacity style={[styles.dropDown, {height: height, width: width}]} onPress={() =>setVisible(false)}>
+        <ToggleDropdown />
+       </TouchableOpacity>
+       : null}
         <SafeAreaView style={[styles.apphHeader, { backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
             <View style={[styles.appHeaderRight, { width: (width / 6) }]}>
                 <TouchableOpacity style={styles.burgerIcon} onPress={() => toggleDrawer()}>
@@ -54,12 +73,13 @@ const AppHeader = (props: any) => {
                             :
                             null}
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.iconCircle, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+                <TouchableOpacity style={[styles.iconCircle, { borderColor: isDarkTheme ? Colors.white : Colors.black }]} onPress={toggleDropdown}>
                     <Image style={styles.icons} source={require('../assets/images/location.png')} />
                 </TouchableOpacity>
 
             </View>
         </SafeAreaView>
+        </>
     );
 };
 
@@ -147,5 +167,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -13,
         right: 0
+    },
+    dropDown: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 10,
+        alignItems:'flex-end',
+        backgroundColor: '#a8a7a761',
+        paddingRight: 15,
     }
 });

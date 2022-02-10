@@ -17,7 +17,7 @@ const BuyVouchers = () => {
     <Layout
       hasBackArrow
       onPressBack={GoBack}
-      hideArrows
+     
       pageName='ვაუჩერების შეძენა'
       >
       <View style={styles.mainContainer}>
@@ -27,10 +27,11 @@ const BuyVouchers = () => {
                     item={el}
                   />
               ))}
-          <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('SelectedVouchers')} >
+          
+        </View>
+        <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('SelectedVouchers')} >
             <Text style={styles.btnText}>შეძენა</Text>
           </TouchableOpacity>
-        </View>
       </View>
     </Layout>
   );
@@ -38,24 +39,30 @@ const BuyVouchers = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    marginVertical: '7%',
-    flex: 1
+    top: 20,
+    marginBottom: 70,
+    flex: 1,
+    alignItems: 'center',
+    
   },
 
   cardWrapper: {
     flex: 1,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    marginHorizontal: '7%',
+    
+    
   },
 
   btnStyle: {
-    top: 15,
+    top: 35,
     width: 325,
     height: 66,
     borderRadius: 50,
     backgroundColor: Colors.darkGrey,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    
   },
 
   btnText: {

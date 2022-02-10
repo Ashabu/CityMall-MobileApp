@@ -3,11 +3,12 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
-import {navigate} from '../../Services/NavigationServices';
+import {GoBack, navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import  Data  from '../../Constants/VouchersDummyData'
 import OneTimeCode from '../OneTimeCode';
+import Layout from '../Layouts/Layout';
 
 let hm = require('../../assets/images/H&M.png');
 
@@ -18,7 +19,10 @@ const SelectedVouchers = () => {
   
 
   return (
-    <AppLayout>
+    <Layout hasBackArrow
+    
+    pageName="ვაუჩერის შეძენა"
+    onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -26,17 +30,11 @@ const SelectedVouchers = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.cardWrapper}>
-          <View style={{height: 70}}>
+          <View>
             <View>
-              <VoucherCardLayout
-                amount={Data[0].amount}
-                percent={Data[0].percent}
-                text={Data[0].text}
-                amountText={Data[0].amountText}
-                image={Data[0].image}
-                more={Data[0].more}
-                icon={Data[0].icon}
-              />
+              {Data.length > 0 && <VoucherCardLayout
+                item={Data[0]}
+              />} 
             </View>
 
             <View
@@ -51,33 +49,33 @@ const SelectedVouchers = () => {
 
               <Image source={require('../../assets/images/Star.png')} />
             </View>
-            <View>
+            <View style={{height: 100}}>
               <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
                 ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
               </Text>
             </View>
           </View>
         </View>
-        <View style={{flex: 1}}>
+        
+      </View>
+      <View style={{alignItems: 'center', height: 100}}>
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => navigate('VouchersDone')}>
             <Text style={styles.btnText}>დადასტურება</Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </AppLayout>
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  cardWrapper: {
-    flex: 3,
-    top: 100,
-    height: 445,
+  cardWrapper: {  
+    top: 20,
+    alignItems: 'center'
   },
   btnStyle: {
-    top: 15,
+   
     width: 325,
     height: 66,
     borderRadius: 50,

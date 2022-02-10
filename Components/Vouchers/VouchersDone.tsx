@@ -7,6 +7,7 @@ import {navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import MessagesInfo from '../CustomComponents/MessagesInfo';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
+import Layout from '../Layouts/Layout';
 
 const VouchersDone = () => {
   const {width} = useDimension();
@@ -14,7 +15,7 @@ const VouchersDone = () => {
   const {isDarkTheme} = state;
 
   return (
-    <AppLayout>
+    <Layout>
       <View
         style={{
           flexGrow: 1,
@@ -33,13 +34,13 @@ const VouchersDone = () => {
           />
         </View>
 
-        <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('Parameters')}>
+        <View style={{flex: 1, top: 40}}>
+          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('HomeScreen')}>
             <Text style={styles.btnText}>დახურვა</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </AppLayout>
+    </Layout>
   );
 };
 

@@ -38,7 +38,7 @@ const styles = StyleSheet.create ({
     btnTitle: {
         color: Colors.white,
         fontSize: 10,
-        fontFamily: 'HMpangram-Regular',
+        fontFamily: 'HM pangram',
         textTransform: "uppercase",
     }
 })

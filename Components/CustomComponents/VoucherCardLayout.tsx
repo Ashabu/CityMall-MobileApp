@@ -29,7 +29,7 @@ interface IIAppBtnProps {
 }
 
 const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
-  const {text, amountText, amount, percent, image, more, icon} = props.item;
+  const {text, amountText, amount, image, more, icon} = props.item;
   const [isMore, setIsMore] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
