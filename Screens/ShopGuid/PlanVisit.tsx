@@ -30,7 +30,7 @@ const PlanVisit = () => {
           paddingHorizontal: '7%',
         }}>
           {data.map((el: any, i: React.Key) => (
-            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content}/>
+            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content} routeName={el.routeName} />
           ))}
         
       </View>
