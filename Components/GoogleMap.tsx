@@ -16,7 +16,7 @@ export default () => {
           {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
         ]}>
          <MapView
-       provider={PROVIDER_GOOGLE} // 41.723971393990055, 44.73773667814966
+       //provider={PROVIDER_GOOGLE} // 41.723971393990055, 44.73773667814966
        style={styles.map}
        region={{
          latitude: 41.723971393990055,
@@ -24,20 +24,21 @@ export default () => {
          latitudeDelta: 0.015,
          longitudeDelta: 0.0121,
        }}
-       showsIndoorLevelPicker={true}
-       showsIndoors={true}
-       showsMyLocationButton={true}
-       showsBuildings={true}
-       showsCompass={true}
-       showsUserLocation={true}
-       showsScale={true}
-       showsPointsOfInterest={true}
-      toolbarEnabled={true}
-      followsUserLocation={true}
-      zoomControlEnabled={true}
-      zoomEnabled={true}
-      pitchEnabled={true}
-      rotateEnabled={true}
+      //  showsIndoorLevelPicker={true}
+      //  showsIndoors={true}
+        showsMyLocationButton={true}
+      //  showsBuildings={true}
+        showsCompass={true}
+        showsUserLocation={true}
+      //  showsScale={true}
+      //  showsPointsOfInterest={true}
+      // toolbarEnabled={true}
+       followsUserLocation={true}
+       zoomControlEnabled={true}
+       zoomEnabled={true}
+      // pitchEnabled={true}
+      
+       rotateEnabled={true}
      >
          <Marker
       coordinate={{
