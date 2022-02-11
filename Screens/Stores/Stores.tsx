@@ -10,7 +10,6 @@ import {
   Animated,
   Dimensions,
   ActivityIndicator,
-  Pressable,
 } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
@@ -58,7 +57,7 @@ const Stores: React.FC = () => {
 
   const itemChunk = 4;
 
-  let isEndFetching = false;
+  const [isEndFetching, setIsEndFetching] = useState(false);
   let startFetching = false;
 
   const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
@@ -68,6 +67,7 @@ const Stores: React.FC = () => {
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     handleGetMainCategories();
@@ -82,7 +82,7 @@ const Stores: React.FC = () => {
     if (merchants.length <= 0) {
       return;
     } else {
-      isEndFetching = false;
+      setIsEndFetching(false);
     }
   }, [
     subCategoryArray.length,
@@ -136,7 +136,7 @@ const Stores: React.FC = () => {
     }
     if (startFetching) return;
     startFetching = true;
-
+    setIsLoading(true);
     GetMerchants(
       routeParams.params.routeId,
       objectTypeId,
@@ -148,9 +148,9 @@ const Stores: React.FC = () => {
       .then(res => {
         let tempMerchants = res.data.data;
         if (tempMerchants.length < 16) {
-          isEndFetching = true;
+          setIsEndFetching(true);
         }
-        console.log('isfetching', isFetchingData);
+        
         if (push) {
           setMerchants(prevState => {
             return [...prevState, ...tempMerchants];
@@ -160,10 +160,12 @@ const Stores: React.FC = () => {
         }
         setIsFetchingData(false);
         startFetching = false;
+        setIsLoading(false);
       })
       .catch(e => {
         console.log(JSON.parse(JSON.stringify(e.response)));
         startFetching = false;
+        setIsLoading(false);
       });
   };
 
@@ -222,11 +224,11 @@ const Stores: React.FC = () => {
   }, [isFilterCollapsed]);
 
   let collapsableHeight = 266;
-  if(subCategories.length <= 0) {
+  if (subCategories.length <= 0) {
     collapsableHeight = 180;
   }
 
-  if(!mainCategories || mainCategories.length <= 0) {
+  if (!mainCategories || mainCategories.length <= 0) {
     collapsableHeight = 120;
   }
 
@@ -258,123 +260,141 @@ const Stores: React.FC = () => {
   };
 
   return (
-    <AppLayout>
-      <View style={[styles.container, containerStyle]}>
-        <Animated.View style={[styles.collapsible, collapsibleHeight]}>
-          <Text style={[styles.headerText, textStyle]}>
-            <Text style={styles.baseText}>მაღაზიები</Text> | სითი მოლი საბურთალო
-          </Text>
-          {(mainCategories && mainCategories.length > 0) && (
-          <RenderCategories
-            isCategory
-            data={mainCategories!}
-            title="კატეგორიები"
-          />
-          )}
+    <>
+      <AppLayout>
+        <View style={[styles.container, containerStyle]}>
+          <Animated.View style={[styles.collapsible, collapsibleHeight]}>
+            <Text style={[styles.headerText, textStyle]}>
+              <Text style={styles.baseText}>მაღაზიები</Text> | სითი მოლი
+              საბურთალო
+            </Text>
+            {mainCategories && mainCategories.length > 0 && (
+              <RenderCategories
+                isCategory
+                data={mainCategories!}
+                title="კატეგორიები"
+              />
+            )}
 
-          {subCategories.length > 0 && (
-            <RenderCategories
-              data={subCategories}
-              title="ქვეკატეგორიები"
-              style={styles.subCategories}
-              isCategory={false}
+            {subCategories.length > 0 && (
+              <RenderCategories
+                data={subCategories}
+                title="ქვეკატეგორიები"
+                style={styles.subCategories}
+                isCategory={false}
+              />
+            )}
+
+            <Image
+              source={require('./../../assets/images/gradient-line.png')}
+              style={styles.line}
+            />
+          </Animated.View>
+          <TouchableOpacity
+            style={styles.collapseButton}
+            onPress={collapseFilters}>
+            <Image
+              source={
+                isFilterCollapsed
+                  ? require('./../../assets/images/icon-collapse-up.png')
+                  : require('./../../assets/images/icon-collapse-down.png')
+              }
+              style={styles.sollapseIcon}
+            />
+          </TouchableOpacity>
+
+          {isFilterCollapsed && merchants.length > 0 && (
+            <PaginationDots
+              length={chunkedData?.length}
+              step={secStep}
+              style={styles.dataPagination}
             />
           )}
 
-          <Image
-            source={require('./../../assets/images/gradient-line.png')}
-            style={styles.line}
-          />
-        </Animated.View>
-        <TouchableOpacity
-          style={styles.collapseButton}
-          onPress={collapseFilters}>
-          <Image
-            source={
+          <View
+            style={[
               isFilterCollapsed
-                ? require('./../../assets/images/icon-collapse-up.png')
-                : require('./../../assets/images/icon-collapse-down.png')
-            }
-            style={styles.sollapseIcon}
-          />
-        </TouchableOpacity>
+                ? {
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    flex: 1,
+                  }
+                : {
+                    justifyContent: 'space-between',
+                    flex: 1,
+                  },
+            ]}>
+            <ScrollView
+              contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
+              onScroll={({nativeEvent}) => {
+                if (isFilterCollapsed) return;
+                onChangeSectionStep(nativeEvent);
+              }}>
+              {merchants.length > 0 && (
+                <ScrollView
+                  scrollToOverflowEnabled={true}
+                  style={[
+                    styles.dataScroller,
+                    isFilterCollapsed && {height: 500},
+                  ]}
+                  contentContainerStyle={{paddingRight: 5}}
+                  ref={carouselRef}
+                  onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
+                  showsHorizontalScrollIndicator={false}
+                  pagingEnabled={true}
+                  horizontal={isFilterCollapsed}>
+                  {chunkedData.map((data, i) => (
+                    <View key={i} style={[styles.dataContent, itemStyle]}>
+                      {data.map((item, index) => (
+                        <ShopDetailBox
+                          index={index}
+                          data={item}
+                          key={item.name! + index}
+                          style={styles.dataItem}
+                        />
+                      ))}
 
-        {isFilterCollapsed && merchants.length > 0 && (
-          <PaginationDots
-            length={chunkedData?.length}
-            step={secStep}
-            style={styles.dataPagination}
-          />
-        )}
-
-        <View
-          style={[
-            isFilterCollapsed ? {
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              flex: 1,
-            } : {
-              justifyContent: 'space-between',
-              flex: 1,
-            }
-          ]}>
-          <ScrollView
-            contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
-            onScroll={({nativeEvent}) => {
-              if(isFilterCollapsed) return;
-              onChangeSectionStep(nativeEvent)
-            }}>
-            {merchants.length > 0 && (
-              <ScrollView
-                scrollToOverflowEnabled={true}
+                      {fillSpace(data.length)}
+                    </View>
+                  ))}
+                </ScrollView>
+              )}
+            </ScrollView>
+            {merchants.length > 0 && isFetchingData && pagPage > 1 ? (
+              <View
                 style={[
-                  styles.dataScroller,
-                  isFilterCollapsed && {height: 500},
-                ]}
-                contentContainerStyle={{paddingRight: 5}}
-                ref={carouselRef}
-                onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled={true}
-                horizontal={isFilterCollapsed}>
-                {chunkedData.map((data, i) => (
-                  <View key={i} style={[styles.dataContent, itemStyle]}>
-                    {data.map((item, index) => (
-                      <ShopDetailBox
-                        index={index}
-                        data={item}
-                        key={item.name! + index}
-                        style={styles.dataItem}
-                      />
-                    ))}
-
-                    {fillSpace(data.length)}
-                  </View>
-                ))}
-              </ScrollView>
-            )}
-          </ScrollView>
-          {merchants.length > 0 && isFetchingData && pagPage > 1 ? (
-            <View
-              style={[
-                isFilterCollapsed ? {
-                  flex: 1,
-                  maxWidth: 50,
-                  justifyContent: 'center',
-                  marginRight: 10,
-                  paddingHorizontal: 20,
-                }:{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingVertical: 20,
-                }
-              ]}>
-              <ActivityIndicator size={'small'} color={'#FFFFFF'} />
-            </View>
-          ) : null}
+                  isFilterCollapsed
+                    ? {
+                        flex: 1,
+                        maxWidth: 50,
+                        justifyContent: 'center',
+                        marginRight: 10,
+                        paddingHorizontal: 20,
+                      }
+                    : {
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingVertical: 20,
+                      },
+                ]}>
+                <ActivityIndicator size={'small'} color={'#FFFFFF'} />
+              </View>
+            ) : null}
+          </View>
         </View>
-      </View>
-    </AppLayout>
+        {isLoading && !(merchants.length > 0 && isFetchingData && pagPage > 1) && <View style={styles.loader}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{translateY: Dimensions.get('screen').height / 2}],
+          }}
+        />
+      </View>}
+      </AppLayout>
+     
+    </>
   );
 };
 
@@ -431,6 +451,10 @@ const styles = StyleSheet.create({
     height: 180,
     margin: 10,
   },
+  loader: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent'
+}
 });
 
 export default Stores;
