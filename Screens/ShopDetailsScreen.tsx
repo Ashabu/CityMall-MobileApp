@@ -342,10 +342,8 @@ const styles = StyleSheet.create({
   floorPlan: {
     flex: 1,
     //height: '100%',
-    maxHeight: 322,
+    maxHeight: 422,
     marginTop: '8%',
   },
 });
-function setGlobalState(arg0: {singleMerchant: any}) {
-  throw new Error('Function not implemented.');
-}
+
