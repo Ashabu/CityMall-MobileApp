@@ -10,8 +10,6 @@ import {
   Animated,
   Dimensions,
   ActivityIndicator,
-  Pressable,
-  Modal,
 } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import AppLayout from '../../Components/AppLayout';
@@ -59,7 +57,7 @@ const Stores: React.FC = () => {
 
   const itemChunk = 4;
 
-  let isEndFetching = false;
+  const [isEndFetching, setIsEndFetching] = useState(false);
   let startFetching = false;
 
   const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
@@ -84,7 +82,7 @@ const Stores: React.FC = () => {
     if (merchants.length <= 0) {
       return;
     } else {
-      isEndFetching = false;
+      setIsEndFetching(false);
     }
   }, [
     subCategoryArray.length,
@@ -150,9 +148,9 @@ const Stores: React.FC = () => {
       .then(res => {
         let tempMerchants = res.data.data;
         if (tempMerchants.length < 16) {
-          isEndFetching = true;
+          setIsEndFetching(true);
         }
-        console.log('isfetching', isFetchingData);
+        
         if (push) {
           setMerchants(prevState => {
             return [...prevState, ...tempMerchants];
@@ -384,13 +382,7 @@ const Stores: React.FC = () => {
             ) : null}
           </View>
         </View>
-      </AppLayout>
-      <Modal
-        visible={
-          isLoading && !(merchants.length > 0 && isFetchingData && pagPage > 1)
-        }
-        animationType="slide"
-        transparent={true}>
+        {isLoading && !(merchants.length > 0 && isFetchingData && pagPage > 1) && <View style={styles.loader}>
         <ActivityIndicator
           size={'small'}
           color={'#ffffff'}
@@ -399,7 +391,9 @@ const Stores: React.FC = () => {
             transform: [{translateY: Dimensions.get('screen').height / 2}],
           }}
         />
-      </Modal>
+      </View>}
+      </AppLayout>
+     
     </>
   );
 };
@@ -457,6 +451,10 @@ const styles = StyleSheet.create({
     height: 180,
     margin: 10,
   },
+  loader: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'transparent'
+}
 });
 
 export default Stores;
