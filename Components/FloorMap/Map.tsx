@@ -130,7 +130,7 @@ const MapComponent: React.FC<IComponentProps> = props => {
 
   const onLayoutRendered = (height: number) => {
     setSvgHeight(height);
-    passHeight!(height);
+    passHeight && passHeight(height);
   };
 
   const viewBox: string[] = xml.attributes.viewBox.split(' ');
