@@ -50,6 +50,8 @@ export default () => {
     }
   }, [roomId]);
 
+
+  console.log(route.params?.mallId, 'route.params?.mallId')
   useEffect(() => {
     axios
       .get(

@@ -20,7 +20,7 @@ type RouteParamList = {
     }, [routeParams.params.id])
 
   return (
-    routeParams.params.routeId === 1?
+    routeParams.params.id === 1?
       
       <PlanVisit/>
       :

@@ -154,33 +154,20 @@ class ApiServices {
         return await axios.post(`${envs.API_URL}/api/Cards/order`, data)
     };
 
-    GetOffers = async () => {
-        return await axios.get(`${envs.API_URL}/api/Offers/GetOffers`);
-    };
-
-    GetServiceCategories = async (id: number) => {
-        return await axios.get<IServiceCategories[]>(`${envs.API_URL}/api/Category/Get?ObjectTypes=${id}`);
-    };
-
-    GetServiceSubCategories = async (data: Array<number>) => {
-
-        let queryParams = data.map((el: number) => `CategoryId=${el}`).join('&');
-        
-        return await axios.get<IServiceSubCategories[]>(`${envs.API_URL}/api/Category/GetSubCategories?${queryParams}`)
-    }
 
     GetClientInfo = async () => {
         return await axios.get<IClientInfo>(`${envs.API_URL}/api/Mobile/ClientInfo`);
     }
 
-    GetMerchants = async (id: number) => {
-        return await axios.get<IMerchantsResponse>(`${envs.API_URL}/api/Mobile/GetMerchants?Address=${id}&Page=1&PageSize=10`);
-    }
-
     GetClientTransactions = async () => {
         return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=1&PageSize=10`);
-
     }
+
+    GetWidgets = async () => {
+        return await axios.get(`${envs.API_URL}/api/Connect/GetWidgents`);
+    }
+
+    // https://citymallapi.payunicard.ge:8061/api/Connect/GetWidgents?fbclid=IwAR0IvaReXjG0klvbmpDFAXMdUHtAEG75JzsitAv7s0mxWEAp7qUt5DLHB6U
 
 
 

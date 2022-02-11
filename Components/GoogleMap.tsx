@@ -4,10 +4,22 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+
+type RouteParamList = {
+  params: {
+    mallId: number;
+  };
+};
+
 
 export default () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+  console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
     <AppLayout pageTitle={'ქალაქის რუკა'}>
       <View
