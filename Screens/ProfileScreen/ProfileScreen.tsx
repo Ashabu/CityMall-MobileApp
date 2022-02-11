@@ -25,12 +25,13 @@ import PromotionBox from '../../Components/PromotionBox';
 import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
 import { useDimension } from '../../Hooks/UseDimension';
-import ApiServices, { IClientInfo } from '../../Services/ApiServices';
+import ApiServices, { IClientInfo, IClientTransaction } from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
 import { formatNumber } from '../../Services/Utils';
 import Grid from '../../Styles/grid';
 import StatusInfoScreen from './StatusInfoScreen';
 import VouchersInfo from '../../Components/Vouchers/VouchersInfo';
+import { GetOffers, IOffer } from '../../Services/Api/OffersApi';
 
 
 
@@ -116,9 +117,11 @@ const ProfileScreen = () => {
     const { isDarkTheme, offersArray } = state;
 
     const [offersStep, setOffersStep] = useState<number>(0);
+    const [personalOffers, setPersonalOffers] = useState<IOffer>();
     const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
     const [transactions, setTransactions] = useState<any[]>(tr);
-    const [clientInfo, setClientInfo] = useState<IClientInfo>({})
+    const [clientInfo, setClientInfo] = useState<IClientInfo>({});
+    const [clientTransactions, setClientTransactions] = useState<IClientTransaction[]>([]);
 
 
     const toggleSwitch = () => {
@@ -133,9 +136,29 @@ const ProfileScreen = () => {
         })
     };
 
+    const getClientTransactions = () => {
+        ApiServices.GetClientTransactions().then(res => {
+            console.log(res.data.data)
+            setClientTransactions(res.data.data!)
+        }).catch(e => {
+            console.log(e)
+        })
+    };
+
+    const getPersonalOffers = () => {
+        console.log('aqane2')
+        GetOffers().then(res => {
+            console.log(res.data)
+        }).catch(e => {
+            console.log(JSON.parse(JSON.stringify(e.response)))
+        })
+    }
+
 
     useEffect(() => {
         getClientData();
+        getClientTransactions();
+        getPersonalOffers();
     }, []);
 
 
@@ -192,13 +215,10 @@ const ProfileScreen = () => {
                         </Text>
                         <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
                     </View>
-                    <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
                             {offersArray?.map((el: any, i: number) => (
                                 <PromotionBox key={i} data={el}  />
-
                             ))}
-                        </ScrollView>
                     </ScrollView>
                 </View>
                 <View style={{marginBottom: 30}}>
@@ -244,7 +264,7 @@ const ProfileScreen = () => {
                         </View>
                     </View>
                     <View>
-                        {tr.map((item, index) => (
+                        {clientTransactions && clientTransactions.map((item, index) => (
                             <TransactionList item = {item} key = {index}/>
                         ))}
                         <TransactionList/>
