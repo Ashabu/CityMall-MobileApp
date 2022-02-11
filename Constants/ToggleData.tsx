@@ -7,8 +7,8 @@ export interface ToggleList{
     id: number,
     name: string,
     icon: string,
-    content: JSX.Element
-   
+    content: JSX.Element,
+    routeName?: string
 }
 
 export default [
@@ -16,8 +16,8 @@ export default [
         id: 1,
         name: 'ლოკაცია',
         icon:  require('../assets/images/arrow-sm.png'),
-        content: <></>
-     
+        content: <></>,
+        routeName: 'GoogleMap'
     },
     {
         id: 2,

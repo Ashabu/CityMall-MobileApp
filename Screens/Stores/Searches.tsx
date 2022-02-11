@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import AppLayout from '../../Components/AppLayout';
@@ -21,7 +23,9 @@ export default () => {
   const {isDarkTheme} = state;
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [keyword, setKeyword] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const ttlRef = useRef<NodeJS.Timeout>();
+  const inputRef = useRef<TextInput | null>();
   const itemChunk = 4;
 
   const itemStyle = {
@@ -29,22 +33,23 @@ export default () => {
   };
 
   useEffect(() => {
-    if(ttlRef.current) clearTimeout(ttlRef.current);
+    if (ttlRef.current) clearTimeout(ttlRef.current);
     if (!keyword) {
-        if(merchants?.length) {
-            setMerchants([]);
-        }
-        return;
+      if (merchants?.length) {
+        setMerchants([]);
+      }
+      return;
     }
 
     ttlRef.current = setTimeout(() => {
-        axios
+      setIsLoading(true);
+      axios
         .get(`${envs.API_URL}/api/Mobile/SearchMerchants?keyword=${keyword}`)
-        .then(res => { 
-            if(res.data?.data)
-                  setMerchants(res.data?.data);
-        });
-    }, 1500);
+        .then(res => {
+          if (res.data?.data) setMerchants(res.data?.data);
+          setIsLoading(false);
+        }).catch(() => setIsLoading(false));
+    }, 1000);
   }, [keyword]);
 
   const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
@@ -55,61 +60,80 @@ export default () => {
     ));
   };
   return (
+    <>
     <AppLayout pageTitle={'ძიება'}>
       <View
         style={{
           flex: 1,
-          paddingHorizontal: '7%',
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingTop: 20,
         }}>
-        <View
-          style={{
-            borderBottomColor: '#fff',
-            borderBottomWidth: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <TextInput
-            placeholder="ძიება"
-            placeholderTextColor={'#fff'}
-            style={{color: '#fff'}}
-            value={keyword}
-            onChangeText={e => setKeyword(e)}
-          />
-          <Image
-            source={require('./../../assets/images/icon-search-red.png')}
-          />
+        <View style={{paddingHorizontal: '7%'}}>
+          <TouchableOpacity
+          onPress={() => inputRef.current?.focus()}
+            style={{
+              borderBottomColor: '#fff',
+              borderBottomWidth: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TextInput
+              placeholder="ძიება"
+              placeholderTextColor={'#fff'}
+              style={{color: '#fff'}}
+              value={keyword}
+              onChangeText={e => setKeyword(e)}
+              autoFocus={true}
+              ref={i => inputRef.current = i}
+              onChange={() => inputRef.current?.focus()}
+            />
+            <Image
+              source={require('./../../assets/images/icon-search-red.png')}
+            />
+          </TouchableOpacity>
         </View>
+        <View
+          style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}>
+          <ScrollView
+            contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
+            horizontal>
+            {merchants.length > 0 && (
+              <ScrollView
+                scrollToOverflowEnabled={true}
+                style={[styles.dataScroller]}
+                showsHorizontalScrollIndicator={false}>
+                {chunkedData.map((data, i) => (
+                  <View key={i} style={[styles.dataContent, itemStyle]}>
+                    {data.map((item, index) => (
+                      <ShopDetailBox
+                        index={index}
+                        data={item}
+                        key={item.name! + index}
+                        style={styles.dataItem}
+                      />
+                    ))}
 
-      <View style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white,}}>
-        <ScrollView contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}} horizontal>
-          {merchants.length > 0 && (
-            <ScrollView
-              scrollToOverflowEnabled={true}
-              style={[styles.dataScroller]}
-              showsHorizontalScrollIndicator={false} >
-              {chunkedData.map((data, i) => (
-                <View key={i} style={[styles.dataContent, itemStyle]}>
-                  {data.map((item, index) => (
-                    <ShopDetailBox
-                      index={index}
-                      data={item}
-                      key={item.name! + index}
-                      style={styles.dataItem}
-                    />
-                  ))}
-
-                  {fillSpace(data.length)}
-                </View>
-              ))}
-            </ScrollView>
-          )}
-        </ScrollView>
+                    {fillSpace(data.length)}
+                  </View>
+                ))}
+              </ScrollView>
+            )}
+          </ScrollView>
         </View>
       </View>
     </AppLayout>
+    {isLoading && <View style={styles.loader}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{translateY: Dimensions.get('screen').height / 2}],
+          }}
+        />
+      </View>}
+    </>
   );
 };
 
@@ -130,4 +154,8 @@ const styles = StyleSheet.create({
     height: 180,
     margin: 10,
   },
+  loader: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'transparent'
+  }
 });

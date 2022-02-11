@@ -22,7 +22,17 @@ const SingleOfferScreen = () => {
 
     const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-
+    function extractor(obj: any, key: string) {
+        if(!obj || obj === null || typeof obj === null) {
+            return undefined;
+        }
+    
+        try{
+            return obj[key]
+        } catch(_) {
+            return undefined;
+        }
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, position: 'relative', backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
@@ -40,10 +50,10 @@ const SingleOfferScreen = () => {
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={[styles.offerTitleBox, {backgroundColor: singleOffer.offerType.color}]}>
+                <View style={[styles.offerTitleBox, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {/* {CategoryTypes[singleOffer.offerType.name]} */}
-                    {singleOffer.offerType.name}
+                    {extractor(singleOffer.offerType, 'name')}
                     </Text>
                 </View>
                 <View style={{ marginTop: 23 }}>
