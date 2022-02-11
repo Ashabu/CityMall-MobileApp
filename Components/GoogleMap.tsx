@@ -13,6 +13,17 @@ type RouteParamList = {
   };
 };
 
+const coordinates: any = {
+    '1': {
+      latitude: 41.723971393990055,
+      longitude: 44.73773667814966,
+    },
+    '2': {
+      latitude: 41.79036874377467,
+      longitude: 44.81475656342277,
+    }, 
+  }
+
 
 export default () => {
   const {state} = useContext(AppContext);
@@ -31,8 +42,8 @@ export default () => {
           //provider={PROVIDER_GOOGLE} // 41.723971393990055, 44.73773667814966
           style={styles.map}
           region={{
-            latitude: 41.723971393990055,
-            longitude: 44.73773667814966,
+            latitude: coordinates[route.params.mallId].latitude,
+            longitude: coordinates[route.params.mallId].longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
@@ -53,8 +64,8 @@ export default () => {
           rotateEnabled={true}>
           <Marker
             coordinate={{
-              latitude: 41.723971393990055,
-              longitude: 44.73773667814966,
+              latitude: coordinates[route.params.mallId].latitude,
+              longitude: coordinates[route.params.mallId].longitude,
             }}
             //   title={'marker.title'}
             //   description={'marker.description'}

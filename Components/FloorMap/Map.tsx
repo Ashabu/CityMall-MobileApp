@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import Svg, {Polygon, Rect, Image, Path} from 'react-native-svg';
+import Svg, {Polygon, Rect, Image, Path, G} from 'react-native-svg';
 
 enum SvgElTypes {
   image = 'image',
   polygon = 'polygon',
   rect = 'rect',
   path = 'path',
+  g = 'g'
 }
 
 interface ISvgElemntAttributes {
@@ -17,6 +18,7 @@ interface ISvgElemntAttributes {
   room: number | undefined;
   points: string | undefined;
   d: string | undefined;
+  transform: any;
 }
 
 interface ISvgElemnt {
@@ -125,6 +127,25 @@ const MapComponent: React.FC<IComponentProps> = props => {
           );
         }
         break;
+        case SvgElTypes.g:
+          {
+            svgVDoms.push(
+              <G
+                key={index}
+                stroke={
+                  element.attributes.room === activeId
+                    ? activeBorderColor
+                    : '#ffffff'
+                }
+                strokeWidth={
+                  element.attributes.room === activeId ? activeBorderWidth : 0
+                }
+                transform={`${element.attributes.transform}`}
+                onPress={() => onPress!(element.attributes.room)}
+              />,
+            );
+          }
+          break;
     }
   });
 

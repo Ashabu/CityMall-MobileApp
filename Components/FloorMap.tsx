@@ -30,12 +30,14 @@ export default () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [roomId, setRoomId] = useState<number | string | undefined>('');
   const [floors, setFloors] = useState<Array<any>>([]);
-  const [floorIndex, setFloorIndex] = useState<number>(0);
+  const [floorIndex, setFloorIndex] = useState<any>(1);
   const [pickerPositionTop, setPickerPositionTop] = useState<
     number | undefined
   >(undefined);
   const [isLoading, setIsLoading] = useState(false);
-  const [floor, setFloor] = useState<any>();
+  // const [floor, setFloor] = useState<any>();
+  const [floorsDetails, setFloorsDetails] = useState<Array<any>>([]);
+  const [floorData, setFloorData] = useState<any>();
 
   useEffect(() => {
     if (!isNaN(parseInt(roomId?.toString() || ''))) {
@@ -51,7 +53,7 @@ export default () => {
   }, [roomId]);
 
 
-  console.log(route.params?.mallId, 'route.params?.mallId')
+
   useEffect(() => {
     axios
       .get(
@@ -63,14 +65,49 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    if (floors) {
+    axios
+    .get(`${envs.API_URL}/api/Connect/GetFloors`)
+    .then(res => {
+        
+
+        if(res.data) {
+          const ret: any = []
+          floors.map(f => {
+            const data = res.data.filter((fd: any) => fd.id == f.title);
+            if(data.length) {
+              ret.push(...data);
+            }
+          })
+          setFloorsDetails(ret);
+        }
+    });
+  }, [floors]);
+
+  // useEffect(() => {
+  //   if (floors) {
+  //     try {
+  //       setFloor(floors[floorIndex]);
+  //     } catch (_) {
+  //       setFloor(floors[floors.length - 1]);
+  //     }
+  //   }
+  // }, [floors, floorIndex]);
+//console.log('>>>>>>>>>>',floors)
+  useEffect(() => {
+    if (floors && floorsDetails) {
       try {
-        setFloor(floors[floorIndex]);
+        const current = floorsDetails.filter(data => data.id == floorIndex);
+  
+        const cf = floors.filter(data => data.title == current[0].id);
+        
+        setFloorData(cf[0]);
+        
       } catch (_) {
-        setFloor(floors[floors.length - 1]);
+        setFloorData(floors[floors.length - 1]);
       }
     }
-  }, [floors, floorIndex]);
+  }, [floorData, floorsDetails, floorIndex]);
+
 
   return (
     <>
@@ -80,7 +117,7 @@ export default () => {
             styles.sectionContainer,
             {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
           ]}>
-          {floor !== undefined && (
+          {floorData !== undefined && (
             <ZoomableView
               maxZoom={1.5}
               minZoom={1}
@@ -93,7 +130,7 @@ export default () => {
                     Dimensions.get('screen').height - (h - 0),
                   );
                 }}
-                SvgXmlString={floor.svgToJson}
+                SvgXmlString={floorData.svgToJson}
                 activeBorderWidth={20}
                 activeBorderColor="green"
                 activeId={roomId}
@@ -106,11 +143,11 @@ export default () => {
                   mode="dropdown"
                   style={[styles.floorPicker, {top: pickerPositionTop}]}
                   onValueChange={itemValue => setFloorIndex(itemValue)}>
-                  {floors.map((f, i) => (
+                  {floorsDetails.map((f, i) => (
                     <Picker.Item
                       key={f.id}
-                      label={`სართული ${i + 1}`}
-                      value={i}
+                      label={`სართული ${f.title}`}
+                      value={f.id}
                     />
                   ))}
                 </Picker>
