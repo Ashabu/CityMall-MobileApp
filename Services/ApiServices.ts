@@ -98,6 +98,28 @@ export interface IDisctrictsRespone {
     id: number,
     name: string
 }
+export interface IClientTransaction {
+    stan?: string,
+    card?: string,
+    accountNumber?: string,
+    authDate?: Date,
+    amount?: number,
+    tranType?: string,
+    merchantName?: string,
+    merchantAddress?: string,
+    reversaled?: number,
+    terminalId?: string,
+    centre?: number,
+    merchantId?: string,
+    transactionType?: number,
+    imageURL?: string
+}
+
+
+interface IClientTransactionResponse {
+  data?:IClientTransaction[]
+}
+
 
 class ApiServices {
     GetClientCards = async () => {
@@ -155,9 +177,11 @@ class ApiServices {
         return await axios.get<IMerchantsResponse>(`${envs.API_URL}/api/Mobile/GetMerchants?Address=${id}&Page=1&PageSize=10`);
     }
 
-    GetSingleMerchant = async () => {
+    GetClientTransactions = async () => {
+        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=1&PageSize=10`);
 
     }
+
 
 
 };
