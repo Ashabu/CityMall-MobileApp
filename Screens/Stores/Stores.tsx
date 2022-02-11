@@ -57,7 +57,7 @@ const Stores: React.FC = () => {
 
   const itemChunk = 4;
 
-  let isEndFetching = false;
+  const [isEndFetching, setIsEndFetching] = useState(false);
   let startFetching = false;
 
   const [mainCategories, setMainCategories] = useState<IMainCategories[]>();
@@ -82,7 +82,7 @@ const Stores: React.FC = () => {
     if (merchants.length <= 0) {
       return;
     } else {
-      isEndFetching = false;
+      setIsEndFetching(false);
     }
   }, [
     subCategoryArray.length,
@@ -148,7 +148,7 @@ const Stores: React.FC = () => {
       .then(res => {
         let tempMerchants = res.data.data;
         if (tempMerchants.length < 16) {
-          isEndFetching = true;
+          setIsEndFetching(true);
         }
         
         if (push) {
