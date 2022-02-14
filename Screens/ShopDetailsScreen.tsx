@@ -99,6 +99,8 @@ const ShopDetailsScreen = () => {
       .catch(() => setIsLoading(true));
   }, [roomId]);
 
+
+
   return (
     <>
       <ScrollView
@@ -148,7 +150,7 @@ const ShopDetailsScreen = () => {
             <Image source={{ uri: logo }} style={{ width: 74, height: 99 }} />
             <View style={styles.shopDetails}>
               <View style={{}}>
-                <Text style={styles.shopName}>{name}</Text>
+                <Text style={[styles.shopName, textColorStyle]}>{name}</Text>
                 <Text style={[styles.shopDesc, textColorStyle]}>
                   {categoryNames}
                 </Text>

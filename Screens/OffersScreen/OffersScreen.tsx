@@ -165,6 +165,7 @@ const OffersScreen = () => {
                     <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: '7%', }}
                             showsHorizontalScrollIndicator={false}
+                            pagingEnabled={true}
                             horizontal={true}
                             onScroll={({ nativeEvent }) => onChangeSectionStep(nativeEvent)}>
                             {offersView?.map((el, i) => (
