@@ -64,7 +64,10 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
                 textContentType='oneTimeCode'
                 autoFocus = {true}
             />
-            <TouchableOpacity style={styles.otpResend} onPress={resend}>
+            <TouchableOpacity style={styles.otpResend} onPress={() => {
+                resend();
+                setOneTimeCode('');
+            }}>
                 <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>თავიდან</Text>
             </TouchableOpacity>
             {hasError ? <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text> : null}
