@@ -135,6 +135,7 @@ const DialCodePicker = (props: any) => {
             </TouchableOpacity>
             : (isSelecting && Platform.OS === 'android') ?
             <Picker ref={picker}
+            onBlur={() => setIsSelecting(false)}
             style={styles.pickerStyle}
             itemStyle={styles.textStyles}
             selectedValue={selectedValue}
