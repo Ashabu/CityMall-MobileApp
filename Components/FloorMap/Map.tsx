@@ -24,6 +24,7 @@ interface ISvgElemntAttributes {
 interface ISvgElemnt {
   name: string;
   attributes: ISvgElemntAttributes;
+  children: any;
 }
 
 interface IComponentProps {
@@ -142,7 +143,23 @@ const MapComponent: React.FC<IComponentProps> = props => {
                 }
                 transform={`${element.attributes.transform}`}
                 onPress={() => onPress!(element.attributes.room)}
-              />,
+              >
+                {
+                  element.children.map((ch: any, i: number) =>  <Path
+                  key={i + 'ch'}
+                  stroke={
+                    ch.attributes.room === activeId
+                      ? activeBorderColor
+                      : '#ffffff'
+                  }
+                  strokeWidth={
+                    ch.attributes.room === activeId ? activeBorderWidth : 0
+                  }
+                  d={`${ch.attributes.d}`}
+                  onPress={() => onPress!(ch.attributes.room)}
+                />)
+                }
+              </G>,
             );
           }
           break;
