@@ -12,10 +12,13 @@ const LocationDropdown = () => {
   const {isDarkTheme} = state;
   
 
+
+
   enum mallIds {
     citiMallGldan = 2,
     cityMallSaburtalo = 1,
 }
+console.log('some')
 
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
