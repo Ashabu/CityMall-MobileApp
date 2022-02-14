@@ -74,12 +74,12 @@ const MapComponent: React.FC<IComponentProps> = props => {
             <Rect
               key={index}
               stroke={
-                element.attributes.room === activeId
+                element.attributes.room == activeId
                   ? activeBorderColor
                   : '#ffffff'
               }
               strokeWidth={
-                element.attributes.room === activeId ? activeBorderWidth : 0
+                element.attributes.room == activeId ? activeBorderWidth : 0
               }
               x={`${element.attributes.x}`}
               y={`${element.attributes.y}`}
@@ -96,12 +96,12 @@ const MapComponent: React.FC<IComponentProps> = props => {
             <Polygon
               key={index}
               stroke={
-                element.attributes.room === activeId
+                element.attributes.room == activeId
                   ? activeBorderColor
                   : '#ffffff'
               }
               strokeWidth={
-                element.attributes.room === activeId ? activeBorderWidth : 0
+                element.attributes.room == activeId ? activeBorderWidth : 0
               }
               points={`${element.attributes.points}`}
               onPress={() => onPress!(element.attributes.room)}
@@ -115,12 +115,12 @@ const MapComponent: React.FC<IComponentProps> = props => {
             <Path
               key={index}
               stroke={
-                element.attributes.room === activeId
+                element.attributes.room == activeId
                   ? activeBorderColor
                   : '#ffffff'
               }
               strokeWidth={
-                element.attributes.room === activeId ? activeBorderWidth : 0
+                element.attributes.room == activeId ? activeBorderWidth : 0
               }
               d={`${element.attributes.d}`}
               onPress={() => onPress!(element.attributes.room)}
@@ -134,12 +134,12 @@ const MapComponent: React.FC<IComponentProps> = props => {
               <G
                 key={index}
                 stroke={
-                  element.attributes.room === activeId
+                  element.attributes.room == activeId
                     ? activeBorderColor
                     : '#ffffff'
                 }
                 strokeWidth={
-                  element.attributes.room === activeId ? activeBorderWidth : 0
+                  element.attributes.room == activeId ? activeBorderWidth : 0
                 }
                 transform={`${element.attributes.transform}`}
                 onPress={() => onPress!(element.attributes.room)}
@@ -148,12 +148,12 @@ const MapComponent: React.FC<IComponentProps> = props => {
                   element.children.map((ch: any, i: number) =>  <Path
                   key={i + 'ch'}
                   stroke={
-                    ch.attributes.room === activeId
+                    ch.attributes.room == activeId
                       ? activeBorderColor
                       : '#ffffff'
                   }
                   strokeWidth={
-                    ch.attributes.room === activeId ? activeBorderWidth : 0
+                    ch.attributes.room == activeId ? activeBorderWidth : 0
                   }
                   d={`${ch.attributes.d}`}
                   onPress={() => onPress!(ch.attributes.room)}
