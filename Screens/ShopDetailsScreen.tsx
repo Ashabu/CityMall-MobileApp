@@ -1,4 +1,8 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useState
+} from 'react';
 import {
   View,
   ScrollView,
@@ -6,35 +10,28 @@ import {
   Image,
   Text,
   TouchableOpacity,
-  StatusBar,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
   Modal,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import {AppContext} from '../AppContext/AppContext';
-import {Colors} from '../Colors/Colors';
-import PaginationDots from '../Components/PaginationDots';
-import PromotionBox from '../Components/PromotionBox';
-import {useDimension} from '../Hooks/UseDimension';
-import {GoBack, navigate} from '../Services/NavigationServices';
-import {IOffer} from '../Services/Api/OffersApi';
-import ZoomableView from '../Components/FloorMap/ZoomableView';
+import { AppContext } from '../AppContext/AppContext';
+import { Colors } from '../Colors/Colors';
+import { useDimension } from '../Hooks/UseDimension';
+import { GoBack } from '../Services/NavigationServices';
 import MapComponent from '../Components/FloorMap/Map';
 import axios from 'axios';
 import envs from './../config/env';
 import { RouteProp, useRoute } from '@react-navigation/native';
 type RouteParamList = {
-    params: {
-      mallId: number;
-    };
+  params: {
+    mallId: number;
   };
+};
 const ShopDetailsScreen = () => {
-    const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const {width, height} = useDimension();
-  const {state} = useContext(AppContext);
-  const {isDarkTheme, singleMerchant} = state;
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+  const { width, height } = useDimension();
+  const { state } = useContext(AppContext);
+  const { isDarkTheme, singleMerchant } = state;
 
   const [singleLocalMerchant, setSingleLocalMerchant] =
     useState<any>(singleMerchant);
@@ -85,10 +82,10 @@ const ShopDetailsScreen = () => {
 
   useEffect(() => {
     axios
-    .get(`${envs.API_URL}/api/Connect/GetFloors`)
-    .then(res => {
+      .get(`${envs.API_URL}/api/Connect/GetFloors`)
+      .then(res => {
         setFloorsDetails(res.data);
-    });
+      });
   }, [floors]);
 
   useEffect(() => {
@@ -105,15 +102,15 @@ const ShopDetailsScreen = () => {
   return (
     <>
       <ScrollView
-        style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}
+        style={{ backgroundColor: isDarkTheme ? Colors.black : Colors.white }}
         contentContainerStyle={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
         }}>
-        <View style={[styles.banner, {height: height / 2}]}>
+        <View style={[styles.banner, { height: height / 2 }]}>
           <Image
-            source={{uri: imageUrl}}
-            style={{width: width, height: height / 2}}
+            source={{ uri: imageUrl }}
+            style={{ width: width, height: height / 2 }}
           />
           <Text style={[styles.pageTitle, textColorStyle]}>
             საბურთალოს ფილიალი
@@ -131,7 +128,7 @@ const ShopDetailsScreen = () => {
             }}>
             <Image
               source={require('../assets/images/back-arrow.png')}
-              style={{width: 12, height: 12}}
+              style={{ width: 12, height: 12 }}
             />
           </TouchableOpacity>
         </View>
@@ -148,7 +145,7 @@ const ShopDetailsScreen = () => {
               justifyContent: 'space-between',
               width: '100%',
             }}>
-            <Image source={{uri: logo}} style={{width: 74, height: 99}} />
+            <Image source={{ uri: logo }} style={{ width: 74, height: 99 }} />
             <View style={styles.shopDetails}>
               <View style={{}}>
                 <Text style={styles.shopName}>{name}</Text>
@@ -156,7 +153,7 @@ const ShopDetailsScreen = () => {
                   {categoryNames}
                 </Text>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={[styles.shopDesc, textColorStyle]}>სართული: </Text>
                 {floor?.map((floor: string) => (
                   <Text key={floor} style={[styles.shopDesc, textColorStyle]}>
@@ -166,7 +163,7 @@ const ShopDetailsScreen = () => {
               </View>
             </View>
           </View>
-          <View style={{marginTop: 30}}>
+          <View style={{ marginTop: 30 }}>
             <Text style={[styles.shopDesc, textColorStyle]}>{desctiption}</Text>
           </View>
           <View
@@ -178,12 +175,12 @@ const ShopDetailsScreen = () => {
             }}
           />
           <View style={styles.shopContactInfo}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Bold'},
+                  { fontFamily: 'HMpangram-Bold' },
                 ]}>
                 ტელეფონი:{' '}
               </Text>
@@ -191,17 +188,17 @@ const ShopDetailsScreen = () => {
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Medium'},
+                  { fontFamily: 'HMpangram-Medium' },
                 ]}>
                 {phone}
               </Text>
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Bold'},
+                  { fontFamily: 'HMpangram-Bold' },
                 ]}>
                 სამუშაო საათები:{' '}
               </Text>
@@ -209,17 +206,17 @@ const ShopDetailsScreen = () => {
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Medium'},
+                  { fontFamily: 'HMpangram-Medium' },
                 ]}>
                 {workingHours?.[0] + ' - ' + workingHours?.[1]}
               </Text>
             </View>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{ flexDirection: 'row' }}>
               <Text
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Bold'},
+                  { fontFamily: 'HMpangram-Bold' },
                 ]}>
                 მისამართი:{' '}
               </Text>
@@ -227,7 +224,7 @@ const ShopDetailsScreen = () => {
                 style={[
                   styles.infoTitle,
                   textColorStyle,
-                  {fontFamily: 'HMpangram-Medium'},
+                  { fontFamily: 'HMpangram-Medium' },
                 ]}>
                 {address}
               </Text>
@@ -261,7 +258,7 @@ const ShopDetailsScreen = () => {
             style={[
               styles.shopName,
               textColorStyle,
-              {marginBottom: 20, marginLeft: '8%'},
+              { marginBottom: 20, marginLeft: '8%' },
             ]}>
             სართულის გეგმა
           </Text>
@@ -284,7 +281,7 @@ const ShopDetailsScreen = () => {
           color={'#ffffff'}
           style={{
             alignSelf: 'center',
-            transform: [{translateY: Dimensions.get('screen').height / 2}],
+            transform: [{ translateY: Dimensions.get('screen').height / 2 }],
           }}
         />
       </Modal>
