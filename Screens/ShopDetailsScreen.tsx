@@ -96,7 +96,7 @@ const ShopDetailsScreen = () => {
         setSingleLocalMerchant(res.data);
         setIsLoading(false);
       })
-      .catch(() => setIsLoading(true));
+      .catch(() => setIsLoading(false));
   }, [roomId]);
 
 
