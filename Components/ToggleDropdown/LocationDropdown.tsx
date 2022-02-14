@@ -6,7 +6,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import { navigate } from '../../Services/NavigationServices';
 
 
-const MapToggleInfo = () => {
+const LocationDropdown = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default MapToggleInfo;
+export default LocationDropdown;

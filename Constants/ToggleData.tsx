@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import LocationDropdown from '../Components/ToggleDropdown/LocationDropdown';
 import MapToggleInfo from '../Components/ToggleDropdown/MapToggleInfo';
 
 
@@ -16,7 +17,7 @@ export default [
         id: 1,
         name: 'ლოკაცია',
         icon:  require('../assets/images/arrow-sm.png'),
-        content: <></>,
+        content: LocationDropdown,
         routeName: 'GoogleMap'
     },
     {

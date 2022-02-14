@@ -109,6 +109,8 @@ export default () => {
   }, [floorData, floorsDetails, floorIndex]);
 
 
+  console.log(route.params)
+
   return (
     <>
       <AppLayout pageTitle={'სართულის გეგმა'}>
