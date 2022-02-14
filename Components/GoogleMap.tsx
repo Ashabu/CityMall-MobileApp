@@ -62,14 +62,20 @@ export default () => {
           // pitchEnabled={true}
 
           rotateEnabled={true}>
-          <Marker
+              <Marker
             coordinate={{
-              latitude: coordinates[route.params.mallId].latitude,
-              longitude: coordinates[route.params.mallId].longitude,
+              latitude: coordinates[1].latitude,
+              longitude: coordinates[1].longitude,
             }}
-            //   title={'marker.title'}
-            //   description={'marker.description'}
           />
+                 <Marker
+            coordinate={{
+              latitude: coordinates[2].latitude,
+              longitude: coordinates[2].longitude,
+            }}
+          />
+        
+               
         </MapView>
       </View>
     </AppLayout>
