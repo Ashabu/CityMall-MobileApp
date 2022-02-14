@@ -43,6 +43,7 @@ type RouteParamList = {
   params: {
     id: number;
     routeId: number;
+    name: string,
   };
 };
 
@@ -259,14 +260,15 @@ const Stores: React.FC = () => {
     ));
   };
 
+  console.log(routeParams.params.name)
+
   return (
     <>
       <AppLayout>
         <View style={[styles.container, containerStyle]}>
           <Animated.View style={[styles.collapsible, collapsibleHeight]}>
             <Text style={[styles.headerText, textStyle]}>
-              <Text style={styles.baseText}>მაღაზიები</Text> | სითი მოლი
-              საბურთალო
+              <Text style={styles.baseText}>{routeParams.params.name}</Text> | {routeParams.params.routeId === 1? 'სითი მოლი საბურთალო' : 'სითი მოლი გლდანი'}
             </Text>
             {mainCategories && mainCategories.length > 0 && (
               <RenderCategories

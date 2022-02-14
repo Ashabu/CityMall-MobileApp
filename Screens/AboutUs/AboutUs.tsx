@@ -1,17 +1,11 @@
-import React, {useState, useContext} from 'react';
-import {Image, StyleSheet, Text, View, Switch} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useContext} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
-import {useDimension} from '../../Hooks/UseDimension';
-import {GoBack, navigate} from '../../Services/NavigationServices';
-import AppLayout from '../../Components/AppLayout';
-import AppSwitch from '../../Components/CustomComponents/AppSwitch';
-import VoucherCardLayout from '../../Components/CustomComponents/VoucherCardLayout';
+import {GoBack} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 
 const AboutUs = () => {
-  const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
 
