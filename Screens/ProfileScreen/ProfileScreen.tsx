@@ -97,7 +97,7 @@ const ProfileScreen = () => {
 
 
     const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
-        if (offersArray.length <= 0) return;
+        if (personalOffers.length <= 0) return;
         if (nativeEvent) {
             const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
             setOffersStep(slide);

@@ -37,7 +37,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         handleSetOffers();
-    }, [offersArray]);
+    }, [offers]);
 
     useEffect(() => {
         if (clientDetails?.[0]?.card !== undefined) {
@@ -47,7 +47,7 @@ const HomeScreen = () => {
     }, [clientDetails]);
 
     const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
-        if (offersArray.length <= 0) return;
+        if (offers.length <= 0) return;
         if (nativeEvent) {
             const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
             setOffersStep(slide);
@@ -90,7 +90,7 @@ const HomeScreen = () => {
             .catch(e => {
                 console.log('barcode error', JSON.parse(JSON.stringify(e.response)).data)
             });
-    }
+    };
 
     const handleSetOffers = () => {
         if (offers !== undefined) {

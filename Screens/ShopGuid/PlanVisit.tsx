@@ -1,25 +1,46 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
-import AppLayout from '../../Components/AppLayout';
-import VoucherCardLayout from '../../Components/CustomComponents/VoucherCardLayout';
-import {Item} from '../../Constants/ShopList';
-import Data from '../../Constants/VouchersDummyData';
-import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import Layout from '../../Components/Layouts/Layout';
 import PlanVisitLayout from '../../Components/CustomComponents/PlanVisitLayout';
-let hm = require('../../assets/images/H&M.png');
 import data from '../../Constants/PlanVisitData';
-import WorkingHours from '../../Components/PlanVisit/WorkingHours';
+import ApiServices from '../../Services/ApiServices';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
+
+type RouteParamList = {
+  params: {
+    id: number,
+    routeId: number
+}
+};
 
 const PlanVisit = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
+
+  
   const {isDarkTheme} = state;
+
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+  console.log(route.params.routeId)
+
+  const [contentData, setContentData] = useState<any>([]);
+useEffect(() => {
+  getWidgets();
+}, [])
+  const getWidgets = () => {
+    ApiServices.GetWidgets().then(res => {
+      console.log(res.data)
+      setContentData(res.data)
+    }).catch(e => {
+      console.log(JSON.parse(JSON.stringify(e.response)))
+    })
+  }
 
   return (
     <Layout hasBackArrow pageName="დაგეგმე ვიზიტი" onPressBack={GoBack}>
@@ -30,7 +51,7 @@ const PlanVisit = () => {
           paddingHorizontal: '7%',
         }}>
           {data.map((el: any, i: React.Key) => (
-            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content} routeName={el.routeName} />
+            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content} routeName={el.routeName} contentData = {contentData} routeId = {route.params.routeId} />
           ))}
         
       </View>
