@@ -52,9 +52,11 @@ const AppHeader = (props: any) => {
         <SafeAreaView style={[styles.apphHeader, { backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
             <View style={[styles.appHeaderRight, { width: (width / 6) }]}>
                 <TouchableOpacity style={styles.burgerIcon} onPress={() => toggleDrawer()}>
-                    <View style={[styles.burgerIconLine, themeBgColor]} />
-                    <View style={[styles.burgerIconLine, themeBgColor]} />
-                    <View style={[styles.burgerIconLine, themeBgColor]} />
+                    <View style={styles.burgerIconInner}>
+                        <View style={[styles.burgerIconLine, themeBgColor]} />
+                        <View style={[styles.burgerIconLine, themeBgColor]} />
+                        <View style={[styles.burgerIconLine, themeBgColor]} />
+                    </View>
                 </TouchableOpacity>
                 <View style={{ width: 70 }}>
                     <Text style={[styles.langText, { color: isDarkTheme ? Colors.white : Colors.black }]}>ENG </Text>
@@ -106,9 +108,18 @@ const styles = StyleSheet.create({
     },
 
     burgerIcon: {
+        width: 32,
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        top: -7
+    },
+
+    burgerIconInner: {
         width: 26,
         height: 17,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
 
     burgerIconLine: {
