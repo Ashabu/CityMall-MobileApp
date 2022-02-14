@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
@@ -17,11 +17,13 @@ const ProfileInfo = () => {
 
   return (
     <Layout hasBackArrow pageName="პროფილის გვერდი" onPressBack={GoBack}>
+      <ScrollView contentContainerStyle={{flex: 1}} style={{flexGrow: 1}}>
       <View
         style={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
+          marginBottom: 50
         }}>
         <View>
           <UserInfoView label="სახელი" identification="გვანცა" />
@@ -38,15 +40,16 @@ const ProfileInfo = () => {
             identification="1gvancagabunia@gmail.com"
           />
         </View>
-        <View style={styles.btnView}>
+        {/* <View style={styles.btnView}>
         <TouchableOpacity
           style={styles.btnStyle}
           onPress={() => navigate('EmailChanged')}>
           <Text style={styles.btnText}>ცვლილება</Text>
         </TouchableOpacity>
-        </View>
+        </View> */}
         
       </View>
+      </ScrollView>
     </Layout>
   );
 };

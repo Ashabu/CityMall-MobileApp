@@ -8,16 +8,17 @@ import { navigate } from '../../Services/NavigationServices';
 export interface IBmCategoriesItem {
     item?: ICategories,
     routeName: string,
-    routeId?: number
+    routeId?: number,
+    pageName?:string
 }
 
-const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({item, routeName, routeId}) => {
+const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({item, routeName, routeId, pageName}) => {
     // console.log('From Burger Menu routeId ==>', 'routeId', routeId, 'itemid', item?.id)
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
     return (
         <View style={styles.categoryView}>
-            <TouchableOpacity style={styles.categoryItem} onPress={() => navigate(routeName!, {id: item?.id, routeId: routeId})}>
+            <TouchableOpacity style={styles.categoryItem} onPress={() => navigate(routeName!, {id: item?.id, routeId: routeId, name: pageName})}>
                 <Text style={[styles.categoryItemText, {color: isDarkTheme? Colors.white : Colors.black}]}>
                     {item?.name}
                 </Text>

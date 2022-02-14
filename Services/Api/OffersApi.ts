@@ -32,16 +32,17 @@ interface IOffersResponse {
     rowCount: number,
 };
 
-export const GetOffers = async (address: number | undefined) => {
+export const GetOffers = async (isPrivate: boolean, page: number, address?: number | undefined) => {
     let queryParams = '';
     if(address) {
-        queryParams =  `?Addres=${address}`
+        queryParams =  `&Addres=${address}`
     };
-    return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetOffers${queryParams}`);
+    console.log(`${env.API_URL}/api/Offers/GetOffers?isPrivate=${isPrivate}&Page=${page}&PageSize=16${queryParams}`)
+    return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetOffers?isPrivate=${isPrivate}&Page=${page}&PageSize=16${queryParams}`);
 };
 
 
-export const GetNews = async (address: number | undefined) => {
+export const GetNews = async (address?: number | undefined) => {
     let queryParams = '';
     if(address) {
         queryParams = `?Addres=${address}`

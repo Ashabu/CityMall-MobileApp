@@ -4,10 +4,33 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+
+type RouteParamList = {
+  params: {
+    mallId: number;
+  };
+};
+
+const coordinates: any = {
+    '1': {
+      latitude: 41.723971393990055,
+      longitude: 44.73773667814966,
+    },
+    '2': {
+      latitude: 41.79036874377467,
+      longitude: 44.81475656342277,
+    }, 
+  }
+
 
 export default () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+
+  console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
     <AppLayout pageTitle={'ქალაქის რუკა'}>
       <View
@@ -19,8 +42,8 @@ export default () => {
           //provider={PROVIDER_GOOGLE} // 41.723971393990055, 44.73773667814966
           style={styles.map}
           region={{
-            latitude: 41.723971393990055,
-            longitude: 44.73773667814966,
+            latitude: coordinates[route.params.mallId].latitude,
+            longitude: coordinates[route.params.mallId].longitude,
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
@@ -41,8 +64,8 @@ export default () => {
           rotateEnabled={true}>
           <Marker
             coordinate={{
-              latitude: 41.723971393990055,
-              longitude: 44.73773667814966,
+              latitude: coordinates[route.params.mallId].latitude,
+              longitude: coordinates[route.params.mallId].longitude,
             }}
             //   title={'marker.title'}
             //   description={'marker.description'}

@@ -11,17 +11,22 @@ import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
-import { GetOffers } from "../Services/Api/OffersApi";
+import { GetOffers, IOffer } from "../Services/Api/OffersApi";
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
     const { clientDetails, offersArray, isDarkTheme } = state;
 
+
+    let isEndFetching = false;
+    let startFetching = false;
+
     const { width, height } = useDimension();
     const [offersStep, setOffersStep] = useState<number>(0);
-    const [offers, setOffers] = useState<any[]>();
+    const [pagPage, setPagPage] = useState<number>(1);
+    const [offers, setOffers] = useState<IOffer[]>([]);
+    const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
     const [offersView, setOffersView] = useState<any[]>();
-    const [barcode, setBarCode] = useState<string>('');
     const [initLoading, setInitLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -32,7 +37,7 @@ const HomeScreen = () => {
 
     useEffect(() => {
         handleSetOffers();
-    }, [offersArray]);
+    }, [offers]);
 
     useEffect(() => {
         if (clientDetails?.[0]?.card !== undefined) {
@@ -41,10 +46,27 @@ const HomeScreen = () => {
 
     }, [clientDetails]);
 
-    const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-      
-        let overView = event.nativeEvent.contentOffset.x / (width - 25);
-        setOffersStep(Math.round(overView));
+    const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
+        if (offers.length <= 0) return;
+        if (nativeEvent) {
+            const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
+            setOffersStep(slide);
+        }
+        if (isFetchingData || isEndFetching) return;
+
+        let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
+        let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
+
+        console.log(scrollPoint, scrollContentSize);
+        if (scrollPoint >= scrollContentSize - 1) {
+            setPagPage(prevState => prevState + 1);
+            setIsFetchingData(true);
+            setTimeout(() => {
+                getOffers(pagPage);
+            }, 1000);
+
+            console.log(pagPage);
+        }
     };
 
 
@@ -58,6 +80,8 @@ const HomeScreen = () => {
                 setInitLoading(false);
             });
     };
+
+
     const handleGetBarcode = (card: string) => {
         ApiServices.GenerateBarcode(card)
             .then(res => {
@@ -66,17 +90,17 @@ const HomeScreen = () => {
             .catch(e => {
                 console.log('barcode error', JSON.parse(JSON.stringify(e.response)).data)
             });
-    }
+    };
 
     const handleSetOffers = () => {
-        if (offersArray !== undefined) {
-            for (let i = 4; i < offersArray!.length + 4; i += 4) {
+        if (offers !== undefined) {
+            for (let i = 4; i < offers!.length + 4; i += 4) {
                 const renderElement =
-                    <View style={[styles.promotions, {width: width}]}>
-                        {offersArray![i - 4] && <PromotionBox data={offersArray![i - 4]} index = {i - 4}/>}
-                        {offersArray![i - 3] && <PromotionBox data={offersArray![i - 3]} index = {i - 3}/>}
-                        {offersArray![i - 2] && <PromotionBox data={offersArray![i - 2]} index = {i - 2}/>}
-                        {offersArray![i - 1] && <PromotionBox data={offersArray![i - 1]} index = {i - 1}/>}
+                    <View style={[styles.promotions, { width: width }]}>
+                        {offers![i - 4] && <PromotionBox data={offers![i - 4]} index={i - 4} />}
+                        {offers![i - 3] && <PromotionBox data={offers![i - 3]} index={i - 3} />}
+                        {offers![i - 2] && <PromotionBox data={offers![i - 2]} index={i - 2} />}
+                        {offers![i - 1] && <PromotionBox data={offers![i - 1]} index={i - 1} />}
                     </View>
                 setOffersView(prev => {
                     return [...(prev || []), renderElement]
@@ -85,12 +109,24 @@ const HomeScreen = () => {
         };
     };
 
-    const getOffers = () => {
-        GetOffers(undefined).then(res => {
-            setGlobalState({ offersArray: res.data.data })
-        }).catch(e => {
-            console.log('error ===>', e)
-        });
+    const getOffers = (page: number = 1) => {
+        if (startFetching) return;
+        startFetching = true;
+        GetOffers(false, page)
+            .then(res => {
+                let tempOffers = res.data.data;
+                if (tempOffers.length < 16) {
+                    isEndFetching = true;
+                }
+
+                setOffers(prevState => {
+                    return [...prevState, ...tempOffers];
+                  });
+                  setIsFetchingData(false);
+                  startFetching = false;
+            }).catch(e => {
+                console.log('error ===>', e)
+            });
     };
 
 
@@ -98,7 +134,7 @@ const HomeScreen = () => {
 
 
     return (
-        <AppLayout pageTitle = {'მთავარი'}>
+        <AppLayout pageTitle={'მთავარი'}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={{ flex: 4.5, justifyContent: 'center' }}>
                     {!initLoading ?
@@ -108,12 +144,12 @@ const HomeScreen = () => {
                                 '$1  $2  $3  $4',
                             )}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('AboutUs', {routeId: 2})} />
+                            navigateToReg={() => navigate('AboutUs', { routeId: 2 })} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
                 </View>
-            
+
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
                 <View style={{ flex: 7.5 }}>
                     <View style={{ flex: 1 }}>
@@ -121,12 +157,18 @@ const HomeScreen = () => {
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                 შეთავაზებები
                             </Text>
-                            <PaginationDots length={paginationDotCount(offersArray, 4)}  step={offersStep} />
+                            <PaginationDots length={paginationDotCount(offers, 4)} step={offersStep} />
                         </View>
                         <View style={{ flex: 10 }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                                <ScrollView 
-                                 pagingEnabled={true} contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                                <ScrollView
+                                    pagingEnabled={true}
+                                    contentContainerStyle={{ flexDirection: 'row' }}
+                                    showsHorizontalScrollIndicator={false}
+                                    horizontal={true}
+                                    onScroll={({ nativeEvent }) => {
+                                        onChangeSectionStep(nativeEvent)
+                                    }}>
                                     {offersView?.map((el, i) => (
                                         <View key={i}>
                                             {el}
@@ -158,7 +200,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-around',
-        
+
     },
     promotionContainer: {
         marginTop: 10,

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native';
 import HowCome from '../Components/PlanVisit/HowCome';
 import WorkingHours from "../Components/PlanVisit/WorkingHours";
 

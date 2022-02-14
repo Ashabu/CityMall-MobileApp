@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import {
     StyleSheet,
-    Switch,
     Text,
     View,
     TouchableOpacity,
@@ -13,100 +12,21 @@ import {
     NativeSyntheticEvent,
     NativeScrollEvent,
     Image,
-    Button
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import AppLayout from '../../Components/AppLayout';
 import AppSwitch from '../../Components/CustomComponents/AppSwitch';
-import Layout from '../../Components/Layouts/Layout';
 import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
 import { useDimension } from '../../Hooks/UseDimension';
-import ApiServices, { IClientInfo } from '../../Services/ApiServices';
+import ApiServices, { IClientInfo, IClientTransaction } from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
 import { formatNumber } from '../../Services/Utils';
-import Grid from '../../Styles/grid';
-import StatusInfoScreen from './StatusInfoScreen';
-import VouchersInfo from '../../Components/Vouchers/VouchersInfo';
+import { GetOffers, IOffer } from '../../Services/Api/OffersApi';
 
-
-
-
-const tr = [
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-    {
-        date: '28.10.2021',
-        time: '16:45',
-        shop : 'Zara',
-        amount: '-90',
-        image: require('../../assets/images/hm-icon-profile.png')
-    },
-] 
 
 
 
@@ -115,10 +35,16 @@ const ProfileScreen = () => {
     const { state } = useContext(AppContext);
     const { isDarkTheme, offersArray } = state;
 
+    let isEndFetching = false;
+    let startFetching = false;
+
     const [offersStep, setOffersStep] = useState<number>(0);
+    const [personalOffers, setPersonalOffers] = useState<IOffer[]>([]);
     const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
-    const [transactions, setTransactions] = useState<any[]>(tr);
-    const [clientInfo, setClientInfo] = useState<IClientInfo>({})
+    const [clientInfo, setClientInfo] = useState<IClientInfo>({});
+    const [clientTransactions, setClientTransactions] = useState<IClientTransaction[]>([]);
+    const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+    const [pagPage, setPagPage] = useState<number>(1);
 
 
     const toggleSwitch = () => {
@@ -133,16 +59,66 @@ const ProfileScreen = () => {
         })
     };
 
+    const getClientTransactions = () => {
+        ApiServices.GetClientTransactions().then(res => {
+            console.log(res.data.data)
+            setClientTransactions(res.data.data!)
+        }).catch(e => {
+            console.log(e)
+        })
+    };
+
+    const getPersonalOffers = (page:number = 1) => {
+        if (startFetching) return;
+        startFetching = true;
+        console.log('aqane2')
+        GetOffers(true, page).then(res => {
+            let tempOffers = res.data.data;
+            if (tempOffers.length < 16) {
+                isEndFetching = true;
+            }
+            setPersonalOffers(prevState => {
+                return [...prevState, ...tempOffers];
+              });
+              setIsFetchingData(false);
+              startFetching = false;
+        }).catch(e => {
+            console.log('error ===>', e)
+        });
+};
+    
+
 
     useEffect(() => {
         getClientData();
+        getClientTransactions();
+        getPersonalOffers();
     }, []);
 
 
-    const handleOffersScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        let overView = event.nativeEvent.contentOffset.x / (width - 25);
-        setOffersStep(Math.round(overView));
+    const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
+        if (personalOffers.length <= 0) return;
+        if (nativeEvent) {
+            const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
+            setOffersStep(slide);
+        }
+        if (isFetchingData || isEndFetching) return;
+
+        let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
+        let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
+
+        console.log(scrollPoint, scrollContentSize);
+        if (scrollPoint >= scrollContentSize - 1) {
+            setPagPage(prevState => prevState + 1);
+            setIsFetchingData(true);
+            setTimeout(() => {
+                getPersonalOffers(pagPage);
+            }, 1000);
+
+            console.log(pagPage);
+        }
     };
+
 
     return (
         <AppLayout pageTitle = {'კაბინეტი'}>
@@ -190,15 +166,19 @@ const ProfileScreen = () => {
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                             პირადი შეთავაზებები
                         </Text>
-                        <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
+                        <PaginationDots length={Math.round(personalOffers?.length / 2)} step={offersStep} />
                     </View>
-                    <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                        <ScrollView contentContainerStyle={{ flexDirection: 'row', }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
-                            {offersArray?.map((el: any, i: number) => (
+                        <ScrollView 
+                        contentContainerStyle={{ flexDirection: 'row'}}
+                        pagingEnabled={true}
+                        showsHorizontalScrollIndicator={false} 
+                        horizontal={true} 
+                        onScroll={({ nativeEvent }) => {
+                            onChangeSectionStep(nativeEvent)
+                        }}>
+                            {personalOffers?.map((el: any, i: number) => (
                                 <PromotionBox key={i} data={el}  />
-
                             ))}
-                        </ScrollView>
                     </ScrollView>
                 </View>
                 <View style={{marginBottom: 30}}>
@@ -208,14 +188,14 @@ const ProfileScreen = () => {
                     </Text>
                     <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
                 </View>
-                <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                    <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={handleOffersScroll}>
+                {/* <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
+                    <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={() => {}}>
                         {offersArray?.map((el: any, i: number) => (
                             <PromotionBox key={i} data={el} />
 
                         ))}
                     </ScrollView>
-                </ScrollView>
+                </ScrollView> */}
                 </View>
                 {/* <View style={styles.redirectView}>
                     <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
@@ -244,7 +224,7 @@ const ProfileScreen = () => {
                         </View>
                     </View>
                     <View>
-                        {tr.map((item, index) => (
+                        {clientTransactions && clientTransactions.map((item, index) => (
                             <TransactionList item = {item} key = {index}/>
                         ))}
                         <TransactionList/>

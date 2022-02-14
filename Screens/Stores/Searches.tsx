@@ -1,10 +1,12 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   Image,
   ScrollView,
   StyleSheet,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import AppLayout from '../../Components/AppLayout';
@@ -21,7 +23,9 @@ export default () => {
   const {isDarkTheme} = state;
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [keyword, setKeyword] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
   const ttlRef = useRef<NodeJS.Timeout>();
+  const inputRef = useRef<TextInput | null>();
   const itemChunk = 4;
 
   const itemStyle = {
@@ -38,12 +42,14 @@ export default () => {
     }
 
     ttlRef.current = setTimeout(() => {
+      setIsLoading(true);
       axios
         .get(`${envs.API_URL}/api/Mobile/SearchMerchants?keyword=${keyword}`)
         .then(res => {
           if (res.data?.data) setMerchants(res.data?.data);
-        });
-    }, 1500);
+          setIsLoading(false);
+        }).catch(() => setIsLoading(false));
+    }, 1000);
   }, [keyword]);
 
   const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
@@ -54,6 +60,7 @@ export default () => {
     ));
   };
   return (
+    <>
     <AppLayout pageTitle={'ძიება'}>
       <View
         style={{
@@ -62,7 +69,8 @@ export default () => {
           paddingTop: 20,
         }}>
         <View style={{paddingHorizontal: '7%'}}>
-          <View
+          <TouchableOpacity
+          onPress={() => inputRef.current?.focus()}
             style={{
               borderBottomColor: '#fff',
               borderBottomWidth: 1,
@@ -77,11 +85,13 @@ export default () => {
               value={keyword}
               onChangeText={e => setKeyword(e)}
               autoFocus={true}
+              ref={i => inputRef.current = i}
+              onChange={() => inputRef.current?.focus()}
             />
             <Image
               source={require('./../../assets/images/icon-search-red.png')}
             />
-          </View>
+          </TouchableOpacity>
         </View>
         <View
           style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}>
@@ -113,6 +123,17 @@ export default () => {
         </View>
       </View>
     </AppLayout>
+    {isLoading && <View style={styles.loader}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{translateY: Dimensions.get('screen').height / 2}],
+          }}
+        />
+      </View>}
+    </>
   );
 };
 
@@ -133,4 +154,8 @@ const styles = StyleSheet.create({
     height: 180,
     margin: 10,
   },
+  loader: {
+      ...StyleSheet.absoluteFillObject,
+      backgroundColor: 'transparent'
+  }
 });

@@ -1,48 +1,72 @@
-import React, {useContext} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AppContext} from '../../AppContext/AppContext';
-import {Colors} from '../../Colors/Colors';
-import {useDimension} from '../../Hooks/UseDimension';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
+import { Colors } from '../../Colors/Colors';
+import { useDimension } from '../../Hooks/UseDimension';
 
-const HowCome = () => {
-  const {width} = useDimension();
-  const {state} = useContext(AppContext);
-  const {isDarkTheme} = state;
+const HowCome = ({ data, routeId }: any) => {
+    const { width } = useDimension();
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
-  return (
-    <View>
-      <View style={styles.row}>
-          <View style={styles.width}>
-          <Image source={require('../../assets/images/train.png')} />
-          </View>
-          
-          <View>
-              <Text style={styles.titleTxt}>ავტობუსი </Text>
-              <Text style={styles.detailTxt}>140, 34, 160, 24, 12, 110</Text>
-          </View>
-      </View>
-      <View style={styles.row}>
-          <View style={styles.width}>
-          <Image source={require('../../assets/images/bus.png')} />
-          </View>
-      
-      <View>
-              <Text style={styles.titleTxt}>სამარშრუტო ტაქსი  </Text>
-              <Text style={styles.detailTxt}>51, 64, 111, 62, 98, 255</Text>
-          </View>
-      </View>
-      <View style={styles.row}>
-          <View style={styles.width}>
-          <Image source={require('../../assets/images/metro.png')} />
-          </View>
-      
-      <View>
-              <Text style={styles.titleTxt}>მეტრო </Text>
-              <Text style={styles.detailTxt}>ვაჟა-ფშაველა</Text>
-          </View>
-      </View>
-    </View>
-  );
+    console.log('props.contentData===>', data[3]["bus-saburtalo"].title);
+
+
+    return (
+        <View>
+            <View style={styles.row}>
+                <View style={styles.width}>
+                    <Image source={require('../../assets/images/train.png')} />
+                </View>
+                {
+                    routeId === 1 ?
+                        <View>
+                            <Text style={styles.titleTxt}>{data[3]["bus-saburtalo"].title} </Text>
+                            <Text style={styles.detailTxt}>{data[3]["bus-saburtalo"].teaser}</Text>
+                        </View>
+                        :
+                        <View>
+                            <Text style={styles.titleTxt}>{data[2]["bus-gldani"].title} </Text>
+                            <Text style={styles.detailTxt}>{data[2]["bus-gldani"].teaser}</Text>
+                        </View>
+                }
+            </View>
+            <View style={styles.row}>
+                <View style={styles.width}>
+                    <Image source={require('../../assets/images/bus.png')} />
+                </View>
+                {
+                    routeId === 1 ?
+                        <View>
+                            <Text style={styles.titleTxt}>{data[3]["taxi-saburtalo"].title}</Text>
+                            <Text style={styles.detailTxt}>{data[3]["taxi-saburtalo"].teaser}</Text>
+                        </View>
+                        :
+                        <View>
+                            <Text style={styles.titleTxt}>{data[2]["minibus-gldani"].title} </Text>
+                            <Text style={styles.detailTxt}>{data[2]["minibus-gldani"].teaser}</Text>
+                        </View>
+                }
+            </View>
+            <View style={styles.row}>
+                <View style={styles.width}>
+                    <Image source={require('../../assets/images/metro.png')} />
+                </View>
+                {
+                    routeId === 1 ?
+                        <View>
+                            <Text style={styles.titleTxt}>{data[3]["metro-saburtalo"].title} </Text>
+                            <Text style={styles.detailTxt}>{data[3]["metro-saburtalo"].teaser}</Text>
+                        </View>
+                        :
+                        <View>
+                            <Text style={styles.titleTxt}>{data[2]["metro-gldani"].title} </Text>
+                            <Text style={styles.detailTxt}>{data[2]["metro-gldani"].teaser}</Text>
+                        </View>
+                }
+            </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -50,8 +74,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 55,
         alignItems: 'center',
-       
-        
+
+
     },
     titleTxt: {
         color: Colors.white,
