@@ -42,10 +42,12 @@ export const GetOffers = async (isPrivate: boolean, page: number, address?: numb
 };
 
 
-export const GetNews = async (address?: number | undefined) => {
+export const GetNews = async (page: number, address?: number | undefined) => {
     let queryParams = '';
     if(address) {
-        queryParams = `?Addres=${address}`
+        queryParams = `&Addres=${address}`
     };
-    return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetNews${queryParams}`);
+    console.log((`${env.API_URL}/api/Offers/GetNews?Page=${page}&PageSize=16${queryParams}`))
+    
+    return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetNews?Page=${page}&PageSize=16${queryParams}`);
 };

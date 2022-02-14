@@ -39,8 +39,16 @@ const OffersScreen = () => {
     const [offersStep, setOffersStep] = useState<number>(0);
     const [offersView, setOffersView] = useState<any[]>();
     const [filteredOffers, setFilteredOffers] = useState<IOffer[] | []>([]);
+    const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+    const [pagPage, setPagPage] = useState<number>(1);
+
+
+    let isEndFetching = false;
+    let startFetching = false;
     
     useEffect(() => {
+        setOffersView([]);
+        setFilteredOffers([]);
         if(routeParams.params.id === 0) {
             handleGetOffers();
         } else {
@@ -52,19 +60,42 @@ const OffersScreen = () => {
         handleSetOffers();
     }, [filteredOffers]);
 
-    const handleGetOffers = () => {
-        setOffersView([]);
-        GetOffers(routeParams.params.routeId).then(res => {
-            setFilteredOffers(res.data.data);
+    const handleGetOffers = (page: number  = 1) => {
+        // setOffersView([]);
+        if (startFetching) return;
+        startFetching = true;
+        GetOffers(false, page, routeParams.params.routeId)
+
+        .then(res => {
+            let tempOffers = res.data.data;
+            console.log(tempOffers, 'asdadasdasdadasd')
+            if (tempOffers.length < 16) {
+                isEndFetching = true;
+            }
+            setFilteredOffers(prevState => {
+                return [...prevState, ...tempOffers];
+              });
+              setIsFetchingData(false);
+              startFetching = false;
         }).catch(e => {
             console.log('error ===>', e);
         });
     };
 
-    const handleGetNews = () => {
-        setOffersView([]);
-        GetNews(routeParams.params.routeId).then(res => {
-            setFilteredOffers(res.data.data);
+    const handleGetNews = (page: number = 1) => {
+        if (startFetching) return;
+        startFetching = true;
+        GetNews(page, routeParams.params.routeId)
+        .then(res => {
+            let tempNews = res.data.data;
+            if (tempNews.length < 16) {
+                isEndFetching = true;
+            }
+            setFilteredOffers(prevState => {
+                return [...prevState, ...tempNews];
+              });
+              setIsFetchingData(false);
+              startFetching = false;
         }).catch(e => {
             console.log('error ===>', e);
         });
@@ -91,13 +122,34 @@ const OffersScreen = () => {
         };
     };
 
-    const handleOffersScroll = (nativeEvent: NativeScrollEvent) => {
+    const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
+        if (filteredOffers.length <= 0) return;
         if (nativeEvent) {
-            const slide = Math.ceil(
-              nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
-            );
+            const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
             setOffersStep(slide);
-          };
+        }
+        if (isFetchingData || isEndFetching) return;
+
+        let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
+        let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
+
+        console.log(scrollPoint, scrollContentSize);
+        if (scrollPoint >= scrollContentSize - 1) {
+            setPagPage(prevState => prevState + 1);
+            setIsFetchingData(true);
+            if(routeParams.params.id === 0) {
+                setTimeout(() => {
+                    handleGetOffers(pagPage);
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    handleGetNews(pagPage);
+                }, 1000);
+            }
+            
+
+            console.log(pagPage);
+        }
     };
 
     return (
@@ -114,7 +166,7 @@ const OffersScreen = () => {
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', paddingHorizontal: '7%', }}
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
-                            onScroll={({ nativeEvent }) => handleOffersScroll(nativeEvent)}>
+                            onScroll={({ nativeEvent }) => onChangeSectionStep(nativeEvent)}>
                             {offersView?.map((el, i) => (
                                 <View key={i} >
                                     {el}
