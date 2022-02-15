@@ -227,7 +227,7 @@ const ProfileScreen = () => {
                         {clientTransactions && clientTransactions.map((item, index) => (
                             <TransactionList item = {item} key = {index}/>
                         ))}
-                        <TransactionList/>
+               {(!clientTransactions || clientTransactions.length <= 0) && <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ტრანზაქციები ვერ მოიძებნა</Text>}
                     </View>
                 </View>
             </ScrollView>
