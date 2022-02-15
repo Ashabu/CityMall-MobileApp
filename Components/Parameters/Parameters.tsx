@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
-import {navigate} from '../../Services/NavigationServices';
+import {GoBack, navigate} from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import AppSwitch from '../CustomComponents/AppSwitch';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
@@ -13,12 +13,12 @@ import Layout from '../Layouts/Layout';
 const Parameters = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
-  const {isDarkTheme} = state;
+  const {isDarkTheme, clientDetails} = state;
   
 
 
   return (
-    <Layout>
+    <Layout hasBackArrow onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -26,7 +26,7 @@ const Parameters = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.nameWrapper}>
-          <Text style={styles.name}>გვანცა გაბუნია</Text>
+          <Text style={styles.name}>{clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}</Text>
         </View>
         <View style={{top: 83, height: 80, justifyContent: 'space-between' }}>
           <View style={styles.desighnView}>

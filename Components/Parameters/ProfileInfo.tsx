@@ -5,6 +5,7 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
+import { formatDate } from '../../Services/Utils';
 import AppLayout from '../AppLayout';
 
 import UserInfoView from '../CustomComponents/UserInfoView';
@@ -13,7 +14,9 @@ import Layout from '../Layouts/Layout';
 const ProfileInfo = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
-  const {isDarkTheme} = state;
+  const {isDarkTheme, clientDetails} = state;
+
+  console.log('clientDetails ==>', clientDetails)
 
   return (
     <Layout hasBackArrow pageName="პროფილის გვერდი" onPressBack={GoBack}>
@@ -26,18 +29,21 @@ const ProfileInfo = () => {
           marginBottom: 50
         }}>
         <View>
-          <UserInfoView label="სახელი" identification="გვანცა" />
-          <UserInfoView label="გვარი" identification="გაბუნია" />
-          <UserInfoView label="პირადი ნომერი" identification="01005020429" />
-          <UserInfoView label="სქესი" identification="მდედრობითი" />
+          <UserInfoView label="სახელი" identification={clientDetails?.[0].firstName} />
+          <UserInfoView label="გვარი" identification={clientDetails?.[0].lastName} />
+          <UserInfoView label="პირადი ნომერი" identification={clientDetails?.[0].personCode} />
+          <UserInfoView label="სქესი" identification={clientDetails?.[0].sex === 0? 'მდედრობითი' : 'მამრობითი'} />
           <UserInfoView
             label="მობილურის ნომერი"
-            identification="+995 598 977 700"
+            identification={"+"+clientDetails?.[0].phone.replace(
+              /\b(\d{3})(\d{3})(\d{3})(\d{3})\b/,
+              '$1  $2  $3  $4',
+          )}
           />
-          <UserInfoView label="დაბადებით თარიღი" identification="17.10.1992" />
+          <UserInfoView label="დაბადებით თარიღი" identification={formatDate(clientDetails?.[0].birthDate)} />
           <UserInfoView
             label="ელ-ფოსტა"
-            identification="1gvancagabunia@gmail.com"
+            identification={clientDetails?.[0].email}
           />
         </View>
         {/* <View style={styles.btnView}>
@@ -76,3 +82,6 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileInfo;
+
+
+
