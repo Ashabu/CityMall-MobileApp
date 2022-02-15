@@ -147,7 +147,7 @@ const ShopDetailsScreen = () => {
               justifyContent: 'space-between',
               width: '100%',
             }}>
-            <Image source={{ uri: logo }} style={{ width: 74, height: 99 }} />
+            <Image resizeMode={'contain'} source={{ uri: logo }} style={{ width: 74, height: 99 }} />
             <View style={styles.shopDetails}>
               <View style={{}}>
                 <Text style={[styles.shopName, textColorStyle]}>{name}</Text>
@@ -320,6 +320,7 @@ const styles = StyleSheet.create({
     fontFamily: 'HMpangram-Bold',
     fontSize: 16,
     lineHeight: 19,
+    marginBottom: 5
   },
   shopDesc: {
     fontFamily: 'HMpangram-Medium',
