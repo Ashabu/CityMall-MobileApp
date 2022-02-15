@@ -1,5 +1,7 @@
+import { Portal } from '@gorhom/portal';
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
@@ -97,13 +99,19 @@ const StatusBar = (props: any) => {
   }
 
   return (
-    <>
+    <View style={{position:'relative'}}>
     {visible?
-       <TouchableOpacity style={[styles.dropDown, {height: height, width: width}]} onPress={() =>setVisible(false)}>
-        <View >
-          <Text>ragacragacragacragacragacragacragacr</Text>
+    <View>
+      <Portal>
+      <TouchableOpacity style={[styles.dropDown, {height: height, width: width}]} onPress={() =>setVisible(false)}>
+        <View  style={{backgroundColor: Colors.black, top: 275, width: 113, height: 89, borderRadius: 10}} onStartShouldSetResponder={event => true}>
+          <Text style={{color: Colors.white, padding: 10}}>,,სილვერის" სტატუსამდე დაგრჩათ 100 ქულა</Text>
         </View>
        </TouchableOpacity>
+      </Portal>
+    
+    </View>
+       
        : null}
       <View
         style={{
@@ -241,7 +249,7 @@ const StatusBar = (props: any) => {
           </Text>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 export default StatusBar;
@@ -264,9 +272,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
+    bottom: 0,
+    right: 0,
     zIndex: 100,
-    // alignItems:'flex-end',
     backgroundColor: '#a8a7a761',
-    // paddingRight: 15,
+   
 }
 });
