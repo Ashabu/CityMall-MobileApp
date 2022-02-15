@@ -44,7 +44,7 @@ const StatusBar = (props: any) => {
   const {width,height} = useDimension();
 
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
-  const curPoints =props.data.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
+  const curPoints = props?.data?.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
 
   const toggleDropdown = () => {
     setVisible(!visible);
@@ -129,7 +129,7 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round,props.data.category >=2? activeCategorySilver: inActiveCategory]}/>
+          <View style={[styles.round, props?.data?.category >=2 ? activeCategorySilver: inActiveCategory]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -158,7 +158,7 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round,props.data.category >=3? activeCategoryGold: inActiveCategory]}/>
+          <View style={[styles.round, props?.data?.category >=3 ? activeCategoryGold: inActiveCategory]}/>
           <View style={{position: 'relative'}}>
             <View
               style={[
@@ -184,7 +184,7 @@ const StatusBar = (props: any) => {
             />
           </View>
         </View>
-        <View style={[styles.round,props.data.category === 4? activeCategoryPlatinum: inActiveCategory]}/>
+        <View style={[styles.round, props?.data?.category === 4 ? activeCategoryPlatinum: inActiveCategory]}/>
       </View>
 
       <View

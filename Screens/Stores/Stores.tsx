@@ -315,6 +315,7 @@ const Stores: React.FC = () => {
 
           <View
             style={[
+              (!isLoading && merchants.length <=0) ? { flex: 1, justifyContent: 'center', alignItems: 'center'} :
               isFilterCollapsed
                 ? {
                     flexDirection: 'row',
@@ -326,6 +327,8 @@ const Stores: React.FC = () => {
                     flex: 1,
                   },
             ]}>
+              {!isLoading && merchants.length <=0 ? 
+              <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>:
             <ScrollView
               contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
               onScroll={({nativeEvent}) => {
@@ -361,7 +364,7 @@ const Stores: React.FC = () => {
                   ))}
                 </ScrollView>
               )}
-            </ScrollView>
+            </ScrollView>}
             {merchants.length > 0 && isFetchingData && pagPage > 1 ? (
               <View
                 style={[

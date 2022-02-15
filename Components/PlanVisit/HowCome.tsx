@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -9,9 +9,10 @@ const HowCome = ({ data, routeId }: any) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
 
-    console.log('props.contentData===>', data[3]["bus-saburtalo"].title);
+   // console.log('props.contentData===>', data[3]["bus-saburtalo"].title);
 
-
+    if(!data.length)
+     return    <ActivityIndicator style={{alignSelf: 'flex-start'}} color={'#ffffff'} />
     return (
         <View>
             <View style={styles.row}>
