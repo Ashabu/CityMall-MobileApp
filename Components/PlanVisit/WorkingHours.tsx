@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -7,7 +7,8 @@ import { useDimension } from '../../Hooks/UseDimension';
 const WorkingHours = ({ data, routeId }: any) => {
   const { state } = useContext(AppContext);
   const { isDarkTheme } = state;
-
+  if(!data.length)
+  return    <ActivityIndicator style={{alignSelf: 'flex-start'}} color={'#ffffff'} />
   return (
     <View>
       {

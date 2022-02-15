@@ -16,11 +16,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		1457B087D320495A9125BEB3 /* Pangram-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 328A5E9D203B4161B946FA8E /* Pangram-Thin.ttf */; };
 		230DC4D197A84C71A36EC958 /* Pangram-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52B6EDC22C3948F59A265119 /* Pangram-Medium.ttf */; };
+		295367AD250D2B9961A4FB2D /* libPods-citymall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0EDCDBBDB741A2E020E381A /* libPods-citymall.a */; };
+		30BF408A12AB507A7B97A6BC /* libPods-citymall-citymallTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 488A78A7577FB576314BF91D /* libPods-citymall-citymallTests.a */; };
 		3849C9EDB9564CCBB7146AF6 /* gradient-line.png in Resources */ = {isa = PBXBuildFile; fileRef = E525BF5491FB4430B806FDAF /* gradient-line.png */; };
 		42E6226DA3774A7FADB0FC60 /* city-mall-title.png in Resources */ = {isa = PBXBuildFile; fileRef = 4651D971C59D4B1CAA35A63E /* city-mall-title.png */; };
 		47815B6C97EE4AAF901EDAA0 /* loupe.png in Resources */ = {isa = PBXBuildFile; fileRef = 82161661BD3A42119D392FA8 /* loupe.png */; };
 		4A914E4C1E5C42F794C385B0 /* floor-plan-map.png in Resources */ = {isa = PBXBuildFile; fileRef = 627BD915B19B43119A40C279 /* floor-plan-map.png */; };
-		52226F5ADED2A5E0778A1CD7 /* Pods_citymall_citymallTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82B72BBC86F1F14CA83B36F3 /* Pods_citymall_citymallTests.framework */; };
 		616CC11722974DFD93BF9C96 /* gift-card.png in Resources */ = {isa = PBXBuildFile; fileRef = F5A65F7993D846758F952ECE /* gift-card.png */; };
 		68AF7288FFDB417AAB35F680 /* arrow-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 1E317BD9232E48B7B130B300 /* arrow-up.png */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -35,7 +36,6 @@
 		AF3DD088D4BB4B2DB7E0377F /* Pangram-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF15F8F0BA2148FFB09A9ADF /* Pangram-Light.ttf */; };
 		B030E56F162E443589A2F647 /* green-checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 6383F1316AE349F3A3604D61 /* green-checkmark.png */; };
 		B0D1E65BEAE74217A4FE8F7D /* bell.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DD4D513C2674F87BC7F6175 /* bell.png */; };
-		B6DE167EFC180396F05AF3DB /* Pods_citymall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA53817C92103F4A23F7359E /* Pods_citymall.framework */; };
 		E93E03D835F246D9B1BD6A26 /* password-eye.png in Resources */ = {isa = PBXBuildFile; fileRef = AE7EF3B6F5D245898A6153FC /* password-eye.png */; };
 		FADD109873764178ADB0257A /* card-with-barcode.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DEBFC0F6D244A0386AC6C1A /* card-with-barcode.png */; };
 		FD3624EC1B774A9D8149F20B /* arrow-down.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A4F542182484430909CA4FD /* arrow-down.png */; };
@@ -72,6 +72,7 @@
 		328A5E9D203B4161B946FA8E /* Pangram-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Pangram-Thin.ttf"; path = "../assets/fonts/Pangram-Thin.ttf"; sourceTree = "<group>"; };
 		42CD776B6D584518B7C6F0AA /* success-mark.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "success-mark.png"; path = "../assets/images/success-mark.png"; sourceTree = "<group>"; };
 		4651D971C59D4B1CAA35A63E /* city-mall-title.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "city-mall-title.png"; path = "../assets/images/city-mall-title.png"; sourceTree = "<group>"; };
+		488A78A7577FB576314BF91D /* libPods-citymall-citymallTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-citymall-citymallTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		49E25C85253242AA848899FF /* shop-details-bg.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "shop-details-bg.png"; path = "../assets/images/shop-details-bg.png"; sourceTree = "<group>"; };
 		4DEBFC0F6D244A0386AC6C1A /* card-with-barcode.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "card-with-barcode.png"; path = "../assets/images/card-with-barcode.png"; sourceTree = "<group>"; };
 		52B6EDC22C3948F59A265119 /* Pangram-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "Pangram-Medium.ttf"; path = "../assets/fonts/Pangram-Medium.ttf"; sourceTree = "<group>"; };
@@ -82,16 +83,15 @@
 		6C97AB639B58BBB4B15BBE30 /* Pods-citymall-citymallTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall-citymallTests.debug.xcconfig"; path = "Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = citymall/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82161661BD3A42119D392FA8 /* loupe.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = loupe.png; path = ../assets/images/loupe.png; sourceTree = "<group>"; };
-		82B72BBC86F1F14CA83B36F3 /* Pods_citymall_citymallTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_citymall_citymallTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F0942EC7014554BE12D667 /* arrow-sm.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "arrow-sm.png"; path = "../assets/images/arrow-sm.png"; sourceTree = "<group>"; };
 		A50B0D6C4B7243ACAB5F6ABF /* loyalty-card.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "loyalty-card.png"; path = "../assets/images/loyalty-card.png"; sourceTree = "<group>"; };
 		AE7EF3B6F5D245898A6153FC /* password-eye.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "password-eye.png"; path = "../assets/images/password-eye.png"; sourceTree = "<group>"; };
 		AEBA4F5F6764424BAD9B855A /* promotion_img.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = promotion_img.png; path = ../assets/images/promotion_img.png; sourceTree = "<group>"; };
-		BA53817C92103F4A23F7359E /* Pods_citymall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_citymall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF15F8F0BA2148FFB09A9ADF /* Pangram-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = file; name = "Pangram-Light.ttf"; path = "../assets/fonts/Pangram-Light.ttf"; sourceTree = "<group>"; };
 		C0A881CF5CF3F2B244570E2A /* Pods-citymall.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall.debug.xcconfig"; path = "Target Support Files/Pods-citymall/Pods-citymall.debug.xcconfig"; sourceTree = "<group>"; };
 		C9AC44D1A7344C02AC3FE231 /* arrow.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = arrow.png; path = ../assets/images/arrow.png; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-citymall.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-citymall.release.xcconfig"; path = "Target Support Files/Pods-citymall/Pods-citymall.release.xcconfig"; sourceTree = "<group>"; };
+		D0EDCDBBDB741A2E020E381A /* libPods-citymall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-citymall.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E525BF5491FB4430B806FDAF /* gradient-line.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "gradient-line.png"; path = "../assets/images/gradient-line.png"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F5A65F7993D846758F952ECE /* gift-card.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "gift-card.png"; path = "../assets/images/gift-card.png"; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52226F5ADED2A5E0778A1CD7 /* Pods_citymall_citymallTests.framework in Frameworks */,
+				30BF408A12AB507A7B97A6BC /* libPods-citymall-citymallTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6DE167EFC180396F05AF3DB /* Pods_citymall.framework in Frameworks */,
+				295367AD250D2B9961A4FB2D /* libPods-citymall.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,8 +151,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				BA53817C92103F4A23F7359E /* Pods_citymall.framework */,
-				82B72BBC86F1F14CA83B36F3 /* Pods_citymall_citymallTests.framework */,
+				D0EDCDBBDB741A2E020E381A /* libPods-citymall.a */,
+				488A78A7577FB576314BF91D /* libPods-citymall-citymallTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -245,7 +245,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				6240848FA99DF690E56EC784 /* [CP] Embed Pods Frameworks */,
+				79271338A164C9EAAFE16E6A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -267,7 +267,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				C5EC5239381F8C2F50FE00AD /* [CP] Embed Pods Frameworks */,
+				EFDF5531701424E540F1B8AB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -396,21 +396,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6240848FA99DF690E56EC784 /* [CP] Embed Pods Frameworks */ = {
+		79271338A164C9EAAFE16E6A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall-citymallTests/Pods-citymall-citymallTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A130D646172E58E1D159D8F2 /* [CP] Check Pods Manifest.lock */ = {
@@ -435,21 +435,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C5EC5239381F8C2F50FE00AD /* [CP] Embed Pods Frameworks */ = {
+		EFDF5531701424E540F1B8AB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-citymall/Pods-citymall-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {

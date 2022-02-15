@@ -9,11 +9,12 @@ import BurgerMenuCategories from './BurgerMenuCategories';
 export interface IBmItem {
     item: ILocation,
     categories?: ICategories[],
-    routeName: string
+    routeName: string,
+    pageName?: string
 }
 
 
-const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) => {
+const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName, pageName}) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
     const [isCollapsed, setIsCollapsed] = useState<Boolean>(false);
@@ -31,7 +32,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) =>
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} 
-            onPress={() =>categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(routeName!, {routeId: item.id})}>
+            onPress={() =>categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(routeName!, {routeId: item.id, name: pageName})}>
                 {
                    categories!?.length > 0 ?
                         <Image
@@ -47,7 +48,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName}) =>
             {
                 isCollapsed && <View>
                     {MenuItemCategories?.map((el, i) => (
-                        <BurgerMenuCategories item={el} key={i} routeName = {routeName!} routeId = {item.id}  />
+                        <BurgerMenuCategories item={el} key={i} routeName = {routeName!} routeId = {item.id} pageName = {pageName}  />
                     ))}
                 </View>
             }

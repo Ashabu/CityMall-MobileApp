@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import AppLayout from '../../Components/AppLayout';
@@ -9,7 +9,8 @@ const StatusInfoScreen = () => {
     const { isDarkTheme } = useContext(AppContext)
     return (
         <AppLayout>
-            <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%' }}>
+            <ScrollView>
+            <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%', paddingVertical: 50 }}>
                 <View style={{marginBottom: 40}}>
                     <Text style={[styles.titleText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         სტატუსბარი
@@ -35,6 +36,7 @@ const StatusInfoScreen = () => {
                     </Text>
                 </View>
             </View>
+            </ScrollView>
         </AppLayout>
     )
 };

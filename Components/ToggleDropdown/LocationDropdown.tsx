@@ -6,16 +6,19 @@ import {useDimension} from '../../Hooks/UseDimension';
 import { navigate } from '../../Services/NavigationServices';
 
 
-const MapToggleInfo = () => {
+const LocationDropdown = () => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
   
+  
+
 
   enum mallIds {
     citiMallGldan = 2,
     cityMallSaburtalo = 1,
 }
+console.log('some')
 
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
@@ -44,4 +47,4 @@ const styles = StyleSheet.create({
   
 });
 
-export default MapToggleInfo;
+export default LocationDropdown;

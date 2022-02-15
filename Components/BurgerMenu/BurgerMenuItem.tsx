@@ -29,7 +29,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
             if(clientDetails.length === 0 && item.id === 10) {
                 return navigate('AboutUs', {routeId: 2})
             } else {
-                return navigate(item.routeName!);
+                return navigate(item.routeName!, {name: item.name});
             };
             
         } else {
@@ -40,6 +40,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
             }
         };
     };
+
 
     const themeTextColor = {
         color: isDarkTheme ? Colors.white : Colors.black
@@ -68,7 +69,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 <View style={{ marginBottom: 5 }}>
                     {
                         item?.location?.map((el, i) => (
-                            <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} />
+                            <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} pageName={item.name} />
                         ))
                     }
                 </View>

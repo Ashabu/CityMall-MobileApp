@@ -26,6 +26,7 @@ const HomeScreen = () => {
     const [pagPage, setPagPage] = useState<number>(1);
     const [offers, setOffers] = useState<IOffer[]>([]);
     const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [offersView, setOffersView] = useState<any[]>();
     const [initLoading, setInitLoading] = useState<boolean>(true);
 
@@ -112,6 +113,7 @@ const HomeScreen = () => {
     const getOffers = (page: number = 1) => {
         if (startFetching) return;
         startFetching = true;
+        setIsLoading(true);
         GetOffers(false, page)
             .then(res => {
                 let tempOffers = res.data.data;
@@ -124,8 +126,10 @@ const HomeScreen = () => {
                   });
                   setIsFetchingData(false);
                   startFetching = false;
+                  setIsLoading(false);
             }).catch(e => {
                 console.log('error ===>', e)
+                setIsLoading(false);
             });
     };
 
@@ -159,7 +163,7 @@ const HomeScreen = () => {
                             </Text>
                             <PaginationDots length={paginationDotCount(offers, 4)} step={offersStep} />
                         </View>
-                        <View style={{ flex: 10 }}>
+                        <View style={{ flex: 10, position: 'relative' }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
                                 <ScrollView
                                     pagingEnabled={true}
@@ -174,8 +178,10 @@ const HomeScreen = () => {
                                             {el}
                                         </View>
                                     ))}
+                                    
                                 </ScrollView>
-                            </ScrollView>
+                            </ScrollView> 
+                            {isLoading && <ActivityIndicator color={'#fff'} style={{alignSelf: 'center', position: 'absolute', top: '50%', transform:[{translateY: -50}]}} />}
                         </View>
                     </View>
                 </View>
