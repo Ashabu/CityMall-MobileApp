@@ -50,7 +50,7 @@ const AppHeader = (props: any) => {
        </TouchableOpacity>
        : null}
         <SafeAreaView style={[styles.apphHeader, { backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
-            <View style={[styles.appHeaderRight, { width: (width / 6) }]}>
+            <View style={[styles.appHeaderRight, { width: (width / 6) },{alignItems: 'center'}]}>
                 <TouchableOpacity style={styles.burgerIcon} onPress={() => toggleDrawer()}>
                     <View style={styles.burgerIconInner}>
                         <View style={[styles.burgerIconLine, themeBgColor]} />
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'relative',
-        top: -7
+        top: 0
     },
 
     burgerIconInner: {
