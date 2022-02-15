@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { ActivityIndicator, Keyboard, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {AppContext} from '../../AppContext/AppContext';
+import { Colors } from '../../Colors/Colors';
 import Layout from '../../Components/Layouts/Layout';
 import ApiServices from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
@@ -10,13 +10,14 @@ import Grid from '../../Styles/grid';
 
 
 const ScreenThree: React.FC = () => {
-    const { isDarkTheme, setDetails } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
+    const { isDarkTheme} = state;
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
     const handleGetClientCards = () => {
         setButtonLoading(false);
         ApiServices.GetClientCards().then(res => {
-            setDetails(res.data);
+            setGlobalState({cardDetails: res.data});
             setButtonLoading(false);
             navigate('HomeScreen')
         })
@@ -28,7 +29,7 @@ const ScreenThree: React.FC = () => {
     };
 
     return (
-        <Layout hasBackArrow={false} >
+        <Layout hasBackArrow onPressBack={handleGetClientCards} >
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={[Grid.row_12_5, {}]}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
