@@ -30,7 +30,8 @@
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.4.0",
     "react-native-sms-retriever": "^1.1.1",
-    "react-native-svg": "^12.1.1"
+    "react-native-svg": "^12.1.1",
+    "rxjs": "^7.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
