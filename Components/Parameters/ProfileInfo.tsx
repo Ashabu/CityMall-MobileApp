@@ -35,7 +35,10 @@ const ProfileInfo = () => {
           <UserInfoView label="სქესი" identification={clientDetails?.[0].sex === 0? 'მდედრობითი' : 'მამრობითი'} />
           <UserInfoView
             label="მობილურის ნომერი"
-            identification={"+"+clientDetails?.[0].phone}
+            identification={"+"+clientDetails?.[0].phone.replace(
+              /\b(\d{3})(\d{3})(\d{3})(\d{3})\b/,
+              '$1  $2  $3  $4',
+          )}
           />
           <UserInfoView label="დაბადებით თარიღი" identification={formatDate(clientDetails?.[0].birthDate)} />
           <UserInfoView
