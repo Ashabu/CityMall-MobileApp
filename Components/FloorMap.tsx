@@ -55,14 +55,18 @@ export default () => {
 
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(
         `${envs.API_URL}/api/Connect/GetFloorsMap?address=${route.params?.mallId || 1}`,
       )
       .then(res => {
         setFloors(res.data.floors);
+        setIsLoading(false);
+      }).catch(() => {
+        setIsLoading(false);
       });
-  }, []);
+  }, [route.params?.mallId]);
 
   useEffect(() => {
     axios
