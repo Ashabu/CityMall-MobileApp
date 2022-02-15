@@ -1,5 +1,6 @@
 import React, {
     useContext,
+    useEffect,
     useState
 } from "react";
 import {
@@ -13,6 +14,7 @@ import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
 import { IDrawerItem } from "../../Constants/DrawerItems";
 import { navigate } from "../../Services/NavigationServices";
+import { subscriptionService } from "../../Services/SubscriptionServive";
 import BurgerMenuLocation from "./BurgerMenuLocation";
 
 interface IBmItem {
@@ -40,6 +42,19 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
             }
         };
     };
+
+    useEffect(() => {
+        const subscription = subscriptionService?.getData()?.subscribe(data => {
+          if (data?.key === 'CLOSE_ALL_MENUS') {
+            setIsCollapsed(false);
+          }
+        });
+    
+        return () => {
+          subscriptionService?.clearData();
+          subscription?.unsubscribe();
+        };
+      }, []);
 
 
     const themeTextColor = {

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { createNavigationContainerRef, DrawerActions } from '@react-navigation/native';
 import { useDrawerStatus } from '@react-navigation/drawer';
-
+import { subscriptionService } from './SubscriptionServive';
 
 export const navigationRef = createNavigationContainerRef()
 
@@ -13,6 +13,10 @@ export function navigate(route: string , params?: any) {
   if (navigationRef.isReady()) {
     console.log('Route ==>', route)
     closeDrawer();
+    subscriptionService?.sendData(
+      'CLOSE_ALL_MENUS',
+      true,
+    );
     navigationRef.navigate(route, params);
   }
 }
