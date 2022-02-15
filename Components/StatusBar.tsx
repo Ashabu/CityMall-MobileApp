@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
@@ -39,11 +39,16 @@ const data = {
 const StatusBar = (props: any) => {
   const {state} = useContext(AppContext);
   const [pointArray, setPointArray] = useState<Array<number>>([]);
+  const [visible, setVisible] = useState(false);
   const {isDarkTheme} = state;
-  const {width} = useDimension();
+  const {width,height} = useDimension();
 
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
   const curPoints = props?.data?.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
+
+  const toggleDropdown = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     setPointArray([]);
@@ -93,6 +98,13 @@ const StatusBar = (props: any) => {
 
   return (
     <>
+    {visible?
+       <TouchableOpacity style={[styles.dropDown, {height: height, width: width}]} onPress={() =>setVisible(false)}>
+        <View >
+          <Text>ragacragacragacragacragacragacragacr</Text>
+        </View>
+       </TouchableOpacity>
+       : null}
       <View
         style={{
           flexDirection: 'row',
@@ -100,7 +112,7 @@ const StatusBar = (props: any) => {
           justifyContent: 'center',
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, {backgroundColor: Colors.standard, borderRadius: 15}]}/>
+          <TouchableOpacity onPress={toggleDropdown} style={[styles.round, {backgroundColor: Colors.standard, borderRadius: 15}]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -117,7 +129,7 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View style={[styles.round, props?.data?.category >=2 ? activeCategorySilver: inActiveCategory]}/>
+          <View style={[styles.round, props?.data?.category >= 2? activeCategorySilver: inActiveCategory]}/>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -188,13 +200,17 @@ const StatusBar = (props: any) => {
             justifyContent: 'space-between',
             width: '45%',
           }}>
-          <Text
+            
+            <Text
             style={{
               color: isDarkTheme ? Colors.white : Colors.black,
               fontSize: 10,
             }}>
             სტანდარტი
           </Text>
+         
+            
+          
           <Text
             style={{
               color: isDarkTheme ? Colors.white : Colors.black,
@@ -244,4 +260,13 @@ const styles = StyleSheet.create({
     borderColor: Colors.white,
     borderWidth: 1
   },
+  dropDown: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    // alignItems:'flex-end',
+    backgroundColor: '#a8a7a761',
+    // paddingRight: 15,
+}
 });

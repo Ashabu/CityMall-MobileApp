@@ -116,15 +116,15 @@ const OffersScreen = () => {
 
   const handleSetOffers = () => {
     if (filteredOffers !== undefined && chunkedData.length) {
-      return chunkedData?.map(data => (
-        <>
+      return chunkedData?.map((data, i) => (
+        <React.Fragment key={i}>
           <View style={[styles.promotions, itemStyle]}>
             {data.map(item => (
               <PromotionBox data={item} key={item.id} />
             ))}
           </View>
           {fillSpace(data.length)}
-        </>
+        </React.Fragment>
       ));
     }
   };
