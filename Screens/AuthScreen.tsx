@@ -31,23 +31,33 @@ const AuthScreen = () => {
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [selectedDialCode, setSelectedDialCode] = useState<string>('')
     const [userPhoneNumber, setUserPhoneNumber] = useState<string>('');
+    const [sameUser, setSameUser] = useState<string>('')
     const [password, setPassword] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('')
     const [otp, setOtp] = useState<string>('');
     const [otpError, setOtpError] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
     const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
-    const [alreadyAgreedTerms, setAlreadyAgreedTerms] = useState<boolean>(false);
+
 
     useEffect(() => {
         getItem('hasAgreedTerms').then(value => {
+            console.log(value)
             if (!value) {
-                setAlreadyAgreedTerms(false);
+                setSameUser('');
             } else {
-                setAlreadyAgreedTerms(true);
+                setSameUser(value);
             };
         });
     }, []);
+
+    useEffect(() => {
+        if((sameUser === userPhoneNumber) && step === 2) {   
+            setAgreedTerms(true);
+        } else {
+            setAgreedTerms(false);
+        }
+    }, [step, userPhoneNumber])
 
     useEffect(() => {
         if (errorMessages.length === 0) {
@@ -80,9 +90,7 @@ const AuthScreen = () => {
     };
 
     const toggleAgreedTerms = () => {
-        if (!alreadyAgreedTerms) {
-            setItem('hasAgreedTerms', '1');
-        }
+        setItem('hasAgreedTerms', userPhoneNumber);
         if (!otpError && otp !== '') {
             Keyboard.dismiss();
         };
@@ -108,7 +116,7 @@ const AuthScreen = () => {
             };
         } else {
 
-            if (step === 2 && (!agreedTerms && !alreadyAgreedTerms)) {
+            if (step === 2 && !agreedTerms ) {
                 setAgreedTermsError(true);
                 return;
             };
@@ -198,10 +206,8 @@ const AuthScreen = () => {
                     {step === 2 &&
                         <View style={{ marginTop: 30 }}>
                             <OneTimeCode getValue={getOtpValue} resend={() => signIn('resend')} hasError={otpError} />
-                            {
-                                alreadyAgreedTerms ?
-                                    null
-                                    :
+                           
+                                    
                                     <View style={{ alignItems: 'center', flexDirection: 'row', marginTop: 30 }}>
                                         <AppCheckBox
                                             checked={agreedTerms}
@@ -209,7 +215,6 @@ const AuthScreen = () => {
                                             hasError={agreedTermsError} />
                                         <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
                                     </View>
-                            }
                         </View>}
                 </View>
                 <TouchableOpacity style={styles.authBtn} onPress={() => signIn(step === 0 ? 'new' : 'signIn')} disabled={buttonLoading}>
