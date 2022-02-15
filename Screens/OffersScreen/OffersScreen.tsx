@@ -17,6 +17,7 @@ import {paginationDotCount} from '../../Services/Utils';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {CategoryTypes} from '../../Constants/Categories';
 import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
+import {ChunkArrays} from '../../Utils/utils';
 
 type RouteParamList = {
   params: {
@@ -33,7 +34,7 @@ const OffersScreen = () => {
 
   const [offersStep, setOffersStep] = useState<number>(0);
   const [offersView, setOffersView] = useState<any[]>();
-  const [filteredOffers, setFilteredOffers] = useState<IOffer[] | []>([]);
+  const [filteredOffers, setFilteredOffers] = useState<IOffer[]>();
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
@@ -68,7 +69,7 @@ const OffersScreen = () => {
           isEndFetching = true;
         }
         setFilteredOffers(prevState => {
-          return [...prevState, ...tempOffers];
+          return [...(prevState || []), ...tempOffers];
         });
         setIsFetchingData(false);
         startFetching = false;
@@ -91,7 +92,7 @@ const OffersScreen = () => {
           isEndFetching = true;
         }
         setFilteredOffers(prevState => {
-          return [...prevState, ...tempNews];
+          return [...(prevState || []), ...tempNews];
         });
         setIsFetchingData(false);
         startFetching = false;
@@ -103,41 +104,28 @@ const OffersScreen = () => {
       });
   };
 
+  const itemChunk = 8;
+
+  const chunkedData = ChunkArrays<IOffer>(filteredOffers!, itemChunk);
+  const fillSpace = (ln: number) => {
+    if (itemChunk - ln === 0) return null;
+    return Array.from(Array(itemChunk - ln).keys()).map(element => (
+      <View style={styles.emptyItem} key={`_${element}`}></View>
+    ));
+  };
+
   const handleSetOffers = () => {
-    if (filteredOffers !== undefined) {
-      for (let i = 8; i < filteredOffers!.length + 8; i += 8) {
-        const renderElement = (
+    if (filteredOffers !== undefined && chunkedData.length) {
+      return chunkedData?.map(data => (
+        <>
           <View style={[styles.promotions, itemStyle]}>
-            {filteredOffers![i - 8] && (
-              <PromotionBox data={filteredOffers![i - 8]} index={i - 8} />
-            )}
-            {filteredOffers![i - 7] && (
-              <PromotionBox data={filteredOffers![i - 7]} index={i - 7} />
-            )}
-            {filteredOffers![i - 6] && (
-              <PromotionBox data={filteredOffers![i - 6]} index={i - 6} />
-            )}
-            {filteredOffers![i - 5] && (
-              <PromotionBox data={filteredOffers![i - 5]} index={i - 5} />
-            )}
-            {filteredOffers![i - 4] && (
-              <PromotionBox data={filteredOffers![i - 4]} index={i - 4} />
-            )}
-            {filteredOffers![i - 3] && (
-              <PromotionBox data={filteredOffers![i - 3]} index={i - 3} />
-            )}
-            {filteredOffers![i - 2] && (
-              <PromotionBox data={filteredOffers![i - 2]} index={i - 2} />
-            )}
-            {filteredOffers![i - 1] && (
-              <PromotionBox data={filteredOffers![i - 1]} index={i - 1} />
-            )}
+            {data.map(item => (
+              <PromotionBox data={item} key={item.id} />
+            ))}
           </View>
-        );
-        setOffersView(prev => {
-          return [...(prev || []), renderElement];
-        });
-      }
+          {fillSpace(data.length)}
+        </>
+      ));
     }
   };
 
@@ -146,7 +134,7 @@ const OffersScreen = () => {
   };
 
   const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
-    if (filteredOffers.length <= 0) return;
+    if (!filteredOffers || filteredOffers.length <= 0) return;
     if (nativeEvent) {
       const slide = Math.ceil(
         nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
@@ -193,44 +181,55 @@ const OffersScreen = () => {
             ]}>
             {'შეთავაზებები | ' + CategoryTypes[routeParams.params.id]}
           </Text>
-          <PaginationDots
-            length={paginationDotCount(filteredOffers!, 8)}
-            step={offersStep}
-          />
+          <PaginationDots length={chunkedData?.length} step={offersStep} />
         </View>
-        <View style={[(!isLoading && filteredOffers.length <=0) ? { flex: 11, justifyContent: 'center', alignItems: 'center'} :{flex: 11}]}>
-        {!isLoading && filteredOffers.length <=0 ? 
-              <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>:
-          <ScrollView
-            contentContainerStyle={{ flexGrow: 1, flexDirection: 'row'}}
-            showsVerticalScrollIndicator={false}
-            >
+        <View
+          style={[
+            !isLoading && (!filteredOffers || filteredOffers.length <= 0)
+              ? {flex: 11, justifyContent: 'center', alignItems: 'center'}
+              : {flex: 11},
+          ]}>
+          {!isLoading && (!filteredOffers || filteredOffers.length <= 0) ? (
+            <Text
+              style={{
+                fontSize: 10,
+                color: isDarkTheme ? Colors.white : Colors.black,
+              }}>
+              ქონთენთი ვერ მოიძებნა
+            </Text>
+          ) : (
             <ScrollView
-              contentContainerStyle={{
-                flexDirection: 'row',
-                paddingRight: 5
-              }}
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled={true}
-              horizontal={true}
-              onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}>
-              {offersView?.map((el, i) => (
-                <View key={i}>{el}</View>
-              ))}
+              contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
+              showsVerticalScrollIndicator={false}>
+              <ScrollView
+                contentContainerStyle={{
+                  flexDirection: 'row',
+                  paddingRight: 5,
+                }}
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled={true}
+                horizontal={true}
+                onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}>
+                {handleSetOffers()}
+              </ScrollView>
             </ScrollView>
-          </ScrollView>}
+          )}
         </View>
       </View>
-      {isLoading && <View style={styles.loader}>
-        <ActivityIndicator
-          size={'small'}
-          color={'#ffffff'}
-          style={{
-            alignSelf: 'center',
-            transform: [{translateY: (Dimensions.get('screen').height / 2) - 50}],
-          }}
-        />
-      </View>}
+      {isLoading && (
+        <View style={styles.loader}>
+          <ActivityIndicator
+            size={'small'}
+            color={'#ffffff'}
+            style={{
+              alignSelf: 'center',
+              transform: [
+                {translateY: Dimensions.get('screen').height / 2 - 50},
+              ],
+            }}
+          />
+        </View>
+      )}
     </AppLayout>
   );
 };
@@ -273,6 +272,11 @@ const styles = StyleSheet.create({
   },
   loader: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'transparent'
-}
+    backgroundColor: 'transparent',
+  },
+  emptyItem: {
+    width: 159,
+    height: 180,
+    margin: 10,
+  },
 });
