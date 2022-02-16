@@ -22,10 +22,10 @@ console.log('some')
 
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
-        <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})}>
+        <TouchableOpacity onPress={() => navigate('GoogleMap', {mallId: mallIds.citiMallGldan})}>
             <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>სითი მოლი გლდანი</Text>
         </TouchableOpacity>
-        <TouchableOpacity  onPress={() => navigate('FloorMap', {mallId: mallIds.cityMallSaburtalo})}>
+        <TouchableOpacity  onPress={() => navigate('GoogleMap', {mallId: mallIds.cityMallSaburtalo})}>
             <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>სითი მოლი საბურთალო</Text>
         </TouchableOpacity>
     </View>

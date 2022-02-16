@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'relative',
         borderBottomWidth: 1,
-        paddingVertical: 3,
+        // paddingVertical: 3,
     },
     input: {
         fontFamily: 'HMpangram-Medium',
