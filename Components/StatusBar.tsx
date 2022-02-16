@@ -105,7 +105,7 @@ const StatusBar = (props: any) => {
       <Portal>
       <TouchableOpacity style={[styles.dropDown, {height: height, width: width}]} onPress={() =>setVisible(false)}>
         <View  style={{backgroundColor: Colors.black, top: 275, width: 113, height: 89, borderRadius: 10}} onStartShouldSetResponder={event => true}>
-          <Text style={{color: Colors.white, padding: 10}}>,,სილვერის" სტატუსამდე დაგრჩათ 100 ქულა</Text>
+          <Text style={{color: Colors.white, padding: 10, fontSize: 10}}>,,სილვერის" სტატუსამდე დაგრჩათ 100 ქულა</Text>
         </View>
        </TouchableOpacity>
       </Portal>

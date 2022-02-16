@@ -18,7 +18,7 @@ export default [
         name: 'ლოკაცია',
         icon:  require('../assets/images/arrow-sm.png'),
         content: LocationDropdown,
-        routeName: 'GoogleMap'
+        // routeName: 'GoogleMap'
     },
     {
         id: 2,

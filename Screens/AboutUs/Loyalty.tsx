@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.white,
     fontSize: 14,
-    fontFamily: 'HMpangram-Regular',
+    fontFamily: 'HM pangram',
     lineHeight: 24,
   },
 
