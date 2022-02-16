@@ -1,6 +1,6 @@
 
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View, Platform,  ScrollView } from 'react-native';
 import axios from 'axios';
 import DatePicker from 'react-native-date-picker';
@@ -227,6 +227,28 @@ const ScreenTwo: React.FC = (props: any) => {
             });
     };
 
+    const memoized = useMemo(() => {
+        return <DatePicker
+        style={{backgroundColor: 'red'}}
+        open={open}
+        date={dateOfBirth}
+        onConfirm={(date) => {
+            setDateOfBirth(date);
+            setOpen(false)
+        }}
+        onCancel={() => {
+            setOpen(false);
+        }}
+        modal={true}
+        mode='date'
+        title='აირჩიეთ თარიღი'
+        confirmText='არჩევა'
+        cancelText='გაუქმება'
+        locale="ka-GE"
+        androidVariant='nativeAndroid'
+    />
+    }, [open])
+
 
 
     return (
@@ -242,25 +264,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
                         <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatDate(dateOfBirth)|| 'დაბადების თარიღი'}</Text>
                     </TouchableOpacity>
-                        <DatePicker
-                        style={{backgroundColor: 'red'}}
-                            open={open}
-                            date={dateOfBirth}
-                            onConfirm={(date) => {
-                                setDateOfBirth(date);
-                                setOpen(false)
-                            }}
-                            onCancel={() => {
-                                setOpen(false);
-                            }}
-                            modal={true}
-                            mode='date'
-                            title='აირჩიეთ თარიღი'
-                            confirmText='არჩევა'
-                            cancelText='გაუქმება'
-                            locale="ka-GE"
-                            androidVariant='nativeAndroid'
-                        />
+                        {memoized}
                     </>
                     {birthDateError ?
                         <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
