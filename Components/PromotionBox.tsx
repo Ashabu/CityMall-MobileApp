@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     },
 
     promotionBottomText: {
-
+        fontSize: 9,
         fontFamily: 'HMpangram-Bold',
         lineHeight: 9,
         marginRight: 2,
