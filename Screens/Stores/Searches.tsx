@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   Dimensions,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   TextInput,
@@ -71,13 +72,14 @@ export default () => {
         <View style={{paddingHorizontal: '7%'}}>
           <TouchableOpacity
           onPress={() => inputRef.current?.focus()}
-            style={{
+            style={[Platform.OS === 'ios' && {paddingBottom: 10}, {
               borderBottomColor: '#fff',
               borderBottomWidth: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-            }}>
+              
+            }]}>
             <TextInput
               placeholder="ძიება"
               placeholderTextColor={'#fff'}

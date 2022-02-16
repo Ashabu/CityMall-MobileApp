@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     View,
     Image,
-    RefreshControlBase
+    RefreshControlBase,
+    Platform
 } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
@@ -70,7 +71,7 @@ function extractor(obj: any, key: string) {
                     {
                         data.floor ?
                             <View>
-                                <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                                <Text style={[Platform.OS === 'ios' && { fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                                     {`სართული: ${data.floor[0]}`}
                                 </Text>
                             </View>
@@ -167,7 +168,6 @@ const styles = StyleSheet.create({
     promotionBottomText: {
 
         fontFamily: 'HMpangram-Bold',
-        fontSize: 7,
         lineHeight: 9,
         marginRight: 2,
         marginLeft: 6,

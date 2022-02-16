@@ -1,6 +1,6 @@
 
 import React, { useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Image, Platform } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
@@ -32,7 +32,7 @@ const ShopDetailBox = (props: any) => {
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                        <Text style={[Platform.OS === 'ios' && {fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად
                         </Text>
                         <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     promotionBottomText: {
 
         fontFamily: 'HMpangram-Bold',
-        fontSize: 7,
+        
         lineHeight: 9,
         marginRight: 2,
         marginLeft: 6,

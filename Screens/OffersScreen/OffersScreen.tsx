@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textTransform: 'uppercase',
     textAlign: 'center',
+    
   },
   authBtn: {
     flexDirection: 'row',

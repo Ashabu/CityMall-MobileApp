@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
@@ -50,7 +50,7 @@ const SingleOfferScreen = () => {
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={[styles.offerTitleBox, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
+                <View style={[Platform.OS === 'ios'&& {width: 83}, styles.offerTitleBox, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {/* {CategoryTypes[singleOffer.offerType.name]} */}
                     {extractor(singleOffer.offerType, 'name')}
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     },
 
     offerTitleBox: {
-        width: 73,
+        
         height: 20,
         borderRadius: 10,
         alignItems: 'center',
@@ -139,7 +139,8 @@ const styles = StyleSheet.create({
     offerTitleBoxText: {
         fontSize: 8,
         lineHeight: 9.5,
-        fontFamily: 'HMpangram-Thin',
+        fontFamily: 'HMpangram-Bold',
+        paddingHorizontal: 6
     },
 
     merchantTitle: {

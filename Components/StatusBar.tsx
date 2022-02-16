@@ -1,6 +1,6 @@
 import { Portal } from '@gorhom/portal';
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
@@ -106,7 +106,7 @@ const StatusBar = (props: any) => {
           <Portal>
             <TouchableOpacity style={[styles.dropDown, { height: height, width: width }]} onPress={() => setVisible(false)}>
               <View style={{ backgroundColor: Colors.black, top: 275, width: 113, height: 89, borderRadius: 10 }} onStartShouldSetResponder={event => true}>
-                <Text style={{ color: Colors.white, padding: 10 }}>,,სილვერის" სტატუსამდე დაგრჩათ 100 ქულა</Text>
+                <Text style={[Platform.OS === 'ios' && {fontSize: 10},{ color: Colors.white, padding: 10 }]}>,,სილვერის" სტატუსამდე დაგრჩათ 100 ქულა</Text>
               </View>
             </TouchableOpacity>
           </Portal>
