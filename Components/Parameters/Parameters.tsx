@@ -12,8 +12,13 @@ import Layout from '../Layouts/Layout';
 
 const Parameters = () => {
   const {width} = useDimension();
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
+
+  const SwitchDarkTheme = () => {
+    setGlobalState({isDarkTheme: !isDarkTheme})
+  }
+
   
 
 
@@ -39,9 +44,9 @@ const Parameters = () => {
             </View>
               </View>
             
-            <View >
+            <TouchableOpacity onPress={SwitchDarkTheme}>
               <AppSwitch />
-            </View>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity style={styles.iconView} onPress={() => navigate('ProfileInfo')}>
             <View style={{width: 30}}>
