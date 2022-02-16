@@ -9,7 +9,6 @@ import {
     View,
     TouchableOpacity,
     ScrollView,
-    NativeSyntheticEvent,
     NativeScrollEvent,
     Image,
 } from 'react-native';
@@ -21,7 +20,6 @@ import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
-import { useDimension } from '../../Hooks/UseDimension';
 import ApiServices, { IClientInfo, IClientTransaction } from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
 import { formatNumber } from '../../Services/Utils';
@@ -31,7 +29,6 @@ import { GetOffers, IOffer } from '../../Services/Api/OffersApi';
 
 
 const ProfileScreen = () => {
-    const { width } = useDimension();
     const { state } = useContext(AppContext);
     const { isDarkTheme, offersArray } = state;
 
@@ -46,6 +43,12 @@ const ProfileScreen = () => {
     const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
     const [pagPage, setPagPage] = useState<number>(1);
 
+
+    useEffect(() => {
+        getClientData();
+        getClientTransactions();
+        getPersonalOffers();
+    }, []);
 
     const toggleSwitch = () => {
         setIsMoneyTransaction(!isMoneyTransaction)
@@ -68,7 +71,7 @@ const ProfileScreen = () => {
         })
     };
 
-    const getPersonalOffers = (page:number = 1) => {
+    const getPersonalOffers = (page: number = 1) => {
         if (startFetching) return;
         startFetching = true;
         console.log('aqane2')
@@ -79,34 +82,23 @@ const ProfileScreen = () => {
             }
             setPersonalOffers(prevState => {
                 return [...prevState, ...tempOffers];
-              });
-              setIsFetchingData(false);
-              startFetching = false;
+            });
+            setIsFetchingData(false);
+            startFetching = false;
         }).catch(e => {
             console.log('error ===>', e)
         });
-};
-    
-
-
-    useEffect(() => {
-        getClientData();
-        getClientTransactions();
-        getPersonalOffers();
-    }, []);
-
+    };
 
     const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
         if (personalOffers.length <= 0) return;
         if (nativeEvent) {
             const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
             setOffersStep(slide);
-        }
+        };
         if (isFetchingData || isEndFetching) return;
-
         let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
         let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
-
         console.log(scrollPoint, scrollContentSize);
         if (scrollPoint >= scrollContentSize - 1) {
             setPagPage(prevState => prevState + 1);
@@ -114,14 +106,13 @@ const ProfileScreen = () => {
             setTimeout(() => {
                 getPersonalOffers(pagPage);
             }, 1000);
-
             console.log(pagPage);
-        }
+        };
     };
 
 
     return (
-        <AppLayout pageTitle = {'კაბინეტი'}>
+        <AppLayout pageTitle={'კაბინეტი'}>
             <ScrollView contentContainerStyle={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%' }}>
                 <View style={styles.balanceView}>
                     <View >
@@ -153,49 +144,41 @@ const ProfileScreen = () => {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                  {clientInfo?  <StatusBar data = {clientInfo}/> : null}
+                    {clientInfo ? <StatusBar data={clientInfo} /> : null}
                 </View>
-               <View style={{marginBottom: 20, alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => navigate('VouchersInfo')} style={{flexDirection: 'row', width: 272, height: 39, backgroundColor: '#636363', alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}>
-                        <Image source={require('../../assets/images/vaucher.png')} style={{width: 22, height: 16, marginRight: 10}}/>
-                        <Text style={[styles.promotionsTitle,{ color: isDarkTheme ? Colors.white : Colors.black, } ]}>ჩემი ვაუჩერები</Text>
+                <View style={{ marginBottom: 20, alignItems: 'center' }}>
+                    <TouchableOpacity onPress={() => navigate('VouchersInfo')} style={{ flexDirection: 'row', width: 272, height: 39, backgroundColor: '#636363', alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}>
+                        <Image source={require('../../assets/images/vaucher.png')} style={{ width: 22, height: 16, marginRight: 10 }} />
+                        <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ჩემი ვაუჩერები</Text>
                     </TouchableOpacity>
-               </View>
-                <View style={{marginBottom: 30}}>
+                </View>
+                <View style={{ marginBottom: 30 }}>
                     <View style={styles.promotionContainer}>
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
                             პირადი შეთავაზებები
                         </Text>
                         <PaginationDots length={Math.round(personalOffers?.length / 2)} step={offersStep} />
                     </View>
-                        <ScrollView 
-                        contentContainerStyle={{ flexDirection: 'row'}}
+                    <ScrollView
+                        contentContainerStyle={{ flexDirection: 'row' }}
                         pagingEnabled={true}
-                        showsHorizontalScrollIndicator={false} 
-                        horizontal={true} 
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
                         onScroll={({ nativeEvent }) => {
                             onChangeSectionStep(nativeEvent)
                         }}>
-                            {personalOffers?.map((el: any, i: number) => (
-                                <PromotionBox key={i} data={el}  />
-                            ))}
-                    </ScrollView>
-                </View>
-                <View style={{marginBottom: 30}}>
-                <View style={styles.promotionContainer}>
-                    <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
-                        ქულების გახაჯვის ოფცია
-                    </Text>
-                    <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
-                </View>
-                {/* <ScrollView contentContainerStyle={{ flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                    <ScrollView contentContainerStyle={{ flexDirection: 'row' }} showsHorizontalScrollIndicator={false} horizontal={true} onScroll={() => {}}>
-                        {offersArray?.map((el: any, i: number) => (
+                        {personalOffers?.map((el: any, i: number) => (
                             <PromotionBox key={i} data={el} />
-
                         ))}
                     </ScrollView>
-                </ScrollView> */}
+                </View>
+                <View style={{ marginBottom: 30 }}>
+                    <View style={styles.promotionContainer}>
+                        <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
+                            ქულების გახაჯვის ოფცია
+                        </Text>
+                        <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
+                    </View>
                 </View>
                 {/* <View style={styles.redirectView}>
                     <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
@@ -216,18 +199,18 @@ const ProfileScreen = () => {
                             ტრანზაქციები
                         </Text>
                         <View style={styles.trViewHeaderRight}>
-                            <Image source={require('../../assets/images/points_active.png')} style={{width: 19, height: 19}} />
-                      
-                                         <AppSwitch />
-                            <Image source={require('../../assets/images/GEL_inactive.png')} style={{width: 15, height: 18}} />
-                            
+                            <Image source={require('../../assets/images/points_active.png')} style={{ width: 19, height: 19 }} />
+
+                            <AppSwitch />
+                            <Image source={require('../../assets/images/GEL_inactive.png')} style={{ width: 15, height: 18 }} />
+
                         </View>
                     </View>
                     <View>
                         {clientTransactions && clientTransactions.map((item, index) => (
-                            <TransactionList item = {item} key = {index}/>
+                            <TransactionList item={item} key={index} />
                         ))}
-               {(!clientTransactions || clientTransactions.length <= 0) && <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ტრანზაქციები ვერ მოიძებნა</Text>}
+                        {(!clientTransactions || clientTransactions.length <= 0) && <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black }}>ტრანზაქციები ვერ მოიძებნა</Text>}
                     </View>
                 </View>
             </ScrollView>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, KeyboardType } from 'react-native';
+import { View, TextInput, StyleSheet, Text, KeyboardType, Platform } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -107,7 +107,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     return (
         <>
-            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+            <View style={[styles.inputWrap, Platform.OS === 'ios' && {paddingVertical: 4}, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
                 <TextInput
                     style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
                     {...props}
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'relative',
         borderBottomWidth: 1,
-        // paddingVertical: 3,
+         
     },
     input: {
         fontFamily: 'HMpangram-Medium',
