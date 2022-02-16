@@ -1,17 +1,36 @@
-import React, {useContext, useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AppContext} from '../../AppContext/AppContext';
-import {useDimension} from '../../Hooks/UseDimension';
-import {GoBack, navigate} from '../../Services/NavigationServices';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
+import { useDimension } from '../../Hooks/UseDimension';
+import { GoBack, navigate } from '../../Services/NavigationServices';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import VouchersButton from '../CustomComponents/VouchersButton';
 import Data from '../../Constants/VouchersDummyData';
 import Layout from '../Layouts/Layout';
+import { GetClientVouchers, IVouchers } from '../../Services/Api/VouchersApi';
 
 const VouchersInfo = () => {
-  const {width} = useDimension();
-  const {state} = useContext(AppContext);
-  const {isDarkTheme} = state;
+  const { width } = useDimension();
+  const { state } = useContext(AppContext);
+  const { isDarkTheme } = state;
+
+  const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
+
+
+  useEffect(() => {
+    getClientVouchers();
+  }, [])
+
+
+  const getClientVouchers = () => {
+    GetClientVouchers().then(res => {
+      setClientVouchers(res.data);
+    }).catch(e => {
+      console.log(JSON.parse(JSON.stringify(e.response)))
+    })
+  };
+
+
 
   return (
     <Layout
@@ -26,7 +45,7 @@ const VouchersInfo = () => {
         />
       </View>
       <View style={styles.cardWrapper}>
-        {Data.map((el: any, i: React.Key) => (
+        {clientVouchers?.map((el: any, i: React.Key) => (
           <VoucherCardLayout item={el} key={i} />
         ))}
       </View>

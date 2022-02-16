@@ -56,7 +56,7 @@ export interface IBuyVoucherResponse {
 
 
 export const GetClientVouchers = async () => {
-    return await axios.get<IVouchers[]>(`${env.API_URL}/api/Clients/GetClietVouchers`);
+    return await axios.get<IVouchers[]>(`${env.API_URL}/api/Clients/GetClientVouchers`);
 };
 
 export const GetVouchersToBuy = async () => {
