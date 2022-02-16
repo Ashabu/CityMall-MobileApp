@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {Image, StyleSheet, Text, View, Switch} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
@@ -14,13 +14,12 @@ const Parameters = () => {
   const {width} = useDimension();
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
+  const [isEnabled, setIsEnabled] = useState(false);
 
   const SwitchDarkTheme = () => {
-    setGlobalState({isDarkTheme: !isDarkTheme})
-  }
-
-  
-
+    setGlobalState({isDarkTheme: !isDarkTheme});
+  };
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
     <Layout hasBackArrow onPressBack={GoBack}>
@@ -31,29 +30,42 @@ const Parameters = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.nameWrapper}>
-          <Text style={styles.name}>{clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}</Text>
+          <Text style={styles.name}>
+            {clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}
+          </Text>
         </View>
-        <View style={{top: 83, height: 80, justifyContent: 'space-between' }}>
+        <View style={{top: 83, height: 80, justifyContent: 'space-between'}}>
           <View style={styles.desighnView}>
-              <View style={styles.iconView}>
+            <View style={styles.iconView}>
               <View style={{width: 30}}>
-              <Image source={require('../../assets/images/moon.png')} />
-            </View>
-            <View>
-              <Text style={styles.name}>მუქი დიზაინი</Text>
-            </View>
+                <Image source={require('../../assets/images/moon.png')} />
               </View>
-            
+              <View>
+                <Text style={styles.name}>მუქი დიზაინი</Text>
+              </View>
+            </View>
+
             <TouchableOpacity onPress={SwitchDarkTheme}>
-              <AppSwitch />
+         
+              <Switch
+                trackColor={{false: Colors.btnGrey, true: Colors.successGreen }}
+           
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={SwitchDarkTheme}
+                value={isDarkTheme}
+                style={{ transform: [{ scaleX: 1 }, { scaleY: .9 }] }}
+                
+              />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.iconView} onPress={() => navigate('ProfileInfo')}>
+          <TouchableOpacity
+            style={styles.iconView}
+            onPress={() => navigate('ProfileInfo')}>
             <View style={{width: 30}}>
-            <Image source={require('../../assets/images/user.png')} />
+              <Image source={require('../../assets/images/user.png')} />
             </View>
             <View>
-                <Text style={styles.name}>პროფილის გვერდი</Text>
+              <Text style={styles.name}>პროფილის გვერდი</Text>
             </View>
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.iconView}>
@@ -80,20 +92,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'HMpangram-Bold',
     textTransform: 'uppercase',
-    
   },
   desighnView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
- 
   },
   iconView: {
     flexDirection: 'row',
     alignItems: 'center',
-    
   },
-
 });
 
 export default Parameters;
