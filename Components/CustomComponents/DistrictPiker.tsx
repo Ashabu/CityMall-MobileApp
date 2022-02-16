@@ -41,7 +41,7 @@ const DistrictPiker = (props: any) => {
 
     useEffect(() => {
         if (isSelecting) {
-            picker.current.focus()
+            picker.current?.focus()
         }
     }, [isSelecting])
 

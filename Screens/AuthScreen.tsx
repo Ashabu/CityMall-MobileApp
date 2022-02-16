@@ -175,7 +175,7 @@ const AuthScreen = () => {
                         <View >
                             <DialCodePicker onSelect={handleSelectedValue} />
                         </View>
-                        <View style={{ width: '80%', top: 2}}>
+                        <View style={{ width: '80%'}}>
                             <AppInput
                                 name='phoneNumber'
                                 hasError={hasError}

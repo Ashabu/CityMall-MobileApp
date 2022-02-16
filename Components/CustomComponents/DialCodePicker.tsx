@@ -91,7 +91,7 @@ const DialCodePicker = (props: any) => {
 
     useEffect(() => {
         if(isSelecting) {
-            picker.current.focus()
+            picker.current?.focus()
         }
         }, [isSelecting])
      
