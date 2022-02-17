@@ -74,7 +74,7 @@ const SelectedVouchers = () => {
                 paddingBottom: 26,
               }}>
               <Text style={{color: Colors.white, fontFamily: 'HMpangram-Bold'}}>
-                ფასი: {route.params?.data?.amount}{' '}
+                ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />

@@ -50,7 +50,7 @@ const VouchersInfo = () => {
       </View>
       <View style={styles.cardWrapper}>
         {clientVouchers?.map((el: any, i: React.Key) => (
-          <VoucherCardLayout item={el} key={i} />
+          <VoucherCardLayout item={el} key={i} shorCount={true} />
         ))}
       </View>
       <Modal visible={isLoading} animationType="slide" transparent={true}>

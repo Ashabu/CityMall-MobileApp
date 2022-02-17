@@ -29,6 +29,7 @@ export interface IAppBtnProps {
   voucherID: string;
   value: string;
   sign: string;
+  numberOfVouchers: string;
 }
 
 interface IIAppBtnProps {
@@ -36,6 +37,7 @@ interface IIAppBtnProps {
   showRadio?: boolean;
   passData?: (data: any) => void;
   current?: any;
+  shorCount?:boolean;
 }
 
 const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
@@ -49,7 +51,8 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
     voucherPurchasePoints,
     voucherID,
     value,
-    sign
+    sign,
+    numberOfVouchers
   } = props.item;
   const [isMore, setIsMore] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -62,15 +65,25 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
   };
   let startd, endd;
 try {
-  // startd = new Date(
-  //   voucherStartDate,
-  // ).toLocaleDateString();
-  endd = new Date(
-    voucherEndDate,
-  ).toLocaleDateString()
+  let date = voucherStartDate.split('T');
+  if(date.length) {
+    const ydm = date[0].split('-');
+    if(ydm.length) {
+      startd = `${ydm[2]}/${ydm[1]}`;
+    }
+  }
+  let date2 = voucherEndDate.split('T');
+  if(date2.length) {
+    const ydm = date2[0].split('-');
+    if(ydm.length) {
+      endd = `${ydm[2]}/${ydm[1]}`;
+    }
+  }
 } catch (_) {
 
 }
+
+const fullDate = `${startd} - ${endd}`
   return (
     <>
       <TouchableOpacity
@@ -92,11 +105,11 @@ try {
               </View>
             </View>
             <View style={{width: '40%'}}>
-              <Text style={styles.textStyle}>{`ვადა: ${startd || ''} - ${endd || ''}`}</Text>
+              <Text style={styles.textStyle}>{`ვადა: ${voucherEndDate === undefined ? 'უვადო' : fullDate}`}</Text>
               <Text
                 style={
                   styles.amountTextStyle
-                }>{`რაოდენობა: ${voucherPurchasePoints}`}</Text>
+                }>{`რაოდენობა: ${props.shorCount ? numberOfVouchers : '1'}`}</Text>
               <TouchableOpacity
                 onPress={() => {
                   setIsMore(!isMore);
