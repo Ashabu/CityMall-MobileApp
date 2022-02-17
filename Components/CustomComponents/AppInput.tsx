@@ -26,7 +26,7 @@ interface IAppInput {
     autoFocus?: boolean,
     errorMessage?: string,
     keyboardTpe?: string
-
+    ignoreBorder?:boolean
 }
 
 const validations: any = {
@@ -37,7 +37,7 @@ const validations: any = {
 }
 
 const AppInput: React.FC<IAppInput> = (props) => {
-    const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style } = props;
+    const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style, ignoreBorder } = props;
 
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
@@ -107,7 +107,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     return (
         <>
-            <View style={[styles.inputWrap, Platform.OS === 'ios' && {paddingVertical: 4}, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+            <View style={[styles.inputWrap, ignoreBorder && {borderBottomWidth: 0}, Platform.OS === 'ios' && {paddingVertical: 4}, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
                 <TextInput
                     style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
                     {...props}

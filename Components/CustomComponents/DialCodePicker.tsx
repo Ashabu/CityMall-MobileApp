@@ -99,7 +99,7 @@ const DialCodePicker = (props: any) => {
     return (
         <>
           <TouchableOpacity
-                style={styles.selectedItem}
+                style={[styles.selectedItem, props.ignoreBorder && {borderBottomWidth: 0},]}
                 onPress={() => setIsSelecting(true)}>
                 {selectedValue ?
                     <Text style={styles.itemText}>{selectedValue}</Text>
