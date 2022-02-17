@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { navigate } from '../../Services/NavigationServices';
 
@@ -24,6 +25,8 @@ export interface IAppBtnProps {
 const PlanVisitLayout: React.FC<IAppBtnProps> = props => {
   const { title, icon, Content, routeName, routeId } = props;
   const [collapse, setCollapse] = useState<boolean>(false);
+  const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
   const handlePress = () => {
     if (!routeName) {
@@ -35,8 +38,8 @@ const PlanVisitLayout: React.FC<IAppBtnProps> = props => {
 
   return (
     <>
-      <TouchableOpacity onPress={handlePress} style={styles.main}>
-        <Text style={styles.name}>{title}</Text>
+      <TouchableOpacity onPress={handlePress} style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
+        <Text style={[styles.name,{color: isDarkTheme ? Colors.white : Colors.black }]}>{title}</Text>
         <Image source={icon} style={collapse ? { transform: [{ rotate: '90deg' }] } : null} />
       </TouchableOpacity>
       {

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {withDecay} from 'react-native-reanimated';
+import { AppContext } from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 
 import {Item} from '../../Constants/ShopList';
@@ -50,6 +51,8 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
   const [isMore, setIsMore] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [currentVaucher, setCurrenVaucher] = useState<any>();
+  const { state } = useContext(AppContext);
+  const { isDarkTheme } = state;
 
   const {width} = useDimension();
 
@@ -73,12 +76,12 @@ try {
         style={styles.mainWrap}
         activeOpacity={0.8}
         onPress={() => props.passData && props.passData(props.item)}>
-        <View style={styles.main}>
+        <View style={[styles.main,{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
           <View style={styles.cardWrapper}>
             <View style={styles.cardView}>
-              <Text style={styles.amountText}>{discountPercentage}</Text>
+              <Text style={[styles.amountText,{ color: isDarkTheme ? Colors.white : Colors.black }]}>{discountPercentage}</Text>
               <View>
-                <Text style={styles.percentStyle}>%</Text>
+                <Text style={[styles.percentStyle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>%</Text>
                 {imageUrl !== undefined && (
                   <Image
                     source={{uri: imageUrl}}
@@ -88,20 +91,20 @@ try {
               </View>
             </View>
             <View style={{width: '40%'}}>
-              <Text style={styles.textStyle}>{`ვადა: ${startd || ''} - ${endd || ''}`}</Text>
+              <Text style={[styles.textStyle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>{`ვადა: ${startd || ''} - ${endd || ''}`}</Text>
               <Text
-                style={
-                  styles.amountTextStyle
-                }>{`რაოდენობა: ${voucherPurchasePoints}`}</Text>
+                style={[
+                  styles.amountTextStyle,{ color: isDarkTheme ? Colors.white : Colors.black }
+                ]}>{`რაოდენობა: ${voucherPurchasePoints}`}</Text>
               <TouchableOpacity
                 onPress={() => {
                   setIsMore(!isMore);
                   setCurrenVaucher(props.item);
                 }}
                 style={{top: 20, flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={styles.moreBtnTitle}>ვრცლად</Text>
+                <Text style={[styles.moreBtnTitle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>ვრცლად</Text>
                 <Image
-                  source={require('./../../assets/images/Polygon.png')}
+                  source={isDarkTheme? require('./../../assets/images/Polygon.png') : require('./../../assets/images/arrow-black.png')}
                   style={[
                     styles.isMoreImgStyle,
                     {transform: [{rotate: isMore ? '90deg' : '0deg'}]},
@@ -152,7 +155,7 @@ try {
             <View
               style={{flexDirection: 'row', alignItems: 'center', top: -15}}>
               <Image source={{uri: el?.logo}} />
-              <Text style={styles.nameAddressTextStyle}>
+              <Text style={[styles.nameAddressTextStyle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
                 {el?.merchantName} {el?.voucherCode}
               </Text>
             </View>

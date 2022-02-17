@@ -22,18 +22,8 @@ const NewsToggle = () => {
         ]}>
         <TouchableOpacity
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => setCollapseFirst(!collapseFirst)}>
-          <Image
-            source={require('../assets/images/arrow-sm.png')}
-            style={[
-              styles.iconStyle,
-              {
-                transform: collapseFirst
-                  ? [{rotate: '90deg'}]
-                  : [{rotate: '0deg'}],
-              },
-            ]}
-          />
+          >
+          
           <Text
             style={[
               styles.text,
@@ -42,32 +32,11 @@ const NewsToggle = () => {
             სითი მოლი გლდანი
           </Text>
         </TouchableOpacity>
-        {collapseFirst && (
-          <TouchableOpacity>
-            <Text
-              style={[
-                styles.newsText,
-                {color: isDarkTheme ? Colors.white : Colors.black},
-              ]}>
-              {' '}
-              სიახლეები
-            </Text>
-          </TouchableOpacity>
-        )}
+        
         <TouchableOpacity
-          onPress={() => setCollapseSecond(!collapseSecond)}
+          
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            source={require('../assets/images/arrow-sm.png')}
-            style={[
-              styles.iconStyle,
-              {
-                transform: collapseSecond
-                  ? [{rotate: '90deg'}]
-                  : [{rotate: '0deg'}],
-              },
-            ]}
-          />
+          
           <Text
             style={[
               styles.text,
@@ -76,18 +45,7 @@ const NewsToggle = () => {
             სითი მოლი საბურთალო
           </Text>
         </TouchableOpacity>
-        {collapseSecond && (
-          <TouchableOpacity>
-            <Text
-              style={[
-                styles.newsText,
-                {color: isDarkTheme ? Colors.white : Colors.black},
-              ]}>
-              {' '}
-              სიახლეები
-            </Text>
-          </TouchableOpacity>
-        )}
+        
       </View>
     </Portal>
   );
