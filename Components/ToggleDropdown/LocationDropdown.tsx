@@ -4,7 +4,10 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import { navigate } from '../../Services/NavigationServices';
-
+export enum mallIds {
+  citiMallGldan = 2,
+  cityMallSaburtalo = 1,
+}
 
 const LocationDropdown = () => {
   const {width} = useDimension();
@@ -14,10 +17,7 @@ const LocationDropdown = () => {
   
 
 
-  enum mallIds {
-    citiMallGldan = 2,
-    cityMallSaburtalo = 1,
-}
+
 console.log('some')
 
   return (

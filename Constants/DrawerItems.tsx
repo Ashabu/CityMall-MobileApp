@@ -100,7 +100,7 @@ export default [
             }
         ],
         categories: [],
-        routeName: 'Stores',
+        routeName: 'Fun',
         objectTypeId: 100020,
         id:4
     },
@@ -118,7 +118,7 @@ export default [
             } 
         ],
         categories: [],
-        routeName: 'Stores',
+        routeName: 'Feed',
         objectTypeId: 100018,
         id:5
     },
@@ -136,7 +136,7 @@ export default [
             } 
         ],
         categories: [],
-        routeName: 'Stores',
+        routeName: 'TServices',
         objectTypeId: 100015,
          id:6,
     },

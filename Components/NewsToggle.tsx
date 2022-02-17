@@ -5,6 +5,7 @@ import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
 import {navigate} from '../Services/NavigationServices';
+import { mallIds } from './ToggleDropdown/LocationDropdown';
 
 const NewsToggle = () => {
   const {width} = useDimension();
@@ -22,7 +23,10 @@ const NewsToggle = () => {
         ]}>
         <TouchableOpacity
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => setCollapseFirst(!collapseFirst)}>
+          onPress={() => {
+            setCollapseFirst(!collapseFirst);
+          }}
+          >
           <Image
             source={require('../assets/images/arrow-sm.png')}
             style={[
@@ -43,7 +47,7 @@ const NewsToggle = () => {
           </Text>
         </TouchableOpacity>
         {collapseFirst && (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('OffersScreen', {routeId: mallIds.citiMallGldan, id: 1})}>
             <Text
               style={[
                 styles.newsText,
@@ -55,7 +59,9 @@ const NewsToggle = () => {
           </TouchableOpacity>
         )}
         <TouchableOpacity
-          onPress={() => setCollapseSecond(!collapseSecond)}
+          onPress={() => {
+            setCollapseSecond(!collapseSecond);
+          }}
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
           <Image
             source={require('../assets/images/arrow-sm.png')}
@@ -77,7 +83,7 @@ const NewsToggle = () => {
           </Text>
         </TouchableOpacity>
         {collapseSecond && (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('OffersScreen', {routeId: mallIds.cityMallSaburtalo, id: 1})}>
             <Text
               style={[
                 styles.newsText,

@@ -172,6 +172,27 @@ const AppStack = () => {
                         headerShown: false,
                     }}
                 />
+                                <Stack.Screen
+                    name='Fun'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                                                <Stack.Screen
+                    name='Feed'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                                                <Stack.Screen
+                    name='TServices'
+                    component={Stores}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 <Stack.Screen
                     name='VouchersInfo'
                     component={VouchersInfo}

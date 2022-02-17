@@ -136,6 +136,7 @@ const AppHeader = (props: any) => {
             onPress={toggleDropdown}>
             <Image
               style={styles.icons}
+              resizeMode={'contain'}
               source={require('../assets/images/location.png')}
             />
           </TouchableOpacity>

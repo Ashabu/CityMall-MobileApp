@@ -32,7 +32,7 @@ const ShopDetailBox = (props: any) => {
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Text style={[Platform.OS === 'ios' && {fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                        <Text style={[ styles.promotionBottomText, Platform.OS === 'ios' && {fontSize: 9}, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად
                         </Text>
                         <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     },
 
     promotionBottomText: {
-
+        fontSize: 8,
         fontFamily: 'HMpangram-Bold',
         
         lineHeight: 9,
