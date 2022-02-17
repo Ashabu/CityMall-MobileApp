@@ -115,7 +115,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />
             </View>
             {errorMessage !== '' || props.errorMessage !== '' ?
-                <Text style={styles.errorText}>{errorMessage || props.errorMessage}</Text>
+                <Text style={[styles.errorText, Platform.OS === 'ios' && {marginTop: 5}]}>{errorMessage || props.errorMessage}</Text>
                 : null}
         </>
     );
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     errorText: {
         color: Colors.red,
         fontSize: 11,
-        fontFamily: 'HMpangram-Medium'
+        fontFamily: 'HMpangram-Medium',
+
     }
 });
