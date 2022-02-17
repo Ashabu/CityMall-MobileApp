@@ -37,14 +37,7 @@ const SingleOfferScreen = () => {
     return (
         <SafeAreaView style={{ flex: 1, position: 'relative', backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
             <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-            <View style={styles.headerView}>
-                <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
-                    <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
-                </TouchableOpacity>
-                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {singleOffer.name}
-                </Text>
-            </View>
+        
             <View style={{ flex: 6 }}>
                 <Image source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
@@ -91,6 +84,14 @@ const SingleOfferScreen = () => {
 
                 </View>
             </View>
+            <View style={styles.headerView}>
+                <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
+                    <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
+                </TouchableOpacity>
+                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    {singleOffer.name}
+                </Text>
+            </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     backButton: {
-        width: 30, 
-        height: 30, 
+        width: 52, 
+        height: 52, 
         justifyContent: 'center',
     },
 
