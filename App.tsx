@@ -10,11 +10,14 @@ const AppProvider = createAppProvider(AppState);
 const App = () => {
   
   return (
-    <PortalProvider>
+    
       <AppProvider>
-      <AppIndex />
+        <PortalProvider>
+        <AppIndex />
+        </PortalProvider>
+     
     </AppProvider>
-    </PortalProvider>
+   
    
   );
 };

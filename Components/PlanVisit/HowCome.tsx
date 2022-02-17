@@ -14,7 +14,7 @@ const HowCome = ({ data, routeId }: any) => {
     if(!data.length)
      return    <ActivityIndicator style={{alignSelf: 'flex-start'}} color={'#ffffff'} />
     return (
-        <View>
+        <View style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}>
             <View style={styles.row}>
                 <View style={styles.width}>
                     <Image source={require('../../assets/images/train.png')} />
@@ -22,13 +22,13 @@ const HowCome = ({ data, routeId }: any) => {
                 {
                     routeId === 1 ?
                         <View>
-                            <Text style={styles.titleTxt}>{data[3]["bus-saburtalo"].title} </Text>
-                            <Text style={styles.detailTxt}>{data[3]["bus-saburtalo"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["bus-saburtalo"].title} </Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["bus-saburtalo"].teaser}</Text>
                         </View>
                         :
                         <View>
-                            <Text style={styles.titleTxt}>{data[2]["bus-gldani"].title} </Text>
-                            <Text style={styles.detailTxt}>{data[2]["bus-gldani"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["bus-gldani"].title} </Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["bus-gldani"].teaser}</Text>
                         </View>
                 }
             </View>
@@ -39,13 +39,13 @@ const HowCome = ({ data, routeId }: any) => {
                 {
                     routeId === 1 ?
                         <View>
-                            <Text style={styles.titleTxt}>{data[3]["taxi-saburtalo"].title}</Text>
-                            <Text style={styles.detailTxt}>{data[3]["taxi-saburtalo"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["taxi-saburtalo"].title}</Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["taxi-saburtalo"].teaser}</Text>
                         </View>
                         :
                         <View>
-                            <Text style={styles.titleTxt}>{data[2]["minibus-gldani"].title} </Text>
-                            <Text style={styles.detailTxt}>{data[2]["minibus-gldani"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["minibus-gldani"].title} </Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["minibus-gldani"].teaser}</Text>
                         </View>
                 }
             </View>
@@ -56,13 +56,13 @@ const HowCome = ({ data, routeId }: any) => {
                 {
                     routeId === 1 ?
                         <View>
-                            <Text style={styles.titleTxt}>{data[3]["metro-saburtalo"].title} </Text>
-                            <Text style={styles.detailTxt}>{data[3]["metro-saburtalo"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["metro-saburtalo"].title} </Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[3]["metro-saburtalo"].teaser}</Text>
                         </View>
                         :
                         <View>
-                            <Text style={styles.titleTxt}>{data[2]["metro-gldani"].title} </Text>
-                            <Text style={styles.detailTxt}>{data[2]["metro-gldani"].teaser}</Text>
+                            <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["metro-gldani"].title} </Text>
+                            <Text style={[styles.detailTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[2]["metro-gldani"].teaser}</Text>
                         </View>
                 }
             </View>
