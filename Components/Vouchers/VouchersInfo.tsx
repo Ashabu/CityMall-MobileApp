@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { useDimension } from '../../Hooks/UseDimension';
 import { GoBack, navigate } from '../../Services/NavigationServices';
@@ -15,6 +15,7 @@ const VouchersInfo = () => {
   const { isDarkTheme } = state;
 
   const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   useEffect(() => {
@@ -23,10 +24,13 @@ const VouchersInfo = () => {
 
 
   const getClientVouchers = () => {
+    if(isLoading) return;
+    setIsLoading(true);
     GetClientVouchers().then(res => {
       setClientVouchers(res.data);
+      setIsLoading(false);
     }).catch(e => {
-      console.log(JSON.parse(JSON.stringify(e.response)))
+      setIsLoading(false);
     })
   };
 
@@ -49,6 +53,16 @@ const VouchersInfo = () => {
           <VoucherCardLayout item={el} key={i} />
         ))}
       </View>
+      <Modal visible={isLoading} animationType="slide" transparent={true}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{ translateY: Dimensions.get('screen').height / 2 }],
+          }}
+        />
+      </Modal>
     </Layout>
   );
 };

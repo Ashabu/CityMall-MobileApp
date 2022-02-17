@@ -35,7 +35,7 @@ const VouchersDone = () => {
         </View>
 
         <View style={{flex: 1, top: 40, alignItems: 'center'}}>
-          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('HomeScreen')}>
+          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('ProfileScreen')}>
             <Text style={styles.btnText}>დახურვა</Text>
           </TouchableOpacity>
         </View>

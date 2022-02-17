@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -7,11 +7,35 @@ import { GoBack, navigate } from '../../Services/NavigationServices';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import Data from '../../Constants/VouchersDummyData'
 import Layout from '../Layouts/Layout';
+import { GetClientVouchers, GetVouchersToBuy, IVouchers } from '../../Services/Api/VouchersApi';
 
 const BuyVouchers = () => {
   const { width } = useDimension();
   const { state } = useContext(AppContext);
   const { isDarkTheme } = state;
+  const [selectedVaucher, setSelectedVaucher] = useState<any>();
+  const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    getVouchersToBuy();
+  }, [])
+
+
+  const getVouchersToBuy = () => {
+    if(isLoading) return;
+    setIsLoading(true);
+    GetVouchersToBuy().then(res => {
+      setClientVouchers(res.data);
+      setIsLoading(false);
+    }).catch(e => {
+      setIsLoading(false);
+    })
+  };
+
+  const getVaucher = (data: any) => {
+    setSelectedVaucher(data);
+  }
 
   return (
     <Layout
@@ -22,17 +46,27 @@ const BuyVouchers = () => {
       >
       <View style={styles.mainContainer}>
         <View style={styles.cardWrapper}>
-              {Data.map((el: any, i: React.Key) => (
-                  <VoucherCardLayout key={i}
+              {clientVouchers?.map((el: any, i: React.Key) => (
+                  <VoucherCardLayout key={i} showRadio={true} passData={getVaucher} current={selectedVaucher}
                     item={el}
                   />
               ))}
           
         </View>
-        <TouchableOpacity style={styles.btnStyle} onPress={() => navigate('SelectedVouchers')} >
+        <TouchableOpacity disabled={selectedVaucher === undefined} style={styles.btnStyle} onPress={() => navigate('SelectedVouchers', {data: selectedVaucher})} >
             <Text style={styles.btnText}>შეძენა</Text>
           </TouchableOpacity>
       </View>
+      <Modal visible={isLoading} animationType="slide" transparent={true}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{ translateY: Dimensions.get('screen').height / 2 }],
+          }}
+        />
+      </Modal>
     </Layout>
   );
 };
