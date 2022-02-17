@@ -171,12 +171,14 @@ const AuthScreen = () => {
                     <Text style={styles.authTitle}>პირველადი ავტორიზაცია</Text>
                 </View>
                 <View style={{ flex: 6 }}>
-                    <View style={{ flexDirection: 'row'}}>
+                    <View style={{ flexDirection: 'row', position: 'relative'}}>
+                        <View style={{borderBottomColor: '#fff', borderBottomWidth: 1, position: 'absolute', left: 0 , right: 0, top: 52}}></View>
                         <View >
-                            <DialCodePicker onSelect={handleSelectedValue} />
+                            <DialCodePicker onSelect={handleSelectedValue} ignoreBorder={true} />
                         </View>
                         <View style={{ width: '80%'}}>
                             <AppInput
+                            ignoreBorder={true}
                                 name='phoneNumber'
                                 hasError={hasError}
                                 addValidation={validateInputs}

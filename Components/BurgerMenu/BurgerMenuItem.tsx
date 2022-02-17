@@ -71,7 +71,8 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 {
                     item?.location?.length! !== 0 ?
                         <Image style={[styles.arrowImgStyle, { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }]}
-                            source={require('../../assets/images/arrow-sm.png')} />
+                        
+                            source={isDarkTheme? require('../../assets/images/arrow-sm.png') : require('../../assets/images/arrow-black.png')} />
                         :
                         null
                 }

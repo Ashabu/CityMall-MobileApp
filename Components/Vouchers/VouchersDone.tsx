@@ -34,9 +34,9 @@ const VouchersDone = () => {
           />
         </View>
 
-        <View style={{flex: 1, top: 40}}>
-          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('HomeScreen')}>
-            <Text style={styles.btnText}>დახურვა</Text>
+        <View style={{flex: 1, top: 40, alignItems: 'center'}}>
+          <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('ProfileScreen')}>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დახურვა</Text>
           </TouchableOpacity>
         </View>
       </View>

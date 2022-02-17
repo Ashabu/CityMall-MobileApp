@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, KeyboardType } from 'react-native';
+import { View, TextInput, StyleSheet, Text, KeyboardType, Platform } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -26,7 +26,7 @@ interface IAppInput {
     autoFocus?: boolean,
     errorMessage?: string,
     keyboardTpe?: string
-
+    ignoreBorder?:boolean
 }
 
 const validations: any = {
@@ -37,7 +37,7 @@ const validations: any = {
 }
 
 const AppInput: React.FC<IAppInput> = (props) => {
-    const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style } = props;
+    const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style, ignoreBorder } = props;
 
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
@@ -107,7 +107,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
     return (
         <>
-            <View style={[styles.inputWrap, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+            <View style={[styles.inputWrap, ignoreBorder && {borderBottomWidth: 0}, Platform.OS === 'ios' && {paddingVertical: 4}, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
                 <TextInput
                     style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
                     {...props}
@@ -115,7 +115,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />
             </View>
             {errorMessage !== '' || props.errorMessage !== '' ?
-                <Text style={styles.errorText}>{errorMessage || props.errorMessage}</Text>
+                <Text style={[styles.errorText, Platform.OS === 'ios' && {marginTop: 5}]}>{errorMessage || props.errorMessage}</Text>
                 : null}
         </>
     );
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         width: '100%',
         position: 'relative',
         borderBottomWidth: 1,
-        // paddingVertical: 3,
+         
     },
     input: {
         fontFamily: 'HMpangram-Medium',
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     errorText: {
         color: Colors.red,
         fontSize: 11,
-        fontFamily: 'HMpangram-Medium'
+        fontFamily: 'HMpangram-Medium',
+
     }
 });

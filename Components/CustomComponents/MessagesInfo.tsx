@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Text, Image, View, StyleSheet, ImageSourcePropType} from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 
 export interface MessageInfoProps {
@@ -12,6 +13,8 @@ export interface MessageInfoProps {
 
 const MessagesInfo: React.FC<MessageInfoProps> = props => {
   const {icon, bgColorProp, title, text, phone} = props;
+  const { state } = useContext(AppContext);
+  const { isDarkTheme } = state;
 
   return (
     <>
@@ -19,19 +22,18 @@ const MessagesInfo: React.FC<MessageInfoProps> = props => {
         <Image source={icon} />
       </View>
       <View style={{width: 250, top: 36}}>
-        <Text style={styles.successText}>{title}</Text>
+        <Text style={[styles.successText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{title}</Text>
       </View>
       <View style={{width: 330}}>
         <Text
-          style={{
-            color: Colors.white,
+          style={[{
             textAlign: 'center',
             top: 50,
             fontFamily: 'HM pangram',
             fontSize: 12,
-          }}>
+          },{color: isDarkTheme ? Colors.white : Colors.black}]}>
           {text}
-          <Text style={{fontFamily: 'HMpangram-Bold'}}> {phone}</Text>
+          <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}> {phone}</Text>
         </Text>
       </View>
     </>

@@ -121,6 +121,7 @@ const Stores: React.FC = () => {
   const handleGetSubCategories = () => {
     GetSubCategories(categoryArray)
       .then(res => {
+        if(res.data.length)
         setSubCategories(res.data);
       })
       .catch(e => {

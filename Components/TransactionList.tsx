@@ -9,12 +9,12 @@ const TransactionList = (props: any) => {
         <View style={styles.trListWrap}>
             <View style={{flexDirection: 'row'}}>
                 <Image
-                    source={props.item?.image}
+                    source={{uri: props.item?.imageURL}}
                     style={{ width: 40, height: 40 }}
                 />
                 <View style={{ marginLeft: 10 }}>
-                    <Text style={{color: Colors.white}}>{props.item?.date} {props.item?.time}</Text>
-                    <Text style={{color: Colors.white}}>{props.item?.shop}</Text>
+                    <Text style={{color: Colors.white}}>{new Date(props.item?.authDate).toLocaleDateString().split('/').join('.')} {new Date(props.item?.authDate).toLocaleTimeString()}</Text>
+                    <Text style={{color: Colors.white}}>{props.item?.merchantName}</Text>
                 </View>
             </View>
             <Text style={{color: Colors.red}}>{props.item?.amount}</Text>

@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Platform } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
@@ -37,20 +37,13 @@ const SingleOfferScreen = () => {
     return (
         <SafeAreaView style={{ flex: 1, position: 'relative', backgroundColor: isDarkTheme? Colors.black : Colors.white }}>
             <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
-            <View style={styles.headerView}>
-                <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
-                    <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
-                </TouchableOpacity>
-                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                    {singleOffer.name}
-                </Text>
-            </View>
+        
             <View style={{ flex: 6 }}>
                 <Image source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={[styles.offerTitleBox, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
+                <View style={[ styles.offerTitleBox, Platform.OS === 'ios'&& {width: 83}, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {/* {CategoryTypes[singleOffer.offerType.name]} */}
                     {extractor(singleOffer.offerType, 'name')}
@@ -91,6 +84,14 @@ const SingleOfferScreen = () => {
 
                 </View>
             </View>
+            <View style={styles.headerView}>
+                <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
+                    <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
+                </TouchableOpacity>
+                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    {singleOffer.name}
+                </Text>
+            </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -111,8 +112,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     backButton: {
-        width: 30, 
-        height: 30, 
+        width: 52, 
+        height: 52, 
         justifyContent: 'center',
     },
 
@@ -139,7 +140,8 @@ const styles = StyleSheet.create({
     offerTitleBoxText: {
         fontSize: 8,
         lineHeight: 9.5,
-        fontFamily: 'HMpangram-Thin',
+        fontFamily: 'HMpangram-Bold',
+        paddingHorizontal: 6
     },
 
     merchantTitle: {

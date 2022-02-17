@@ -91,13 +91,22 @@ const DialCodePicker = (props: any) => {
 
     useEffect(() => {
         if(isSelecting) {
-            picker.current.focus()
+            picker?.current?.focus()
         }
         }, [isSelecting])
      
 
     return (
         <>
+          <TouchableOpacity
+                style={[styles.selectedItem, props.ignoreBorder && {borderBottomWidth: 0},]}
+                onPress={() => setIsSelecting(true)}>
+                {selectedValue ?
+                    <Text style={styles.itemText}>{selectedValue}</Text>
+                    :
+                    <Text style={styles.itemText}>{props.placeholder}</Text>
+                }
+            </TouchableOpacity>
         {(isSelecting && Platform.OS === 'ios') ?
             <TouchableOpacity style={styles.centeredView} onPress={() => setIsSelecting(false)}>
                 <Modal
@@ -149,15 +158,7 @@ const DialCodePicker = (props: any) => {
 
             ))}
         </Picker> : null}
-            <TouchableOpacity
-                style={styles.selectedItem}
-                onPress={() => setIsSelecting(true)}>
-                {selectedValue ?
-                    <Text style={styles.itemText}>{selectedValue}</Text>
-                    :
-                    <Text style={styles.itemText}>{props.placeholder}</Text>
-                }
-            </TouchableOpacity>
+          
             </>
     );
 };

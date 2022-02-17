@@ -1,5 +1,5 @@
-import React, {useContext} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
@@ -9,13 +9,43 @@ import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import  Data  from '../../Constants/VouchersDummyData'
 import OneTimeCode from '../OneTimeCode';
 import Layout from '../Layouts/Layout';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { BuyVoucher, IBuyVoucherRequest } from '../../Services/Api/VouchersApi';
 
 let hm = require('../../assets/images/H&M.png');
 
+type RouteParamList = {
+  params: {
+    data: any;
+  };
+};
+
 const SelectedVouchers = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const {width} = useDimension();
   const {state} = useContext(AppContext);
-  const {isDarkTheme} = state;
+  const {isDarkTheme, clientDetails} = state;
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  
+
+  const buy = () => {
+    setError(undefined);
+    if(isLoading) return;
+    setIsLoading(true);
+    const data: IBuyVoucherRequest = {
+      voucherCode: route.params.data.voucherCode,
+      card: clientDetails?.[0]?.card
+    }
+    BuyVoucher(data).then(res => {
+      setIsLoading(false);
+      navigate('VouchersDone');
+    }).catch(e => {
+      setIsLoading(false);
+      console.log(e.response)
+      setError(e?.response?.data?.DisplayText);
+    })
+  };
   
 
   return (
@@ -33,7 +63,7 @@ const SelectedVouchers = () => {
           <View>
             <View>
               {Data.length > 0 && <VoucherCardLayout
-                item={Data[0]}
+                item={route?.params?.data}
               />} 
             </View>
 
@@ -43,28 +73,41 @@ const SelectedVouchers = () => {
                 paddingVertical: 7,
                 paddingBottom: 26,
               }}>
-              <Text style={{color: Colors.white, fontFamily: 'HMpangram-Bold'}}>
-                ფასი: 1000{' '}
+              <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
+                ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
             </View>
-            <View style={{height: 100}}>
+            {/* <View style={{height: 100}}>
               <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
                 ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
         
       </View>
       <View style={{alignItems: 'center', height: 100}}>
+      {error !== undefined ?
+                <Text style={[styles.errorText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{error}</Text>
+                : null}
           <TouchableOpacity
             style={styles.btnStyle}
-            onPress={() => navigate('VouchersDone')}>
-            <Text style={styles.btnText}>დადასტურება</Text>
+            onPress={() => buy()}>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დადასტურება</Text>
           </TouchableOpacity>
         </View>
+        <Modal visible={isLoading} animationType="slide" transparent={true}>
+        <ActivityIndicator
+          size={'small'}
+          color={'#ffffff'}
+          style={{
+            alignSelf: 'center',
+            transform: [{ translateY: Dimensions.get('screen').height / 2 }],
+          }}
+        />
+      </Modal>
     </Layout>
   );
 };
@@ -90,6 +133,16 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     color: Colors.white,
   },
+  errorText: {
+    color: Colors.red,
+    fontSize: 11,
+    fontFamily: 'HMpangram-Medium',
+    alignSelf: 'flex-start',
+    marginLeft: '7%',
+    position: 'relative',
+    top: -10,
+    left: 25
+}
 });
 
 export default SelectedVouchers;

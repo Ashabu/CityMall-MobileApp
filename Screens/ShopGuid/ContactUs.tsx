@@ -26,13 +26,13 @@ const ContactUs = () => {
          flex: 1,
          
           paddingHorizontal: '7%',
-          
+          backgroundColor: isDarkTheme ? Colors.black : Colors.white 
         }}>
    
         <View >
-          <Text style={styles.title}>გამოგვიგზავნეთ შეტყობინება</Text>
+          <Text style={[styles.title,{color: isDarkTheme ? Colors.white : Colors.black}]}>გამოგვიგზავნეთ შეტყობინება</Text>
           <View style={{paddingTop: 15}}>
-            <Text style={styles.text}>
+            <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
               გამოგზავნილი შეტყობინება განიხილება და უახლოეს პერიოდში
               დაგიბრუნდებით პასუხით
             </Text>
@@ -68,13 +68,13 @@ const ContactUs = () => {
           placeholder="შეტყობინება"
           placeholderTextColor={Colors.txtGrey}
           multiline
-            numberOfLines={5}
+          numberOfLines={5}
           />
         </View>
         <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => {}}>
-            <Text style={styles.btnText}>გაგზავნა</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>გაგზავნა</Text>
           </TouchableOpacity>
       </View>
     </Layout>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontSize: 14,
     lineHeight: 17,
-    color: Colors.white,
+    
   },
 });
 

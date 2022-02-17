@@ -95,13 +95,13 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                         {
                             props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
-                                    <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
+                                    <Image style={{ width: 15, height: 15 }} source={isDarkTheme? require('../../assets/images/back-arrow.png'): require('../../assets/images/left-arrow-black.png')} />
                                 </TouchableOpacity>
                                 :
                                 null
                         }
                         <TouchableOpacity >
-                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>
+                            <Text style={{fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 ,color: isDarkTheme ? Colors.white : Colors.black }}>
                                 ENG
                             </Text>
                         </TouchableOpacity>
@@ -118,7 +118,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                 }
             </View>
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} keyboardShouldPersistTaps='handled'>
                     {props.children}
                 </ScrollView>
             </KeyboardAvoidingView>

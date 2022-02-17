@@ -18,8 +18,8 @@ const AboutUs = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.txtView}>
-          <Text style={styles.titleTxt}>სითი მოლი</Text>
-          <Text style={styles.infoTxt}>
+          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>სითი მოლი</Text>
+          <Text style={[styles.infoTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>
             ცნობილი ფაქტია, რომ გვერდის წაკითხვად შიგთავსს შეუძლია მკითხველის
             ყურადღება მიიზიდოს და დიზაინის აღქმაში ხელი შეუშალოს. გამოყენებით
             ვღებულობთ იმაზე მეტ-ნაკლებად სწორი გადანაწილების ტექსტს, ვიდრე
@@ -27,25 +27,25 @@ const AboutUs = () => {
           </Text>
         </View>
         <View style={[styles.txtView, {paddingVertical: 30}]}>
-          <Text style={styles.contactTitle}>კონტაქტი</Text>
+          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>კონტაქტი</Text>
           <View style={{top: 10}}>
-            <Text style={styles.bold}>
+            <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
               ცხელი ხაზი: <Text style={styles.unBold}>+032 220 00 99</Text>
             </Text>
-            <Text style={styles.bold}>
+            <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
               მარკეტინგის დეპარტამენტი:{' '}
-              <Text style={styles.unBold}>(+995) 595 393 924 </Text>
+              <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 595 393 924 </Text>
             </Text>
-            <Text style={styles.bold}>
+            <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
               გაყიდვების დეპარტამენტი:{' '}
-              <Text style={styles.unBold}>(+995) 599 515 672</Text>
+              <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 599 515 672</Text>
             </Text>
           </View>
         </View>
         <View style={{paddingVertical: 30}}>
-          <Text style={styles.contactTitle}>მისამართი</Text>
+          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>მისამართი</Text>
           <View style={{top: 10}}>
-            <Text style={styles.addressInfo}>
+            <Text style={[styles.addressInfo,{color: isDarkTheme ? Colors.white : Colors.black}]}>
               სითი მოლი საბურთალო, ვაჟა-ფშაველას №70 სითი მოლი გლდანი, ი.ვეკუას
               №1
             </Text>
