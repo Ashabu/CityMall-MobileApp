@@ -79,11 +79,11 @@ const SelectedVouchers = () => {
 
               <Image source={require('../../assets/images/Star.png')} />
             </View>
-            <View style={{height: 100}}>
+            {/* <View style={{height: 100}}>
               <Text style={{color: Colors.white, fontFamily: 'HM pangram'}}>
                 ვერიფიკაციისთვის საჭირო სმს გამოგზავნილია
               </Text>
-            </View>
+            </View> */}
           </View>
         </View>
         
