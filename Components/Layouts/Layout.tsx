@@ -101,7 +101,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                 null
                         }
                         <TouchableOpacity >
-                            <Text style={{ color: Colors.white, fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 }}>
+                            <Text style={{fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 ,color: isDarkTheme ? Colors.white : Colors.black }}>
                                 ENG
                             </Text>
                         </TouchableOpacity>

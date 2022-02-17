@@ -5,9 +5,7 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
-import AppLayout from '../AppLayout';
 import AppSwitch from '../CustomComponents/AppSwitch';
-import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import Layout from '../Layouts/Layout';
 
 const Parameters = () => {
@@ -28,9 +26,10 @@ const Parameters = () => {
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
+          
         }}>
         <View style={styles.nameWrapper}>
-          <Text style={styles.name}>
+          <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
             {clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}
           </Text>
         </View>
@@ -41,7 +40,7 @@ const Parameters = () => {
                 <Image source={require('../../assets/images/moon.png')} />
               </View>
               <View>
-                <Text style={styles.name}>მუქი დიზაინი</Text>
+                <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>მუქი დიზაინი</Text>
               </View>
             </View>
 
@@ -65,7 +64,7 @@ const Parameters = () => {
               <Image source={require('../../assets/images/user.png')} />
             </View>
             <View>
-              <Text style={styles.name}>პროფილის გვერდი</Text>
+              <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>პროფილის გვერდი</Text>
             </View>
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.iconView}>
