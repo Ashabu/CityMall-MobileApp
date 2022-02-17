@@ -61,7 +61,7 @@ const AppHeader = (props: any) => {
           <TouchableOpacity
             style={[styles.dropDown, {height: height, width: width}]}
             onPress={() => setNews(false)}>
-            <NewsToggle />
+            <NewsToggle blur={() => setNews(false)} />
           </TouchableOpacity>
         </>
       ) : null}

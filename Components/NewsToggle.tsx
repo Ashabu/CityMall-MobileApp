@@ -7,7 +7,7 @@ import {useDimension} from '../Hooks/UseDimension';
 import {navigate} from '../Services/NavigationServices';
 import { mallIds } from './ToggleDropdown/LocationDropdown';
 
-const NewsToggle = () => {
+const NewsToggle: React.FC<any> = (props) => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
@@ -24,10 +24,11 @@ const NewsToggle = () => {
         <TouchableOpacity
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}
           onPress={() => {
-            setCollapseFirst(!collapseFirst);
+            props.blur();
+            navigate('OffersScreen', {routeId: mallIds.citiMallGldan, id: 1})
           }}
           >
-          <Image
+          {/* <Image
             source={require('../assets/images/arrow-sm.png')}
             style={[
               styles.iconStyle,
@@ -37,7 +38,7 @@ const NewsToggle = () => {
                   : [{rotate: '0deg'}],
               },
             ]}
-          />
+          /> */}
           <Text
             style={[
               styles.text,
@@ -46,7 +47,7 @@ const NewsToggle = () => {
             სითი მოლი გლდანი
           </Text>
         </TouchableOpacity>
-        {collapseFirst && (
+        {/* {collapseFirst && (
           <TouchableOpacity onPress={() => navigate('OffersScreen', {routeId: mallIds.citiMallGldan, id: 1})}>
             <Text
               style={[
@@ -57,10 +58,11 @@ const NewsToggle = () => {
               სიახლეები
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
         <TouchableOpacity
           onPress={() => {
-            setCollapseSecond(!collapseSecond);
+            props.blur();
+            navigate('OffersScreen', {routeId: mallIds.cityMallSaburtalo, id: 1})
           }}
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
           
@@ -72,7 +74,7 @@ const NewsToggle = () => {
             სითი მოლი საბურთალო
           </Text>
         </TouchableOpacity>
-        {collapseSecond && (
+        {/* {collapseSecond && (
           <TouchableOpacity onPress={() => navigate('OffersScreen', {routeId: mallIds.cityMallSaburtalo, id: 1})}>
             <Text
               style={[
@@ -83,7 +85,7 @@ const NewsToggle = () => {
               სიახლეები
             </Text>
           </TouchableOpacity>
-        )}
+        )} */}
       </View>
     </Portal>
   );
