@@ -64,10 +64,10 @@ const ProfileScreen = () => {
 
     const getClientTransactions = () => {
         ApiServices.GetClientTransactions().then(res => {
-            console.log(res.data.data)
+            console.log('ტრანასაცტიონს', res.data.data)
             setClientTransactions(res.data.data!)
         }).catch(e => {
-            console.log(e)
+            console.log('error tran', e.response)
         })
     };
 

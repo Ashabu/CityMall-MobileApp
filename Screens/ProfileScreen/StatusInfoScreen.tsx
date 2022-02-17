@@ -10,27 +10,27 @@ const StatusInfoScreen = () => {
     return (
         <AppLayout>
             <ScrollView>
-            <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: '7%', paddingVertical: 50 }}>
+            <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.white : Colors.black, paddingHorizontal: '7%', paddingVertical: 50 }}>
                 <View style={{marginBottom: 40}}>
-                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.black : Colors.white }]}>
                         სტატუსბარი
                     </Text>
                     <StatusBar/>
                 </View>
                 <View style={{marginBottom: 40}}>
-                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.black : Colors.white }]}>
                         სტატუსის შესახებ ინფო
                     </Text>
-                    <Text style={[styles.descriptionText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    <Text style={[styles.descriptionText, { color: isDarkTheme ? Colors.black : Colors.white }]}>
                         შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის თავისუფლება მისცეთ
                         შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის თავისუფლება მისცეთ
                     </Text>
                 </View>
                 <View>
-                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    <Text style={[styles.titleText, { color: isDarkTheme ? Colors.black : Colors.white }]}>
                         რა ეკუთვნის თითოეულ სტატუსზე
                     </Text>
-                    <Text style={[styles.descriptionText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                    <Text style={[styles.descriptionText, { color: isDarkTheme ? Colors.black : Colors.white }]}>
                         შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის თავისუფლება მისცეთ
                         შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის თავისუფლება მისცეთ
                     </Text>
