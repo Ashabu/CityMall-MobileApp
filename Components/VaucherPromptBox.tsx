@@ -50,11 +50,11 @@ const VaucherPromptBox: React.FC<any> = data => {
     <TouchableOpacity onPress={handlePromotionBoxClick} >
       <View style={styles.promotionBox}>
    
-        {/* <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} /> */}
-        <Image
+        <Image style={styles.promotionImg} source={{ uri: data.data.imgUrl }} />
+        {/* <Image
           style={styles.promotionImg}
           source={require('./../assets/images/gift-card.png')}
-        />
+        /> */}
      
           <Text
           numberOfLines={2}
