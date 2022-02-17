@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext, useCallback, useMemo } from 're
 import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View, Platform,  ScrollView } from 'react-native';
 import axios from 'axios';
 import DatePicker from 'react-native-date-picker';
-import { IRegistrationProps } from '../RegistrationScreen';
+// import { IRegistrationProps } from '../RegistrationScreen';
 import ApiServices from '../../Services/ApiServices';
 import { AppContext } from '../../AppContext/AppContext';
 import { getItem } from '../../Services/StorageService';
@@ -19,11 +19,11 @@ import { Colors } from '../../Colors/Colors';
 
 
 
-type RouteParamList = {
-    params: {
-        data: IRegistrationProps
-    }
-}
+// type RouteParamList = {
+//     params: {
+//         data: IRegistrationProps
+//     }
+// }
 
 
 
@@ -103,11 +103,11 @@ const ScreenTwo: React.FC = (props: any) => {
 
     const GetDistricts = () => {
         ApiServices.GetDistricts()
-            .then((res: any) => {
+            .then((res: any) => {console.log('.....',res.data)
                 setDistricts(res.data)
             })
             .catch((e: any) => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data);
+                console.log(';;;;;;;;',e, JSON.parse(JSON.stringify(e.response)));
             })
     };
 

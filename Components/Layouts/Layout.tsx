@@ -118,7 +118,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                 }
             </View>
             <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={{ flex: 1 }}>
-                <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps='handled'>
+                <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 50 }} keyboardShouldPersistTaps='handled'>
                     {props.children}
                 </ScrollView>
             </KeyboardAvoidingView>
