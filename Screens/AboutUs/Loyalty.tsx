@@ -21,7 +21,7 @@ const Loyalty = () => {
           />
         </View>
         <View >
-          <Text style={styles.text}>
+          <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
             შეუკვეთე სითი მოლის ლოიალობის ბარათი შენთვის ან შენი საყვარელი
             ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ
             ადამიანს არჩევანის თავისუფლება მისცეთ შეუკვეთე სითი მოლის

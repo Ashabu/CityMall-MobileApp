@@ -73,7 +73,7 @@ const SelectedVouchers = () => {
                 paddingVertical: 7,
                 paddingBottom: 26,
               }}>
-              <Text style={{color: Colors.white, fontFamily: 'HMpangram-Bold'}}>
+              <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
                 ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
@@ -90,12 +90,12 @@ const SelectedVouchers = () => {
       </View>
       <View style={{alignItems: 'center', height: 100}}>
       {error !== undefined ?
-                <Text style={styles.errorText}>{error}</Text>
+                <Text style={[styles.errorText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{error}</Text>
                 : null}
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => buy()}>
-            <Text style={styles.btnText}>დადასტურება</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დადასტურება</Text>
           </TouchableOpacity>
         </View>
         <Modal visible={isLoading} animationType="slide" transparent={true}>

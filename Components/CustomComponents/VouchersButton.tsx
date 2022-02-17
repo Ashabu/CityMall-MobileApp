@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { AppContext } from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 
 
@@ -13,6 +14,8 @@ export interface IAppBtnProps {
 
 const VouchersButton: React.FC<IAppBtnProps> = (props) => {
     const { onPress,title} = props;
+    const { state } = useContext(AppContext);
+    const { isDarkTheme } = state;
 
     return (
         <TouchableOpacity

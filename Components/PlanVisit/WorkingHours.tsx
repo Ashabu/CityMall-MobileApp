@@ -10,24 +10,24 @@ const WorkingHours = ({ data, routeId }: any) => {
   if(!data.length)
   return    <ActivityIndicator style={{alignSelf: 'flex-start'}} color={'#ffffff'} />
   return (
-    <View>
+    <View style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
       {
         routeId === 1 ?
           <>
-            <Text style={styles.text}>
-              მისამართი: <Text style={styles.subTxt}>{data[1]['address']} </Text>
+            <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              მისამართი: <Text style={[styles.subTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[1]['address']} </Text>
             </Text>
-            <Text style={styles.text}>
-              სამუშაო საათები: <Text style={styles.subTxt}>{data[1]['working-hours']} </Text>
+            <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              სამუშაო საათები: <Text style={[styles.subTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[1]['working-hours']} </Text>
             </Text>
           </>
           :
           <>
-            <Text style={styles.text}>
-              მისამართი: <Text style={styles.subTxt}>{data[0]['address']} </Text>
+            <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              მისამართი: <Text style={[styles.subTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[0]['address']} </Text>
             </Text>
-            <Text style={styles.text}>
-              სამუშაო საათები: <Text style={styles.subTxt}>{data[0]['working-hours']} </Text>
+            <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              სამუშაო საათები: <Text style={[styles.subTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{data[0]['working-hours']} </Text>
             </Text>
           </>
       }
@@ -36,7 +36,7 @@ const WorkingHours = ({ data, routeId }: any) => {
         ტელეფონი: <Text style={styles.subTxt}>+995 595 355 033</Text>
       </Text> */}
       <View style={styles.iconView}>
-        <Text style={styles.text}>სოც. სქელი:</Text>
+        <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>სოც. სქელი:</Text>
         <Image source={require('../../assets/images/facebook.png')} />
         <Image source={require('../../assets/images/insta.png')} />
         <Image source={require('../../assets/images/twiteer.png')} />

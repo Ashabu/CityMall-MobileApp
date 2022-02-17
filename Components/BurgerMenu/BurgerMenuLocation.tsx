@@ -40,7 +40,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName, pag
                                 styles.arrowImgStyle,
                                 { transform: [{ rotate: isCollapsed ? '90deg' : '0deg' }] }
                             ]}
-                            source={require('../../assets/images/arrow-sm.png')} /> :
+                            source={isDarkTheme? require('../../assets/images/arrow-sm.png') : require('../../assets/images/arrow-black.png')} /> :
                         null
                 }
                 <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}> {item.name}</Text>

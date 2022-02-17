@@ -63,17 +63,7 @@ const NewsToggle = () => {
             setCollapseSecond(!collapseSecond);
           }}
           style={{height: 30, flexDirection: 'row', alignItems: 'center'}}>
-          <Image
-            source={require('../assets/images/arrow-sm.png')}
-            style={[
-              styles.iconStyle,
-              {
-                transform: collapseSecond
-                  ? [{rotate: '90deg'}]
-                  : [{rotate: '0deg'}],
-              },
-            ]}
-          />
+          
           <Text
             style={[
               styles.text,

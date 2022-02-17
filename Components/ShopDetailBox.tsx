@@ -35,7 +35,7 @@ const ShopDetailBox = (props: any) => {
                         <Text style={[ styles.promotionBottomText, Platform.OS === 'ios' && {fontSize: 9}, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                             ვრცლად
                         </Text>
-                        <Image style={styles.promotionBottomImg} source={require('../assets/images/arrow-sm.png')} />
+                        <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>
                 </View>
             </View>

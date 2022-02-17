@@ -149,7 +149,7 @@ const ProfileScreen = () => {
                 <View style={{ marginBottom: 20, alignItems: 'center' }}>
                     <TouchableOpacity onPress={() => navigate('VouchersInfo')} style={{ flexDirection: 'row', width: 272, height: 39, backgroundColor: '#636363', alignItems: 'center', justifyContent: 'center', borderRadius: 50 }}>
                         <Image source={require('../../assets/images/vaucher.png')} style={{ width: 22, height: 16, marginRight: 10 }} />
-                        <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ჩემი ვაუჩერები</Text>
+                        <Text style={styles.promotionsTitle}>ჩემი ვაუჩერები</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={{ marginBottom: 30 }}>
@@ -175,7 +175,7 @@ const ProfileScreen = () => {
                 <View style={{ marginBottom: 30 }}>
                     <View style={styles.promotionContainer}>
                         <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black, }]}>
-                            ქულების გახაჯვის ოფცია
+                            ქულების გახარჯვის ოფცია
                         </Text>
                         <PaginationDots length={Math.round(offersArray?.length / 2)} step={offersStep} />
                     </View>
@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     promotionsTitle: {
+        color: Colors.white,
         fontFamily: 'HMpangram-Bold',
         fontSize: 14,
         lineHeight: 17,

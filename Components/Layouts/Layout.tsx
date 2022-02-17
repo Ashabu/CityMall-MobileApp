@@ -95,7 +95,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                         {
                             props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
-                                    <Image style={{ width: 15, height: 15 }} source={require('../../assets/images/back-arrow.png')} />
+                                    <Image style={{ width: 15, height: 15 }} source={isDarkTheme? require('../../assets/images/back-arrow.png'): require('../../assets/images/left-arrow-black.png')} />
                                 </TouchableOpacity>
                                 :
                                 null
