@@ -78,6 +78,11 @@ const StatusBar = (props: any) => {
     }
   };
 
+  const activeCategoryStandart = {
+    backgroundColor: Colors.standard,
+    borderWidth: 0
+  }
+
   const activeCategorySilver = {
     backgroundColor: Colors.silver,
     borderWidth: 0
@@ -123,7 +128,7 @@ const StatusBar = (props: any) => {
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <TouchableOpacity
             onPress={toggleDropdown}
-            style={[styles.round, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
+            style={[styles.round,  props?.data?.category >= 0? activeCategoryStandart : inActiveCategory]}>
             <View style={[styles.checkmark, { borderBottomColor: isDarkTheme ? Colors.white : Colors.black, borderRightColor: isDarkTheme ? Colors.white : Colors.black }]} />
           </TouchableOpacity>
         </View>
