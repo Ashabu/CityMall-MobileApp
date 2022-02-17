@@ -27,6 +27,8 @@ export interface IAppBtnProps {
   voucherStartDate: string;
   voucherEndDate: string;
   voucherID: string;
+  value: string;
+  sign: string;
 }
 
 interface IIAppBtnProps {
@@ -46,6 +48,8 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
     discountPercentage,
     voucherPurchasePoints,
     voucherID,
+    value,
+    sign
   } = props.item;
   const [isMore, setIsMore] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -76,9 +80,9 @@ try {
         <View style={styles.main}>
           <View style={styles.cardWrapper}>
             <View style={styles.cardView}>
-              <Text style={styles.amountText}>{discountPercentage}</Text>
+              <Text style={styles.amountText}>{value}</Text>
               <View>
-                <Text style={styles.percentStyle}>%</Text>
+                <Text style={styles.percentStyle}>{sign}</Text>
                 {imageUrl !== undefined && (
                   <Image
                     source={{uri: imageUrl}}

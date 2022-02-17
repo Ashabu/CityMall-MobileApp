@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
   cardWrapper: {
     flex: 1,
-    justifyContent: 'space-between',
+    //justifyContent: 'space-between',
     marginHorizontal: '7%',
     
     
