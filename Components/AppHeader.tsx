@@ -36,14 +36,12 @@ const AppHeader = (props: any) => {
   const toggleDropdown = () => {
     setVisible(!visible);
   };
-  //   const renderDropdown = () =>(
-  //           <View style={{zIndex: 13}}>
-  //             <ToggleDropdown />
-  //           </View>
-
-  //   );
+  
 
   const handleIconPress = () => {
+    if(clientDetails.length === 0){
+      return navigate('AboutUs',{routeId:2})
+    }
     setNews(!news);
    
   };
