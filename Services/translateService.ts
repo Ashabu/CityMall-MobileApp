@@ -1,4 +1,4 @@
-import axios from 'axios';
+import translateList from './../lang/index';
 
 class TranslateService {
     static events: Function[] = [];
@@ -33,16 +33,18 @@ class TranslateService {
     }
 
     //set language
-    use(lang: string, errCallback: (err: string) => void) {
-        axios.get(`assets/translate/${lang}.json?v=1`).then(resp => {
-            this.lang = lang;
-            this.translate = resp.data;
+    use(lang: string, errCallback: (err: any) => void) {
+        try {
+        const translates = translateList[lang];
+        this.lang = lang;
+        this.translate = translates;console.log(translates)
             for (const e of TranslateService.events) {
                 e(lang);
             }
-        }).catch(err => {
+        }
+        catch(err) {
             if (errCallback) errCallback(err);
-        });
+        }
     }
 
     //register translation change event

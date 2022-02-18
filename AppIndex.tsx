@@ -6,8 +6,11 @@ import AppStack from './Navigation/AppStack';
 import { Colors } from './Colors/Colors';
 import axios from 'axios';
 import AuthService, { IInterceptop } from './Services/AuthService';
+import translateService from './Services/translateService';
+import AsyncStorage from './Services/StorageService';
 
-
+export const default_lang_key = 'ka';
+export const locale_key = 'locale_key';
 
 const AppIndex = () => {
   const { state, setGlobalState } = useContext(AppContext);
@@ -15,6 +18,8 @@ const AppIndex = () => {
 
   const [userToken, setUserToken] = useState<string>("");
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
+  const [initialized, setInitialized] = useState(false);
+  const [currentLocale, setCurrentLocale] = useState<string>(default_lang_key);
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
@@ -36,6 +41,13 @@ const AppIndex = () => {
     };
   };
 
+  let initialize = (lang?: string) => {
+    if (!lang) {
+      translateService.use(lang || default_lang_key, (e) => {console.log(e)});
+    }
+    setInitialized(true);
+  };
+
   const logOut = useCallback(async () => {
     await AuthService.SignOut();
     setUserToken("");
@@ -47,7 +59,30 @@ const AppIndex = () => {
     AuthService.getToken().then(data => {
       setUserToken(data || "");
     });
+    
   }, [userToken]);
+
+  useEffect(() => {
+    const transSub = translateService.subscribe((_: string) => {
+      setCurrentLocale(_);
+    });
+
+    return () => {
+      transSub.unsubscribe();
+    }
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.getItem(locale_key).then(res => {
+      if(res !== null) {
+        initialize(res);
+      } else {
+        initialize();
+      }
+    }).catch(() => {
+      initialize();
+    })
+  }, []);
 
   useEffect(() => {
     AxiosInterceptor.current = [RegisterCommonInterceptor(), AuthService.registerAuthInterceptor(async () => await logOut())];
@@ -55,6 +90,8 @@ const AppIndex = () => {
       AxiosInterceptor.current.forEach(sub => sub.unsubscribe());
     }
   }, [userToken]);
+
+  if (!initialized) return null;
 
   return (
     <>

@@ -12,6 +12,7 @@ import UserCardSmall from "../Components/UserCardSmall";
 import { paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
 import { GetOffers, IOffer } from "../Services/Api/OffersApi";
+import translateService from "../Services/translateService";
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -138,7 +139,7 @@ const HomeScreen = () => {
 
 
     return (
-        <AppLayout pageTitle={'მთავარი'}>
+        <AppLayout pageTitle={translateService.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={{ flex: 4.5, justifyContent: 'center' }}>
                     {!initLoading ?
