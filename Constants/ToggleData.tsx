@@ -25,6 +25,7 @@ export default [
         id: 2,
         name: 'რუქა',
         icon:  require('../assets/images/arrow-sm.png'),
+        iconLight:  require('../assets/images/arrow-sm.png'),
         iconDark: require('../assets/images/arrow-black.png'),
         content: MapToggleInfo
        
