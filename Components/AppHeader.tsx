@@ -19,6 +19,8 @@ import {navigate} from '../Services/NavigationServices';
 import ToggleDropdown from './ToggleDropdown/ToggleDropdown';
 import NewsToggle from './NewsToggle';
 import {Portal, PortalHost} from '@gorhom/portal';
+import translateService from '../Services/translateService';
+import { default_lang_key, en_key } from '../lang';
 
 const AppHeader = (props: any) => {
   const {state} = useContext(AppContext);
@@ -85,15 +87,17 @@ const AppHeader = (props: any) => {
               <View style={[styles.burgerIconLine, themeBgColor]} />
             </View>
           </TouchableOpacity>
-          <View style={{width: 70}}>
+          <TouchableOpacity style={{width: 70}} onPress={() => {
+                            translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
+                        }}>
             <Text
               style={[
                 styles.langText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ENG{' '}
+              {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <Text
           style={[

@@ -12,7 +12,7 @@ import StatusInfoScreen from '../Screens/ProfileScreen/StatusInfoScreen';
 import { useState } from 'react';
 import {ScreenOne, ScreenTwo, ScreenThree } from '../Screens/Registration/index';
 import AuthService from '../Services/AuthService';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import OffersScreen from '../Screens/OffersScreen/OffersScreen';
 import SingleOfferScreen from '../Screens/OffersScreen/SingleOfferScreen';
@@ -32,18 +32,21 @@ import FloorMap from '../Components/FloorMap';
 import ShopDetailBox from '../Components/ShopDetailBox';
 import GoogleMap from '../Components/GoogleMap';
 import Searches from '../Screens/Stores/Searches';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 
 
-
+interface IProps {
+    init: boolean;
+}
 
 
 
 
 const Stack = createStackNavigator();
 
-const AppStack = () => {
+const AppStack:React.FC<IProps> = ({init}) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { isAuthenticated } = state
 
@@ -63,6 +66,8 @@ const AppStack = () => {
     }, [])
 
     if (!isInitialized) return <Text>Loading ...</Text>
+
+    if(!init) return <View style={{backgroundColor: Colors.black, flex: 1}} />
 
     return (
         <NavigationContainer ref={navigationRef}>

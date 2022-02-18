@@ -33,7 +33,7 @@ class TranslateService {
     }
 
     //set language
-    use(lang: string, errCallback: (err: any) => void) {
+    use(lang: string, errCallback?: (err: any) => void) {
         try {
         const translates = translateList[lang];
         this.lang = lang;

@@ -8,9 +8,7 @@ import axios from 'axios';
 import AuthService, { IInterceptop } from './Services/AuthService';
 import translateService from './Services/translateService';
 import AsyncStorage from './Services/StorageService';
-
-export const default_lang_key = 'ka';
-export const locale_key = 'locale_key';
+import { default_lang_key, locale_key } from './lang';
 
 const AppIndex = () => {
   const { state, setGlobalState } = useContext(AppContext);
@@ -64,7 +62,11 @@ const AppIndex = () => {
 
   useEffect(() => {
     const transSub = translateService.subscribe((_: string) => {
+      setInitialized(false);
       setCurrentLocale(_);
+      setTimeout(() => {
+        setInitialized(true);
+      }, 1);
     });
 
     return () => {
@@ -91,12 +93,10 @@ const AppIndex = () => {
     }
   }, [userToken]);
 
-  if (!initialized) return null;
-
   return (
     <>
       <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} />
-      <AppStack />
+      <AppStack init={initialized} />
     </>
   );
 };
