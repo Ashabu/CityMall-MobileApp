@@ -95,7 +95,7 @@ const SelectedVouchers = () => {
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => buy()}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დადასტურება</Text>
+            <Text style={styles.btnText}>დადასტურება</Text>
           </TouchableOpacity>
         </View>
         <Modal visible={isLoading} animationType="slide" transparent={true}>

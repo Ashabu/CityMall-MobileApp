@@ -14,6 +14,11 @@ const Parameters = () => {
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
 
+  const lightMoonIcon = require('../../assets/images/moon.png')
+  const darkMoonIcon = require('../../assets/images/darkMoon.png')
+  const lightUserIcon = require('../../assets/images/user.png')
+  const darkUserIcon = require('../../assets/images/darkAvatar.png')
+
   const SwitchDarkTheme = () => {
     setGlobalState({isDarkTheme: !isDarkTheme});
   };
@@ -37,7 +42,7 @@ const Parameters = () => {
           <View style={styles.desighnView}>
             <View style={styles.iconView}>
               <View style={{width: 30}}>
-                <Image source={require('../../assets/images/moon.png')} />
+                <Image source={isDarkTheme? lightMoonIcon : darkMoonIcon } />
               </View>
               <View>
                 <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>მუქი დიზაინი</Text>
@@ -61,7 +66,7 @@ const Parameters = () => {
             style={styles.iconView}
             onPress={() => navigate('ProfileInfo')}>
             <View style={{width: 30}}>
-              <Image source={require('../../assets/images/user.png')} />
+              <Image source={isDarkTheme? lightUserIcon : darkUserIcon} />
             </View>
             <View>
               <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>პროფილის გვერდი</Text>

@@ -47,6 +47,9 @@ const ProfileScreen = () => {
   const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const darkArrowIcon = require('../../assets/images/arrow-black.png')
+  const lightArrowIcon =require('../../assets/images/arrow-sm.png')
+
   useEffect(() => {
     getClientData();
     getClientTransactions();
@@ -183,7 +186,7 @@ const ProfileScreen = () => {
               ]}>
               სტატუსბარი
             </Text>
-            <TouchableOpacity onPress={() => navigate('StatusInfoScreen')}>
+            <TouchableOpacity onPress={() => navigate('StatusInfoScreen')} style={{flexDirection:'row', alignItems:'center'}}>
               <Text
                 style={[
                   styles.promotionsTitle,
@@ -191,6 +194,7 @@ const ProfileScreen = () => {
                 ]}>
                 ვრცლად
               </Text>
+              <Image source={isDarkTheme? lightArrowIcon :  darkArrowIcon} style={styles.icon}/>
             </TouchableOpacity>
           </View>
           {clientInfo ? <StatusBar data={clientInfo} /> : null}
@@ -399,6 +403,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
   },
+  icon: {
+    width: 8,
+    height: 8,
+    left: 6
+  }
 });
 
 export default ProfileScreen;

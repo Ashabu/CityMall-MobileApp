@@ -19,7 +19,7 @@ const ToggleDropdown = () => {
       style={[styles.main, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}
       onStartShouldSetResponder={event => true}>
           {data.map((el: any, i: React.Key) =>(
-             <ToggleDropdownLayout key={i} name={el.name} icon={el.iconLight} Content={el.content} routeName={el.routeName}
+             <ToggleDropdownLayout key={i} name={el.name} icon={isDarkTheme? el.iconLight : el.iconDark} Content={el.content} routeName={el.routeName}
                    
            
             />

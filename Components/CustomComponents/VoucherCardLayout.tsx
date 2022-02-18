@@ -96,9 +96,9 @@ const fullDate = `${startd} - ${endd}`
         <View style={[styles.main,{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
           <View style={styles.cardWrapper}>
             <View style={styles.cardView}>
-              <Text style={styles.amountText}>{value}</Text>
+              <Text style={[styles.amountText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{value}</Text>
               <View>
-                <Text style={styles.percentStyle}>{sign}</Text>
+                <Text style={[styles.percentStyle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{sign}</Text>
                 {imageUrl !== undefined && (
                   <Image
                     source={{uri: imageUrl}}

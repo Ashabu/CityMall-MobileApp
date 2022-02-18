@@ -51,7 +51,7 @@ useEffect(() => {
           paddingHorizontal: '7%',
         }}>
           {data.map((el: any, i: React.Key) => (
-            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content} routeName={el.routeName} contentData = {contentData} routeId = {route.params.routeId} />
+            <PlanVisitLayout key={i} title={el.name} icon={isDarkTheme? el.lightIcon : el.darkIcon} Content={el.content} routeName={el.routeName} contentData = {contentData} routeId = {route.params.routeId} />
           ))}
         
       </View>
