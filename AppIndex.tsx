@@ -17,7 +17,6 @@ const AppIndex = () => {
   const [userToken, setUserToken] = useState<string>("");
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
   const [initialized, setInitialized] = useState(false);
-  const [currentLocale, setCurrentLocale] = useState<string>(default_lang_key);
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
@@ -40,9 +39,9 @@ const AppIndex = () => {
   };
 
   let initialize = (lang?: string) => {
-    if (!lang) {
+ 
       translateService.use(lang || default_lang_key, (e) => {console.log(e)});
-    }
+    
     setInitialized(true);
   };
 
@@ -61,12 +60,14 @@ const AppIndex = () => {
   }, [userToken]);
 
   useEffect(() => {
-    const transSub = translateService.subscribe((_: string) => {
+    const transSub = translateService.subscribe((key: string) => {
       setInitialized(false);
-      setCurrentLocale(_);
-      setTimeout(() => {
+      AsyncStorage.setItem(locale_key, key).then(res => {
+        if(res !== null) {
+          setInitialized(true);
+        }
         setInitialized(true);
-      }, 1);
+      }).catch(() => setInitialized(true));
     });
 
     return () => {
@@ -75,7 +76,7 @@ const AppIndex = () => {
   }, []);
 
   useEffect(() => {
-    AsyncStorage.getItem(locale_key).then(res => {
+    AsyncStorage.getItem(locale_key).then(res => {console.log(res)
       if(res !== null) {
         initialize(res);
       } else {
