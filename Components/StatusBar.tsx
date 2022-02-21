@@ -170,7 +170,7 @@ const StatusBar = (props: any) => {
     borderColor: isDarkTheme ? Colors.white : Colors.black,
   };
 
-  console.log('>>>>>>>>>>', props?.data.categoryPointInfo[0]);
+
 
   return (
     <View style={{position: 'relative'}}>
@@ -184,7 +184,7 @@ const StatusBar = (props: any) => {
           <TouchableOpacity
             onPress={() =>
               setVisible({
-                visible1: true,
+                visible1: !visible1,
                 visible2: false,
                 visible3: false,
                 visible4: false,
@@ -231,7 +231,7 @@ const StatusBar = (props: any) => {
             onPress={() =>
               setVisible({
                 visible1: false,
-                visible2: true,
+                visible2: !visible2,
                 visible3: false,
                 visible4: false,
               })
@@ -286,7 +286,7 @@ const StatusBar = (props: any) => {
               setVisible({
                 visible1: false,
                 visible2: false,
-                visible3: true,
+                visible3: !visible3,
                 visible4: false,
               })
             }
@@ -338,7 +338,7 @@ const StatusBar = (props: any) => {
               visible1: false,
               visible2: false,
               visible3: false,
-              visible4: true,
+              visible4: !visible4,
             })
           }
           style={[
@@ -380,7 +380,7 @@ const StatusBar = (props: any) => {
               setVisible({visible1: false, visible2, visible3, visible4})
             }
             title={`სტანდარტი`}
-            desc={`"სტანდარტი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo[0]?.pointsLeft} ქულა`}
+            desc={`"სტანდარტი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[0]?.pointsLeft} ქულა`}
           />
           <ProgressCircle
             index={1}
@@ -389,7 +389,7 @@ const StatusBar = (props: any) => {
               setVisible({visible1, visible2: false, visible3, visible4})
             }
             title={`ვერცხლი`}
-            desc={`"სილვერი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo[1]?.pointsLeft} ქულა`}
+            desc={`"სილვერი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[1]?.pointsLeft} ქულა`}
           />
         </View>
         <View
@@ -405,7 +405,7 @@ const StatusBar = (props: any) => {
               setVisible({visible1, visible2, visible3: false, visible4})
             }
             title={`ოქრო`}
-            desc={`"ოქრო" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo[2]?.pointsLeft} ქულა`}
+            desc={`"ოქრო" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[2]?.pointsLeft} ქულა`}
           />
           <ProgressCircle
             index={3}
@@ -414,7 +414,7 @@ const StatusBar = (props: any) => {
               setVisible({visible1, visible2, visible3, visible4: false})
             }
             title={`პლატინა`}
-            desc={`"პლატინა" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo[3]?.pointsLeft} ქულა`}
+            desc={`"პლატინა" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[3]?.pointsLeft} ქულა`}
           />
         </View>
       </View>
