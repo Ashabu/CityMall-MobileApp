@@ -16,7 +16,7 @@ const AppIndex = () => {
 
   const [userToken, setUserToken] = useState<string>("");
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
-  const [initialized, setInitialized] = useState(false);
+  const [initialized, setInitialized] = useState(true);
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
@@ -59,33 +59,33 @@ const AppIndex = () => {
     
   }, [userToken]);
 
-  useEffect(() => {
-    const transSub = translateService.subscribe((key: string) => {
-      setInitialized(false);
-      AsyncStorage.setItem(locale_key, key).then(res => {
-        if(res !== null) {
-          setInitialized(true);
-        }
-        setInitialized(true);
-      }).catch(() => setInitialized(true));
-    });
+  // useEffect(() => {
+  //   const transSub = translateService.subscribe((key: string) => {
+  //     setInitialized(false);
+  //     AsyncStorage.setItem(locale_key, key).then(res => {
+  //       if(res !== null) {
+  //         setInitialized(true);
+  //       }
+  //       setInitialized(true);
+  //     }).catch(() => setInitialized(true));
+  //   });
 
-    return () => {
-      transSub.unsubscribe();
-    }
-  }, []);
+  //   return () => {
+  //     transSub.unsubscribe();
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    AsyncStorage.getItem(locale_key).then(res => {console.log(res)
-      if(res !== null) {
-        initialize(res);
-      } else {
-        initialize();
-      }
-    }).catch(() => {
-      initialize();
-    })
-  }, []);
+  // useEffect(() => {
+  //   AsyncStorage.getItem(locale_key).then(res => {console.log(res)
+  //     if(res !== null) {
+  //       initialize(res);
+  //     } else {
+  //       initialize();
+  //     }
+  //   }).catch(() => {
+  //     initialize();
+  //   })
+  // }, []);
 
   useEffect(() => {
     AxiosInterceptor.current = [RegisterCommonInterceptor(), AuthService.registerAuthInterceptor(async () => await logOut())];

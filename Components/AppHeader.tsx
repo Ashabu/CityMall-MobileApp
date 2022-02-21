@@ -87,15 +87,18 @@ const AppHeader = (props: any) => {
               <View style={[styles.burgerIconLine, themeBgColor]} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 70}} onPress={() => {
-                            translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
-                        }}>
+          <TouchableOpacity style={{width: 70}} 
+          // onPress={() => {
+          //                   translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
+          //               }}
+                        >
             <Text
               style={[
                 styles.langText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
+              {/* {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '} */}
+              ENG{' '}
             </Text>
           </TouchableOpacity>
         </View>
