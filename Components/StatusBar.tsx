@@ -388,7 +388,7 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2: false, visible3, visible4})
             }
-            title={`ვერცხლი`}
+            title={`სილვერი`}
             desc={`"სილვერი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[1]?.pointsLeft} ქულა`}
           />
         </View>
@@ -404,8 +404,8 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3: false, visible4})
             }
-            title={`ოქრო`}
-            desc={`"ოქრო" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[2]?.pointsLeft} ქულა`}
+            title={`გოლდი`}
+            desc={`"გოლდი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[2]?.pointsLeft} ქულა`}
           />
           <ProgressCircle
             index={3}
@@ -413,8 +413,8 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3, visible4: false})
             }
-            title={`პლატინა`}
-            desc={`"პლატინა" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[3]?.pointsLeft} ქულა`}
+            title={`პლატინუმი`}
+            desc={`"პლატინუმი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[3]?.pointsLeft} ქულა`}
           />
         </View>
       </View>

@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: 50,
-    width: 180,
+    width: 220,
     color: '#ffffff',
     elevation: 9,
   },
