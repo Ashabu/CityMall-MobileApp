@@ -22,7 +22,8 @@ import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 
 const AuthScreen = () => {
-    const { setGlobalState } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
+  const {isDarkTheme} = state;
 
 
     const [hasError, setHasError] = useState<boolean>(false);
@@ -172,7 +173,7 @@ const AuthScreen = () => {
                 </View>
                 <View style={{ flex: 6 }}>
                     <View style={{ flexDirection: 'row', position: 'relative'}}>
-                        <View style={{borderBottomColor: '#fff', borderBottomWidth: 1, position: 'absolute', left: 0 , right: 0, top: 52}}></View>
+                        <View style={[{borderBottomColor: isDarkTheme?  Colors.white : Colors.black },{borderBottomWidth: 1, position: 'absolute', left: 0 , right: 0, top: 52}]}></View>
                         <View >
                             <DialCodePicker onSelect={handleSelectedValue} ignoreBorder={true} />
                         </View>
@@ -215,7 +216,7 @@ const AuthScreen = () => {
                                             checked={agreedTerms}
                                             onChange={toggleAgreedTerms}
                                             hasError={agreedTermsError} />
-                                        <Text style={styles.agreeTermsText}>ვეთანხმები წესებს და პირობებს</Text>
+                                        <Text style={[styles.agreeTermsText,{color: isDarkTheme?  Colors.white : Colors.black}]}>ვეთანხმები წესებს და პირობებს</Text>
                                     </View>
                         </View>}
                 </View>

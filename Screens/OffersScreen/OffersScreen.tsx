@@ -18,6 +18,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {CategoryTypes} from '../../Constants/Categories';
 import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {ChunkArrays} from '../../Utils/utils';
+import NotFound from '../../Components/NotFound';
 
 type RouteParamList = {
   params: {
@@ -190,13 +191,14 @@ const OffersScreen = () => {
               : {flex: 11},
           ]}>
           {!isLoading && (!filteredOffers || filteredOffers.length <= 0) ? (
-            <Text
-              style={{
-                fontSize: 10,
-                color: isDarkTheme ? Colors.white : Colors.black,
-              }}>
-              ქონთენთი ვერ მოიძებნა
-            </Text>
+            // <Text
+            //   style={{
+            //     fontSize: 10,
+            //     color: isDarkTheme ? Colors.white : Colors.black,
+            //   }}>
+            //   ქონთენთი ვერ მოიძებნა
+            // </Text>
+            <NotFound />
           ) : (
             <ScrollView
               contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}

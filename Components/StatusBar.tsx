@@ -49,9 +49,9 @@ const StatusBar = (props: any) => {
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
   const curPoints = props?.data?.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
 
-  const toggleDropdown = () => {
-    setVisible(!visible);
-  };
+  // const toggleDropdown = () => {
+  //   setVisible(!visible);
+  // };
 
   useEffect(() => {
     setPointArray([]);
@@ -141,7 +141,7 @@ const StatusBar = (props: any) => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
-            onPress={toggleDropdown}
+            // onPress={toggleDropdown}
             style={[
               styles.round,
               {borderColor: isDarkTheme ? Colors.white : Colors.black},
@@ -179,7 +179,8 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
+          <TouchableOpacity
+          // onPress={toggleDropdown}
             style={[
               styles.round,
               props?.data?.category >= 2
@@ -195,7 +196,9 @@ const StatusBar = (props: any) => {
                 },
               ]}
             />
-          </View>
+          </TouchableOpacity>
+
+
         </View>
 
         <View style={{position: 'relative'}}>
@@ -225,7 +228,7 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
+          <TouchableOpacity
             style={[
               styles.round,
               props?.data?.category >= 3
@@ -241,7 +244,7 @@ const StatusBar = (props: any) => {
                 },
               ]}
             />
-          </View>
+          </TouchableOpacity>
           <View style={{position: 'relative'}}>
             <View
               style={[
@@ -268,7 +271,7 @@ const StatusBar = (props: any) => {
             />
           </View>
         </View>
-        <View
+        <TouchableOpacity
           style={[
             styles.round,
             {borderColor: isDarkTheme ? Colors.white : Colors.black},
@@ -285,7 +288,7 @@ const StatusBar = (props: any) => {
               },
             ]}
           />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View
