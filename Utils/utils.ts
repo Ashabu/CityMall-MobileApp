@@ -18,3 +18,20 @@ export function ChunkArrays<T>(iterable: T[], perChunk: number): Array<T[]> {
 
   return result;
 }
+
+export const minusMonthFromDate = (
+  minusmonthcount: number = 1,
+  date: Date | string | undefined = undefined,
+) => {
+  let _D;
+  if (typeof date === 'string') {
+    _D = new Date(date);
+  } else if (typeof date === 'undefined') {
+    _D = new Date();
+  } else {
+    _D = date;
+  }
+
+  _D?.setMonth(_D.getMonth() - minusmonthcount);
+  return _D;
+};
