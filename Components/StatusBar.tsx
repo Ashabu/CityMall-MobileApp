@@ -49,9 +49,9 @@ const StatusBar = (props: any) => {
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
   const curPoints = props?.data?.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
 
-  // const toggleDropdown = () => {
-  //   setVisible(!visible);
-  // };
+  const toggleDropdown = () => {
+    setVisible(!visible);
+  };
 
   useEffect(() => {
     setPointArray([]);
@@ -104,35 +104,11 @@ const StatusBar = (props: any) => {
     borderColor: isDarkTheme ? Colors.white : Colors.black,
   };
 
+  console.log('>>>>>>>>>>', props?.data)
+
   return (
     <View style={{position: 'relative'}}>
-      {visible ? (
-        <View>
-          <Portal>
-            <TouchableOpacity
-              style={[styles.dropDown, {height: height, width: width}]}
-              onPress={() => setVisible(false)}>
-              <View
-                style={{
-                  backgroundColor: Colors.black,
-                  top: 275,
-                  width: 113,
-                  height: 89,
-                  borderRadius: 10,
-                }}
-                onStartShouldSetResponder={event => true}>
-                <Text
-                  style={[
-                    Platform.OS === 'ios' && {fontSize: 10},
-                    {color: Colors.white, padding: 10},
-                  ]}>
-                  "სილვერის" სტატუსამდე დაგრჩათ 100 ქულა
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Portal>
-        </View>
-      ) : null}
+      
       <View
         style={{
           flexDirection: 'row',
@@ -141,7 +117,7 @@ const StatusBar = (props: any) => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
-            // onPress={toggleDropdown}
+            onPress={toggleDropdown}
             style={[
               styles.round,
               {borderColor: isDarkTheme ? Colors.white : Colors.black},
@@ -180,7 +156,7 @@ const StatusBar = (props: any) => {
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
-          // onPress={toggleDropdown}
+          onPress={toggleDropdown}
             style={[
               styles.round,
               props?.data?.category >= 2
@@ -310,13 +286,42 @@ const StatusBar = (props: any) => {
               fontSize: 10,
             }}>
             სტანდარტი
+
           </Text>
           <Text
             style={{
               color: isDarkTheme ? Colors.white : Colors.black,
               fontSize: 10,
+              position: 'relative',
+              textAlign: 'center'
             }}>
             ვერცხლი
+            {visible ? (
+    
+         
+            <TouchableOpacity
+              style={styles.dropDown}
+              onPress={() => setVisible(false)}>
+              <View
+                style={{
+                  backgroundColor: Colors.red,
+                  width: 113,
+                  //height: 89,
+                  borderRadius: 10,
+                }}
+                onStartShouldSetResponder={event => true}>
+                <Text
+                  style={[
+                    Platform.OS === 'ios' ? {fontSize: 10} : {fontSize: 9},
+                    {color: Colors.white, padding: 10},
+                  ]}>
+                  "სილვერის" სტატუსამდე დაგრჩათ {props?.data[0]?.pointsLeft} ქულა
+                </Text>
+              </View>
+            </TouchableOpacity>
+        
+        
+      ) : null}
           </Text>
         </View>
         <View

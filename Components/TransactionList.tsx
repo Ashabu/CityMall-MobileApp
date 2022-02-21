@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { Colors } from '../Colors/Colors';
+import { tranTypes } from '../Screens/ProfileScreen/ProfileScreen';
 
 const TransactionList = (props: any) => {
 
@@ -17,7 +18,7 @@ const TransactionList = (props: any) => {
                     <Text style={{color: Colors.white}}>{props.item?.merchantName}</Text>
                 </View>
             </View>
-            <Text style={{color: Colors.red}}>{props.item?.amount}</Text>
+            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.red : Colors.successGreen}]}>{props.item?.amount}</Text>
         </View> 
     )
 };
