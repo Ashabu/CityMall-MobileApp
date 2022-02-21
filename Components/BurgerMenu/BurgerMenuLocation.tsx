@@ -11,6 +11,7 @@ export interface IBmItem {
     categories?: ICategories[],
     routeName: string,
     pageName?: string
+    isPremium?:boolean
 }
 
 
@@ -48,7 +49,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName, pag
             {
                 isCollapsed && <View>
                     {MenuItemCategories?.map((el, i) => (
-                        <BurgerMenuCategories item={el} key={i} routeName = {routeName!} routeId = {item.id} pageName = {pageName}  />
+                        <BurgerMenuCategories item={el} key={i} routeName = {routeName!} routeId = {item.id} pageName = {pageName} isPremium={el.isPremium} />
                     ))}
                 </View>
             }
