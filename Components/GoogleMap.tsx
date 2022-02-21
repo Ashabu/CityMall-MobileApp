@@ -5,8 +5,6 @@ import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { GoBack } from '../Services/NavigationServices';
-import Layout from './Layouts/Layout';
 
 
 type RouteParamList = {
@@ -34,7 +32,7 @@ export default () => {
 
   console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
-    <Layout hasBackArrow pageName="ქალაქის რუკა" onPressBack={GoBack}>
+    <AppLayout pageTitle={'ქალაქის რუკა'}>
       <View
         style={[
           styles.mapcontainer,
@@ -80,7 +78,7 @@ export default () => {
                
         </MapView>
       </View>
-    </Layout>
+    </AppLayout>
   );
 };
 
