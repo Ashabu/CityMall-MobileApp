@@ -25,6 +25,7 @@ import {
   IMainCategories,
 } from '../../Services/Api/CategoryApi';
 import {GetMerchants, IMerchant} from '../../Services/Api/ShopsApi';
+import NotFound from '../../Components/NotFound';
 
 export interface IServiceCategories {
   id?: number;
@@ -329,7 +330,9 @@ const Stores: React.FC = () => {
                   },
             ]}>
               {!isLoading && merchants.length <=0 ? 
-              <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>:
+              // <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>
+              <NotFound />
+              :
             <ScrollView
               contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
               onScroll={({nativeEvent}) => {
