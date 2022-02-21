@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
@@ -56,7 +56,7 @@ export default () => {
           //  showsScale={true}
           //  showsPointsOfInterest={true}
           // toolbarEnabled={true}
-          followsUserLocation={true}
+          followsUserLocation={Platform.OS === 'android'}
           zoomControlEnabled={true}
           zoomEnabled={true}
           // pitchEnabled={true}
