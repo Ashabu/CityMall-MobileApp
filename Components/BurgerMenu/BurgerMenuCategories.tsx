@@ -4,6 +4,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { AppContext } from '../../AppContext/AppContext';
 import { ICategories, ILocation } from '../../Constants/DrawerItems';
 import { navigate } from '../../Services/NavigationServices';
+import translateService from '../../Services/translateService';
 
 export interface IBmCategoriesItem {
     item?: ICategories,
@@ -21,7 +22,7 @@ const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({item, routeName, rou
         <View style={styles.categoryView}>
             <TouchableOpacity style={styles.categoryItem} onPress={() => navigate(routeName!, {id: item?.id, routeId: routeId, name: pageName, isPremium: isPremium})}>
                 <Text style={[styles.categoryItemText, {color: isDarkTheme? Colors.white : Colors.black}]}>
-                    {item?.name}
+                    {translateService.t(item?.name || '')}
                 </Text>
             </TouchableOpacity>
         </View>

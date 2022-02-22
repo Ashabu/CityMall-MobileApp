@@ -1,4 +1,4 @@
-import translateService from '../Services/translateService';
+
 
 export interface ICategories {
     id?: number,
@@ -25,7 +25,7 @@ export interface IDrawerItem {
 
 export default [
     {
-        name: translateService.t('screens.home'),
+        name: 'screens.home',
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],
@@ -34,16 +34,16 @@ export default [
         objectTypeId: undefined,
     },
     {
-        name: translateService.t('common.offers'),
+        name: 'common.offers',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id:1
 
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             },
 
@@ -51,11 +51,11 @@ export default [
         categories: [
             {
                 id: 0,
-                name: translateService.t('common.sales')
+                name: 'common.sales'
             },
             {
                 id: 1,
-                name: translateService.t('common.news')
+                name: 'common.news'
             },
             
         ],
@@ -64,26 +64,26 @@ export default [
         objectTypeId: undefined,
     },
     {
-        name: translateService.t('common.shops'),
+        name: 'common.shops',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id: 1
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             }
         ],
         categories: [
             {
                 id: 1,
-                name: translateService.t('common.shops')
+                name: 'common.shops'
             },
             {
                 id: 2,
-                name: translateService.t('screens.premumSpace'),
+                name: 'screens.premumSpace',
                 isPremium: true
             },
         ],
@@ -92,15 +92,15 @@ export default [
         objectTypeId: 100013,
     },
     {
-        name: translateService.t('common.fun'),
+        name: 'common.fun',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id: 1
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             }
         ],
@@ -110,15 +110,15 @@ export default [
         id:4
     },
     {
-        name: translateService.t('common.feed'),
+        name: 'common.feed',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id: 1
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             } 
         ],
@@ -128,15 +128,15 @@ export default [
         id:5
     },
     {
-        name: translateService.t('common.services'),
+        name: 'common.services',
          icon: require('../assets/images/arrow-sm.png'),
          location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id: 1
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             } 
         ],
@@ -146,42 +146,42 @@ export default [
          id:6,
     },
     {
-        name: translateService.t('screens.roadMap'),
+        name: 'screens.roadMap',
          icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.cityMallSaburtalo'),
+                name: 'screens.cityMallSaburtalo',
                 id: 1
             },
             {
-                name: translateService.t('screens.cityMallGldani'),
+                name: 'screens.cityMallGldani',
                 id: 2
             }
         ],
         categories: [
             {
                 id: 1,
-                name: translateService.t('screens.planVisit')
+                name: 'screens.planVisit'
             },
             {
                 id: 2,
-                name: translateService.t('screens.contactUs')
+                name: 'screens.contactUs'
             },
         ],
         routeName: 'ShopGuid',
         id:8,
     },
     {
-        name: translateService.t('screens.aboutUs'),
+        name: 'screens.aboutUs',
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: translateService.t('screens.aboutUs'),
+                name: 'screens.aboutUs',
                 id: 1
                 
             },
             {
-                name: translateService.t('screens.aboutLoialty'),
+                name: 'screens.aboutLoialty',
                 id: 2
             },
             
@@ -194,7 +194,7 @@ export default [
         name: '_blank',
     },
     {
-        name: translateService.t('screens.myProfile'),
+        name: 'screens.myProfile',
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],
@@ -202,7 +202,7 @@ export default [
         routeName: 'ProfileScreen'
     },
     {
-        name: translateService.t('screens.parameters'),
+        name: 'screens.parameters',
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],
