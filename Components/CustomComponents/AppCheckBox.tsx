@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import translateService from '../../Services/translateService';
 
 interface IAppCheckBox {
     checked: boolean,
@@ -13,8 +14,8 @@ interface IAppCheckBox {
 };
 
 const validations: any = {
-    gender: 'გთხოვთ აირჩიოთ სქესი ',
-    terms: 'გთხოვთ დაეთანხმოთ წესებსა და პირობებს'
+    gender: translateService.t('infoText.selectGender'),
+    terms: translateService.t('infoText.terms')
 }
 
 const AppCheckBox: React.FC<IAppCheckBox> = (props) => {

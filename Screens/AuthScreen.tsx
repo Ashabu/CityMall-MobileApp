@@ -174,7 +174,7 @@ const AuthScreen = () => {
             break;
           case 'invalid_password':
             setButtonLoading(false);
-            setPasswordError('პაროლი არასწორია');
+            setPasswordError(translateService.t('infoText.passwordError'));
             break;
           case 'invalid_otp':
             setOtpError(true);

@@ -111,7 +111,7 @@ const ScreenOne: React.FC = () => {
         <Layout 
         hasBackArrow={true} 
         onPressBack={() => GoBack()}
-        pageName={'სითი მოლი'}>
+        pageName={translateService.t('common.cityMall')}>
             <ScrollView
                 keyboardShouldPersistTaps="always"
                 contentContainerStyle={{

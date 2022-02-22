@@ -43,7 +43,7 @@ const BuyVouchers = () => {
       hasBackArrow
       onPressBack={GoBack}
      
-      pageName='ვაუჩერების შეძენა'
+      pageName={translateService.t('screens.buyVouchers')}
       >
       <View style={styles.mainContainer}>
         <View style={styles.cardWrapper}>

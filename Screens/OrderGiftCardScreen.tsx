@@ -328,8 +328,7 @@ const OrderGiftCardScreen = () => {
                         <GiftCards />
                         <View style={{ marginTop: 44 }}>
                             <Text style={styles.infoText}>
-                                შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის თავისუფლება მისცეთ
-                            </Text>
+                            {translateService.t('infoText.loialtyText')}                            </Text>
                         </View>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>

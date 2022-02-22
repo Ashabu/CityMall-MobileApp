@@ -4,6 +4,7 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import AppLayout from '../../Components/AppLayout';
 import StatusBar from '../../Components/StatusBar';
+import translateService from '../../Services/translateService';
 
 const StatusInfoScreen = () => {
   const {state} = useContext(AppContext);
@@ -22,12 +23,12 @@ const StatusInfoScreen = () => {
       <ScrollView>
         <View style={[bgThemeColor, styles.main]}>
           <View style={{marginBottom: 40}}>
-            <Text style={[styles.titleText, textThemeColor]}>სტატუსბარი</Text>
+            <Text style={[styles.titleText, textThemeColor]}>{translateService.t('screens.statusbar')}</Text>
             <StatusBar />
           </View>
           <View style={{marginBottom: 40}}>
             <Text style={[styles.titleText, textThemeColor]}>
-              სტატუსის შესახებ ინფო
+            {translateService.t('infoText.aboutStatus')}
             </Text>
             <Text style={[styles.descriptionText, textThemeColor]}>
               შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი
@@ -40,7 +41,7 @@ const StatusInfoScreen = () => {
           </View>
           <View>
             <Text style={[styles.titleText, textThemeColor]}>
-              რა ეკუთვნის თითოეულ სტატუსზე
+            {translateService.t('infoText.statusGift')}
             </Text>
             <Text style={[styles.descriptionText, textThemeColor]}>
               შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი
