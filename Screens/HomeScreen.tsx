@@ -135,7 +135,7 @@ const HomeScreen = () => {
     };
 
 
-
+console.log({clientDetails})
 
 
     return (
@@ -153,6 +153,24 @@ const HomeScreen = () => {
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
+                </View>
+
+                <View style={styles.amountInfo}>
+                    <View style={styles.accesAmount}>
+                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
+                        ხელმისაწვდომი თანხა
+                        </Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].balance}₾</Text>
+                    </View>
+
+                    <View style={styles.pointsInfo}>
+                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
+                        სითიქულა
+                        </Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].points || 0}
+                               <Image source={require('./../assets/images/Star.png')} style={{marginLeft: 15}} />
+                             </Text>
+                    </View>
                 </View>
 
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
@@ -232,6 +250,38 @@ const styles = StyleSheet.create({
         fontFamily: 'HMpangram-Bold',
 
     },
-
+    amountInfo: {
+        flexDirection: 'row', 
+        flex: 1, 
+        justifyContent: 'center', 
+        marginBottom: 22
+    },
+    pointsInfo: {
+        padding: 7,
+        borderColor: Colors.white,
+        borderWidth: 1,
+        borderRadius: 5,
+        minWidth: 100
+    },
+accesAmount: {
+    padding: 7,
+    borderColor: Colors.white,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginRight: 12,
+    minWidth: 100
+},
+amountTitle: {
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 9,
+    lineHeight: 11,
+    textTransform: 'uppercase',
+},
+amountValue: {
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 24,
+    lineHeight: 29,
+    textTransform: 'uppercase',
+}
 
 });
