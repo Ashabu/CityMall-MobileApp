@@ -40,7 +40,8 @@ const SingleOfferScreen = () => {
             <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
         
             <View style={{ flex: 6 }}>
-                <Image source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
+            {/* /width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 */}
+                <Image resizeMode={'cover'} source={{uri: singleOffer.imgUrl}} style={{ width: '100%', flex: 1, maxHeight: 433 }} />
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
