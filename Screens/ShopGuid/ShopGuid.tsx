@@ -2,8 +2,6 @@ import React, {useEffect} from 'react';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import ContactUs from './ContactUs';
 import PlanVisit from './PlanVisit';
-ContactUs
-PlanVisit
 
 type RouteParamList = {
     params: {

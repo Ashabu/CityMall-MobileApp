@@ -1,13 +1,49 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {GoBack} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
+import ApiServices from '../../Services/ApiServices';
 
-const AboutUs = () => {
+
+const AboutUs = ({strings}: {strings: any[]}) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+
+  const [contentData, setContentData] = useState<any>([]);
+  useEffect(() => {
+    getWidgets();
+  }, [])
+    const getWidgets = () => {
+      ApiServices.GetWidgets().then(res => {
+       // console.log(res.data)
+        setContentData(res.data)
+      }).catch(e => {
+        console.log(JSON.parse(JSON.stringify(e.response)))
+      })
+    }
+
+  let str = '';
+  let addr = '', addr1 = '';
+
+  try {
+    if (strings?.length) {
+      const index = strings.findIndex((s: any) => s.type == 2);
+      if (index >= 0) {
+        str = strings[index].text;
+      }
+    }
+  } catch (_) {}
+
+  try {
+    if (strings?.length) {
+      if (contentData?.length >= 0) {
+        addr = contentData[1].address;
+        addr1 = contentData[0].address;
+      }
+    }
+  } catch (_) {}
 
   return (
     <Layout hasBackArrow pageName="ჩვენ შესახებ" onPressBack={GoBack}>
@@ -20,13 +56,10 @@ const AboutUs = () => {
         <View style={styles.txtView}>
           <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>სითი მოლი</Text>
           <Text style={[styles.infoTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-            ცნობილი ფაქტია, რომ გვერდის წაკითხვად შიგთავსს შეუძლია მკითხველის
-            ყურადღება მიიზიდოს და დიზაინის აღქმაში ხელი შეუშალოს. გამოყენებით
-            ვღებულობთ იმაზე მეტ-ნაკლებად სწორი გადანაწილების ტექსტს, ვიდრე
-            ერთიდაიგივე გამეორებადი სიტყვებია ხოლმე.
+            {str}
           </Text>
         </View>
-        <View style={[styles.txtView, {paddingVertical: 30}]}>
+        {/* <View style={[styles.txtView, {paddingVertical: 30}]}>
           <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>კონტაქტი</Text>
           <View style={{top: 10}}>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
@@ -41,13 +74,12 @@ const AboutUs = () => {
               <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 599 515 672</Text>
             </Text>
           </View>
-        </View>
+        </View> */}
         <View style={{paddingVertical: 30}}>
           <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>მისამართი</Text>
           <View style={{top: 10}}>
             <Text style={[styles.addressInfo,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              სითი მოლი საბურთალო, ვაჟა-ფშაველას №70 სითი მოლი გლდანი, ი.ვეკუას
-              №1
+              სითი მოლი საბურთალო, {addr}{' '} სითი მოლი გლდანი, {addr1}{' '}
             </Text>
           </View>
         </View>
