@@ -96,7 +96,6 @@ const AppIndex = () => {
 
   useEffect(() => {
     AsyncStorage.getItem('isDarkTheme').then(res => {
-      console.log(res || '')
       if(res != null) {
         if(res == '1') {
           setGlobalState({isDarkTheme: true});
@@ -104,7 +103,9 @@ const AppIndex = () => {
           setGlobalState({isDarkTheme: false});
         }
       } else {
-        setGlobalState({isDarkTheme: true});
+        AsyncStorage.setItem('isDarkTheme', '0').then(_ => {
+          setGlobalState({isDarkTheme: false});
+        })
       }
     })
    

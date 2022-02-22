@@ -167,12 +167,12 @@ console.log({clientInfo})
                     }
                 </View>
 
-                <View style={styles.amountInfo}>
+                {clientInfo !== undefined && <View style={styles.amountInfo}>
                     <View style={[styles.accesAmount, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         ხელმისაწვდომი თანხა
                         </Text>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].balance}₾</Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.ballance}₾</Text>
                     </View>
 
                     <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
@@ -180,13 +180,13 @@ console.log({clientInfo})
                         სითიქულა
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo !== undefined && clientInfo?.points || 0}
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.points || 0}
                               
                              </Text>
                              <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />
                   </View>
                     </View>
-                </View>
+                </View>}
 
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
                 <View style={{ flex: 7.5 }}>
