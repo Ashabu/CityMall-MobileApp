@@ -28,6 +28,7 @@ import {formatNumber} from '../../Services/Utils';
 import {GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {GetVouchersToBuy, IVouchers} from '../../Services/Api/VouchersApi';
 import VaucherPromptBox from '../../Components/VaucherPromptBox';
+import translateService from '../../Services/translateService';
 
 //transactionType
 export enum tranTypes {
@@ -218,7 +219,7 @@ const ProfileScreen = () => {
   ) : null;
 
   return (
-    <AppLayout pageTitle={'კაბინეტი'}>
+    <AppLayout pageTitle={translateService.t('screens.room')}>
       <ScrollView
       ref={scrollRef}
       onScroll={handleScroll}
@@ -235,13 +236,13 @@ const ProfileScreen = () => {
         }>
         <View style={styles.balanceView}>
           <View>
-            <Text style={styles.balanceWrapTitle}>ხელმისაწვდომი თანხა</Text>
+            <Text style={styles.balanceWrapTitle}>{translateService.t('screens.deposit')}</Text>
             <Text style={styles.balanceWrapAmount}>
               {formatNumber(clientInfo.ballance)}
             </Text>
           </View>
           <View>
-            <Text style={styles.balanceWrapTitle}>სითი ქულა</Text>
+            <Text style={styles.balanceWrapTitle}>{translateService.t('screens.cityPoint')}</Text>
             <Text style={styles.balanceWrapAmount}>
               {formatNumber(clientInfo.points)}
             </Text>
@@ -254,7 +255,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              სტატუსბარი
+            {translateService.t('screens.statusbar')}
             </Text>
             <TouchableOpacity onPress={() => navigate('StatusInfoScreen')} style={{flexDirection:'row', alignItems:'center'}}>
               <Text
@@ -262,7 +263,7 @@ const ProfileScreen = () => {
                   styles.promotionsTitle,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-                ვრცლად
+               {translateService.t('common.seeMore')}
               </Text>
               <Image source={isDarkTheme? lightArrowIcon :  darkArrowIcon} style={styles.icon}/>
             </TouchableOpacity>
@@ -285,7 +286,7 @@ const ProfileScreen = () => {
               source={require('../../assets/images/vaucher.png')}
               style={{width: 22, height: 16, marginRight: 10}}
             />
-            <Text style={styles.promotionsTitle}>ჩემი ვაუჩერები</Text>
+            <Text style={styles.promotionsTitle}>{translateService.t('screens.myVouchers')}</Text>
           </TouchableOpacity>
         </View>
         <View style={{marginBottom: 30}}>
@@ -295,7 +296,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              პირადი შეთავაზებები
+              {translateService.t('screens.myOffers')}
             </Text>
             <PaginationDots
               length={Math.round(personalOffers?.length / 2)}
@@ -322,7 +323,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ქულების გახარჯვის ოფცია
+              {translateService.t('screens.pointsOption')}
             </Text>
             <PaginationDots
               length={Math.round(clientVouchers?.length / 2)}
@@ -359,7 +360,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ტრანზაქციები
+               {translateService.t('screens.transactions')}
             </Text>
             <View style={styles.trViewHeaderRight}>
               <Image
@@ -385,7 +386,7 @@ const ProfileScreen = () => {
                   fontSize: 10,
                   color: isDarkTheme ? Colors.white : Colors.black,
                 }}>
-                ტრანზაქციები ვერ მოიძებნა
+                {translateService.t('infoText.transactionsNotFound')}
               </Text>
             )}
               {BottomLoading()}

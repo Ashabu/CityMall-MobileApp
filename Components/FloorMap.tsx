@@ -21,6 +21,7 @@ import envs from './../config/env';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {GoBack, navigate} from '../Services/NavigationServices';
 import Layout from './Layouts/Layout';
+import translateService from '../Services/translateService';
 
 type RouteParamList = {
   params: {
@@ -117,7 +118,7 @@ export default () => {
 
   return (
     <>
-      <Layout pageName={'სართულის გეგმა'} onPressBack={GoBack} hasBackArrow>
+      <Layout pageName={translateService.t('screens.floorPlan')} onPressBack={GoBack} hasBackArrow>
         <View
           style={[
             styles.sectionContainer,
@@ -161,7 +162,7 @@ export default () => {
                       {top: pickerPositionTop},
                     ]}>
                     <Text style={{color: isDarkTheme ? Colors.white : Colors.black}}>
-                      {`სართული ${btnTitle}`}
+                      {`${translateService.t('common.floor')} ${btnTitle}`}
                     </Text>
                     <Image
                       source={isDarkTheme ? require('./../assets/images/arrow-sm.png') : require('./../assets/images/arrow-black.png')}
@@ -207,7 +208,7 @@ export default () => {
               {floorsDetails.map((f, i) => (
                 <Picker.Item
                   key={f.id}
-                  label={`სართული ${f.title}`}
+                  label={`${translateService.t('common.floor')} ${f.title}`}
                   value={f.id}
                 />
               ))}
@@ -220,7 +221,7 @@ export default () => {
                   styles.infoText,
                   {textAlign: 'right', color: Colors.red},
                 ]}>
-                არჩევა
+                {translateService.t('common.select')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -265,7 +266,7 @@ export default () => {
                     textAlign: 'center',
                     fontWeight: btnTitle === f.title ? '800' : '500'
                   }}>
-                  {`სართული ${f.title}`}
+                  {`${translateService.t('common.floor')} ${f.title}`}
                 </Text>
               </TouchableOpacity>
             ))}

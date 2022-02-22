@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, Text, KeyboardType, Platform } from 'react
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
+import translateService from '../../Services/translateService';
 
 
 interface IAppInput {
@@ -30,10 +31,10 @@ interface IAppInput {
 }
 
 const validations: any = {
-    required: 'გთხოვთ შეავსოთ ველი',
-    phoneNumber: 'არასწორი მობილური ნომერი',
-    email: 'არასწორი მეილი',
-    idNumber: 'არასწორი პირადი ნომერი'
+    required: translateService.t('infoText.validate'),
+    phoneNumber: translateService.t('infoText.wrongNumber'),
+    email: translateService.t('infoText.wrongEmail'),
+    idNumber: translateService.t('infoText.wrongId')
 }
 
 const AppInput: React.FC<IAppInput> = (props) => {
@@ -60,7 +61,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
     useEffect(() => {
         let index = errors?.findIndex((e: string) => e === name);
         if (hasError && index! >= 0) {
-            setErrorMessage('გთხოვთ შეავსოთ ველი');
+            setErrorMessage(translateService.t('infoText.validate'));
         };
     }, [hasError, errors]);
 

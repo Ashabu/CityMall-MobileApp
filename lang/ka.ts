@@ -35,7 +35,11 @@ export default {
     send: 'გაგზავნა',
     searching: 'ძიება',
     categories: 'კატეგორიები',
-    subCategories: 'ქვეკატეგორიები'
+    subCategories: 'ქვეკატეგორიები',
+    location: 'ლოკაცია',
+    map: 'რუქა',
+
+
     
 
   },
@@ -51,6 +55,7 @@ export default {
     cityGldani: 'სითი მოლი გლდანი',
     citySaburtalo: 'სითი მოლი საბურთალო',
     buyVoucher: 'ვაუჩერის შეძენა',
+    buyVouchers: 'ვაუჩერების შეძენა',
     myVouchers: 'ჩემი ვაუჩერები',
     selectDistric: 'აირჩიეთ უბანი',
     selectD:'აირჩიეთ რაიონი',
@@ -89,6 +94,20 @@ export default {
     saburtalo :' საბურთალოს ფილიალი',
     mobile: 'ტელეფონი',
     floorPlan: 'სართულის გეგმა',
+    date: 'ვადა',
+    quantity: 'რაოდენობა',
+    workAndContact: 'სამუშაო საათები & კონტაქტი',
+    howCome: 'როგორ მოხვიდე?',
+    room: 'კაბინეტი',
+    statusbar: 'სტატუსბარი',
+    myOffers: 'პირადი შეთავაზებები',
+    pointsOption: ' ქულების გახარჯვის ოფცია',
+    transactions :'ტრანზაქციები',
+    selectDate: 'აირჩიეთ თარიღი',
+    cancel: 'გაუქმება',
+    
+
+
 
     
   },
@@ -121,7 +140,23 @@ export default {
     cardNumber: 'შეიყვანეთ ბარათის ნომერი',
     cardDate: 'ბარათის მოქმედების ვადა',
     describeText: 'მიუთითეთ ბარათ(ებ)ი დიზაინი, რაოდენობა და თანხა',
-    addressInfoText: 'გთხოვთ მიუთიოთ მისამართი'
+    addressInfoText: 'გთხოვთ მიუთიოთ მისამართი',
+    selectGender: 'გთხოვთ აირჩიოთ სქესი',
+    terms: 'გთხოვთ დაეთანხმოთ წესებსა და პირობებს',
+    wrongNumber: 'არასწორი მობილური ნომერი',
+    wrongEmail:'არასწორი მეილი',
+    wrongId: 'არასწორი პირადი ნომერი',
+    dateInfoTxt: 'ვადა: 15 სექტ - 20 სექტ',
+    passwordError: 'პაროლი არასწორია',
+    transactionsNotFound :'ტრანზაქციები ვერ მოიძებნა',
+    aboutStatus: ' სტატუსის შესახებ ინფო',
+    statusGift: 'რა ეკუთვნის თითოეულ სტატუსზე',
+
+
+
+
+
+
 
 
 

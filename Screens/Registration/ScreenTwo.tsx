@@ -83,7 +83,7 @@ const ScreenTwo: React.FC = (props: any) => {
     }, [errorMessages]);
 
     useEffect(() => {
-        if(selectedDistrict !== 'სხვა'){
+        if(selectedDistrict !== translateService.t('screens.other')){
             let errorArray = errorMessages.filter(e => e !== 'district');
             setErrorMessages(errorArray);
         }
@@ -202,7 +202,7 @@ const ScreenTwo: React.FC = (props: any) => {
             birthDate: dateOfBirth || new Date(),
             phone: userPhoneNumber,
             email: email,
-            address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
+            address: selectedDistrict === translateService.t('screens.other') ? district : selectedDistrict,
             sex: routeObject.male? 1 : 0,
             mailOtp: emailVerificationCode
         };
@@ -255,9 +255,9 @@ const ScreenTwo: React.FC = (props: any) => {
         }}
         modal={true}
         mode='date'
-        title='აირჩიეთ თარიღი'
-        confirmText='არჩევა'
-        cancelText='გაუქმება'
+        title={translateService.t('screens.selectDate')}
+        confirmText={translateService.t('common.select')}
+        cancelText={translateService.t('screens.cancel')}
         locale="ka-GE"
         androidVariant='nativeAndroid'
     />
