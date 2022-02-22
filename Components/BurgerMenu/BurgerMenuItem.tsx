@@ -15,6 +15,7 @@ import { Colors } from "../../Colors/Colors";
 import { IDrawerItem } from "../../Constants/DrawerItems";
 import { navigate } from "../../Services/NavigationServices";
 import { subscriptionService } from "../../Services/SubscriptionServive";
+import translateService from "../../Services/translateService";
 import BurgerMenuLocation from "./BurgerMenuLocation";
 
 interface IBmItem {
@@ -77,7 +78,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                         null
                 }
                 <Text style={[styles.listName, clientDetails.length ===0 && item.id === 10? notRegisteredTextColor :  themeTextColor]}>
-                    {item.name}
+                    {translateService.t(item.name || '')}
                 </Text>
             </TouchableOpacity>
             {
