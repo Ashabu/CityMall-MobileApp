@@ -18,6 +18,7 @@ import {ChunkArrays} from '../../Utils/utils';
 import {IMerchant} from '../../Services/Api/ShopsApi';
 import axios from 'axios';
 import envs from './../../config/env';
+import translateService from '../../Services/translateService';
 
 export default () => {
   const {state} = useContext(AppContext);
@@ -62,7 +63,7 @@ export default () => {
   };
   return (
     <>
-    <AppLayout pageTitle={'ძიება'}>
+    <AppLayout pageTitle={translateService.t('common.searching')}>
       <View
         style={{
           flex: 1,
@@ -81,7 +82,7 @@ export default () => {
               
             }]}>
             <TextInput
-              placeholder="ძიება"
+              placeholder={translateService.t('common.searching')}
               placeholderTextColor={'#fff'}
               style={{color: '#fff'}}
               value={keyword}

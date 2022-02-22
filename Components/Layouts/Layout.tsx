@@ -19,6 +19,8 @@ import {
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import { en_key } from '../../lang';
+import translateService from '../../Services/translateService';
 
 interface ILayoutProp {
     pageName?: string,
@@ -102,7 +104,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                         }
                         <TouchableOpacity >
                             <Text style={{fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 ,color: isDarkTheme ? Colors.white : Colors.black }}>
-                                ENG
+                            {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
                             </Text>
                         </TouchableOpacity>
                     </View>

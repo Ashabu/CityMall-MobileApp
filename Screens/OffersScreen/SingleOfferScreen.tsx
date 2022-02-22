@@ -7,6 +7,7 @@ import { Colors } from "../../Colors/Colors";
 import { CategoryTypes } from "../../Constants/Categories";
 import { useDimension } from "../../Hooks/UseDimension";
 import { GoBack } from "../../Services/NavigationServices";
+import translateService from '../../Services/translateService';
 
 
 type RouteParamList = {
@@ -70,14 +71,14 @@ const SingleOfferScreen = () => {
                 <View style={{ marginTop: 25 }}>
                    {singleOffer.contactiInfoMerchant? 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>მაღაზია: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.shop')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactiInfoMerchant}</Text>
                     </View> 
                     :
                     null}
                     {singleOffer.contactInfoCityMall? 
                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>სითი მოლი: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.cityMall')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactInfoCityMall}</Text>
                     </View>
                     :null}

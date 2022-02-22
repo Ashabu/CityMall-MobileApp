@@ -11,6 +11,7 @@ import OneTimeCode from '../OneTimeCode';
 import Layout from '../Layouts/Layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { BuyVoucher, IBuyVoucherRequest } from '../../Services/Api/VouchersApi';
+import translateService from '../../Services/translateService';
 
 let hm = require('../../assets/images/H&M.png');
 
@@ -51,7 +52,7 @@ const SelectedVouchers = () => {
   return (
     <Layout hasBackArrow
     
-    pageName="ვაუჩერის შეძენა"
+    pageName= {translateService.t('screens.buyVoucher')}
     onPressBack={GoBack}>
       <View
         style={{
@@ -74,7 +75,7 @@ const SelectedVouchers = () => {
                 paddingBottom: 26,
               }}>
               <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
-                ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
+              {translateService.t('common.price')}: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
@@ -95,7 +96,7 @@ const SelectedVouchers = () => {
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => buy()}>
-            <Text style={styles.btnText}>დადასტურება</Text>
+            <Text style={styles.btnText}>{translateService.t('common.accept')}</Text>
           </TouchableOpacity>
         </View>
         <Modal visible={isLoading} animationType="slide" transparent={true}>

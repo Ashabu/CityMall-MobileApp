@@ -19,6 +19,7 @@ import {CategoryTypes} from '../../Constants/Categories';
 import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {ChunkArrays} from '../../Utils/utils';
 import NotFound from '../../Components/NotFound';
+import translateService from '../../Services/translateService';
 
 type RouteParamList = {
   params: {
@@ -180,7 +181,7 @@ const OffersScreen = () => {
               styles.promotionsTitle,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {'შეთავაზებები | ' + CategoryTypes[routeParams.params.id]}
+            {translateService.t('common.offers') + '|' + CategoryTypes[routeParams.params.id]}
           </Text>
           <PaginationDots length={chunkedData?.length} step={offersStep} />
         </View>

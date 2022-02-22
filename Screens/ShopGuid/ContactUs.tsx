@@ -6,6 +6,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import {TextInput} from 'react-native-gesture-handler';
+import translateService from '../../Services/translateService';
 
 const ContactUs = () => {
   const {width} = useDimension();
@@ -18,7 +19,7 @@ const ContactUs = () => {
 
   return (
     <Layout 
-    pageName="მოგვწერე" 
+    pageName={translateService.t('screens.contactUs')}
     hasBackArrow
     onPressBack={GoBack}>
       <View
@@ -30,11 +31,10 @@ const ContactUs = () => {
         }}>
    
         <View >
-          <Text style={[styles.title,{color: isDarkTheme ? Colors.white : Colors.black}]}>გამოგვიგზავნეთ შეტყობინება</Text>
+          <Text style={[styles.title,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.messageUs')}</Text>
           <View style={{paddingTop: 15}}>
             <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              გამოგზავნილი შეტყობინება განიხილება და უახლოეს პერიოდში
-              დაგიბრუნდებით პასუხით
+            {translateService.t('infoText.messageUsText')}
             </Text>
           </View>
         </View>
@@ -43,7 +43,7 @@ const ContactUs = () => {
             style={styles.input}
             value={name}
             onChangeText={text => setName(text)}
-            placeholder="სახელი"
+            placeholder={translateService.t('labels.firstName')}
             placeholderTextColor={Colors.white}
             
           />
@@ -51,21 +51,21 @@ const ContactUs = () => {
             style={styles.input}
             value={email}
             onChangeText={text => setEmail(text)}
-            placeholder="ელ.ფოსტა"
+            placeholder={translateService.t('labels.email')}
             placeholderTextColor={Colors.white}
           />
           <TextInput
             style={styles.input}
             value={title}
             onChangeText={text => setTitle(text)}
-            placeholder="სათაური"
+            placeholder={translateService.t('screens.title')}
             placeholderTextColor={Colors.white}
           />
           <TextInput 
           style={styles.textArea}
           value={textArea}
           onChangeText={text => setTextArea(text)}
-          placeholder="შეტყობინება"
+          placeholder={translateService.t('screens.info')}
           placeholderTextColor={Colors.txtGrey}
           multiline
           numberOfLines={5}
@@ -74,7 +74,7 @@ const ContactUs = () => {
         <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => {}}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>გაგზავნა</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.send')}</Text>
           </TouchableOpacity>
       </View>
     </Layout>

@@ -20,6 +20,7 @@ import {
     GoBack,
     navigate
 } from '../../Services/NavigationServices';
+import translateService from '../../Services/translateService';
 
 export interface IRegistrationProps {
     firstName?: string;
@@ -120,12 +121,12 @@ const ScreenOne: React.FC = () => {
                 }}>
                 <View style={{ flex: 1 }}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        რეგისტრაცია
+                       {translateService.t('common.register')}
                     </Text>
                 </View>
                 <ScrollView style={{ flex: 9 }}>
                     <AppInput
-                        placeholder="სახელი"
+                        placeholder={translateService.t('labels.firstName')}
                         name="name"
                         value={name}
                         hasError={hasError}
@@ -136,7 +137,7 @@ const ScreenOne: React.FC = () => {
                         onChangeText={(val: string) => setName(val)}
                     />
                     <AppInput
-                        placeholder="გვარი"
+                        placeholder={translateService.t('labels.lastName')}
                         name="lastName"
                         value={lastName}
                         hasError={hasError}
@@ -148,7 +149,7 @@ const ScreenOne: React.FC = () => {
                     />
                     <View>
                         <AppInput
-                            placeholder="პირადი ნომერი"
+                            placeholder={translateService.t('labels.idNumber')}
                             name="idNumber"
                             value={idNumber}
                             hasError={hasError}
@@ -170,7 +171,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={false}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                უცხო ქვეყნის მოქალაქე
+                            {translateService.t('infoText.citizenText')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -180,7 +181,7 @@ const ScreenOne: React.FC = () => {
                             { borderBottomColor: isDarkTheme ? Colors.white : Colors.black },
                         ]}>
                         <Text style={{ color: isDarkTheme ? Colors.white : Colors.black, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>
-                            სქესი
+                        {translateService.t('labels.gender')}
                         </Text>
                         <TouchableOpacity
                             style={styles.inputWithLabel}
@@ -194,7 +195,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                მდედრობითი
+                            {translateService.t('labels.female')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -209,7 +210,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                მამრობითი
+                            {translateService.t('labels.male')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -217,7 +218,7 @@ const ScreenOne: React.FC = () => {
                 <View style={{ flex: 2, alignItems: 'flex-end', marginVertical: 20 }}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
                         <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            შემდეგი
+                        {translateService.t('common.next')}
                         </Text>
                     </TouchableOpacity>
                 </View>

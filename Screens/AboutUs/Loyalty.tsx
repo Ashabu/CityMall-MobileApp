@@ -6,6 +6,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import AppButton from '../../Components/CustomComponents/AppButton';
+import translateService from '../../Services/translateService';
 
 const Loyalty = ({strings}: {strings: any[]}) => {
   const {width} = useDimension();
@@ -24,7 +25,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
   } catch (_) {}
 
   return (
-    <Layout hasBackArrow pageName="ლოიალობის შესახებ" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.aboutLoialty')} onPressBack={GoBack}>
       <View style={styles.mainView}>
         <View style={{alignItems: 'center'}}>
           <View style={styles.imageView}>
@@ -43,19 +44,19 @@ const Loyalty = ({strings}: {strings: any[]}) => {
             </Text>
           </View>
         </View>
-        {clientDetails.length > 0 ? null : (
-          <View>
-            <AppButton
-              onPress={() => navigate('REGSTEP_ONE')}
-              title={'რეგისტრაცია'}
-              btnStyle={styles.authBtn}
-              titleStyle={[
-                styles.btnText,
-                {color: isDarkTheme ? Colors.white : Colors.black},
-              ]}
-            />
-          </View>
-        )}
+        <View >
+          <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
+          {translateService.t('infoText.loialtyText')}
+          </Text>
+        </View>
+        {
+          clientDetails.length > 0 ?
+            null
+            :
+            <View>
+              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={translateService.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
+            </View>
+        }
       </View>
     </Layout>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../Colors/Colors';
+import translateService from '../Services/translateService';
 
 interface ICardSm {
     cardNumber: string,
@@ -13,10 +14,10 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
     return (
         !cardNumber ?
             <TouchableOpacity style={[styles.warningImg,]} onPress={navigateToReg}>
-                <Text style={styles.warningText}>ლოიალობის პროგრამაში მონაწილეობის მისაღებად გთხოვთ, გაიაროთ დაასრულოთ რეგისტრაციის პროცესი</Text>
+                <Text style={styles.warningText}>{translateService.t('infoText.registrationText')}</Text>
                 <Image style={[styles.giftCardImg, { opacity: 0.2 }]} source={require('../assets/images/loyalty-card.png')} />
                 <View style={styles.container}>
-                    <Text style={styles.authBtnText}>რეგისტრაცია</Text>
+                    <Text style={styles.authBtnText}>{translateService.t('common.register')}</Text>
                     <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
                 </View>
             </TouchableOpacity>

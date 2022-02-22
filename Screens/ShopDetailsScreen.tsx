@@ -22,6 +22,7 @@ import MapComponent from '../Components/FloorMap/Map';
 import axios from 'axios';
 import envs from './../config/env';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../Services/translateService';
 type RouteParamList = {
   params: {
     mallId: number;
@@ -115,7 +116,7 @@ const ShopDetailsScreen = () => {
             style={{ width: width, height: height / 2 }}
           />
           <Text style={[styles.pageTitle, textColorStyle]}>
-            საბურთალოს ფილიალი
+          {translateService.t('screens.saburtalo')}
           </Text>
           <TouchableOpacity
             onPress={() => GoBack()}
@@ -156,7 +157,7 @@ const ShopDetailsScreen = () => {
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.shopDesc, textColorStyle]}>სართული: </Text>
+                <Text style={[styles.shopDesc, textColorStyle]}>{translateService.t('common.floor')}: </Text>
                 {floor?.map((floor: string) => (
                   <Text key={floor} style={[styles.shopDesc, textColorStyle]}>
                     {floor}
@@ -184,7 +185,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                ტელეფონი:{' '}
+                {translateService.t('screens.mobile')}:{' '}
               </Text>
               <Text
                 style={[
@@ -202,7 +203,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                სამუშაო საათები:{' '}
+                {translateService.t('screens.workingHours')}:{' '}
               </Text>
               <Text
                 style={[
@@ -220,7 +221,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                მისამართი:{' '}
+                 {translateService.t('screens.address')}:{' '}
               </Text>
               <Text
                 style={[
@@ -262,7 +263,7 @@ const ShopDetailsScreen = () => {
               textColorStyle,
               { marginBottom: 20, marginLeft: '8%' },
             ]}>
-            სართულის გეგმა
+            {translateService.t('screens.floorPlan')}
           </Text>
 
           {floorData !== undefined && (

@@ -12,6 +12,7 @@ import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {navigate} from '../Services/NavigationServices';
 import {IOffer} from '../Services/Api/OffersApi';
+import translateService from '../Services/translateService';
 
 const VaucherPromptBox: React.FC<any> = data => {
   const {state, setGlobalState} = useContext(AppContext);
@@ -75,7 +76,7 @@ const VaucherPromptBox: React.FC<any> = data => {
                 {fontFamily: 'HMpangram-Bold'},
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ფასი: {data?.data?.voucherPurchasePoints}{' '}
+              {translateService.t('common.price')}: {data?.data?.voucherPurchasePoints}{' '}
             </Text>
 
             <Image source={require('./../assets/images/Star.png')} />
@@ -88,7 +89,7 @@ const VaucherPromptBox: React.FC<any> = data => {
                 styles.promotionBottomText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              გადახდა
+              {translateService.t('common.pay')}
             </Text>
             <Image
               style={styles.promotionBottomImg}

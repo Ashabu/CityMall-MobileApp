@@ -5,6 +5,7 @@ import {Colors} from '../../Colors/Colors';
 import {GoBack} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import ApiServices from '../../Services/ApiServices';
+import translateService from '../../Services/translateService';
 
 
 const AboutUs = ({strings}: {strings: any[]}) => {
@@ -46,7 +47,7 @@ const AboutUs = ({strings}: {strings: any[]}) => {
   } catch (_) {}
 
   return (
-    <Layout hasBackArrow pageName="ჩვენ შესახებ" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.aboutUs')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -54,7 +55,7 @@ const AboutUs = ({strings}: {strings: any[]}) => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.txtView}>
-          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>სითი მოლი</Text>
+          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.cityMall')}</Text>
           <Text style={[styles.infoTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>
             {str}
           </Text>
@@ -63,23 +64,23 @@ const AboutUs = ({strings}: {strings: any[]}) => {
           <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>კონტაქტი</Text>
           <View style={{top: 10}}>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              ცხელი ხაზი: <Text style={styles.unBold}>+032 220 00 99</Text>
+            {translateService.t('screens.line')}: <Text style={styles.unBold}>+032 220 00 99</Text>
             </Text>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              მარკეტინგის დეპარტამენტი:{' '}
+            {translateService.t('screens.marketing')}:{' '}
               <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 595 393 924 </Text>
             </Text>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              გაყიდვების დეპარტამენტი:{' '}
+            {translateService.t('screens.sales')}:{' '}
               <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 599 515 672</Text>
             </Text>
           </View>
         </View> */}
         <View style={{paddingVertical: 30}}>
-          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>მისამართი</Text>
+          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.address')}</Text>
           <View style={{top: 10}}>
             <Text style={[styles.addressInfo,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              სითი მოლი საბურთალო, {addr}{' '} სითი მოლი გლდანი, {addr1}{' '}
+              {translateService.t('infoText.addressCityMall').replace('{q1}', addr).replace('{q2}', addr1)}
             </Text>
           </View>
         </View>

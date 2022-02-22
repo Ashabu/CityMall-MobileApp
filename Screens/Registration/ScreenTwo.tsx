@@ -16,7 +16,7 @@ import AppInput from '../../Components/CustomComponents/AppInput';
 import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import { Colors } from '../../Colors/Colors';
 import { minusMonthFromDate } from '../../Utils/utils';
-
+import translateService from '../../Services/translateService';
 
 
 
@@ -258,24 +258,24 @@ const ScreenTwo: React.FC = (props: any) => {
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={{flex: 1}}>
-                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
+                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.register')}</Text>
                 </View>
                 <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : 'დაბადების თარიღი'}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : translateService.t('labels.birthday')}</Text>
                     </TouchableOpacity>
                         {memoized}
                     </>
                     {birthDateError ?
-                        <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
+                        <Text style={styles.errorText}>{translateService.t('infoText.validate')}</Text>
                         : null}
                     <View>
-                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
-                        {selectedDistrict === 'სხვა' &&
+                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder={translateService.t('screens.selectD')} />
+                        {selectedDistrict === translateService.t('screens.other') &&
                              <View style={{marginTop: 10}}>
                             <AppInput
-                                placeholder='საცხოვრებელი რაიონი'
+                                placeholder={translateService.t('screens.livingPlace')}
                                 value={district}
                                 name='district'
                                 hasError={hasError}
@@ -290,7 +290,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     </View>
                     <View style={{marginTop: 10}}>
                         <AppInput
-                            placeholder='ელ-ფოსტა'
+                            placeholder={translateService.t('labels.email')}
                             value={email}
                             name='email'
                             keyboardType='email-address'
@@ -311,14 +311,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                     value={verifyEmail}
                                     disabled={email.length > 0 && !emailError ? false : true} />
                                 <View style={styles.mailVerificationTextWrap}>
-                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ-ფოსტის ვერიფიკაცია</Text>
-                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ. ფოსტის მითითებისა და ვერიფიკაციის შემთხვევაში საჩუქრად დაგერიცხებათ 100 სითი ქულა         </Text>
+                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.emailText')}</Text>
+                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.emailGiftText')}         </Text>
                                 </View>
                             </View>
                             {verifyEmail ?
                                 <View style={{ position: 'relative' }}>
                                     <AppInput
-                                        placeholder='ვერიფიკაციის კოდი'
+                                        placeholder={translateService.t('screens.veripicationCode')} 
                                         value={emailVerificationCode}
                                         name='mailOtp'
                                         hasError={hasError}
@@ -330,14 +330,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                         maxLength={6}
                                         onChangeText={(val: string) => setEmailVerificationCode(val)} />
                                     {verifyEmailError ?
-                                        <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text>
+                                        <Text style={styles.errorText}>{translateService.t('infoText.codeIncorrect')}</Text>
                                         : null}
                                     <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 25 }}>
                                         {verifyEmailLoading ?
                                             <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
                                             :
                                             !isValidMailOtp ?
-                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>შეამოწმე</Text>
+                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{translateService.t('screens.check')}</Text>
                                                 :
                                                 <Image source={require('../../assets/images/green-checkmark.png')} style={{ width: 20, height: 14 }} />
                                         }
@@ -356,7 +356,7 @@ const ScreenTwo: React.FC = (props: any) => {
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ვეთანხმები წესებს და პირობებს</Text>
+                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.agreement')}</Text>
                         </View>
                     </View>
                     {generalError !== '' ?
@@ -372,7 +372,7 @@ const ScreenTwo: React.FC = (props: any) => {
                         {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
-                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დადასტურება</Text>
+                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('common.accept')}</Text>
                         }
                     </TouchableOpacity>
                 </View>

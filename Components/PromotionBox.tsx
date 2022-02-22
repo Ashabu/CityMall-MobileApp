@@ -12,6 +12,7 @@ import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
 import { IOffer } from '../Services/Api/OffersApi';
+import translateService from '../Services/translateService';
 
 
 interface IPromotionData {
@@ -72,14 +73,14 @@ function extractor(obj: any, key: string) {
                         data.floor ?
                             <View>
                                 <Text style={[Platform.OS === 'ios' && { fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                    {`სართული: ${data.floor[0]}`}
+                                    {`${translateService.t('common.floor')}: ${data.floor[0]}`}
                                 </Text>
                             </View>
                             : null
                     }
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            ვრცლად
+                        {translateService.t('common.seeMore')}
                         </Text>
                         <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>
