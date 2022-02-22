@@ -19,7 +19,8 @@ import MapComponent from './FloorMap/Map';
 import ZoomableView from './FloorMap/ZoomableView';
 import envs from './../config/env';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {navigate} from '../Services/NavigationServices';
+import {GoBack, navigate} from '../Services/NavigationServices';
+import Layout from './Layouts/Layout';
 
 type RouteParamList = {
   params: {
@@ -116,7 +117,7 @@ export default () => {
 
   return (
     <>
-      <AppLayout pageTitle={'სართულის გეგმა'}>
+      <Layout pageName={'სართულის გეგმა'} onPressBack={GoBack} hasBackArrow>
         <View
           style={[
             styles.sectionContainer,
@@ -132,7 +133,7 @@ export default () => {
               <MapComponent
                 passHeight={h => {
                   setPickerPositionTop(
-                    Dimensions.get('screen').height - (h - 0),
+                    Dimensions.get('screen').height - (h + 240),
                   );
                 }}
                 SvgXmlString={floorData.svgToJson}
@@ -171,7 +172,7 @@ export default () => {
             </ZoomableView>
           )}
         </View>
-      </AppLayout>
+      </Layout>
       <Modal
         visible={selecting}
         animationType="slide"

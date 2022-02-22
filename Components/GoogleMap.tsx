@@ -6,6 +6,8 @@ import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import translateService from '../Services/translateService';
+import { GoBack } from '../Services/NavigationServices';
+import Layout from './Layouts/Layout';
 
 
 type RouteParamList = {
@@ -33,7 +35,8 @@ export default () => {
 
   console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
-    <AppLayout pageTitle={translateService.t('screens.cityMap')}>
+    <Layout pageName={translateService.t('screens.cityMap')} onPressBack={GoBack} hasBackArrow>
+    
       <View
         style={[
           styles.mapcontainer,
@@ -79,7 +82,7 @@ export default () => {
                
         </MapView>
       </View>
-    </AppLayout>
+      </Layout>
   );
 };
 
