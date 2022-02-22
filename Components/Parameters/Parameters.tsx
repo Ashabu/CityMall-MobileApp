@@ -8,6 +8,7 @@ import {GoBack, navigate} from '../../Services/NavigationServices';
 import AppSwitch from '../CustomComponents/AppSwitch';
 import Layout from '../Layouts/Layout';
 import translateService from '../../Services/translateService';
+import AsyncStorage from '../../Services/StorageService';
 
 const Parameters = () => {
   const {width} = useDimension();
@@ -21,7 +22,9 @@ const Parameters = () => {
   const darkUserIcon = require('../../assets/images/darkAvatar.png');
 
   const SwitchDarkTheme = () => {
-    setGlobalState({isDarkTheme: !isDarkTheme});
+    AsyncStorage.setItem('isDarkTheme', isDarkTheme ? '0' : '1').then(_ => {
+      setGlobalState({isDarkTheme: !isDarkTheme});
+    });
   };
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 

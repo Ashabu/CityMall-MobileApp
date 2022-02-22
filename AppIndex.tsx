@@ -94,6 +94,22 @@ const AppIndex = () => {
     }
   }, [userToken]);
 
+  useEffect(() => {
+    AsyncStorage.getItem('isDarkTheme').then(res => {
+      console.log(res || '')
+      if(res != null) {
+        if(res == '1') {
+          setGlobalState({isDarkTheme: true});
+        } else {
+          setGlobalState({isDarkTheme: false});
+        }
+      } else {
+        setGlobalState({isDarkTheme: true});
+      }
+    })
+   
+  }, [])
+
   return (
     <>
       <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} />
