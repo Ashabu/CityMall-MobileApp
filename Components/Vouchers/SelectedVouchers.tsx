@@ -4,13 +4,12 @@ import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
 import { GoBack, navigate } from '../../Services/NavigationServices';
-import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import Data from '../../Constants/VouchersDummyData'
-import OneTimeCode from '../OneTimeCode';
 import Layout from '../Layouts/Layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { BuyVoucher, IBuyVoucherRequest } from '../../Services/Api/VouchersApi';
+import translateService from '../../Services/translateService';
 
 let hm = require('../../assets/images/H&M.png');
 
@@ -52,8 +51,9 @@ const SelectedVouchers = () => {
 
   return (
     <Layout hasBackArrow
-      pageName="ვაუჩერის შეძენა"
-      onPressBack={GoBack}>
+    
+    pageName= {translateService.t('screens.buyVoucher')}
+    onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -74,8 +74,8 @@ const SelectedVouchers = () => {
                 paddingVertical: 7,
                 paddingBottom: 26,
               }}>
-              <Text style={[{ fontFamily: 'HMpangram-Bold' }, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
+              <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              {translateService.t('common.price')}: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
@@ -89,17 +89,17 @@ const SelectedVouchers = () => {
         </View>
 
       </View>
-      <View style={{ alignItems: 'center', height: 100 }}>
-        {error !== undefined ?
-          <Text style={[styles.errorText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{error}</Text>
-          : null}
-        <TouchableOpacity
-          style={styles.btnStyle}
-          onPress={() => buy()}>
-          <Text style={styles.btnText}>დადასტურება</Text>
-        </TouchableOpacity>
-      </View>
-      <Modal visible={isLoading} animationType="slide" transparent={true}>
+      <View style={{alignItems: 'center', height: 100}}>
+      {error !== undefined ?
+                <Text style={[styles.errorText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{error}</Text>
+                : null}
+          <TouchableOpacity
+            style={styles.btnStyle}
+            onPress={() => buy()}>
+            <Text style={styles.btnText}>{translateService.t('common.accept')}</Text>
+          </TouchableOpacity>
+        </View>
+        <Modal visible={isLoading} animationType="slide" transparent={true}>
         <ActivityIndicator
           size={'small'}
           color={'#ffffff'}

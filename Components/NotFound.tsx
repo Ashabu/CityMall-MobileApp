@@ -13,6 +13,7 @@ import {Colors} from '../Colors/Colors';
 import {navigate} from '../Services/NavigationServices';
 import {IOffer} from '../Services/Api/OffersApi';
 import Layout from './Layouts/Layout';
+import translateService from '../Services/translateService';
 
 const NotFound: React.FC<any> = data => {
   const {state} = useContext(AppContext);
@@ -29,7 +30,7 @@ const NotFound: React.FC<any> = data => {
         }
       />
       <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-        მოთხოვნილი გვერდი ვერ მოიძებნა
+      {translateService.t('infoText.notFound')}
       </Text>
     </View>
   );

@@ -1,3 +1,5 @@
+import translateService from '../Services/translateService';
+
 export interface ICategories {
     id?: number,
     name?: string,
@@ -23,7 +25,7 @@ export interface IDrawerItem {
 
 export default [
     {
-        name: 'მთავარი',
+        name: translateService.t('screens.home'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],
@@ -32,16 +34,16 @@ export default [
         objectTypeId: undefined,
     },
     {
-        name: 'შეთავაზებები',
+        name: translateService.t('common.offers'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id:1
 
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             },
 
@@ -49,11 +51,11 @@ export default [
         categories: [
             {
                 id: 0,
-                name: 'ფასდაკლებები'
+                name: translateService.t('common.sales')
             },
             {
                 id: 1,
-                name: 'სიახლეები'
+                name: translateService.t('common.news')
             },
             
         ],
@@ -62,26 +64,26 @@ export default [
         objectTypeId: undefined,
     },
     {
-        name: 'მაღაზიები',
+        name: translateService.t('common.shops'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id: 1
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             }
         ],
         categories: [
             {
                 id: 1,
-                name: 'მაღაზიები'
+                name: translateService.t('common.shops')
             },
             {
                 id: 2,
-                name: 'პრემიუმ სივრცე',
+                name: translateService.t('screens.premumSpace'),
                 isPremium: true
             },
         ],
@@ -90,15 +92,15 @@ export default [
         objectTypeId: 100013,
     },
     {
-        name: 'გართობა',
+        name: translateService.t('common.fun'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id: 1
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             }
         ],
@@ -108,15 +110,15 @@ export default [
         id:4
     },
     {
-        name: 'კვება',
+        name: translateService.t('common.feed'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id: 1
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             } 
         ],
@@ -126,15 +128,15 @@ export default [
         id:5
     },
     {
-        name: 'სერვისები',
+        name: translateService.t('common.services'),
          icon: require('../assets/images/arrow-sm.png'),
          location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id: 1
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             } 
         ],
@@ -144,42 +146,42 @@ export default [
          id:6,
     },
     {
-        name: 'მოლის გზამკვლევი',
+        name: translateService.t('screens.roadMap'),
          icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'სითმოლი საბურთალო',
+                name: translateService.t('screens.cityMallSaburtalo'),
                 id: 1
             },
             {
-                name: 'სითმოლი გლდანი',
+                name: translateService.t('screens.cityMallGldani'),
                 id: 2
             }
         ],
         categories: [
             {
                 id: 1,
-                name: 'დაგეგმე ვიზიტი'
+                name: translateService.t('screens.planVisit')
             },
             {
                 id: 2,
-                name: 'მოგვწერე'
+                name: translateService.t('screens.contactUs')
             },
         ],
         routeName: 'ShopGuid',
         id:8,
     },
     {
-        name: 'ჩვენს შესახებ',
+        name: translateService.t('screens.aboutUs'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [
             {
-                name: 'ჩვენს შესახებ',
+                name: translateService.t('screens.aboutUs'),
                 id: 1
                 
             },
             {
-                name: 'ლოიალობის შესახებ',
+                name: translateService.t('screens.aboutLoialty'),
                 id: 2
             },
             
@@ -192,7 +194,7 @@ export default [
         name: '_blank',
     },
     {
-        name: 'პირადი კაბინეტი',
+        name: translateService.t('screens.myProfile'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],
@@ -200,7 +202,7 @@ export default [
         routeName: 'ProfileScreen'
     },
     {
-        name: 'პარამეტრები',
+        name: translateService.t('screens.parameters'),
         icon: require('../assets/images/arrow-sm.png'),
         location: [],
         categories: [],

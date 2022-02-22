@@ -9,6 +9,7 @@ import PlanVisitLayout from '../../Components/CustomComponents/PlanVisitLayout';
 import data from '../../Constants/PlanVisitData';
 import ApiServices from '../../Services/ApiServices';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../../Services/translateService';
 
 
 type RouteParamList = {
@@ -41,7 +42,7 @@ useEffect(() => {
   }
 
   return (
-    <Layout hasBackArrow pageName="დაგეგმე ვიზიტი" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.planVisit')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,

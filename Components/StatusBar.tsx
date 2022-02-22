@@ -5,6 +5,7 @@ import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
+import translateService from '../Services/translateService';
 
 const data = {
   name: 'ცისანა',
@@ -169,8 +170,6 @@ const StatusBar = (props: any) => {
     borderWidth: 1,
     borderColor: isDarkTheme ? Colors.white : Colors.black,
   };
-
-
 
   return (
     <View style={{position: 'relative'}}>
@@ -382,8 +381,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1: false, visible2, visible3, visible4})
             }
-            title={`სტანდარტი`}
-            desc={`"სტანდარტი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[0]?.pointsLeft} ქულა`}
+            title={`${translateService.t('common.standart')}`}
+            desc={`${translateService.t('infoText.standartText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[0]?.pointsLeft
+            } ${translateService.t('common.point')}`}
           />
           <ProgressCircle
             index={1}
@@ -391,8 +393,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2: false, visible3, visible4})
             }
-            title={`სილვერი`}
-            desc={`"სილვერი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[1]?.pointsLeft} ქულა`}
+            title={`${translateService.t('common.silver')}`}
+            desc={`${translateService.t('infoText.silverText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[1]?.pointsLeft
+            } ${translateService.t('common.point')}`}
           />
         </View>
         <View
@@ -407,8 +412,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3: false, visible4})
             }
-            title={`გოლდი`}
-            desc={`"გოლდი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[2]?.pointsLeft} ქულა`}
+            title={`${translateService.t('common.gold')}`}
+            desc={`${translateService.t('infoText.goldText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[2]?.pointsLeft
+            } ${translateService.t('common.point')}`}
           />
           <ProgressCircle
             index={3}
@@ -416,8 +424,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3, visible4: false})
             }
-            title={`პლატინუმი`}
-            desc={`"პლატინუმი" სტატუსამდე დაგრჩათ ${props?.data?.categoryPointInfo?.length && props?.data?.categoryPointInfo[3]?.pointsLeft} ქულა`}
+            title={`${translateService.t('common.platin')}`}
+            desc={`${translateService.t('infoText.platinumText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[3]?.pointsLeft
+            } ${translateService.t('common.point')}`}
           />
         </View>
       </View>

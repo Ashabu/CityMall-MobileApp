@@ -8,6 +8,7 @@ import VouchersButton from '../CustomComponents/VouchersButton';
 import Data from '../../Constants/VouchersDummyData';
 import Layout from '../Layouts/Layout';
 import { GetClientVouchers, IVouchers } from '../../Services/Api/VouchersApi';
+import translateService from '../../Services/translateService';
 
 const VouchersInfo = () => {
   const { width } = useDimension();
@@ -40,11 +41,11 @@ const VouchersInfo = () => {
     <Layout
       hasBackArrow
       hideArrows
-      pageName="ჩემი ვაუჩერები"
+      pageName={translateService.t('screens.myVouchers')}
       onPressBack={GoBack}>
       <View style={styles.main}>
         <VouchersButton
-          title="ვაუჩერის შეძენა"
+          title={translateService.t('screens.buyVoucher')}
           onPress={() => navigate('BuyVouchers')}
         />
       </View>

@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Colors } from '../Colors/Colors';
 import { useDimension } from '../Hooks/UseDimension';
+import translateService from '../Services/translateService';
 
 const StatusBar = () => {
     const { width } = useDimension();
@@ -13,7 +14,7 @@ const StatusBar = () => {
                     </View>
                 </View>
                 <Text style={{ color: Colors.white, fontSize: 8 }}>
-                    ვერცხლი
+                {translateService.t('common.silver')}
                 </Text>
             </View>
             <View style={[styles.line, { width: width / 2 - 30 - width * 15 / 100, backgroundColor: Colors.silver }]} />
@@ -23,7 +24,7 @@ const StatusBar = () => {
                     <View style={[styles.round, { backgroundColor: Colors.gold }]}>
                     </View>
                     <Text style={{ color: Colors.white, fontSize: 8 }}>
-                        ოქრო
+                    {translateService.t('common.gold')}
                     </Text>
                 </View>
                 <View style={[styles.line, { width: width / 2 - 30 - width * 15 / 100, backgroundColor: Colors.gold }]} />
@@ -32,7 +33,7 @@ const StatusBar = () => {
                 <View style={[styles.round, { backgroundColor: Colors.platinum }]}>
                 </View>
                 <Text style={{ color: Colors.white, fontSize: 8 }}>
-                    პლატინა
+                {translateService.t('common.platin')}
                 </Text>
             </View>
         </View>

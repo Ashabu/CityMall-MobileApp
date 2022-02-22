@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,9 @@ import {
   ScrollView,
   NativeScrollEvent,
   Image,
+  RefreshControl,
+  ActivityIndicator,
+  NativeSyntheticEvent,
 } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
@@ -52,13 +55,15 @@ const ProfileScreen = () => {
 
   const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [fetchingMore, setFetchingMore] = useState(false);
 
   const darkArrowIcon = require('../../assets/images/arrow-black.png')
   const lightArrowIcon =require('../../assets/images/arrow-sm.png')
 
   useEffect(() => {
     getClientData();
-    getClientTransactions();
+   // getClientTransactions();
     getPersonalOffers();
   }, []);
 
@@ -76,13 +81,25 @@ const ProfileScreen = () => {
       });
   };
 
+  const rowCount = 10;
+
   const getClientTransactions = () => {
-    ApiServices.GetClientTransactions()
+    ApiServices.GetClientTransactions(rowIndex, rowCount)
       .then(res => {
-        setClientTransactions(res.data.data!);
+        setClientTransactions([...clientTransactions, ...res.data.data!]);
+        if (
+          (res.data?.data?.length || 0) < rowCount ||
+          (res.data?.data?.length || 0) <= 0
+        ) {
+          setStopFetching(true);
+        } else {
+          setStopFetching(false);
+        }
+        setFetchingMore(false)
       })
       .catch(e => {
         console.log('error tran', e.response);
+        setFetchingMore(false)
       });
   };
 
@@ -157,14 +174,65 @@ const ProfileScreen = () => {
       });
   };
 
+  const onRefresh = () => {
+    getClientData();
+    getClientTransactions();
+    getPersonalOffers();
+  };
+
+  const scrollRef = useRef<ScrollView | null>(null);
+  const [rowIndex, setRowIndex] = useState<number>(1);
+  const [stopFetching, setStopFetching] = useState(false);
+
+  useEffect(() => {
+    getClientTransactions();
+  }, [rowIndex]);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (stopFetching) return;
+    const paddingToBottom = 20;
+    const isChunk =
+      event.nativeEvent.layoutMeasurement.height +
+        event.nativeEvent.contentOffset.y >=
+      event.nativeEvent.contentSize.height - paddingToBottom;
+
+    if (isChunk && !fetchingMore) {
+      setFetchingMore(true);
+      setRowIndex(prev => {
+        let rowIndex = prev + 1;
+        return rowIndex;
+      });
+      scrollRef.current?.scrollTo({
+        x: 0,
+        y: event.nativeEvent.contentSize.height + paddingToBottom,
+        animated: true,
+      });
+    }
+  };
+
+  const BottomLoading = () =>
+  fetchingMore ? (
+    <View style={[styles.bottomLoading, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
+      <ActivityIndicator size="small" color={isDarkTheme ? Colors.white : Colors.black} />
+    </View>
+  ) : null;
+
   return (
     <AppLayout pageTitle={'კაბინეტი'}>
       <ScrollView
+      ref={scrollRef}
+      onScroll={handleScroll}
         contentContainerStyle={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
-        }}>
+        }} refreshControl={
+          <RefreshControl
+            progressBackgroundColor={isDarkTheme ? Colors.white : Colors.black}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
         <View style={styles.balanceView}>
           <View>
             <Text style={styles.balanceWrapTitle}>ხელმისაწვდომი თანხა</Text>
@@ -320,6 +388,7 @@ const ProfileScreen = () => {
                 ტრანზაქციები ვერ მოიძებნა
               </Text>
             )}
+              {BottomLoading()}
           </View>
         </View>
       </ScrollView>
@@ -409,7 +478,12 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     left: 6
-  }
+  },
+  bottomLoading: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+  },
 });
 
 export default ProfileScreen;

@@ -5,6 +5,7 @@ import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../Services/translateService';
 
 
 type RouteParamList = {
@@ -32,7 +33,7 @@ export default () => {
 
   console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
-    <AppLayout pageTitle={'ქალაქის რუკა'}>
+    <AppLayout pageTitle={translateService.t('screens.cityMap')}>
       <View
         style={[
           styles.mapcontainer,

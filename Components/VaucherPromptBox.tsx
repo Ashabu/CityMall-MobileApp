@@ -8,10 +8,11 @@ import {
   RefreshControlBase,
   Platform,
 } from 'react-native';
-import { AppContext } from '../AppContext/AppContext';
-import { Colors } from '../Colors/Colors';
-import { navigate } from '../Services/NavigationServices';
-import { IOffer } from '../Services/Api/OffersApi';
+import {AppContext} from '../AppContext/AppContext';
+import {Colors} from '../Colors/Colors';
+import {navigate} from '../Services/NavigationServices';
+import {IOffer} from '../Services/Api/OffersApi';
+import translateService from '../Services/translateService';
 
 const VaucherPromptBox: React.FC<any> = data => {
   const { state, setGlobalState } = useContext(AppContext);
@@ -74,6 +75,19 @@ const VaucherPromptBox: React.FC<any> = data => {
             ]}>
             ფასი: {data?.data?.voucherPurchasePoints}{' '}
           </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              paddingVertical: 7,
+              paddingBottom: 16,
+            }}>
+            <Text
+              style={[
+                {fontFamily: 'HMpangram-Bold'},
+                {color: isDarkTheme ? Colors.white : Colors.black},
+              ]}>
+              {translateService.t('common.price')}: {data?.data?.voucherPurchasePoints}{' '}
+            </Text>
 
           <Image source={require('./../assets/images/Star.png')} />
         </View>
@@ -85,7 +99,7 @@ const VaucherPromptBox: React.FC<any> = data => {
                 styles.promotionBottomText,
                 { color: isDarkTheme ? Colors.white : Colors.black },
               ]}>
-              გადახდა
+              {translateService.t('common.pay')}
             </Text>
             <Image
               style={styles.promotionBottomImg}
@@ -97,6 +111,7 @@ const VaucherPromptBox: React.FC<any> = data => {
             />
           </View>
         </View>
+      </View>
       </View>
     </TouchableOpacity>
   );

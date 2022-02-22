@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import Layout from '../Components/Layouts/Layout';
+import translateService from '../Services/translateService';
 
 const CheckGiftCardBalanceScreen = () => {
     const { isDarkTheme } = useContext(AppContext);
@@ -45,10 +46,10 @@ const CheckGiftCardBalanceScreen = () => {
             <View style={styles.cardContainer}>
                 <Image style={{ width: '100%', height: '100%' }} source={require('../assets/images/gift-card-balance.png')} />
                 <View>
-                    <Text>შეიყვანეთ ბარათის ნომერი</Text>
+                    <Text>{translateService.t('infoText.cardNumber')}</Text>
                 </View>
                 <View>
-                    <Text>ბარათის მოქმედების ვადა</Text>
+                    <Text>{translateService.t('infoText.cardDate')}</Text>
                 </View>
             </View>
         </Layout>

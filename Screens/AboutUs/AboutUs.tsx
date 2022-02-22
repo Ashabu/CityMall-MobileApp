@@ -1,16 +1,53 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {GoBack} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
+import ApiServices from '../../Services/ApiServices';
+import translateService from '../../Services/translateService';
 
-const AboutUs = () => {
+
+const AboutUs = ({strings}: {strings: any[]}) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
 
+  const [contentData, setContentData] = useState<any>([]);
+  useEffect(() => {
+    getWidgets();
+  }, [])
+    const getWidgets = () => {
+      ApiServices.GetWidgets().then(res => {
+       // console.log(res.data)
+        setContentData(res.data)
+      }).catch(e => {
+        console.log(JSON.parse(JSON.stringify(e.response)))
+      })
+    }
+
+  let str = '';
+  let addr = '', addr1 = '';
+
+  try {
+    if (strings?.length) {
+      const index = strings.findIndex((s: any) => s.type == 2);
+      if (index >= 0) {
+        str = strings[index].text;
+      }
+    }
+  } catch (_) {}
+
+  try {
+    if (strings?.length) {
+      if (contentData?.length >= 0) {
+        addr = contentData[1].address;
+        addr1 = contentData[0].address;
+      }
+    }
+  } catch (_) {}
+
   return (
-    <Layout hasBackArrow pageName="ჩვენ შესახებ" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.aboutUs')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -18,36 +55,32 @@ const AboutUs = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.txtView}>
-          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>სითი მოლი</Text>
+          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.cityMall')}</Text>
           <Text style={[styles.infoTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-            ცნობილი ფაქტია, რომ გვერდის წაკითხვად შიგთავსს შეუძლია მკითხველის
-            ყურადღება მიიზიდოს და დიზაინის აღქმაში ხელი შეუშალოს. გამოყენებით
-            ვღებულობთ იმაზე მეტ-ნაკლებად სწორი გადანაწილების ტექსტს, ვიდრე
-            ერთიდაიგივე გამეორებადი სიტყვებია ხოლმე.
+            {str}
           </Text>
         </View>
-        <View style={[styles.txtView, {paddingVertical: 30}]}>
+        {/* <View style={[styles.txtView, {paddingVertical: 30}]}>
           <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>კონტაქტი</Text>
           <View style={{top: 10}}>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              ცხელი ხაზი: <Text style={styles.unBold}>+032 220 00 99</Text>
+            {translateService.t('screens.line')}: <Text style={styles.unBold}>+032 220 00 99</Text>
             </Text>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              მარკეტინგის დეპარტამენტი:{' '}
+            {translateService.t('screens.marketing')}:{' '}
               <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 595 393 924 </Text>
             </Text>
             <Text style={[styles.bold,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              გაყიდვების დეპარტამენტი:{' '}
+            {translateService.t('screens.sales')}:{' '}
               <Text style={[styles.unBold,{color: isDarkTheme ? Colors.white : Colors.black}]}>(+995) 599 515 672</Text>
             </Text>
           </View>
-        </View>
+        </View> */}
         <View style={{paddingVertical: 30}}>
-          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>მისამართი</Text>
+          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.address')}</Text>
           <View style={{top: 10}}>
             <Text style={[styles.addressInfo,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              სითი მოლი საბურთალო, ვაჟა-ფშაველას №70 სითი მოლი გლდანი, ი.ვეკუას
-              №1
+              {translateService.t('infoText.addressCityMall').replace('{q1}', addr).replace('{q2}', addr1)}
             </Text>
           </View>
         </View>

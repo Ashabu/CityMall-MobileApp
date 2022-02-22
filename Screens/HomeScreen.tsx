@@ -162,16 +162,16 @@ const HomeScreen = () => {
                 </View>
 
                 {clientInfo !== undefined && <View style={styles.amountInfo}>
-                    <View style={[styles.accesAmount, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
-                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
-                        ხელმისაწვდომი თანხა
+                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                        {translateService.t('screens.deposit')}
                         </Text>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.ballance}₾</Text>
                     </View>
 
-                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
-                        სითიქულა
+                        {translateService.t('screens.cityPoint')}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.points || 0}
@@ -187,7 +187,7 @@ const HomeScreen = () => {
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                შეთავაზებები
+                            {translateService.t('common.offers')}
                             </Text>
                             <PaginationDots length={paginationDotCount(offers, 4)} step={offersStep} />
                         </View>

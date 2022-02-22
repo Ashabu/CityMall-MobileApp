@@ -18,6 +18,7 @@ import {ChunkArrays} from '../../Utils/utils';
 import {IMerchant} from '../../Services/Api/ShopsApi';
 import axios from 'axios';
 import envs from './../../config/env';
+import translateService from '../../Services/translateService';
 
 export default () => {
   const {state} = useContext(AppContext);
@@ -62,7 +63,7 @@ export default () => {
   };
   return (
     <>
-    <AppLayout pageTitle={'ძიება'}>
+    <AppLayout pageTitle={translateService.t('common.searching')}>
       <View
         style={{
           flex: 1,
@@ -73,7 +74,7 @@ export default () => {
           <TouchableOpacity
           onPress={() => inputRef.current?.focus()}
             style={[Platform.OS === 'ios' && {paddingBottom: 10}, {
-              borderBottomColor: '#fff',
+              borderBottomColor: isDarkTheme? Colors.white : Colors.black,
               borderBottomWidth: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -81,9 +82,9 @@ export default () => {
               
             }]}>
             <TextInput
-              placeholder="ძიება"
-              placeholderTextColor={'#fff'}
-              style={{color: '#fff'}}
+              placeholder={translateService.t('common.searching')}
+              placeholderTextColor={isDarkTheme? Colors.white : Colors.black}
+              style={{color: isDarkTheme? Colors.white : Colors.black}}
               value={keyword}
               onChangeText={e => setKeyword(e)}
               autoFocus={true}

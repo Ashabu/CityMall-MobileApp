@@ -4,6 +4,7 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import { navigate } from '../../Services/NavigationServices';
+import translateService from '../../Services/translateService';
 
 
 const MapToggleInfo = () => {
@@ -20,10 +21,10 @@ const MapToggleInfo = () => {
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
         <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})}>
-            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>სითი მოლი გლდანი</Text>
+            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('screens.cityGldani')}</Text>
         </TouchableOpacity>
         <TouchableOpacity  onPress={() => navigate('FloorMap', {mallId: mallIds.cityMallSaburtalo})}>
-            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>სითი მოლი საბურთალო</Text>
+            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('screens.citySaburtalo')}</Text>
         </TouchableOpacity>
     </View>
   );

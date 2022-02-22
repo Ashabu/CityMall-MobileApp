@@ -7,6 +7,7 @@ import { tranTypes } from '../Screens/ProfileScreen/ProfileScreen';
 const TransactionList = (props: any) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
+  
     return (
         <View style={styles.trListWrap}>
             <View style={{flexDirection: 'row'}}>
