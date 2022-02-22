@@ -240,12 +240,19 @@ const styles = StyleSheet.create({
 
   notificationStyle: {
     fontFamily: 'HMpangram-Bold',
-    color: Colors.red,
-    fontSize: 20,
+    color: Colors.white,
+    fontSize: 12,
     fontWeight: 'bold',
     position: 'absolute',
-    top: -13,
-    right: 0,
+    top: -7,
+    right: -7,
+    backgroundColor: Colors.red,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   dropDown: {
     position: 'absolute',

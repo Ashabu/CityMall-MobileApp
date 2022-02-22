@@ -45,6 +45,7 @@ type RouteParamList = {
     id: number;
     routeId: number;
     name: string,
+    isPremium?:boolean
   };
 };
 
@@ -131,11 +132,12 @@ const Stores: React.FC = () => {
   };
 
   const handleGetMerchants = (push: boolean = false, p: number = 1) => {
+    console.log('""""""""""""""""', routeParams.params)
     let isPremium;
-    if (routeParams.params.id === 1) {
-      isPremium = false;
-    } else {
+    if (routeParams.params.isPremium) {
       isPremium = true;
+    } else {
+      isPremium = false;
     }
     if (startFetching) return;
     startFetching = true;

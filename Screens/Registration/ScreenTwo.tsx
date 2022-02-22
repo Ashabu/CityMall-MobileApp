@@ -15,6 +15,7 @@ import DistrictPiker from '../../Components/CustomComponents/DistrictPiker';
 import AppInput from '../../Components/CustomComponents/AppInput';
 import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import { Colors } from '../../Colors/Colors';
+import { minusMonthFromDate } from '../../Utils/utils';
 
 
 
@@ -40,7 +41,7 @@ const ScreenTwo: React.FC = (props: any) => {
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
-    const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>();
     const [birthDateError, setBirthDateError] = useState<boolean>(false);
     const [district, setDistrict] = useState<string>('');
     const [districts, setDistricts] = useState<any>([]);
@@ -179,13 +180,13 @@ const ScreenTwo: React.FC = (props: any) => {
         };
         setGeneralError('');
         setButtonLoading(true);
-        let date = dateOfBirth.toLocaleDateString().split('/');
+        let date = dateOfBirth?.toLocaleDateString().split('/');
         
         let data = {
             firstName: routeObject.firstName,
             lastName: routeObject.lastName,
             personCode: routeObject.personCode,
-            birthDate: dateOfBirth,
+            birthDate: dateOfBirth || new Date(),
             phone: userPhoneNumber,
             email: email,
             address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
@@ -231,7 +232,7 @@ const ScreenTwo: React.FC = (props: any) => {
         return <DatePicker
         style={{backgroundColor: 'red'}}
         open={open}
-        date={dateOfBirth}
+        date={dateOfBirth || minusMonthFromDate(12*18)}
         onConfirm={(date) => {
             setDateOfBirth(date);
             setOpen(false)
@@ -262,7 +263,7 @@ const ScreenTwo: React.FC = (props: any) => {
                 <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatDate(dateOfBirth)|| 'დაბადების თარიღი'}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : 'დაბადების თარიღი'}</Text>
                     </TouchableOpacity>
                         {memoized}
                     </>

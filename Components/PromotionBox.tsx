@@ -58,7 +58,7 @@ function extractor(obj: any, key: string) {
         <TouchableOpacity onPress={handlePromotionBoxClick} style={style}>
             <View style={styles.promotionBox}>
                 <View style={[styles.container, {backgroundColor: extractor(data.offerType, 'color')}]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {extractor(data.offerType, 'name')}</Text>
+                    <Text style={{ fontSize: 5, color: Colors.white}}> {extractor(data.offerType, 'name')}</Text>
                 </View>
                 <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>

@@ -1,9 +1,10 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
+import ApiServices from '../../Services/ApiServices';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import {formatDate} from '../../Services/Utils';
 import AppLayout from '../AppLayout';
@@ -14,10 +15,23 @@ import translateService from '../../Services/translateService';
 
 const ProfileInfo = () => {
   const {width} = useDimension();
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
 
-  console.log('clientDetails ==>', clientDetails);
+  const handleGetClientCards = () => {
+    ApiServices.GetClientCards().then(res => {
+        setGlobalState({cardDetails: res.data});
+    })
+        .catch(_ => {
+           
+        });
+};
+
+useEffect(() => {
+  handleGetClientCards();
+}, [])
+
+  console.log('clientDetails ==>', clientDetails)
 
   return (
     <Layout
@@ -35,20 +49,20 @@ const ProfileInfo = () => {
           <View>
             <UserInfoView
               label={translateService.t('labels.firstName')}
-              identification={clientDetails?.[0].firstName}
+              identification={clientDetails?.[0]?.firstName}
             />
             <UserInfoView
               label={translateService.t('labels.lastName')}
-              identification={clientDetails?.[0].lastName}
+              identification={clientDetails?.[0]?.lastName}
             />
             <UserInfoView
               label={translateService.t('labels.idNumber')}
-              identification={clientDetails?.[0].personCode}
+              identification={clientDetails?.[0]?.personCode}
             />
             <UserInfoView
               label={translateService.t('labels.gender')}
               identification={
-                clientDetails?.[0].sex === 0
+                clientDetails?.[0]?.sex === 0
                   ? translateService.t('labels.female')
                   : translateService.t('labels.male')
               }
@@ -57,7 +71,7 @@ const ProfileInfo = () => {
               label={translateService.t('labels.mobile')}
               identification={
                 '+' +
-                clientDetails?.[0].phone.replace(
+                clientDetails?.[0]?.phone.replace(
                   /\b(\d{3})(\d{3})(\d{3})(\d{3})\b/,
                   '$1  $2  $3  $4',
                 )
@@ -65,11 +79,11 @@ const ProfileInfo = () => {
             />
             <UserInfoView
               label={translateService.t('labels.birthday')}
-              identification={formatDate(clientDetails?.[0].birthDate)}
+              identification={formatDate(clientDetails?.[0]?.birthDate)}
             />
             <UserInfoView
               label={translateService.t('labels.email')}
-              identification={clientDetails?.[0].email}
+              identification={clientDetails?.[0]?.email}
             />
           </View>
           {/* <View style={styles.btnView}>

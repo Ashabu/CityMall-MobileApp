@@ -1,11 +1,13 @@
 export interface ICategories {
     id?: number,
-    name?: string
+    name?: string,
+    isPremium?:boolean
 }
 
 export interface ILocation {
     name?: string,
-    id?: number
+    id?: number,
+    isPremium?: boolean
 }
 
 export interface IDrawerItem {
@@ -79,7 +81,8 @@ export default [
             },
             {
                 id: 2,
-                name: 'პრემიუმ სივრცე'
+                name: 'პრემიუმ სივრცე',
+                isPremium: true
             },
         ],
         routeName: 'Stores',

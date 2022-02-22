@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button, Platform } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -135,7 +135,7 @@ const HomeScreen = () => {
     };
 
 
-
+console.log({clientDetails})
 
 
     return (
@@ -153,6 +153,27 @@ const HomeScreen = () => {
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }
+                </View>
+
+                <View style={styles.amountInfo}>
+                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
+                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
+                        ხელმისაწვდომი თანხა
+                        </Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].balance}₾</Text>
+                    </View>
+
+                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
+                        <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
+                        სითიქულა
+                        </Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].points || 0}
+                              
+                             </Text>
+                             <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />
+                  </View>
+                    </View>
                 </View>
 
                 <Image style={{ width: '100%' }} source={require('../assets/images/gradient-line.png')} />
@@ -232,6 +253,38 @@ const styles = StyleSheet.create({
         fontFamily: 'HMpangram-Bold',
 
     },
-
+    amountInfo: {
+        flexDirection: 'row', 
+        flex: 1, 
+        justifyContent: 'center', 
+        marginBottom: 22
+    },
+    pointsInfo: {
+        padding: 7,
+        borderColor: Colors.white,
+        borderWidth: 1,
+        borderRadius: 5,
+        minWidth: 100
+    },
+accesAmount: {
+    padding: 7,
+    borderColor: Colors.white,
+    borderWidth: 1,
+    borderRadius: 5,
+    marginRight: 12,
+    minWidth: 100
+},
+amountTitle: {
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 9,
+    lineHeight: 11,
+    textTransform: 'uppercase',
+},
+amountValue: {
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 24,
+    lineHeight: 29,
+    textTransform: 'uppercase',
+}
 
 });

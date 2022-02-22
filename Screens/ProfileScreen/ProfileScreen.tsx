@@ -26,6 +26,12 @@ import {GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {GetVouchersToBuy, IVouchers} from '../../Services/Api/VouchersApi';
 import VaucherPromptBox from '../../Components/VaucherPromptBox';
 
+//transactionType
+export enum tranTypes {
+  accumulate = 1,
+  transfer = 4
+}
+
 const ProfileScreen = () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme, offersArray} = state;

@@ -85,7 +85,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 <View style={{ marginBottom: 5 }}>
                     {
                         item?.location?.map((el, i) => (
-                            <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} pageName={item.name} />
+                            <BurgerMenuLocation item={el} key={i} categories={item.categories} isPremium={el.isPremium} routeName={item.routeName!} pageName={item.name} />
                         ))
                     }
                 </View>

@@ -34,12 +34,8 @@ const Parameters = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.nameWrapper}>
-          <Text
-            style={[
-              styles.name,
-              {color: isDarkTheme ? Colors.white : Colors.black},
-            ]}>
-            {clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}
+          <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+            {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}
           </Text>
         </View>
         <View style={{top: 83, height: 80, justifyContent: 'space-between'}}>
