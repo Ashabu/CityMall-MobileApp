@@ -97,8 +97,8 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
                 )}
               </View>
             </View>
-            <View style={{ width: '45%' }}>
-              <Text style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black, marginBottom: 5 }]} numberOfLines={2}>
+            <View style={{ width: '44%' }}>
+              <Text numberOfLines={1} style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black, marginBottom: 5 }]} >
                 {voucherDescription}
               </Text>
               {voucherEndDate === undefined ? 

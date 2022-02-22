@@ -64,22 +64,22 @@ const VaucherPromptBox: React.FC<any> = data => {
         </Text>
         <View
           style={{
-            flexDirection: 'row',
+           // flexDirection: 'row',
             paddingVertical: 7,
             paddingBottom: 16,
           }}>
-          <Text
+          {/* <Text
             style={[
               { fontFamily: 'HMpangram-Bold' },
               { color: isDarkTheme ? Colors.white : Colors.black },
             ]}>
             ფასი: {data?.data?.voucherPurchasePoints}{' '}
-          </Text>
+          </Text> */}
           <View
             style={{
               flexDirection: 'row',
               paddingVertical: 7,
-              paddingBottom: 16,
+              paddingBottom: 10,
             }}>
             <Text
               style={[
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   promotionBottom: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
 
   promotionBottomText: {
