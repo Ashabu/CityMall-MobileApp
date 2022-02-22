@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button } from 'react-native';
+import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button, Platform } from 'react-native';
 import ApiServices from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
@@ -156,20 +156,23 @@ console.log({clientDetails})
                 </View>
 
                 <View style={styles.amountInfo}>
-                    <View style={styles.accesAmount}>
+                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         ხელმისაწვდომი თანხა
                         </Text>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].balance}₾</Text>
                     </View>
 
-                    <View style={styles.pointsInfo}>
+                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         სითიქულა
                         </Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].points || 0}
-                               <Image source={require('./../assets/images/Star.png')} style={{marginLeft: 15}} />
+                              
                              </Text>
+                             <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />
+                  </View>
                     </View>
                 </View>
 
