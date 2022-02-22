@@ -203,7 +203,7 @@ const ScreenTwo: React.FC = (props: any) => {
             phone: userPhoneNumber,
             email: email,
             address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
-            sex: routeObject.male? 1 : 0,
+            sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
             mailOtp: emailVerificationCode
         };
 

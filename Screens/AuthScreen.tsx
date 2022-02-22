@@ -80,20 +80,7 @@ const AuthScreen = () => {
         };
     }, [errorMessages]);
 
-    const validateInputs = (actionType: string, inputName: string) => {
-        if (actionType === 'add') {
-            let errorArray = [...errorMessages];
-            let index = errorArray.findIndex((e: string) => e === inputName);
-            if (index >= 0) {
-                return;
-            } else {
-                errorArray.push(inputName);
-                setErrorMessages(errorArray);
-            };
-        } else {
-            let errorArray = errorMessages.filter(e => e !== inputName);
-            setErrorMessages(errorArray);
-        }
+
   useEffect(() => {
     if (errorMessages.length === 0) {
       setHasError(false);
@@ -201,11 +188,7 @@ const AuthScreen = () => {
   };
 
   return (
-    <Layout 
-   
-   
- 
-    >
+    <Layout>
       <View style={{flex: 1, paddingHorizontal: '10%'}}>
         <View style={{flex: 4, justifyContent: 'center'}}>
           <Text style={[styles.authTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.firstAuthorization')}</Text>
@@ -306,7 +289,7 @@ const AuthScreen = () => {
       </View>
     </Layout>
   );
-};
+
 };
 
 const styles = StyleSheet.create({
