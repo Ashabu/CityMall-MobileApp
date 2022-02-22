@@ -7,6 +7,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import AppSwitch from '../CustomComponents/AppSwitch';
 import Layout from '../Layouts/Layout';
+import translateService from '../../Services/translateService';
 
 const Parameters = () => {
   const {width} = useDimension();
@@ -14,10 +15,10 @@ const Parameters = () => {
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
 
-  const lightMoonIcon = require('../../assets/images/moon.png')
-  const darkMoonIcon = require('../../assets/images/darkMoon.png')
-  const lightUserIcon = require('../../assets/images/user.png')
-  const darkUserIcon = require('../../assets/images/darkAvatar.png')
+  const lightMoonIcon = require('../../assets/images/moon.png');
+  const darkMoonIcon = require('../../assets/images/darkMoon.png');
+  const lightUserIcon = require('../../assets/images/user.png');
+  const darkUserIcon = require('../../assets/images/darkAvatar.png');
 
   const SwitchDarkTheme = () => {
     setGlobalState({isDarkTheme: !isDarkTheme});
@@ -31,10 +32,13 @@ const Parameters = () => {
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
-          
         }}>
         <View style={styles.nameWrapper}>
-          <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+          <Text
+            style={[
+              styles.name,
+              {color: isDarkTheme ? Colors.white : Colors.black},
+            ]}>
             {clientDetails?.[0].firstName + ' ' + clientDetails?.[0].lastName}
           </Text>
         </View>
@@ -42,23 +46,26 @@ const Parameters = () => {
           <View style={styles.desighnView}>
             <View style={styles.iconView}>
               <View style={{width: 30}}>
-                <Image source={isDarkTheme? lightMoonIcon : darkMoonIcon } />
+                <Image source={isDarkTheme ? lightMoonIcon : darkMoonIcon} />
               </View>
               <View>
-                <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>მუქი დიზაინი</Text>
+                <Text
+                  style={[
+                    styles.name,
+                    {color: isDarkTheme ? Colors.white : Colors.black},
+                  ]}>
+                  {translateService.t('screens.darkMode')}
+                </Text>
               </View>
             </View>
 
             <TouchableOpacity onPress={SwitchDarkTheme}>
-         
               <Switch
-                trackColor={{false: Colors.btnGrey, true: Colors.successGreen }}
-           
+                trackColor={{false: Colors.btnGrey, true: Colors.successGreen}}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={SwitchDarkTheme}
                 value={isDarkTheme}
-                style={{ transform: [{ scaleX: 1 }, { scaleY: .9 }] }}
-                
+                style={{transform: [{scaleX: 1}, {scaleY: 0.9}]}}
               />
             </TouchableOpacity>
           </View>
@@ -66,10 +73,16 @@ const Parameters = () => {
             style={styles.iconView}
             onPress={() => navigate('ProfileInfo')}>
             <View style={{width: 30}}>
-              <Image source={isDarkTheme? lightUserIcon : darkUserIcon} />
+              <Image source={isDarkTheme ? lightUserIcon : darkUserIcon} />
             </View>
             <View>
-              <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>პროფილის გვერდი</Text>
+              <Text
+                style={[
+                  styles.name,
+                  {color: isDarkTheme ? Colors.white : Colors.black},
+                ]}>
+                {translateService.t('screens.profile')}
+              </Text>
             </View>
           </TouchableOpacity>
           {/* <TouchableOpacity style={styles.iconView}>

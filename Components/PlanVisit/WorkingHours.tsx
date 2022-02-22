@@ -10,6 +10,7 @@ import {
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
+import translateService from '../../Services/translateService';
 
 const WorkingHours = ({data, routeId}: any) => {
   const {state} = useContext(AppContext);
@@ -27,7 +28,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            მისამართი:{' '}
+            {translateService.t('screens.address')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -41,7 +42,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            სამუშაო საათები:{' '}
+            {translateService.t('screens.workingHours')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -58,7 +59,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            მისამართი:{' '}
+            {translateService.t('screens.address')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -72,7 +73,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            სამუშაო საათები:{' '}
+            {translateService.t('screens.workingHours')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -93,7 +94,7 @@ const WorkingHours = ({data, routeId}: any) => {
             styles.text,
             {color: isDarkTheme ? Colors.white : Colors.black},
           ]}>
-          სოც. სქელი:
+          {translateService.t('screens.socMedia')}:
         </Text>
         <Image
           source={

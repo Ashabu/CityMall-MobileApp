@@ -6,6 +6,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import MessagesInfo from '../CustomComponents/MessagesInfo';
 import Layout from '../Layouts/Layout';
+import translateService from "../../Services/translateService";
 
 const EmailChanged = () => {
   const {width} = useDimension();
@@ -13,7 +14,7 @@ const EmailChanged = () => {
   const {isDarkTheme} = state;
 
   return (
-    <Layout hasBackArrow pageName="სასაჩუქრე ბარათი" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.giftCard')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -24,7 +25,7 @@ const EmailChanged = () => {
           <MessagesInfo
             icon={require('../../assets/images/success.png')}
             bgColorProp={Colors.successGreen}
-            title={'ელ-ფოსტა წარმატებით შეიცვალა'}
+            title={translateService.t('infoText.emailChange')}
             text={''}
             phone={''}
           />
@@ -32,7 +33,7 @@ const EmailChanged = () => {
 
         <View style={{flex: 1}}>
           <TouchableOpacity style={styles.btnStyle} onPress={() => {}}>
-            <Text style={styles.btnText}>დახურვა</Text>
+            <Text style={styles.btnText}>{translateService.t('common.close')}</Text>
           </TouchableOpacity>
         </View>
       </View>

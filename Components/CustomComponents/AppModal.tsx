@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import translateService from "../../Services/translateService";
 
 const AppModal = () => {
     const [animation, setAnimation] = useState<any>(new Animated.Value(0));
@@ -122,11 +123,11 @@ const AppModal = () => {
     return (
         <Animated.View style={[styles.shown, styles.background]}>
             <View style={styles.moalBox}>
-                <Text style={styles.modalTitle}>შეცდომა</Text>
-                <Text style={styles.modalMessage}>ასეთი მომხმარებელი უკვე არსებობს</Text>
+                <Text style={styles.modalTitle}>{translateService.t('common.erorr')}</Text>
+                <Text style={styles.modalMessage}>{translateService.t('infoText.userExist')}</Text>
                 <View style={{width: '100%'}}>
                     <TouchableOpacity style={styles.modalBtn} onPress = {closeModal}>
-                        <Text style={styles.modalBtnTitle}>დახურვა</Text>
+                        <Text style={styles.modalBtnTitle}>{translateService.t('common.close')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

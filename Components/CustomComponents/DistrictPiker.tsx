@@ -15,6 +15,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import translateService from "../../Services/translateService";
 
 export interface IDistrict {
     id: number,
@@ -131,7 +132,7 @@ console.log('>>>>.',props.districts)
                             <View style={styles.centeredView}>
                                 <View style={[styles.modalView]}>
                                     <View style={styles.modalBar}>
-                                        <Text style={styles.infoText}>{props.placeholder || 'აირჩიეთ ქვეყანა'}</Text>
+                                        <Text style={styles.infoText}>{props.placeholder || translateService.t('screens.selectCountry')}</Text>
                                     </View>
                                     <Picker
                                         style={styles.pickerStyle}
@@ -148,7 +149,7 @@ console.log('>>>>.',props.districts)
                                         ))}
                                     </Picker>
                                     <TouchableOpacity style={[styles.modalBar, { paddingBottom: 20 }]} onPress={() => setIsSelecting(false)}>
-                                        <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>არჩევა</Text>
+                                        <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>{translateService.t('common.select')}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

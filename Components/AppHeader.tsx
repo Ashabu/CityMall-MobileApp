@@ -88,17 +88,17 @@ const AppHeader = (props: any) => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={{width: 70}} 
-          // onPress={() => {
-          //                   translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
-          //               }}
+          onPress={() => {
+                            translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
+                        }}
                         >
             <Text
               style={[
                 styles.langText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {/* {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '} */}
-              ENG{' '}
+              {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
+            
             </Text>
           </TouchableOpacity>
         </View>

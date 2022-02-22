@@ -6,6 +6,7 @@ import BurgerMenuItem from './BurgerMenuItem';
 import DrawerItems from '../../Constants/DrawerItems';
 import { AppContext } from '../../AppContext/AppContext';
 import AuthService from '../../Services/AuthService';
+import translateService from "../../Services/translateService";
 
 const BurgerMenu = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -35,7 +36,7 @@ const BurgerMenu = () => {
                     AuthService.SignOut();
                     setGlobalState({ isAuthenticated: false });
                 }}>
-                    <Text style={styles.logoutBtnText}>გამოსვლა</Text>
+                    <Text style={styles.logoutBtnText}>{translateService.t('common.exit')}</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
