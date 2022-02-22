@@ -26,6 +26,7 @@ import {
 } from '../../Services/Api/CategoryApi';
 import {GetMerchants, IMerchant} from '../../Services/Api/ShopsApi';
 import NotFound from '../../Components/NotFound';
+import translateService from '../../Services/translateService';
 
 export interface IServiceCategories {
   id?: number;
@@ -272,20 +273,20 @@ const Stores: React.FC = () => {
         <View style={[styles.container, containerStyle]}>
           <Animated.View style={[styles.collapsible, collapsibleHeight]}>
             <Text style={[styles.headerText, textStyle]}>
-              <Text style={styles.baseText}>{routeParams.params.name}</Text> | {routeParams.params.routeId === 1? 'სითი მოლი საბურთალო' : 'სითი მოლი გლდანი'}
+              <Text style={styles.baseText}>{routeParams.params.name}</Text> | {routeParams.params.routeId === 1? translateService.t('screens.citySaburtalo') : translateService.t('screens.cityGldani')}
             </Text>
             {mainCategories && mainCategories.length > 0 && (
               <RenderCategories
                 isCategory
                 data={mainCategories!}
-                title="კატეგორიები"
+                title= {translateService.t('common.categories')}
               />
             )}
 
             {subCategories.length > 0 && (
               <RenderCategories
                 data={subCategories}
-                title="ქვეკატეგორიები"
+                title={translateService.t('common.subCategories')}
                 style={styles.subCategories}
                 isCategory={false}
               />

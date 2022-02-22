@@ -12,6 +12,7 @@ import { useDimension } from '../Hooks/UseDimension';
 import ApiServices, { IServiceCenter, IServiceCenterResponse } from '../Services/ApiServices';
 import { navigate } from '../Services/NavigationServices';
 import Grid from '../Styles/grid';
+import translateService from '../Services/translateService';
 
 interface IDeliveryOption {
     fromCityMall: boolean,
@@ -192,7 +193,7 @@ const OrderGiftCardScreen = () => {
         switch (name) {
             case 'customer':
                 if (value === '') {
-                    setCustomerError('გთხოვთ შეავსოთ ველი');
+                    setCustomerError(translateService.t('infoText.validate'));
                 } else {
                     if (customerError) {
                         setCustomerError('');
@@ -201,7 +202,7 @@ const OrderGiftCardScreen = () => {
                 break;
             case 'orderDetails':
                 if (value === '') {
-                    setOrderDetailsError('გთხოვთ შეავსოთ ველი');
+                    setOrderDetailsError(translateService.t('infoText.validate'));
                 } else {
                     if (orderDetailsError) {
                         setOrderDetailsError('');
@@ -210,7 +211,7 @@ const OrderGiftCardScreen = () => {
                 break;
             case 'address':
                 if (value === '') {
-                    setAddressError('გთხოვთ შეავსოთ ველი');
+                    setAddressError(translateService.t('infoText.validate'));
                 } else {
                     if (addressError) {
                         setAddressError('');
@@ -337,7 +338,7 @@ const OrderGiftCardScreen = () => {
                             titleStyle={styles.btnTitleStyle}
                             loaderStyle={loaderStyle}
                             loading={btnLoading}
-                            title='შემდეგი'
+                            title={translateService.t('common.next')}
                             onPress={() => setStep(1)}
                         />
                     </View>
@@ -349,11 +350,11 @@ const OrderGiftCardScreen = () => {
             <View
                 style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: conditionalpadding(), paddingBottom: 10 }}>
                 <Text style={styles.orderCardTitle}>
-                    შეუკვეთე ბარათ(ებ)ი
+                {translateService.t('screens.orderCards')}
                 </Text>
                 <GiftCards />
                 <AppInput
-                    placeholder='სახელი გვარი'
+                    placeholder={translateService.t('labels.nameSurname')}
                     name = 'customer'
                     hasError={hasError}
                     isRequired = {true}
@@ -363,7 +364,7 @@ const OrderGiftCardScreen = () => {
                     />
                 {customerError.length > 0 && <Text style={styles.errorText}>{customerError}</Text>}
                 <AppInput
-                    placeholder='მობილურის ნომერი'
+                    placeholder={translateService.t('labels.mobile')}
                     name = 'phoneNumber'
                     validationRule='phoneNumber'
                     hasError={hasError}
@@ -376,7 +377,7 @@ const OrderGiftCardScreen = () => {
                 {phoneNumberError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
 
                 <Text style={[styles.orderCardTitle, { marginTop: 30 }]}>
-                    შეკვეთის დეტალები
+                {translateService.t('screens.orderDitails')}
                 </Text>
                 <AppInput
                     style={styles.detailsText}
@@ -385,7 +386,7 @@ const OrderGiftCardScreen = () => {
                     validationRule='required'
                     hasError={hasError}
                     addValidation={validateInputs}
-                    placeholder='მიუთითეთ ბარათ(ებ)ი დიზაინი, რაოდენობა და თანხა'
+                    placeholder={translateService.t('infoText.describeText')}
                     placeholderTextColor={Colors.darkGrey}
                     value={orderDetails}
                     onChangeText={(newValue: string) => setOrderDetails(newValue)}
@@ -398,7 +399,7 @@ const OrderGiftCardScreen = () => {
                     <AppCheckBox
                         checked={deliveryOption.fromCityMall}
                         onChange={() => toggleDeliveryOption('fromMall')} />
-                    <Text style={styles.labelText}>სითი მოლიდან გატანა</Text>
+                    <Text style={styles.labelText}>{translateService.t('screens.take')}</Text>
                 </TouchableOpacity>
                 {deliveryOption.fromCityMall &&
                     <View style={{ paddingLeft: 20 }}>
@@ -420,7 +421,7 @@ const OrderGiftCardScreen = () => {
                     <AppCheckBox
                         checked={deliveryOption.curierDelivery}
                         onChange={() => toggleDeliveryOption('curier')} />
-                    <Text style={styles.labelText}>საკურიერო მომსახურება</Text>
+                    <Text style={styles.labelText}>{translateService.t('screens.delivery')}</Text>
                 </TouchableOpacity>
                 {deliveryOption.curierDelivery &&
                     <View >
@@ -430,7 +431,7 @@ const OrderGiftCardScreen = () => {
                             isRequired = {true}
                             validationRule='required'
                             hasError={hasError}
-                            placeholder='გთხოვთ მიუთიოთ მისამართი'
+                            placeholder={translateService.t('infoText.addressInfoText')}
                             placeholderTextColor={Colors.darkGrey}
                             value={address}
                             onChangeText={(newValue: string) => setAddress(newValue)}
@@ -447,7 +448,7 @@ const OrderGiftCardScreen = () => {
                     titleStyle={styles.btnTitleStyle}
                     loaderStyle={loaderStyle}
                     loading={btnLoading}
-                    title='შემდეგი'
+                    title={translateService.t('common.next')}
                     onPress={handleGiftCardOrder}
                 />
             </View>
@@ -459,16 +460,16 @@ const OrderGiftCardScreen = () => {
                     {!resSuccess ?
                         <View>
                             <Image source={require('../assets/images/error-mark.png')} style={styles.responseImg} />
-                            <Text style={styles.responseText}>დაფიქსირდა შეცდომა</Text>
+                            <Text style={styles.responseText}>{translateService.t('screens.errorrMsg')}</Text>
                         </View>
                         :
                         <View>
                             <Image source={require('../assets/images/success-mark.png')} style={styles.responseImg} />
-                            <Text style={styles.responseText}>შეკვეთა წარმატებით დასრულდა</Text>
+                            <Text style={styles.responseText}>{translateService.t('infoText.successMsg')}</Text>
                         </View>}
                     <Pressable onPress={() => navigate('HomeScreen')} style={{ width: 325, height: 66, backgroundColor: Colors.darkGrey, borderRadius: 50, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: Colors.white }}>
-                            დახურვა
+                        {translateService.t('common.close')}
                         </Text>
                     </Pressable>
                 </View>

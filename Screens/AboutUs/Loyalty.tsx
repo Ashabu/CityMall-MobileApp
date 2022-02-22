@@ -6,6 +6,7 @@ import { useDimension } from '../../Hooks/UseDimension';
 import { GoBack, navigate } from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import AppButton from '../../Components/CustomComponents/AppButton';
+import translateService from '../../Services/translateService';
 
 const Loyalty = () => {
   const { width } = useDimension();
@@ -13,7 +14,7 @@ const Loyalty = () => {
   const { isDarkTheme, clientDetails } = state;
   
   return (
-    <Layout hasBackArrow pageName="ლოიალობის შესახებ" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={translateService.t('screens.aboutLoialty')} onPressBack={GoBack}>
       <View style={styles.mainView}>
         <View style={styles.imageView}>
           <Image style={styles.giftCardImg}
@@ -22,13 +23,7 @@ const Loyalty = () => {
         </View>
         <View >
           <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-            შეუკვეთე სითი მოლის ლოიალობის ბარათი შენთვის ან შენი საყვარელი
-            ადამიანებისთვის - ეს ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ
-            ადამიანს არჩევანის თავისუფლება მისცეთ შეუკვეთე სითი მოლის
-            ლოიალობის ბარათი შენთვის ან შენი საყვარელი ადამიანებისთვის - ეს
-            ყველაზე სასურველი საჩუქარია, რითაც შეგიძლიათ ადამიანს არჩევანის
-            თავისუფლება მისცეთ. შეუკვეთე სითი მოლის ლოიალობის ბარათი შენთვის
-            ან შენი საყვარელი ადამიანებისთვის.
+          {translateService.t('infoText.loialtyText')}
           </Text>
         </View>
         {
@@ -36,7 +31,7 @@ const Loyalty = () => {
             null
             :
             <View>
-              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={'რეგისტრაცია'} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
+              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={translateService.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
             </View>
         }
       </View>

@@ -3,6 +3,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import SmsRetriever from 'react-native-sms-retriever';
+import translateService from '../Services/translateService';
 
 interface IOtpProps {
     getValue: (val: string) => void,
@@ -52,11 +53,11 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
     return (
         <View style={[styles.otpContainer, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
             <Text style={[styles.otpTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                გთხოვთ შეიყვანოთ ერთჯერადი კოდი</Text>
+            {translateService.t('infoText.enterCode')}</Text>
             <TextInput
                 style={[styles.otpInput, {color: isDarkTheme ? Colors.white : Colors.black}]}
                 value={oneTimeCode}
-                placeholder='sms კოდი'
+                placeholder={translateService.t('common.smsCode')}
                 placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                 onChangeText={(val: string) => handleOneTimePasscode(val)}
                 maxLength={4}
@@ -68,9 +69,9 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
                 resend();
                 setOneTimeCode('');
             }}>
-                <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>თავიდან</Text>
+                <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.again')}</Text>
             </TouchableOpacity>
-            {hasError ? <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text> : null}
+            {hasError ? <Text style={styles.errorText}>{translateService.t('infoText.codeIncorrect')}</Text> : null}
         </View>
     );
 };

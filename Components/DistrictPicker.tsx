@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, Modal, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { Colors } from '../Colors/Colors';
 import { AppContext } from '../AppContext/AppContext';
+import translateService from '../Services/translateService';
 
 
 const DistrictPicker = (props: any) => {
@@ -30,7 +31,7 @@ const DistrictPicker = (props: any) => {
                         <View style={styles.centeredView}>
                             <View style={[styles.modalView,{ backgroundColor: isDarkTheme? Colors.black : Colors.white}]}>
                                 <View style={styles.modalBar}>
-                                    <Text style={[styles.infoText, {color: isDarkTheme ? Colors.white : Colors.black}]}>აირჩიეთ უბანი</Text>
+                                    <Text style={[styles.infoText, {color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.selectDistric')}</Text>
                                 </View>
                                 <Picker
                                     itemStyle={[styles.textStyles, {color: isDarkTheme ? Colors.white : Colors.black}]}
@@ -47,7 +48,7 @@ const DistrictPicker = (props: any) => {
                                     ))}
                                 </Picker>
                                 <TouchableOpacity style={[styles.modalBar, { paddingBottom: 20 }]} onPress={() => setIsSelecting(false)}>
-                                    <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>არჩევა</Text>
+                                    <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>{translateService.t('common.select')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

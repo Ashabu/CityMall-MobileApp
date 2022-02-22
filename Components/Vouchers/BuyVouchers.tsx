@@ -8,6 +8,7 @@ import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import Data from '../../Constants/VouchersDummyData'
 import Layout from '../Layouts/Layout';
 import { GetClientVouchers, GetVouchersToBuy, IVouchers } from '../../Services/Api/VouchersApi';
+import translateService from '../../Services/translateService';
 
 const BuyVouchers = () => {
   const { width } = useDimension();
@@ -54,7 +55,7 @@ const BuyVouchers = () => {
           
         </View>
         <TouchableOpacity disabled={selectedVaucher === undefined} style={styles.btnStyle} onPress={() => navigate('SelectedVouchers', {data: selectedVaucher})} >
-            <Text style={styles.btnText}>შეძენა</Text>
+            <Text style={styles.btnText}>{translateService.t('common.buy')}</Text>
           </TouchableOpacity>
       </View>
       <Modal visible={isLoading} animationType="slide" transparent={true}>
