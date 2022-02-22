@@ -74,7 +74,7 @@ export default () => {
           <TouchableOpacity
           onPress={() => inputRef.current?.focus()}
             style={[Platform.OS === 'ios' && {paddingBottom: 10}, {
-              borderBottomColor: '#fff',
+              borderBottomColor: isDarkTheme? Colors.white : Colors.black,
               borderBottomWidth: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -83,8 +83,8 @@ export default () => {
             }]}>
             <TextInput
               placeholder={translateService.t('common.searching')}
-              placeholderTextColor={'#fff'}
-              style={{color: '#fff'}}
+              placeholderTextColor={isDarkTheme? Colors.white : Colors.black}
+              style={{color: isDarkTheme? Colors.white : Colors.black}}
               value={keyword}
               onChangeText={e => setKeyword(e)}
               autoFocus={true}
