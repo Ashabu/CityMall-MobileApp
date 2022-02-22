@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,14 +8,14 @@ import {
   RefreshControlBase,
   Platform,
 } from 'react-native';
-import {AppContext} from '../AppContext/AppContext';
-import {Colors} from '../Colors/Colors';
-import {navigate} from '../Services/NavigationServices';
-import {IOffer} from '../Services/Api/OffersApi';
+import { AppContext } from '../AppContext/AppContext';
+import { Colors } from '../Colors/Colors';
+import { navigate } from '../Services/NavigationServices';
+import { IOffer } from '../Services/Api/OffersApi';
 
 const VaucherPromptBox: React.FC<any> = data => {
-  const {state, setGlobalState} = useContext(AppContext);
-  const {isDarkTheme} = state;
+  const { state, setGlobalState } = useContext(AppContext);
+  const { isDarkTheme } = state;
 
   // const BoxColor = (i: number) => {
   //     if (i % 4 === 1) {
@@ -30,8 +30,9 @@ const VaucherPromptBox: React.FC<any> = data => {
   // };
 
   const handlePromotionBoxClick = () => {
-    navigate('BuyVouchers');
+    navigate('SelectedVouchers', { data: data.data });
   };
+
 
   function extractor(obj: any, key: string) {
     if (!obj || obj === null || typeof obj === null) {
@@ -45,48 +46,44 @@ const VaucherPromptBox: React.FC<any> = data => {
     }
   }
 
-  console.log(data.data);
   return (
     <TouchableOpacity onPress={handlePromotionBoxClick} >
       <View style={styles.promotionBox}>
-   
+
         <Image style={styles.promotionImg} source={{ uri: data.data.imgUrl }} />
         {/* <Image
           style={styles.promotionImg}
           source={require('./../assets/images/gift-card.png')}
         /> */}
-     
-          <Text
-          numberOfLines={2}
-            style={[
-              styles.promotionTitle,
-              {color: isDarkTheme ? Colors.white : Colors.black},
-            ]}>
-            {data.data.voucherDescription}
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              paddingVertical: 7,
-              paddingBottom: 16,
-            }}>
-            <Text
-              style={[
-                {fontFamily: 'HMpangram-Bold'},
-                {color: isDarkTheme ? Colors.white : Colors.black},
-              ]}>
-              ფასი: {data?.data?.voucherPurchasePoints}{' '}
-            </Text>
 
-            <Image source={require('./../assets/images/Star.png')} />
-          </View>
-       
+        <Text
+          numberOfLines={2}
+          style={[styles.promotionTitle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+          {data.data.voucherDescription}
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingVertical: 7,
+            paddingBottom: 16,
+          }}>
+          <Text
+            style={[
+              { fontFamily: 'HMpangram-Bold' },
+              { color: isDarkTheme ? Colors.white : Colors.black },
+            ]}>
+            ფასი: {data?.data?.voucherPurchasePoints}{' '}
+          </Text>
+
+          <Image source={require('./../assets/images/Star.png')} />
+        </View>
+
         <View style={styles.promotionBottom}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text
               style={[
                 styles.promotionBottomText,
-                {color: isDarkTheme ? Colors.white : Colors.black},
+                { color: isDarkTheme ? Colors.white : Colors.black },
               ]}>
               გადახდა
             </Text>

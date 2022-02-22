@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -7,12 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {withDecay} from 'react-native-reanimated';
 import { AppContext } from '../../AppContext/AppContext';
-import {Colors} from '../../Colors/Colors';
-
-import {Item} from '../../Constants/ShopList';
-import {useDimension} from '../../Hooks/UseDimension';
+import { Colors } from '../../Colors/Colors';
 import AppCheckBox from './AppCheckBox';
 
 export interface IAppBtnProps {
@@ -20,7 +16,7 @@ export interface IAppBtnProps {
   amountText: string;
   amount: number;
   percent: string;
-  imageUrl: string;
+  imgUrl: string;
   more: string;
   icon: ImageSourcePropType;
   discountPercentage: string;
@@ -31,6 +27,7 @@ export interface IAppBtnProps {
   value: string;
   sign: string;
   numberOfVouchers: string;
+  voucherDescription: string
 }
 
 interface IIAppBtnProps {
@@ -38,22 +35,18 @@ interface IIAppBtnProps {
   showRadio?: boolean;
   passData?: (data: any) => void;
   current?: any;
-  shorCount?:boolean;
+  shorCount?: boolean;
 }
 
 const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
   const {
-    text,
     voucherStartDate,
-    amount,
-    imageUrl,
+    imgUrl,
     voucherEndDate,
-    discountPercentage,
-    voucherPurchasePoints,
-    voucherID,
     value,
     sign,
-    numberOfVouchers
+    numberOfVouchers,
+    voucherDescription
   } = props.item;
   const [isMore, setIsMore] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -61,70 +54,74 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
   const { state } = useContext(AppContext);
   const { isDarkTheme } = state;
 
-  const {width} = useDimension();
-
-  const toggleCheck = () => {
-    setIsChecked(!isChecked);
-  };
-  let startd, endd;
-try {
-  let date = voucherStartDate.split('T');
-  if(date.length) {
-    const ydm = date[0].split('-');
-    if(ydm.length) {
-      startd = `${ydm[2]}/${ydm[1]}`;
+  let startDate, endDate;
+  try {
+    let date = voucherStartDate.split('T');
+    if (date.length) {
+      const ydm = date[0].split('-');
+      if (ydm.length) {
+        startDate = `${ydm[2]}/${ydm[1]}`;
+      }
     }
-  }
-  let date2 = voucherEndDate.split('T');
-  if(date2.length) {
-    const ydm = date2[0].split('-');
-    if(ydm.length) {
-      endd = `${ydm[2]}/${ydm[1]}`;
+    let date2 = voucherEndDate.split('T');
+    if (date2.length) {
+      const ydm = date2[0].split('-');
+      if (ydm.length) {
+        endDate = `${ydm[2]}/${ydm[1]}`;
+      }
     }
+  } catch (_) {
+
   }
-} catch (_) {
 
-}
 
-const fullDate = `${startd} - ${endd}`
+  const fullDate = endDate
   return (
     <>
       <TouchableOpacity
         style={styles.mainWrap}
         activeOpacity={0.8}
         onPress={() => props.passData && props.passData(props.item)}>
-        <View style={[styles.main,{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+        <View style={[styles.main, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
           <View style={styles.cardWrapper}>
             <View style={styles.cardView}>
-              <Text style={[styles.amountText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{value}</Text>
+
+              <Text style={[styles.amountText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{value}</Text>
               <View>
-                <Text style={[styles.percentStyle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{sign}</Text>
-                {imageUrl !== undefined && (
+                <Text style={[styles.percentStyle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{sign}</Text>
+                {imgUrl !== undefined && (
                   <Image
-                    source={{uri: imageUrl}}
-                    style={{width: 29.23, height: 29.23, marginLeft: 10}}
+                    source={{ uri: imgUrl }}
+                    style={{ width: 29.23, height: 29.23, marginLeft: 10 }}
                   />
                 )}
               </View>
             </View>
-            <View style={{width: '40%'}}>
-              <Text style={styles.textStyle}>{`ვადა: ${voucherEndDate === undefined ? 'უვადო' : fullDate}`}</Text>
-              <Text
-                style={
-                  styles.amountTextStyle
-                }>{`რაოდენობა: ${props.shorCount ? numberOfVouchers : '1'}`}</Text>
+            <View style={{ width: '45%' }}>
+              <Text style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black, marginBottom: 5 }]} numberOfLines={2}>
+                {voucherDescription}
+              </Text>
+              {voucherEndDate === undefined ? 
+                null 
+                :
+               <Text style={styles.textStyle}>
+                {`ვადა: ${fullDate}`}
+              </Text>}
+              <Text style={styles.amountTextStyle}>
+                {`რაოდენობა: ${props.shorCount ? numberOfVouchers : '1'}`}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   setIsMore(!isMore);
                   setCurrenVaucher(props.item);
                 }}
-                style={{top: 20, flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={[styles.moreBtnTitle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>ვრცლად</Text>
+                style={{ top: 20, flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>ვრცლად</Text>
                 <Image
-                  source={isDarkTheme? require('./../../assets/images/Polygon.png') : require('./../../assets/images/arrow-black.png')}
+                  source={isDarkTheme ? require('./../../assets/images/Polygon.png') : require('./../../assets/images/arrow-black.png')}
                   style={[
                     styles.isMoreImgStyle,
-                    {transform: [{rotate: isMore ? '90deg' : '0deg'}]},
+                    { transform: [{ rotate: isMore ? '90deg' : '0deg' }] },
                   ]}
                 />
               </TouchableOpacity>
@@ -142,22 +139,6 @@ const fullDate = `${startd} - ${endd}`
           </View>
         )}
       </TouchableOpacity>
-
-      {/* <View style={styles.voucherPriceText}>
-        <Text style={{color: Colors.white}}>ფასი: 1000 </Text>
-        <Image source={require('../../assets/images/Star.png')} />
-      </View>
-      
-      "voucherCode": "string",
-        "merchantID": "string",
-        "id": 0,
-        "createDate": "2022-02-16T13:20:03.460Z",
-        "isActive": 0,
-        "logo": "string",
-        "merchantName": "string"
-      
-      
-      */}
       {isMore &&
         currentVaucher?.merchants?.map((el: any, i: React.Key) => (
           <View
@@ -165,18 +146,16 @@ const fullDate = `${startd} - ${endd}`
             style={{
               justifyContent: 'space-between',
               paddingVertical: 5,
-              marginTop: 10,
-              marginLeft: 30,
               width: '100%',
             }}>
-            <View
-              style={{flexDirection: 'row', alignItems: 'center', top: -15}}>
-              <Image source={{uri: el?.logo}} />
-              <Text style={[styles.nameAddressTextStyle,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
-                {el?.merchantName} {el?.voucherCode}
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Image source={{ uri: el?.logo }} style={{ width: 60, height: 43 }} />
+              <Text style={[styles.nameAddressTextStyle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                -  {el?.merchantName} | {el?.address === 1 ? 'სითი მოლი საბურთალო' : 'სითი მოლი გლდანი'}
               </Text>
             </View>
           </View>
+
         ))}
     </>
   );
@@ -237,7 +216,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: Colors.btnGrey,
     fontSize: 10,
-    bottom: 15,
     fontFamily: 'HMpangram-Bold',
     textTransform: 'uppercase',
   },
@@ -245,7 +223,6 @@ const styles = StyleSheet.create({
   amountTextStyle: {
     color: Colors.btnGrey,
     fontSize: 10,
-    bottom: 15,
     fontFamily: 'HMpangram-Bold',
     textTransform: 'uppercase',
   },
@@ -261,7 +238,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontFamily: 'HMpangram-Bold',
     textTransform: 'uppercase',
-    fontSize: 8,
+    fontSize: 11,
     paddingHorizontal: 10,
   },
 

@@ -162,8 +162,6 @@ const OffersScreen = () => {
           handleGetNews(pagPage);
         }, 1000);
       }
-
-      console.log(pagPage);
     }
   };
 

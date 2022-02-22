@@ -43,7 +43,6 @@ const AuthScreen = () => {
 
     useEffect(() => {
         getItem('hasAgreedTerms').then(value => {
-            console.log(value)
             if (!value) {
                 setSameUser('');
             } else {

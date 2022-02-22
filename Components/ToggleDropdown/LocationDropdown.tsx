@@ -10,15 +10,8 @@ export enum mallIds {
 }
 
 const LocationDropdown = () => {
-  const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
-  
-  
-
-
-
-console.log('some')
 
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>

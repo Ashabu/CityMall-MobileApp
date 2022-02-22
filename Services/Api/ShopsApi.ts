@@ -37,6 +37,5 @@ export const GetMerchants = async(address: number, ObjectTypes:number,  isPremiu
         SubCategoriesQuery = subCategories.map((el: number) => `&SubCategories=${el}`).join('&');
     }
 
-    console.log(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}${CategoriesQuery}${SubCategoriesQuery}&Page=${page}&PageSize=16`)
     return await axios.get<IGetMerchantsResponse>(`${env.API_URL}/api/Mobile/GetMerchants?ObjectTypes=${ObjectTypes}&Address=${address}&isPremium=${isPremium}${CategoriesQuery}${SubCategoriesQuery}&Page=${page}&PageSize=16`);
 }

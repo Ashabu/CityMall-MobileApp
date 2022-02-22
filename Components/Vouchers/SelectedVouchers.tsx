@@ -1,12 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AppContext} from '../../AppContext/AppContext';
-import {Colors} from '../../Colors/Colors';
-import {useDimension} from '../../Hooks/UseDimension';
-import {GoBack, navigate} from '../../Services/NavigationServices';
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
+import { Colors } from '../../Colors/Colors';
+import { useDimension } from '../../Hooks/UseDimension';
+import { GoBack, navigate } from '../../Services/NavigationServices';
 import AppLayout from '../AppLayout';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
-import  Data  from '../../Constants/VouchersDummyData'
+import Data from '../../Constants/VouchersDummyData'
 import OneTimeCode from '../OneTimeCode';
 import Layout from '../Layouts/Layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -22,16 +22,16 @@ type RouteParamList = {
 
 const SelectedVouchers = () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const {width} = useDimension();
-  const {state} = useContext(AppContext);
-  const {isDarkTheme, clientDetails} = state;
+  const { width } = useDimension();
+  const { state } = useContext(AppContext);
+  const { isDarkTheme, clientDetails } = state;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
-  
+
 
   const buy = () => {
     setError(undefined);
-    if(isLoading) return;
+    if (isLoading) return;
     setIsLoading(true);
     const data: IBuyVoucherRequest = {
       voucherCode: route.params.data.voucherCode,
@@ -46,13 +46,14 @@ const SelectedVouchers = () => {
       setError(e?.response?.data?.DisplayText);
     })
   };
-  
+
+  console.log(route.params.data)
+
 
   return (
     <Layout hasBackArrow
-    
-    pageName="ვაუჩერის შეძენა"
-    onPressBack={GoBack}>
+      pageName="ვაუჩერის შეძენა"
+      onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -64,7 +65,7 @@ const SelectedVouchers = () => {
             <View>
               {Data.length > 0 && <VoucherCardLayout
                 item={route?.params?.data}
-              />} 
+              />}
             </View>
 
             <View
@@ -73,7 +74,7 @@ const SelectedVouchers = () => {
                 paddingVertical: 7,
                 paddingBottom: 26,
               }}>
-              <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
+              <Text style={[{ fontFamily: 'HMpangram-Bold' }, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                 ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
@@ -86,19 +87,19 @@ const SelectedVouchers = () => {
             </View> */}
           </View>
         </View>
-        
+
       </View>
-      <View style={{alignItems: 'center', height: 100}}>
-      {error !== undefined ?
-                <Text style={[styles.errorText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{error}</Text>
-                : null}
-          <TouchableOpacity
-            style={styles.btnStyle}
-            onPress={() => buy()}>
-            <Text style={styles.btnText}>დადასტურება</Text>
-          </TouchableOpacity>
-        </View>
-        <Modal visible={isLoading} animationType="slide" transparent={true}>
+      <View style={{ alignItems: 'center', height: 100 }}>
+        {error !== undefined ?
+          <Text style={[styles.errorText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{error}</Text>
+          : null}
+        <TouchableOpacity
+          style={styles.btnStyle}
+          onPress={() => buy()}>
+          <Text style={styles.btnText}>დადასტურება</Text>
+        </TouchableOpacity>
+      </View>
+      <Modal visible={isLoading} animationType="slide" transparent={true}>
         <ActivityIndicator
           size={'small'}
           color={'#ffffff'}
@@ -113,12 +114,12 @@ const SelectedVouchers = () => {
 };
 
 const styles = StyleSheet.create({
-  cardWrapper: {  
+  cardWrapper: {
     top: 20,
     alignItems: 'center'
   },
   btnStyle: {
-   
+
     width: 325,
     height: 66,
     borderRadius: 50,
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -10,
     left: 25
-}
+  }
 });
 
 export default SelectedVouchers;

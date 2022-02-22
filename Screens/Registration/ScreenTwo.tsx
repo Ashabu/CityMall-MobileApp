@@ -1,15 +1,28 @@
 
 
 import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View, Platform,  ScrollView } from 'react-native';
+import { 
+    ActivityIndicator, 
+    Keyboard, 
+    Image, 
+    StyleSheet, 
+    Switch, 
+    Text, 
+    TouchableOpacity, 
+    View, 
+    Platform,  
+    ScrollView 
+} from 'react-native';
 import axios from 'axios';
 import DatePicker from 'react-native-date-picker';
-// import { IRegistrationProps } from '../RegistrationScreen';
 import ApiServices from '../../Services/ApiServices';
 import { AppContext } from '../../AppContext/AppContext';
 import { getItem } from '../../Services/StorageService';
 import AuthService from '../../Services/AuthService';
-import { GoBack, navigate } from '../../Services/NavigationServices';
+import { 
+    GoBack, 
+    navigate 
+} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import DistrictPiker from '../../Components/CustomComponents/DistrictPiker';
 import AppInput from '../../Components/CustomComponents/AppInput';
@@ -108,7 +121,7 @@ const ScreenTwo: React.FC = (props: any) => {
                 setDistricts(res.data)
             })
             .catch((e: any) => {
-                console.log(';;;;;;;;',e, JSON.parse(JSON.stringify(e.response)));
+                console.log(JSON.parse(JSON.stringify(e.response)));
             })
     };
 

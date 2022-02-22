@@ -79,7 +79,6 @@ const ProfileScreen = () => {
   const getClientTransactions = () => {
     ApiServices.GetClientTransactions()
       .then(res => {
-        console.log('ტრანასაცტიონს', res.data.data);
         setClientTransactions(res.data.data!);
       })
       .catch(e => {
@@ -90,7 +89,6 @@ const ProfileScreen = () => {
   const getPersonalOffers = (page: number = 1) => {
     if (startFetching) return;
     startFetching = true;
-    console.log('aqane2');
     GetOffers(true, page)
       .then(res => {
         let tempOffers = res.data.data;
@@ -121,14 +119,12 @@ const ProfileScreen = () => {
       nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width,
     );
     let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
       setTimeout(() => {
         getPersonalOffers(pagPage);
       }, 1000);
-      console.log(pagPage);
     }
   };
 

@@ -192,6 +192,9 @@ const StatusBar = (props: any) => {
             }
             style={[
               styles.round,
+              props?.data?.category >= 1
+                ? activeCategoryStandart
+                : inActiveCategory,
               {borderColor: isDarkTheme ? Colors.white : Colors.black},
             ]}>
             <View

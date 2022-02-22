@@ -37,7 +37,8 @@ class TranslateService {
         try {
         const translates = translateList[lang];
         this.lang = lang;
-        this.translate = translates;console.log(translates)
+        this.translate = translates;
+        console.log(translates)
             for (const e of TranslateService.events) {
                 e(lang);
             }

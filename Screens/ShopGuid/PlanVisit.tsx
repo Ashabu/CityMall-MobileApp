@@ -27,7 +27,6 @@ const PlanVisit = () => {
 
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log(route.params.routeId)
 
   const [contentData, setContentData] = useState<any>([]);
 useEffect(() => {
@@ -35,7 +34,6 @@ useEffect(() => {
 }, [])
   const getWidgets = () => {
     ApiServices.GetWidgets().then(res => {
-      console.log(res.data)
       setContentData(res.data)
     }).catch(e => {
       console.log(JSON.parse(JSON.stringify(e.response)))

@@ -61,15 +61,12 @@ const HomeScreen = () => {
         let scrollPoint = Math.floor(nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width);
         let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
 
-        console.log(scrollPoint, scrollContentSize);
         if (scrollPoint >= scrollContentSize - 1) {
             setPagPage(prevState => prevState + 1);
             setIsFetchingData(true);
             setTimeout(() => {
                 getOffers(pagPage);
             }, 1000);
-
-            console.log(pagPage);
         }
     };
 
@@ -145,9 +142,6 @@ const HomeScreen = () => {
             console.log(e);
           });
       };
-
-
-console.log({clientInfo})
 
 
     return (
@@ -276,7 +270,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.white,
         borderWidth: 1,
         borderRadius: 5,
-        minWidth: 100
+        width: 137
     },
 accesAmount: {
     padding: 7,
@@ -284,7 +278,8 @@ accesAmount: {
     borderWidth: 1,
     borderRadius: 5,
     marginRight: 12,
-    minWidth: 100
+    width: 137,
+
 },
 amountTitle: {
     fontFamily: 'HMpangram-Bold',

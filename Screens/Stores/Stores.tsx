@@ -81,7 +81,6 @@ const Stores: React.FC = () => {
   }, [categoryArray.length]);
 
   useEffect(() => {
-    console.log('update - 1');
     if (merchants.length <= 0) {
       return;
     } else {
@@ -132,7 +131,6 @@ const Stores: React.FC = () => {
   };
 
   const handleGetMerchants = (push: boolean = false, p: number = 1) => {
-    console.log('""""""""""""""""', routeParams.params)
     let isPremium;
     if (routeParams.params.isPremium) {
       isPremium = true;
@@ -200,7 +198,6 @@ const Stores: React.FC = () => {
       ? Math.floor(nativeEvent.contentSize.height)
       : Math.floor(nativeEvent.contentSize.width);
 
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
@@ -208,7 +205,6 @@ const Stores: React.FC = () => {
         handleGetMerchants(true, pagPage);
       }, 1000);
 
-      console.log(pagPage);
     }
   };
 
@@ -263,8 +259,6 @@ const Stores: React.FC = () => {
       <View style={styles.emptyItem} key={`_${element}`}></View>
     ));
   };
-
-  console.log(routeParams.params.name)
 
   return (
     <>
