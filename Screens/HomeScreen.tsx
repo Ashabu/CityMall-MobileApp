@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button, Platform } from 'react-native';
-import ApiServices from "../Services/ApiServices";
+import ApiServices, { IClientInfo } from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
 import PaginationDots from "../Components/PaginationDots";
 import PromotionBox from "../Components/PromotionBox";
@@ -30,10 +30,12 @@ const HomeScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [offersView, setOffersView] = useState<any[]>();
     const [initLoading, setInitLoading] = useState<boolean>(true);
+    const [clientInfo, setClientInfo] = useState<IClientInfo>({});
 
     useEffect(() => {
         getOffers();
         handleGetClientCards();
+        getClientData();
         // getObjectTypes();
     }, []);
 
@@ -134,8 +136,18 @@ const HomeScreen = () => {
             });
     };
 
+    const getClientData = () => {
+        ApiServices.GetClientInfo()
+          .then(res => {
+            setClientInfo(res.data);
+          })
+          .catch(e => {
+            console.log(e);
+          });
+      };
 
-console.log({clientDetails})
+
+console.log({clientInfo})
 
 
     return (
@@ -156,19 +168,19 @@ console.log({clientDetails})
                 </View>
 
                 <View style={styles.amountInfo}>
-                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
+                    <View style={[styles.accesAmount, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         ხელმისაწვდომი თანხა
                         </Text>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].balance}₾</Text>
                     </View>
 
-                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}]}>
+                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50}, {borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         სითიქულა
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientDetails?.length && clientDetails[0].points || 0}
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo !== undefined && clientInfo?.points || 0}
                               
                              </Text>
                              <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />
