@@ -149,7 +149,7 @@ const AppIndex = () => {
           />
         </View>
       </Modal>
-      <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} />
+      <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} barStyle={isDarkTheme ? 'light-content' : 'dark-content'} />
       <AppStack init={initialized} />
     </View>
   );
