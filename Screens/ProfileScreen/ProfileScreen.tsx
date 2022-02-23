@@ -255,7 +255,7 @@ const ProfileScreen = () => {
         <View style={styles.balanceView}>
           <View>
             <Text style={styles.balanceWrapTitle}>{state?.t('screens.deposit')}</Text>
-            <Text style={styles.balanceWrapAmount}>
+            <Text style={[styles.balanceWrapAmount, isDarkTheme ? {color: Colors.white} : {color: Colors.black} ]}>
               {formatNumber(clientInfo.ballance)}
             </Text>
           </View>
@@ -431,7 +431,6 @@ const styles = StyleSheet.create({
   balanceWrapAmount: {
     fontSize: 24,
     fontFamily: 'HMpangram-Bold',
-    color: Colors.white,
   },
 
   statusBarView: {

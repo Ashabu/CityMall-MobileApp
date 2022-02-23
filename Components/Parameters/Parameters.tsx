@@ -68,9 +68,11 @@ const Parameters = () => {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
+          {clientDetails?.length && <TouchableOpacity
             style={styles.iconView}
-            onPress={() => navigate('ProfileInfo')}>
+            onPress={() => {
+              navigate('ProfileInfo');
+              }}>
             <View style={{width: 30}}>
               <Image source={isDarkTheme ? lightUserIcon : darkUserIcon} />
             </View>
@@ -83,7 +85,7 @@ const Parameters = () => {
                 {state?.t('screens.profile')}
               </Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity>}
           {/* <TouchableOpacity style={styles.iconView}>
             <View style={{width: 30}}>
             <Image source={require('../../assets/images/lock.png')} />
