@@ -9,7 +9,7 @@ import Grid from "../Styles/grid";
 import AppLayout from "../Components/AppLayout";
 import { AppContext } from "../AppContext/AppContext";
 import UserCardSmall from "../Components/UserCardSmall";
-import { paginationDotCount } from "../Services/Utils";
+import { formatNumber, paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
 import { GetOffers, IOffer } from "../Services/Api/OffersApi";
 import translateService from "../Services/translateService";
@@ -170,7 +170,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {state?.t('screens.deposit')}
                         </Text>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.ballance}₾</Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.ballance)}₾</Text>
                     </View>
 
                     <View style={[styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
@@ -178,7 +178,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                         {state?.t('screens.cityPoint')}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.points || 0}
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.points || 0)}
                               
                              </Text>
                              <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />

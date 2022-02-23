@@ -369,7 +369,9 @@ const ScreenTwo: React.FC = (props: any) => {
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.agreement')}</Text>
+                            <TouchableOpacity onPress={() => navigate('DocView', { docUrl: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'})}>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.agreement')}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     {generalError !== '' ?

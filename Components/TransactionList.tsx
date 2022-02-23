@@ -10,17 +10,18 @@ const TransactionList = (props: any) => {
   
     return (
         <View style={styles.trListWrap}>
-            <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
+                    resizeMode={'contain'}
                     source={{uri: props.item?.imageURL}}
-                    style={{ width: 40, height: 40 }}
+                    style={{ width: 25, height: 25 }}
                 />
                 <View style={{ marginLeft: 10 }}>
                     <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{new Date(props.item?.authDate).toLocaleDateString().split('/').join('.')} {new Date(props.item?.authDate).toLocaleTimeString()}</Text>
                     <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{props.item?.merchantName}</Text>
                 </View>
             </View>
-            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.red : Colors.successGreen}]}>{props.item?.points}</Text>
+            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.successGreen : Colors.red}]}>{props.item?.points}</Text>
         </View> 
     )
 };

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { ActivityIndicator, Keyboard, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import Layout from '../../Components/Layouts/Layout';
 import ApiServices from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
 import Grid from '../../Styles/grid';
-import translateService from '../../Services/translateService';
 
 
 const ScreenThree: React.FC = () => {
@@ -18,6 +17,9 @@ const ScreenThree: React.FC = () => {
         setButtonLoading(false);
         ApiServices.GetClientCards().then(res => {
             setGlobalState({cardDetails: res.data});
+            setGlobalState({
+                isAuthenticated: true,
+              });
             setButtonLoading(false);
             navigate('HomeScreen')
         })
