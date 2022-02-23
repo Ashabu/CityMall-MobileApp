@@ -108,8 +108,8 @@ const AppIndex = () => {
           setGlobalState({isDarkTheme: false});
         }
       } else {
-        AsyncStorage.setItem('isDarkTheme', '0').then(_ => {
-          setGlobalState({isDarkTheme: false});
+        AsyncStorage.setItem('isDarkTheme', '1').then(_ => {
+          setGlobalState({isDarkTheme: true});
         })
       }
     })

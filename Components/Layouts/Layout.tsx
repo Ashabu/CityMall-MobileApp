@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
-import { en_key } from '../../lang';
+import { default_lang_key, en_key } from '../../lang';
 import translateService from '../../Services/translateService';
 
 interface ILayoutProp {
@@ -30,7 +30,7 @@ interface ILayoutProp {
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
-    const { state } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
     const DownArrowAnim = useRef(new Animated.Value(0));
@@ -102,9 +102,15 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                 :
                                 null
                         }
-                        <TouchableOpacity >
+                        <TouchableOpacity  onPress={() => {
+                            const curLang = state.lang === en_key ? default_lang_key : en_key;
+                            translateService.use(curLang, (t) => {
+                              setGlobalState({ lang: curLang });
+                              setGlobalState({ translates: t });
+                            });
+                        }}>
                             <Text style={{fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 ,color: isDarkTheme ? Colors.white : Colors.black }}>
-                            {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
+                            {state.lang === en_key ? 'GEO' : 'ENG'}{' '}
                             </Text>
                         </TouchableOpacity>
                     </View>
