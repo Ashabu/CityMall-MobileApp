@@ -59,6 +59,8 @@ const ProfileScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [fetchingMore, setFetchingMore] = useState(false);
 
+  const [renewing, setRenewing] = useState(false);
+
   const darkArrowIcon = require('../../assets/images/arrow-black.png')
   const lightArrowIcon =require('../../assets/images/arrow-sm.png')
 
@@ -84,10 +86,18 @@ const ProfileScreen = () => {
 
   const rowCount = 10;
 
-  const getClientTransactions = () => {
+  const getClientTransactions = (renew?:boolean) => {
+    if(renew) {
+      setRenewing(false);
+    }
+    if(stopFetching) return;
     ApiServices.GetClientTransactions(rowIndex, rowCount)
       .then(res => {
+        if(renew) {
+          setClientTransactions(res.data.data!);
+        } else {
         setClientTransactions([...clientTransactions, ...res.data.data!]);
+        }
         if (
           (res.data?.data?.length || 0) < rowCount ||
           (res.data?.data?.length || 0) <= 0
@@ -96,7 +106,7 @@ const ProfileScreen = () => {
         } else {
           setStopFetching(false);
         }
-        setFetchingMore(false)
+        setFetchingMore(false);
       })
       .catch(e => {
         console.log('error tran', e.response);
@@ -177,7 +187,9 @@ const ProfileScreen = () => {
 
   const onRefresh = () => {
     getClientData();
-    getClientTransactions();
+    setRenewing(true);
+    setRowIndex(1);
+    getClientTransactions(true);
     getPersonalOffers();
   };
 
@@ -186,7 +198,9 @@ const ProfileScreen = () => {
   const [stopFetching, setStopFetching] = useState(false);
 
   useEffect(() => {
-    getClientTransactions();
+    if(!renewing) {
+      getClientTransactions();
+    }
   }, [rowIndex]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
