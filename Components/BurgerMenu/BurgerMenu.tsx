@@ -54,7 +54,7 @@ const BurgerMenu = () => {
         {DrawerItems.map((item: any, index: number) =>
           item.name === '_blank' ? (
             <View style={styles.burgerMenuSeparator} key="_blank">
-              <View style={{borderColor: '#ffffff45', borderWidth: 1}}></View>
+              <View style={{borderColor: isDarkTheme? '#ffffff45' : '#bab8b887', borderWidth: 1}}></View>
             </View>
           ) : (
             <BurgerMenuItem item={item} key={index} />
