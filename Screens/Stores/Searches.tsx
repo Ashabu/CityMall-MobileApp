@@ -19,6 +19,7 @@ import {IMerchant} from '../../Services/Api/ShopsApi';
 import axios from 'axios';
 import envs from './../../config/env';
 import translateService from '../../Services/translateService';
+import NotFound from '../../Components/NotFound';
 
 export default () => {
   const {state} = useContext(AppContext);
@@ -53,6 +54,8 @@ export default () => {
         }).catch(() => setIsLoading(false));
     }, 1000);
   }, [keyword]);
+
+  
 
   const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
   const fillSpace = (ln: number) => {
@@ -101,7 +104,7 @@ export default () => {
           <ScrollView
             contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
             horizontal>
-            {merchants.length > 0 && (
+            {merchants.length === 0 ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 400 }}><NotFound /></View> :  (
               <ScrollView
                 scrollToOverflowEnabled={true}
                 style={[styles.dataScroller]}
