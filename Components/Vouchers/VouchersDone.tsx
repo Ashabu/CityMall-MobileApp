@@ -28,8 +28,8 @@ const VouchersDone = () => {
             icon={require('../../assets/images/success.png')}
             bgColorProp={Colors.successGreen}
             title={state?.t('infoText.successMsg')}
-            text={state?.t('infoText.additionalInfo')}
-            phone={'0322 555 222'}
+            text={''}
+            phone={''}
           />
         </View>
 
