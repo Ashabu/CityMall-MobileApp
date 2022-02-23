@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
   },
   balanceWrap: {},
   balanceWrapTitle: {
-    fontSize: 14,
+    fontSize: 11,
     fontFamily: 'HMpangram-Medium',
     color: Colors.darkGrey,
   },

@@ -166,7 +166,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                 </View>
 
                 {clientInfo !== undefined && <View style={styles.amountInfo}>
-                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50, width: 145},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {state?.t('screens.deposit')}
                         </Text>
@@ -287,7 +287,7 @@ accesAmount: {
 },
 amountTitle: {
     fontFamily: 'HMpangram-Bold',
-    fontSize: 9,
+    fontSize: 8,
     lineHeight: 11,
     textTransform: 'uppercase',
 },
