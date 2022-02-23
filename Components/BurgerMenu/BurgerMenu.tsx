@@ -28,7 +28,8 @@ const BurgerMenu = () => {
       ]}>
       <View style={styles.burgerMenuHeader}>
         <Image
-          source={require('../../assets/images/city-mall-title.png')}
+       source={isDarkTheme? require('../../assets/images/city-mall-title.png') :require('../../assets/images/cityMallBlak.png') }
+          
           style={{width: 135, height: 17}}
         />
         <Text

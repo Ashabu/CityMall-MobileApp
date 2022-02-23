@@ -6,6 +6,7 @@ import {
   Keyboard,
   TouchableOpacity,
   ActivityIndicator,
+  Image
 } from 'react-native';
 import {Colors} from '../Colors/Colors';
 import OneTimeCode from '../Components/OneTimeCode';
@@ -18,6 +19,7 @@ import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 import translateService from '../Services/translateService';
 import { GoBack } from '../Services/NavigationServices';
+
 
 const AuthScreen = () => {
   const {state, setGlobalState} = useContext(AppContext);
@@ -188,9 +190,12 @@ const AuthScreen = () => {
   };
 
   return (
-    <Layout>
+    <Layout pageName='სითი მოლი' >
+      
       <View style={{flex: 1, paddingHorizontal: '10%'}}>
+      
         <View style={{flex: 4, justifyContent: 'center'}}>
+          
           <Text style={[styles.authTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('screens.firstAuthorization')}</Text>
         </View>
         <View style={{flex: 6}}>

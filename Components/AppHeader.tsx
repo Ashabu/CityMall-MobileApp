@@ -87,7 +87,7 @@ const AppHeader = (props: any) => {
               <View style={[styles.burgerIconLine, themeBgColor]} />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={{width: 70}} 
+          <TouchableOpacity style={[{width: 70, justifyContent: 'center'}, Platform.OS === 'ios' && {height: 30}]} 
           onPress={() => {
                             const curLang = state.lang === en_key ? default_lang_key : en_key;
                             translateService.use(curLang, (t) => {

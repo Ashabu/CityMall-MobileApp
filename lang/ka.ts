@@ -38,6 +38,7 @@ export default {
     subCategories: 'ქვეკატეგორიები',
     location: 'ლოკაცია',
     map: 'რუქა',
+    
 
 
     
@@ -105,6 +106,7 @@ export default {
     transactions :'ტრანზაქციები',
     selectDate: 'აირჩიეთ თარიღი',
     cancel: 'გაუქმება',
+  
     
 
 

@@ -29,7 +29,7 @@ const Parameters = () => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   return (
-    <Layout hasBackArrow onPressBack={GoBack}>
+    <Layout hasBackArrow onPressBack={GoBack} pageName={state?.t('screens.parameters')}>
       <View
         style={{
           flexGrow: 1,

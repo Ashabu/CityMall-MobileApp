@@ -1,6 +1,7 @@
 import translateList from './../lang/index';
 
 class TranslateService {
+    [x: string]: string;
     static events: Function[] = [];
 
     //set language

@@ -93,7 +93,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
             <View style={{ flexDirection: 'row', height: keyBoardShown || props.hideArrows ? 'auto' : 89 }}>
                 <View style={styles.headerAction}>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
                         {
                             props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
@@ -114,9 +114,12 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{flex: 2}}>
                     <Text style={[styles.cityMall, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {props.pageName}
                     </Text>
+                    </View>
+                    
                 </View>
                 {
                     (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
@@ -165,8 +168,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '68%'
+        // justifyContent: 'space-between',
+        width: '74%'
     },
 
     cityMall: {
