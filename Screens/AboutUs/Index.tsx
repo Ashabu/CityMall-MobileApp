@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import AboutUs from './AboutUs';
 import Loyalty from './Loyalty';
 import axios from 'axios';
 import envs from './../../config/env';
+import { AppContext } from '../../AppContext/AppContext';
 
 
 type RouteParamList = {
@@ -15,6 +16,7 @@ type RouteParamList = {
 }
 
 const AboutUsIndex = () => {
+    const {state} = useContext(AppContext);
     const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
     const [strings, setStrings] = useState<any>();
 
@@ -25,7 +27,7 @@ const AboutUsIndex = () => {
            // console.log(res.data)
           }
         });
-      }, []);
+      }, [state.lang]);
 
     return (
         routeParams.params.routeId === 1 ?

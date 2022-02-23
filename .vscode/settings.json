@@ -4,5 +4,6 @@
         "payunicard",
         "rnpm",
         "შეთავაზებები"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

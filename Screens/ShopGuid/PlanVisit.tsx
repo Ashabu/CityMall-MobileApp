@@ -32,7 +32,7 @@ const PlanVisit = () => {
   const [contentData, setContentData] = useState<any>([]);
 useEffect(() => {
   getWidgets();
-}, [])
+}, [state.lang])
   const getWidgets = () => {
     ApiServices.GetWidgets().then(res => {
       setContentData(res.data)

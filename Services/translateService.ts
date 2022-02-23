@@ -1,13 +1,14 @@
-import translateList from './../lang/index';
+import translateList, { default_lang_key } from './../lang/index';
 
 class TranslateService {
     [x: string]: string;
     static events: Function[] = [];
-
+    lang: string = default_lang_key;
     //set language
     use(lang: string, callback: (trans: any) => void, errCallback?: (err: any) => void) {
         try {
         const translates = translateList[lang];
+        this.lang = lang;
         callback(translates);
   
             for (const e of TranslateService.events) {
