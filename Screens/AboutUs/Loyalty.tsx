@@ -54,7 +54,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
             null
             :
             <View>
-              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={state?.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
+              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={state?.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: Colors.white }]} />
             </View>
         }
       </View>

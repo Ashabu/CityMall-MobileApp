@@ -217,7 +217,7 @@ const ScreenOne: React.FC = () => {
                 </ScrollView>
                 <View style={{ flex: 2, alignItems: 'flex-end', marginVertical: 20 }}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
-                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                        <Text style={[styles.btnText, { color: Colors.white }]}>
                         {state?.t('common.next')}
                         </Text>
                     </TouchableOpacity>

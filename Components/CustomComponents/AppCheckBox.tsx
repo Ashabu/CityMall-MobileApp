@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import translateService from '../../Services/translateService';
@@ -63,7 +63,7 @@ const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
         <TouchableOpacity style={[styles.roundCheck,{borderColor: isDarkTheme? Colors.white : Colors.black}, isChecked ? activeColor : inactiveColor]} onPress={onChange}>
             <View style={[styles.checkmark, {borderBottomColor: isDarkTheme? Colors.black : Colors.white, borderRightColor: isDarkTheme? Colors.black : Colors.white}]}/>
         </TouchableOpacity>
-           {hasError && <Text style={styles.errorText}>{name !== undefined && validations[name]}</Text> }
+           {hasError && <Text style={[styles.errorText,Platform.OS === 'ios' && {top: 23}]}>{name !== undefined && validations[name]}</Text> }
         </>
     );
 };
@@ -99,9 +99,10 @@ const styles = StyleSheet.create({
 
     errorText: {
         position: 'absolute',
-        top: 26,
+        top: 25,
         color: Colors.red,
         fontSize: 11,
-        fontFamily: 'HMpangram-Medium'
+        fontFamily: 'HMpangram-Medium',
+        
     }
 });
