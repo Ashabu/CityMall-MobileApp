@@ -130,7 +130,7 @@ const ShopDetailsScreen = () => {
               justifyContent: 'center',
             }}>
             <Image
-              source={require('../assets/images/back-arrow.png')}
+              source={isDarkTheme? require('../assets/images/back-arrow.png') : require('../assets/images/left-arrow-black.png')}
               style={{ width: 12, height: 12 }}
             />
           </TouchableOpacity>
@@ -307,6 +307,7 @@ const styles = StyleSheet.create({
     top: 47,
     width: '80%',
     left: 30,
+    color: Colors.white
   },
   shopDetailsWrap: {
     paddingTop: 30,

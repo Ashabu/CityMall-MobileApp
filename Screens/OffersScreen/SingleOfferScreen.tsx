@@ -90,7 +90,7 @@ const SingleOfferScreen = () => {
                 <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
                     <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
                 </TouchableOpacity>
-                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                <Text style={[styles.pageTitle, { color:  Colors.white }]}>
                     {singleOffer.name}
                 </Text>
             </View>
