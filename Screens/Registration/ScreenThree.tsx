@@ -17,9 +17,6 @@ const ScreenThree: React.FC = () => {
         setButtonLoading(false);
         ApiServices.GetClientCards().then(res => {
             setGlobalState({cardDetails: res.data});
-            setGlobalState({
-                isAuthenticated: true,
-              });
             setButtonLoading(false);
             navigate('HomeScreen')
         })

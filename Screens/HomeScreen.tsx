@@ -33,8 +33,6 @@ const HomeScreen = () => {
     const [clientInfo, setClientInfo] = useState<IClientInfo>({});
 
     useEffect(() => {
-        setOffers([])
-        getOffers(pagPage, true);
         handleGetClientCards();
         getClientData();
         // getObjectTypes();
@@ -141,6 +139,7 @@ const HomeScreen = () => {
         ApiServices.GetClientInfo()
           .then(res => {
             setClientInfo(res.data);
+            getOffers(pagPage, true);
           })
           .catch(e => {
             console.log(e);

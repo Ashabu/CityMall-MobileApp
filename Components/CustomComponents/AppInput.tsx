@@ -73,6 +73,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
             let regex = /\S+@\S+\.\S+/;
             if (regex.test(value)) {
                 setErrorMessage('');
+                addValidation!('remove', name);
             } else {
                 addValidation!('add', name);
                 setErrorMessage(validations[validationRule]);
