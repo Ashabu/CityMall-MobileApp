@@ -67,7 +67,7 @@ const ProfileScreen = () => {
   useEffect(() => {
     getClientData();
    // getClientTransactions();
-    getPersonalOffers();
+    getPersonalOffers(pagPage, true);
   }, []);
 
   const toggleSwitch = () => {
@@ -114,7 +114,7 @@ const ProfileScreen = () => {
       });
   };
 
-  const getPersonalOffers = (page: number = 1) => {
+  const getPersonalOffers = (page: number = 1, renew?: boolean) => {
     if (startFetching) return;
     startFetching = true;
     GetOffers(true, page)
@@ -123,9 +123,13 @@ const ProfileScreen = () => {
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
+        if(renew) {
+          setPersonalOffers(tempOffers);
+        } else {
         setPersonalOffers(prevState => {
           return [...prevState, ...tempOffers];
         });
+      }
         setIsFetchingData(false);
         startFetching = false;
       })
@@ -190,7 +194,7 @@ const ProfileScreen = () => {
     setRenewing(true);
     setRowIndex(1);
     getClientTransactions(true);
-    getPersonalOffers();
+    getPersonalOffers(1, true);
   };
 
   const scrollRef = useRef<ScrollView | null>(null);

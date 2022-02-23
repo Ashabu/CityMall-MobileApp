@@ -55,9 +55,9 @@ const CategoryTypes: any = {
     setOffersView([]);
     setFilteredOffers([]);
     if (routeParams.params.id === 0) {
-      handleGetOffers();
+      handleGetOffers(pagPage, true);
     } else {
-      handleGetNews();
+      handleGetNews(pagPage, true);
     }
   }, [routeParams.params.routeId, routeParams.params.id]);
 
@@ -65,7 +65,7 @@ const CategoryTypes: any = {
     handleSetOffers();
   }, [filteredOffers]);
 
-  const handleGetOffers = (page: number = 1) => {
+  const handleGetOffers = (page: number = 1, renew?: boolean) => {
     // setOffersView([]);
     if (startFetching) return;
     startFetching = true;
@@ -77,9 +77,13 @@ const CategoryTypes: any = {
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
+        if(renew) {
+          setFilteredOffers(tempOffers);
+        } else {
         setFilteredOffers(prevState => {
           return [...(prevState || []), ...tempOffers];
         });
+      }
         setIsFetchingData(false);
         startFetching = false;
         setIsLoading(false);
@@ -90,7 +94,7 @@ const CategoryTypes: any = {
       });
   };
 
-  const handleGetNews = (page: number = 1) => {
+  const handleGetNews = (page: number = 1, renew?: boolean) => {
     if (startFetching) return;
     startFetching = true;
     setIsLoading(true);
@@ -100,9 +104,13 @@ const CategoryTypes: any = {
         if (tempNews.length < 16) {
           isEndFetching = true;
         }
+        if(renew) {
+          setFilteredOffers(tempNews);
+        } else {
         setFilteredOffers(prevState => {
           return [...(prevState || []), ...tempNews];
         });
+      }
         setIsFetchingData(false);
         startFetching = false;
         setIsLoading(false);

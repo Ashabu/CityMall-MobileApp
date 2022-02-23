@@ -33,7 +33,8 @@ const HomeScreen = () => {
     const [clientInfo, setClientInfo] = useState<IClientInfo>({});
 
     useEffect(() => {
-        getOffers();
+        setOffers([])
+        getOffers(pagPage, true);
         handleGetClientCards();
         getClientData();
         // getObjectTypes();
@@ -110,7 +111,7 @@ const HomeScreen = () => {
         };
     };
 
-    const getOffers = (page: number = 1) => {
+    const getOffers = (page: number = 1, renew?:boolean) => {
         if (startFetching) return;
         startFetching = true;
         setIsLoading(true);
@@ -120,10 +121,13 @@ const HomeScreen = () => {
                 if (tempOffers.length < 16) {
                     isEndFetching = true;
                 }
-
+                if(renew) {
+                    setOffers(tempOffers);
+                } else {
                 setOffers(prevState => {
                     return [...prevState, ...tempOffers];
                   });
+                }
                   setIsFetchingData(false);
                   startFetching = false;
                   setIsLoading(false);
