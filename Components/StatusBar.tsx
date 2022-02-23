@@ -381,11 +381,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1: false, visible2, visible3, visible4})
             }
-            title={`${translateService.t('common.standart')}`}
-            desc={`${translateService.t('infoText.standartText')} ${
+            title={`${state?.t('common.standart')}`}
+            desc={`${state?.t('infoText.standartText')} ${
               props?.data?.categoryPointInfo?.length &&
               props?.data?.categoryPointInfo[0]?.pointsLeft
-            } ${translateService.t('common.point')}`}
+            } ${state?.t('common.point')}`}
           />
           <ProgressCircle
             index={1}
@@ -393,11 +393,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2: false, visible3, visible4})
             }
-            title={`${translateService.t('common.silver')}`}
-            desc={`${translateService.t('infoText.silverText')} ${
+            title={`${state?.t('common.silver')}`}
+            desc={`${state?.t('infoText.silverText')} ${
               props?.data?.categoryPointInfo?.length &&
               props?.data?.categoryPointInfo[1]?.pointsLeft
-            } ${translateService.t('common.point')}`}
+            } ${state?.t('common.point')}`}
           />
         </View>
         <View
@@ -412,11 +412,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3: false, visible4})
             }
-            title={`${translateService.t('common.gold')}`}
-            desc={`${translateService.t('infoText.goldText')} ${
+            title={`${state?.t('common.gold')}`}
+            desc={`${state?.t('infoText.goldText')} ${
               props?.data?.categoryPointInfo?.length &&
               props?.data?.categoryPointInfo[2]?.pointsLeft
-            } ${translateService.t('common.point')}`}
+            } ${state?.t('common.point')}`}
           />
           <ProgressCircle
             index={3}
@@ -424,11 +424,11 @@ const StatusBar = (props: any) => {
             onBlur={() =>
               setVisible({visible1, visible2, visible3, visible4: false})
             }
-            title={`${translateService.t('common.platin')}`}
-            desc={`${translateService.t('infoText.platinumText')} ${
+            title={`${state?.t('common.platin')}`}
+            desc={`${state?.t('infoText.platinumText')} ${
               props?.data?.categoryPointInfo?.length &&
               props?.data?.categoryPointInfo[3]?.pointsLeft
-            } ${translateService.t('common.point')}`}
+            } ${state?.t('common.point')}`}
           />
         </View>
       </View>

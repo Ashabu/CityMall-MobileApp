@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Platform
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
-import { CategoryTypes } from "../../Constants/Categories";
+//import { CategoryTypes } from "../../Constants/Categories";
 import { useDimension } from "../../Hooks/UseDimension";
 import { GoBack } from "../../Services/NavigationServices";
 import translateService from '../../Services/translateService';
@@ -72,14 +72,14 @@ const SingleOfferScreen = () => {
                 <View style={{ marginTop: 25 }}>
                    {singleOffer.contactiInfoMerchant? 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.shop')}: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.shop')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactiInfoMerchant}</Text>
                     </View> 
                     :
                     null}
                     {singleOffer.contactInfoCityMall? 
                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.cityMall')}: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.cityMall')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactInfoCityMall}</Text>
                     </View>
                     :null}

@@ -53,7 +53,7 @@ const Parameters = () => {
                     styles.name,
                     {color: isDarkTheme ? Colors.white : Colors.black},
                   ]}>
-                  {translateService.t('screens.darkMode')}
+                  {state?.t('screens.darkMode')}
                 </Text>
               </View>
             </View>
@@ -80,7 +80,7 @@ const Parameters = () => {
                   styles.name,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-                {translateService.t('screens.profile')}
+                {state?.t('screens.profile')}
               </Text>
             </View>
           </TouchableOpacity>

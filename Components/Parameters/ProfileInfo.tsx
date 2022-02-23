@@ -36,7 +36,7 @@ useEffect(() => {
   return (
     <Layout
       hasBackArrow
-      pageName={translateService.t('screens.profile')}
+      pageName={state?.t('screens.profile')}
       onPressBack={GoBack}>
       <ScrollView contentContainerStyle={{flex: 1}} style={{flexGrow: 1}}>
         <View
@@ -48,27 +48,27 @@ useEffect(() => {
           }}>
           <View>
             <UserInfoView
-              label={translateService.t('labels.firstName')}
+              label={state?.t('labels.firstName')}
               identification={clientDetails?.[0]?.firstName}
             />
             <UserInfoView
-              label={translateService.t('labels.lastName')}
+              label={state?.t('labels.lastName')}
               identification={clientDetails?.[0]?.lastName}
             />
             <UserInfoView
-              label={translateService.t('labels.idNumber')}
+              label={state?.t('labels.idNumber')}
               identification={clientDetails?.[0]?.personCode}
             />
             <UserInfoView
-              label={translateService.t('labels.gender')}
+              label={state?.t('labels.gender')}
               identification={
                 clientDetails?.[0]?.sex === 0
-                  ? translateService.t('labels.female')
-                  : translateService.t('labels.male')
+                  ? state?.t('labels.female')
+                  : state?.t('labels.male')
               }
             />
             <UserInfoView
-              label={translateService.t('labels.mobile')}
+              label={state?.t('labels.mobile')}
               identification={
                 '+' +
                 clientDetails?.[0]?.phone.replace(
@@ -78,11 +78,11 @@ useEffect(() => {
               }
             />
             <UserInfoView
-              label={translateService.t('labels.birthday')}
+              label={state?.t('labels.birthday')}
               identification={formatDate(clientDetails?.[0]?.birthDate)}
             />
             <UserInfoView
-              label={translateService.t('labels.email')}
+              label={state?.t('labels.email')}
               identification={clientDetails?.[0]?.email}
             />
           </View>

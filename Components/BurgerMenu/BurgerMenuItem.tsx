@@ -78,7 +78,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                         null
                 }
                 <Text style={[styles.listName, clientDetails.length ===0 && item.id === 10? notRegisteredTextColor :  themeTextColor]}>
-                    {translateService.t(item.name || '')}
+                    {state?.t(item.name || '')}
                 </Text>
             </TouchableOpacity>
             {

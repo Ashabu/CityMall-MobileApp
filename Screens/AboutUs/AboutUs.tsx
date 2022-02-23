@@ -47,7 +47,7 @@ const AboutUs = ({strings}: {strings: any[]}) => {
   } catch (_) {}
 
   return (
-    <Layout hasBackArrow pageName={translateService.t('screens.aboutUs')} onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={state?.t('screens.aboutUs')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -55,7 +55,7 @@ const AboutUs = ({strings}: {strings: any[]}) => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.txtView}>
-          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.cityMall')}</Text>
+          <Text style={[styles.titleTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('common.cityMall')}</Text>
           <Text style={[styles.infoTxt,{color: isDarkTheme ? Colors.white : Colors.black}]}>
             {str}
           </Text>
@@ -77,10 +77,10 @@ const AboutUs = ({strings}: {strings: any[]}) => {
           </View>
         </View> */}
         <View style={{paddingVertical: 30}}>
-          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.address')}</Text>
+          <Text style={[styles.contactTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('screens.address')}</Text>
           <View style={{top: 10}}>
             <Text style={[styles.addressInfo,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              {translateService.t('infoText.addressCityMall').replace('{q1}', addr).replace('{q2}', addr1)}
+              {state?.t('infoText.addressCityMall').replace('{q1}', addr).replace('{q2}', addr1)}
             </Text>
           </View>
         </View>

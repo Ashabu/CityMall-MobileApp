@@ -32,18 +32,18 @@ const ScreenThree: React.FC = () => {
         <Layout hasBackArrow onPressBack={handleGetClientCards} >
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={[Grid.row_12_5, {}]}>
-                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.register')}</Text>
+                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.register')}</Text>
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                     <Image source={require('../../assets/images/success-mark.png')} style={{ width: 64, height: 64, marginBottom: 20 }} />
-                    <Text style={[styles.registerSuccess, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.registerSuccess')}</Text>
+                    <Text style={[styles.registerSuccess, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.registerSuccess')}</Text>
                 </View>
                 <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleGetClientCards}>
                     {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
-                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('common.close')}</Text>
+                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('common.close')}</Text>
                     }
                     </TouchableOpacity>
                 </View>

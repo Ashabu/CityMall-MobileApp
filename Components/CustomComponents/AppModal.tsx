@@ -5,6 +5,7 @@ import { Colors } from '../../Colors/Colors';
 import translateService from "../../Services/translateService";
 
 const AppModal = () => {
+    const { state } = useContext(AppContext);
     const [animation, setAnimation] = useState<any>(new Animated.Value(0));
     const {isDarkTheme} = useContext(AppContext);
 
@@ -123,11 +124,11 @@ const AppModal = () => {
     return (
         <Animated.View style={[styles.shown, styles.background]}>
             <View style={styles.moalBox}>
-                <Text style={styles.modalTitle}>{translateService.t('common.erorr')}</Text>
-                <Text style={styles.modalMessage}>{translateService.t('infoText.userExist')}</Text>
+                <Text style={styles.modalTitle}>{state?.t('common.erorr')}</Text>
+                <Text style={styles.modalMessage}>{state?.t('infoText.userExist')}</Text>
                 <View style={{width: '100%'}}>
                     <TouchableOpacity style={styles.modalBtn} onPress = {closeModal}>
-                        <Text style={styles.modalBtnTitle}>{translateService.t('common.close')}</Text>
+                        <Text style={styles.modalBtnTitle}>{state?.t('common.close')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

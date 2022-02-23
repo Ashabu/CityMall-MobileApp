@@ -15,7 +15,7 @@ import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import {paginationDotCount} from '../../Services/Utils';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {CategoryTypes} from '../../Constants/Categories';
+//import {CategoryTypes} from '../../Constants/Categories';
 import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {ChunkArrays} from '../../Utils/utils';
 import NotFound from '../../Components/NotFound';
@@ -31,6 +31,13 @@ type RouteParamList = {
 const OffersScreen = () => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+
+const CategoryTypes: any = {
+    100007: state?.t('common.sale'),
+    0: state?.t('common.sale'),
+    1: state?.t('common.news'),
+    2: state?.t('common.event')
+}
 
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
 
@@ -179,7 +186,7 @@ const OffersScreen = () => {
               styles.promotionsTitle,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('common.offers') + '|' + CategoryTypes[routeParams.params.id]}
+            {state?.t('common.offers') + '|' + CategoryTypes[routeParams.params.id]}
           </Text>
           <PaginationDots length={chunkedData?.length} step={offersStep} />
         </View>

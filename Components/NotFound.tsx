@@ -30,7 +30,7 @@ const NotFound: React.FC<any> = data => {
         }
       />
       <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-      {translateService.t('infoText.notFound')}
+      {state?.t('infoText.notFound')}
       </Text>
     </View>
   );

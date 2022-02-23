@@ -118,7 +118,7 @@ export default () => {
 
   return (
     <>
-      <Layout pageName={translateService.t('screens.floorPlan')} onPressBack={GoBack} hasBackArrow>
+      <Layout pageName={state?.t('screens.floorPlan')} onPressBack={GoBack} hasBackArrow>
         <View
           style={[
             styles.sectionContainer,
@@ -162,7 +162,7 @@ export default () => {
                       {top: pickerPositionTop},
                     ]}>
                     <Text style={{color: isDarkTheme ? Colors.white : Colors.black}}>
-                      {`${translateService.t('common.floor')} ${btnTitle}`}
+                      {`${state?.t('common.floor')} ${btnTitle}`}
                     </Text>
                     <Image
                       source={isDarkTheme ? require('./../assets/images/arrow-sm.png') : require('./../assets/images/arrow-black.png')}
@@ -208,7 +208,7 @@ export default () => {
               {floorsDetails.map((f, i) => (
                 <Picker.Item
                   key={f.id}
-                  label={`${translateService.t('common.floor')} ${f.title}`}
+                  label={`${state?.t('common.floor')} ${f.title}`}
                   value={f.id}
                 />
               ))}
@@ -221,7 +221,7 @@ export default () => {
                   styles.infoText,
                   {textAlign: 'right', color: Colors.red},
                 ]}>
-                {translateService.t('common.select')}
+                {state?.t('common.select')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -266,7 +266,7 @@ export default () => {
                     textAlign: 'center',
                     fontWeight: btnTitle === f.title ? '800' : '500'
                   }}>
-                  {`${translateService.t('common.floor')} ${f.title}`}
+                  {`${state?.t('common.floor')} ${f.title}`}
                 </Text>
               </TouchableOpacity>
             ))}

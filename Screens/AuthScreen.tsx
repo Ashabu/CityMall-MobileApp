@@ -174,7 +174,7 @@ const AuthScreen = () => {
             break;
           case 'invalid_password':
             setButtonLoading(false);
-            setPasswordError(translateService.t('infoText.passwordError'));
+            setPasswordError(state?.t('infoText.passwordError'));
             break;
           case 'invalid_otp':
             setOtpError(true);
@@ -191,7 +191,7 @@ const AuthScreen = () => {
     <Layout>
       <View style={{flex: 1, paddingHorizontal: '10%'}}>
         <View style={{flex: 4, justifyContent: 'center'}}>
-          <Text style={[styles.authTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.firstAuthorization')}</Text>
+          <Text style={[styles.authTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('screens.firstAuthorization')}</Text>
         </View>
         <View style={{flex: 6}}>
           <View style={{flexDirection: 'row', position: 'relative'}}>
@@ -268,7 +268,7 @@ const AuthScreen = () => {
                     styles.agreeTermsText,
                     {color: isDarkTheme ? Colors.white : Colors.black},
                   ]}>
-                  {translateService.t('infoText.agreement')}
+                  {state?.t('infoText.agreement')}
                 </Text>
               </View>
             </View>
@@ -282,7 +282,7 @@ const AuthScreen = () => {
             <ActivityIndicator animating={buttonLoading} color="#dadde1" />
           ) : (
             <Text style={styles.btnText}>
-              {step === 0 ? translateService.t('screens.giveCode') : translateService.t('screens.authorization')}
+              {step === 0 ? state?.t('screens.giveCode') : state?.t('screens.authorization')}
             </Text>
           )}
         </TouchableOpacity>

@@ -111,7 +111,7 @@ const ScreenOne: React.FC = () => {
         <Layout 
         hasBackArrow={true} 
         onPressBack={() => GoBack()}
-        pageName={translateService.t('common.cityMall')}>
+        pageName={state?.t('common.cityMall')}>
             <ScrollView
                 keyboardShouldPersistTaps="always"
                 contentContainerStyle={{
@@ -121,12 +121,12 @@ const ScreenOne: React.FC = () => {
                 }}>
                 <View style={{ flex: 1 }}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                       {translateService.t('common.register')}
+                       {state?.t('common.register')}
                     </Text>
                 </View>
                 <ScrollView style={{ flex: 9 }}>
                     <AppInput
-                        placeholder={translateService.t('labels.firstName')}
+                        placeholder={state?.t('labels.firstName')}
                         name="name"
                         value={name}
                         hasError={hasError}
@@ -137,7 +137,7 @@ const ScreenOne: React.FC = () => {
                         onChangeText={(val: string) => setName(val)}
                     />
                     <AppInput
-                        placeholder={translateService.t('labels.lastName')}
+                        placeholder={state?.t('labels.lastName')}
                         name="lastName"
                         value={lastName}
                         hasError={hasError}
@@ -149,7 +149,7 @@ const ScreenOne: React.FC = () => {
                     />
                     <View>
                         <AppInput
-                            placeholder={translateService.t('labels.idNumber')}
+                            placeholder={state?.t('labels.idNumber')}
                             name="idNumber"
                             value={idNumber}
                             hasError={hasError}
@@ -171,7 +171,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={false}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {translateService.t('infoText.citizenText')}
+                            {state?.t('infoText.citizenText')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -181,7 +181,7 @@ const ScreenOne: React.FC = () => {
                             { borderBottomColor: isDarkTheme ? Colors.white : Colors.black },
                         ]}>
                         <Text style={{ color: isDarkTheme ? Colors.white : Colors.black, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>
-                        {translateService.t('labels.gender')}
+                        {state?.t('labels.gender')}
                         </Text>
                         <TouchableOpacity
                             style={styles.inputWithLabel}
@@ -195,7 +195,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {translateService.t('labels.female')}
+                            {state?.t('labels.female')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -210,7 +210,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {translateService.t('labels.male')}
+                            {state?.t('labels.male')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -218,7 +218,7 @@ const ScreenOne: React.FC = () => {
                 <View style={{ flex: 2, alignItems: 'flex-end', marginVertical: 20 }}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
                         <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        {translateService.t('common.next')}
+                        {state?.t('common.next')}
                         </Text>
                     </TouchableOpacity>
                 </View>

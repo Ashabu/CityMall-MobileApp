@@ -21,7 +21,7 @@ interface IDeliveryOption {
 
 
 const OrderGiftCardScreen = () => {
-    const { isDarkTheme } = useContext(AppContext)
+    const { state, isDarkTheme } = useContext(AppContext)
     const { width, height } = useDimension();
 
     const [hasError, setHasError] = useState<boolean>(false);
@@ -193,7 +193,7 @@ const OrderGiftCardScreen = () => {
         switch (name) {
             case 'customer':
                 if (value === '') {
-                    setCustomerError(translateService.t('infoText.validate'));
+                    setCustomerError(state?.t('infoText.validate'));
                 } else {
                     if (customerError) {
                         setCustomerError('');
@@ -202,7 +202,7 @@ const OrderGiftCardScreen = () => {
                 break;
             case 'orderDetails':
                 if (value === '') {
-                    setOrderDetailsError(translateService.t('infoText.validate'));
+                    setOrderDetailsError(state?.t('infoText.validate'));
                 } else {
                     if (orderDetailsError) {
                         setOrderDetailsError('');
@@ -211,7 +211,7 @@ const OrderGiftCardScreen = () => {
                 break;
             case 'address':
                 if (value === '') {
-                    setAddressError(translateService.t('infoText.validate'));
+                    setAddressError(state?.t('infoText.validate'));
                 } else {
                     if (addressError) {
                         setAddressError('');
@@ -328,7 +328,7 @@ const OrderGiftCardScreen = () => {
                         <GiftCards />
                         <View style={{ marginTop: 44 }}>
                             <Text style={styles.infoText}>
-                            {translateService.t('infoText.loialtyText')}                            </Text>
+                            {state?.t('infoText.loialtyText')}                            </Text>
                         </View>
                     </View>
                     <View style={{ alignItems: 'flex-end' }}>
@@ -337,7 +337,7 @@ const OrderGiftCardScreen = () => {
                             titleStyle={styles.btnTitleStyle}
                             loaderStyle={loaderStyle}
                             loading={btnLoading}
-                            title={translateService.t('common.next')}
+                            title={state?.t('common.next')}
                             onPress={() => setStep(1)}
                         />
                     </View>
@@ -349,11 +349,11 @@ const OrderGiftCardScreen = () => {
             <View
                 style={{ flexGrow: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white, paddingHorizontal: conditionalpadding(), paddingBottom: 10 }}>
                 <Text style={styles.orderCardTitle}>
-                {translateService.t('screens.orderCards')}
+                {state?.t('screens.orderCards')}
                 </Text>
                 <GiftCards />
                 <AppInput
-                    placeholder={translateService.t('labels.nameSurname')}
+                    placeholder={state?.t('labels.nameSurname')}
                     name = 'customer'
                     hasError={hasError}
                     isRequired = {true}
@@ -363,7 +363,7 @@ const OrderGiftCardScreen = () => {
                     />
                 {customerError.length > 0 && <Text style={styles.errorText}>{customerError}</Text>}
                 <AppInput
-                    placeholder={translateService.t('labels.mobile')}
+                    placeholder={state?.t('labels.mobile')}
                     name = 'phoneNumber'
                     validationRule='phoneNumber'
                     hasError={hasError}
@@ -376,7 +376,7 @@ const OrderGiftCardScreen = () => {
                 {phoneNumberError.length > 0 && <Text style={styles.errorText}>{phoneNumberError}</Text>}
 
                 <Text style={[styles.orderCardTitle, { marginTop: 30 }]}>
-                {translateService.t('screens.orderDitails')}
+                {state?.t('screens.orderDitails')}
                 </Text>
                 <AppInput
                     style={styles.detailsText}
@@ -385,7 +385,7 @@ const OrderGiftCardScreen = () => {
                     validationRule='required'
                     hasError={hasError}
                     addValidation={validateInputs}
-                    placeholder={translateService.t('infoText.describeText')}
+                    placeholder={state?.t('infoText.describeText')}
                     placeholderTextColor={Colors.darkGrey}
                     value={orderDetails}
                     onChangeText={(newValue: string) => setOrderDetails(newValue)}
@@ -398,7 +398,7 @@ const OrderGiftCardScreen = () => {
                     <AppCheckBox
                         checked={deliveryOption.fromCityMall}
                         onChange={() => toggleDeliveryOption('fromMall')} />
-                    <Text style={styles.labelText}>{translateService.t('screens.take')}</Text>
+                    <Text style={styles.labelText}>{state?.t('screens.take')}</Text>
                 </TouchableOpacity>
                 {deliveryOption.fromCityMall &&
                     <View style={{ paddingLeft: 20 }}>
@@ -420,7 +420,7 @@ const OrderGiftCardScreen = () => {
                     <AppCheckBox
                         checked={deliveryOption.curierDelivery}
                         onChange={() => toggleDeliveryOption('curier')} />
-                    <Text style={styles.labelText}>{translateService.t('screens.delivery')}</Text>
+                    <Text style={styles.labelText}>{state?.t('screens.delivery')}</Text>
                 </TouchableOpacity>
                 {deliveryOption.curierDelivery &&
                     <View >
@@ -430,7 +430,7 @@ const OrderGiftCardScreen = () => {
                             isRequired = {true}
                             validationRule='required'
                             hasError={hasError}
-                            placeholder={translateService.t('infoText.addressInfoText')}
+                            placeholder={state?.t('infoText.addressInfoText')}
                             placeholderTextColor={Colors.darkGrey}
                             value={address}
                             onChangeText={(newValue: string) => setAddress(newValue)}
@@ -447,7 +447,7 @@ const OrderGiftCardScreen = () => {
                     titleStyle={styles.btnTitleStyle}
                     loaderStyle={loaderStyle}
                     loading={btnLoading}
-                    title={translateService.t('common.next')}
+                    title={state?.t('common.next')}
                     onPress={handleGiftCardOrder}
                 />
             </View>
@@ -459,16 +459,16 @@ const OrderGiftCardScreen = () => {
                     {!resSuccess ?
                         <View>
                             <Image source={require('../assets/images/error-mark.png')} style={styles.responseImg} />
-                            <Text style={styles.responseText}>{translateService.t('screens.errorrMsg')}</Text>
+                            <Text style={styles.responseText}>{state?.t('screens.errorrMsg')}</Text>
                         </View>
                         :
                         <View>
                             <Image source={require('../assets/images/success-mark.png')} style={styles.responseImg} />
-                            <Text style={styles.responseText}>{translateService.t('infoText.successMsg')}</Text>
+                            <Text style={styles.responseText}>{state?.t('infoText.successMsg')}</Text>
                         </View>}
                     <Pressable onPress={() => navigate('HomeScreen')} style={{ width: 325, height: 66, backgroundColor: Colors.darkGrey, borderRadius: 50, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
                         <Text style={{ color: Colors.white }}>
-                        {translateService.t('common.close')}
+                        {state?.t('common.close')}
                         </Text>
                     </Pressable>
                 </View>

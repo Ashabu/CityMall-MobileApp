@@ -132,7 +132,7 @@ console.log('>>>>.',props.districts)
                             <View style={styles.centeredView}>
                                 <View style={[styles.modalView]}>
                                     <View style={styles.modalBar}>
-                                        <Text style={styles.infoText}>{props.placeholder || translateService.t('screens.selectCountry')}</Text>
+                                        <Text style={styles.infoText}>{props.placeholder || state?.t('screens.selectCountry')}</Text>
                                     </View>
                                     <Picker
                                         style={styles.pickerStyle}
@@ -149,7 +149,7 @@ console.log('>>>>.',props.districts)
                                         ))}
                                     </Picker>
                                     <TouchableOpacity style={[styles.modalBar, { paddingBottom: 20 }]} onPress={() => setIsSelecting(false)}>
-                                        <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>{translateService.t('common.select')}</Text>
+                                        <Text style={[styles.infoText, { textAlign: 'right', color: Colors.red }]}>{state?.t('common.select')}</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

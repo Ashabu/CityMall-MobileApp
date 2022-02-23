@@ -27,15 +27,15 @@ const VouchersDone = () => {
           <MessagesInfo
             icon={require('../../assets/images/success.png')}
             bgColorProp={Colors.successGreen}
-            title={translateService.t('infoText.successMsg')}
-            text={translateService.t('infoText.additionalInfo')}
+            title={state?.t('infoText.successMsg')}
+            text={state?.t('infoText.additionalInfo')}
             phone={'0322 555 222'}
           />
         </View>
 
         <View style={{flex: 1, top: 40, alignItems: 'center'}}>
           <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('ProfileScreen')}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.close')}</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('common.close')}</Text>
           </TouchableOpacity>
         </View>
       </View>

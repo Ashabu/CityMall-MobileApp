@@ -43,7 +43,7 @@ const BuyVouchers = () => {
       hasBackArrow
       onPressBack={GoBack}
      
-      pageName={translateService.t('screens.buyVouchers')}
+      pageName={state?.t('screens.buyVouchers')}
       >
       <View style={styles.mainContainer}>
         <View style={styles.cardWrapper}>
@@ -55,7 +55,7 @@ const BuyVouchers = () => {
           
         </View>
         <TouchableOpacity disabled={selectedVaucher === undefined} style={styles.btnStyle} onPress={() => navigate('SelectedVouchers', {data: selectedVaucher})} >
-            <Text style={styles.btnText}>{translateService.t('common.buy')}</Text>
+            <Text style={styles.btnText}>{state?.t('common.buy')}</Text>
           </TouchableOpacity>
       </View>
       <Modal visible={isLoading} animationType="slide" transparent={true}>

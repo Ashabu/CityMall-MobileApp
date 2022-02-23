@@ -46,7 +46,7 @@ const NewsToggle: React.FC<any> = (props) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.cityGldani')}
+            {state?.t('screens.cityGldani')}
           </Text>
         </TouchableOpacity>
         {/* {collapseFirst && (
@@ -73,7 +73,7 @@ const NewsToggle: React.FC<any> = (props) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.citySaburtalo')}
+            {state?.t('screens.citySaburtalo')}
           </Text>
         </TouchableOpacity>
         {/* {collapseSecond && (

@@ -13,14 +13,16 @@ interface IAppCheckBox {
     addValidation?: (actionTpe: string, inputName: string) => void;
 };
 
-const validations: any = {
-    gender: translateService.t('infoText.selectGender'),
-    terms: translateService.t('infoText.terms')
-}
+
 
 const AppCheckBox: React.FC<IAppCheckBox> = (props) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
+
+    const validations: any = {
+        gender: state?.t('infoText.selectGender'),
+        terms: state?.t('infoText.terms')
+    }
 
     const { checked, onChange, hasError, isRequired, name, addValidation } = props;
 

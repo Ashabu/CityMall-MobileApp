@@ -83,7 +83,7 @@ const ScreenTwo: React.FC = (props: any) => {
     }, [errorMessages]);
 
     useEffect(() => {
-        if(selectedDistrict !== translateService.t('screens.other')){
+        if(selectedDistrict !== state?.t('screens.other')){
             let errorArray = errorMessages.filter(e => e !== 'district');
             setErrorMessages(errorArray);
         }
@@ -202,7 +202,7 @@ const ScreenTwo: React.FC = (props: any) => {
             birthDate: dateOfBirth || new Date(),
             phone: userPhoneNumber,
             email: email,
-            address: selectedDistrict === translateService.t('screens.other') ? district : selectedDistrict,
+            address: selectedDistrict === state?.t('screens.other') ? district : selectedDistrict,
             sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
             mailOtp: emailVerificationCode
         };
@@ -255,9 +255,9 @@ const ScreenTwo: React.FC = (props: any) => {
         }}
         modal={true}
         mode='date'
-        title={translateService.t('screens.selectDate')}
-        confirmText={translateService.t('common.select')}
-        cancelText={translateService.t('screens.cancel')}
+        title={state?.t('screens.selectDate')}
+        confirmText={state?.t('common.select')}
+        cancelText={state?.t('screens.cancel')}
         locale="ka-GE"
         androidVariant='nativeAndroid'
     />
@@ -271,24 +271,24 @@ const ScreenTwo: React.FC = (props: any) => {
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={{flex: 1}}>
-                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.register')}</Text>
+                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.register')}</Text>
                 </View>
                 <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : translateService.t('labels.birthday')}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : state?.t('labels.birthday')}</Text>
                     </TouchableOpacity>
                         {memoized}
                     </>
                     {birthDateError ?
-                        <Text style={styles.errorText}>{translateService.t('infoText.validate')}</Text>
+                        <Text style={styles.errorText}>{state?.t('infoText.validate')}</Text>
                         : null}
                     <View>
-                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder={translateService.t('screens.selectD')} />
-                        {selectedDistrict === translateService.t('screens.other') &&
+                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder={state?.t('screens.selectD')} />
+                        {selectedDistrict === state?.t('screens.other') &&
                              <View style={{marginTop: 10}}>
                             <AppInput
-                                placeholder={translateService.t('screens.livingPlace')}
+                                placeholder={state?.t('screens.livingPlace')}
                                 value={district}
                                 name='district'
                                 hasError={hasError}
@@ -303,7 +303,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     </View>
                     <View style={{marginTop: 10}}>
                         <AppInput
-                            placeholder={translateService.t('labels.email')}
+                            placeholder={state?.t('labels.email')}
                             value={email}
                             name='email'
                             keyboardType='email-address'
@@ -324,14 +324,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                     value={verifyEmail}
                                     disabled={email.length > 0 && !emailError ? false : true} />
                                 <View style={styles.mailVerificationTextWrap}>
-                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.emailText')}</Text>
-                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.emailGiftText')}         </Text>
+                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailText')}</Text>
+                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailGiftText')}         </Text>
                                 </View>
                             </View>
                             {verifyEmail ?
                                 <View style={{ position: 'relative' }}>
                                     <AppInput
-                                        placeholder={translateService.t('screens.veripicationCode')} 
+                                        placeholder={state?.t('screens.veripicationCode')} 
                                         value={emailVerificationCode}
                                         name='mailOtp'
                                         hasError={hasError}
@@ -343,14 +343,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                         maxLength={6}
                                         onChangeText={(val: string) => setEmailVerificationCode(val)} />
                                     {verifyEmailError ?
-                                        <Text style={styles.errorText}>{translateService.t('infoText.codeIncorrect')}</Text>
+                                        <Text style={styles.errorText}>{state?.t('infoText.codeIncorrect')}</Text>
                                         : null}
                                     <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 25 }}>
                                         {verifyEmailLoading ?
                                             <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
                                             :
                                             !isValidMailOtp ?
-                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{translateService.t('screens.check')}</Text>
+                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{state?.t('screens.check')}</Text>
                                                 :
                                                 <Image source={require('../../assets/images/green-checkmark.png')} style={{ width: 20, height: 14 }} />
                                         }
@@ -369,7 +369,7 @@ const ScreenTwo: React.FC = (props: any) => {
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('infoText.agreement')}</Text>
+                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.agreement')}</Text>
                         </View>
                     </View>
                     {generalError !== '' ?
@@ -385,7 +385,7 @@ const ScreenTwo: React.FC = (props: any) => {
                         {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
-                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('common.accept')}</Text>
+                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('common.accept')}</Text>
                         }
                     </TouchableOpacity>
                 </View>

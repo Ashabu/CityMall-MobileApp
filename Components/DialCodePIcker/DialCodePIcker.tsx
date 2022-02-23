@@ -20,7 +20,7 @@ const DialCodePIcker = (props: any) => {
     const [selectedItem, setSelectedItem] = useState<ICountryCodes>();
     const [searchValue, setSearchValue] = useState<string>('');
     const { width, height } = useDimension();
-    const { isDarkTheme } = useContext(AppContext);
+    const { state, isDarkTheme } = useContext(AppContext);
 
     useEffect(() => {
         if (selectedItem) {
@@ -145,7 +145,7 @@ const DialCodePIcker = (props: any) => {
                                 <View style={{ position: 'relative' }}>
                                     <Image source={require('./../../assets/images/loupe.png')} style={{ width: 20, height: 20, position: 'absolute', right: 10, top: 8 }} />
                                     <TextInput
-                                        placeholder={translateService.t('common.search')}
+                                        placeholder={state?.t('common.search')}
                                         placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                                         style={styles.selectedItem} value={searchValue}
                                         onChangeText={(value: string) => setSearchValue(value)}

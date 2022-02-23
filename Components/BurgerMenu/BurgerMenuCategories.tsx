@@ -22,7 +22,7 @@ const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({item, routeName, rou
         <View style={styles.categoryView}>
             <TouchableOpacity style={styles.categoryItem} onPress={() => navigate(routeName!, {id: item?.id, routeId: routeId, name: pageName, isPremium: isPremium})}>
                 <Text style={[styles.categoryItemText, {color: isDarkTheme? Colors.white : Colors.black}]}>
-                    {translateService.t(item?.name || '')}
+                    {state?.t(item?.name || '')}
                 </Text>
             </TouchableOpacity>
         </View>

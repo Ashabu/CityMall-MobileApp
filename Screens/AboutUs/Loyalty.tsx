@@ -25,7 +25,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
   } catch (_) {}
 
   return (
-    <Layout hasBackArrow pageName={translateService.t('screens.aboutLoialty')} onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={state?.t('screens.aboutLoialty')} onPressBack={GoBack}>
       <View style={styles.mainView}>
         <View style={{alignItems: 'center'}}>
           <View style={styles.imageView}>
@@ -46,7 +46,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
         </View>
         <View >
           <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-          {translateService.t('infoText.loialtyText')}
+          {state?.t('infoText.loialtyText')}
           </Text>
         </View>
         {
@@ -54,7 +54,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
             null
             :
             <View>
-              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={translateService.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
+              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={state?.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]} />
             </View>
         }
       </View>

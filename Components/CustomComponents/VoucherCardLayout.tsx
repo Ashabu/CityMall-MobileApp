@@ -106,10 +106,10 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
                 null 
                 :
                <Text style={styles.textStyle}>
-                {`${translateService.t('screens.date')}: ${fullDate}`}
+                {`${state?.t('screens.date')}: ${fullDate}`}
               </Text>}
               <Text style={styles.amountTextStyle}>
-                {`${translateService.t('screens.quantity')}: ${props.shorCount ? numberOfVouchers : '1'}`}
+                {`${state?.t('screens.quantity')}: ${props.shorCount ? numberOfVouchers : '1'}`}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -117,7 +117,7 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
                   setCurrenVaucher(props.item);
                 }}
                 style={{ top: 20, flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.seeMore')}</Text>
+                <Text style={[styles.moreBtnTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.seeMore')}</Text>
                 <Image
                   source={isDarkTheme ? require('./../../assets/images/Polygon.png') : require('./../../assets/images/arrow-black.png')}
                   style={[
@@ -152,7 +152,7 @@ const VoucherCardLayout: React.FC<IIAppBtnProps> = props => {
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Image source={{ uri: el?.logo }} style={{ width: 60, height: 43 }} />
               <Text style={[styles.nameAddressTextStyle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                -  {el?.merchantName} | {el?.address === 1 ? translateService.t('screens.cityMallSaburtalo') : translateService.t('screens.cityMallGldani')}
+                -  {el?.merchantName} | {el?.address === 1 ? state?.t('screens.cityMallSaburtalo') : state?.t('screens.cityMallGldani')}
               </Text>
             </View>
           </View>

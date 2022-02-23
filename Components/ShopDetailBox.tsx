@@ -29,12 +29,12 @@ const ShopDetailBox = (props: any) => {
                     
                     <View>
                         <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {`${translateService.t('common.floor')}: ${props.data.floor}`}
+                            {`${state?.t('common.floor')}: ${props.data.floor}`}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[ styles.promotionBottomText, Platform.OS === 'ios' && {fontSize: 9}, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        {translateService.t('common.seeMore')}
+                        {state?.t('common.seeMore')}
                         </Text>
                         <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>

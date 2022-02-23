@@ -23,7 +23,7 @@ import translateService from '../Services/translateService';
 import { default_lang_key, en_key } from '../lang';
 
 const AppHeader = (props: any) => {
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [visible, setVisible] = useState(false);
   const [news, setNews] = useState(false);
@@ -89,7 +89,11 @@ const AppHeader = (props: any) => {
           </TouchableOpacity>
           <TouchableOpacity style={{width: 70}} 
           onPress={() => {
-                            translateService.use(translateService.lang === en_key ? default_lang_key : en_key);
+                            const curLang = state.lang === en_key ? default_lang_key : en_key;
+                            translateService.use(curLang, (t) => {
+                              setGlobalState({ lang: curLang });
+                              setGlobalState({ translates: t });
+                            });
                         }}
                         >
             <Text
@@ -97,7 +101,7 @@ const AppHeader = (props: any) => {
                 styles.langText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {translateService.lang === en_key ? 'GEO' : 'ENG'}{' '}
+              {state.lang === en_key ? 'GEO' : 'ENG'}{' '}
             
             </Text>
           </TouchableOpacity>

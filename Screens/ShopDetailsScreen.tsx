@@ -116,7 +116,7 @@ const ShopDetailsScreen = () => {
             style={{ width: width, height: height / 2 }}
           />
           <Text style={[styles.pageTitle, textColorStyle]}>
-          {translateService.t('screens.saburtalo')}
+          {state?.t('screens.saburtalo')}
           </Text>
           <TouchableOpacity
             onPress={() => GoBack()}
@@ -157,7 +157,7 @@ const ShopDetailsScreen = () => {
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.shopDesc, textColorStyle]}>{translateService.t('common.floor')}: </Text>
+                <Text style={[styles.shopDesc, textColorStyle]}>{state?.t('common.floor')}: </Text>
                 {floor?.map((floor: string) => (
                   <Text key={floor} style={[styles.shopDesc, textColorStyle]}>
                     {floor}
@@ -185,7 +185,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                {translateService.t('screens.mobile')}:{' '}
+                {state?.t('screens.mobile')}:{' '}
               </Text>
               <Text
                 style={[
@@ -203,7 +203,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                {translateService.t('screens.workingHours')}:{' '}
+                {state?.t('screens.workingHours')}:{' '}
               </Text>
               <Text
                 style={[
@@ -221,7 +221,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                 {translateService.t('screens.address')}:{' '}
+                 {state?.t('screens.address')}:{' '}
               </Text>
               <Text
                 style={[
@@ -263,7 +263,7 @@ const ShopDetailsScreen = () => {
               textColorStyle,
               { marginBottom: 20, marginLeft: '8%' },
             ]}>
-            {translateService.t('screens.floorPlan')}
+            {state?.t('screens.floorPlan')}
           </Text>
 
           {floorData !== undefined && (

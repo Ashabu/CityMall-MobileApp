@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import translateService from '../Services/translateService';
 
@@ -9,15 +10,16 @@ interface ICardSm {
     navigateToReg?: () => void
 }
 const UserCardSmall: React.FC<ICardSm> = (props) => {
+    const {state} = useContext(AppContext);
     const { cardNumber, navigateToBarCode, navigateToReg } = props;
 
     return (
         !cardNumber ?
             <TouchableOpacity style={[styles.warningImg,]} onPress={navigateToReg}>
-                <Text style={styles.warningText}>{translateService.t('infoText.registrationText')}</Text>
+                <Text style={styles.warningText}>{state?.t('infoText.registrationText')}</Text>
                 <Image style={[styles.giftCardImg, { opacity: 0.2 }]} source={require('../assets/images/loyalty-card.png')} />
                 <View style={styles.container}>
-                    <Text style={styles.authBtnText}>{translateService.t('common.register')}</Text>
+                    <Text style={styles.authBtnText}>{state?.t('common.register')}</Text>
                     <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
                 </View>
             </TouchableOpacity>

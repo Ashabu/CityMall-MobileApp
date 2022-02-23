@@ -69,7 +69,7 @@ const BurgerMenu = () => {
             setGlobalState({isAuthenticated: false});
           }}>
           <Text style={styles.logoutBtnText}>
-            {translateService.t('common.exit')}
+            {state?.t('common.exit')}
           </Text>
         </TouchableOpacity>
       </View>

@@ -63,7 +63,7 @@ export default () => {
   };
   return (
     <>
-    <AppLayout pageTitle={translateService.t('common.searching')}>
+    <AppLayout pageTitle={state?.t('common.searching')}>
       <View
         style={{
           flex: 1,
@@ -82,7 +82,7 @@ export default () => {
               
             }]}>
             <TextInput
-              placeholder={translateService.t('common.searching')}
+              placeholder={state?.t('common.searching')}
               placeholderTextColor={isDarkTheme? Colors.white : Colors.black}
               style={{color: isDarkTheme? Colors.white : Colors.black}}
               value={keyword}

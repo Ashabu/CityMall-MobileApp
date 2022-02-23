@@ -267,20 +267,20 @@ const Stores: React.FC = () => {
         <View style={[styles.container, containerStyle]}>
           <Animated.View style={[styles.collapsible, collapsibleHeight]}>
             <Text style={[styles.headerText, textStyle]}>
-              <Text style={styles.baseText}>{translateService.t(routeParams.params.name)}</Text> | {routeParams.params.routeId === 1? translateService.t('screens.citySaburtalo') : translateService.t('screens.cityGldani')}
+              <Text style={styles.baseText}>{state?.t(routeParams.params.name)}</Text> | {routeParams.params.routeId === 1? state?.t('screens.citySaburtalo') : state?.t('screens.cityGldani')}
             </Text>
             {mainCategories && mainCategories.length > 0 && (
               <RenderCategories
                 isCategory
                 data={mainCategories!}
-                title= {translateService.t('common.categories')}
+                title= {state?.t('common.categories')}
               />
             )}
 
             {subCategories.length > 0 && (
               <RenderCategories
                 data={subCategories}
-                title={translateService.t('common.subCategories')}
+                title={state?.t('common.subCategories')}
                 style={styles.subCategories}
                 isCategory={false}
               />

@@ -42,7 +42,7 @@ useEffect(() => {
   }
 
   return (
-    <Layout hasBackArrow pageName={translateService.t('screens.planVisit')} onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={state?.t('screens.planVisit')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,

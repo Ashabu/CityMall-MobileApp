@@ -233,7 +233,7 @@ const ProfileScreen = () => {
   ) : null;
 
   return (
-    <AppLayout pageTitle={translateService.t('screens.room')}>
+    <AppLayout pageTitle={state?.t('screens.room')}>
       <ScrollView
       ref={scrollRef}
       onScroll={handleScroll}
@@ -250,13 +250,13 @@ const ProfileScreen = () => {
         }>
         <View style={styles.balanceView}>
           <View>
-            <Text style={styles.balanceWrapTitle}>{translateService.t('screens.deposit')}</Text>
+            <Text style={styles.balanceWrapTitle}>{state?.t('screens.deposit')}</Text>
             <Text style={styles.balanceWrapAmount}>
               {formatNumber(clientInfo.ballance)}
             </Text>
           </View>
           <View>
-            <Text style={styles.balanceWrapTitle}>{translateService.t('screens.cityPoint')}</Text>
+            <Text style={styles.balanceWrapTitle}>{state?.t('screens.cityPoint')}</Text>
             <Text style={styles.balanceWrapAmount}>
               {formatNumber(clientInfo.points)}
             </Text>
@@ -269,7 +269,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-            {translateService.t('screens.statusbar')}
+            {state?.t('screens.statusbar')}
             </Text>
             <TouchableOpacity onPress={() => navigate('StatusInfoScreen')} style={{flexDirection:'row', alignItems:'center'}}>
               <Text
@@ -277,7 +277,7 @@ const ProfileScreen = () => {
                   styles.promotionsTitle,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-               {translateService.t('common.seeMore')}
+               {state?.t('common.seeMore')}
               </Text>
               <Image source={isDarkTheme? lightArrowIcon :  darkArrowIcon} style={styles.icon}/>
             </TouchableOpacity>
@@ -300,7 +300,7 @@ const ProfileScreen = () => {
               source={require('../../assets/images/vaucher.png')}
               style={{width: 22, height: 16, marginRight: 10}}
             />
-            <Text style={styles.promotionsTitle}>{translateService.t('screens.myVouchers')}</Text>
+            <Text style={styles.promotionsTitle}>{state?.t('screens.myVouchers')}</Text>
           </TouchableOpacity>
         </View>
         <View style={{marginBottom: 30}}>
@@ -310,7 +310,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {translateService.t('screens.myOffers')}
+              {state?.t('screens.myOffers')}
             </Text>
             <PaginationDots
               length={Math.round(personalOffers?.length / 2)}
@@ -337,7 +337,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {translateService.t('screens.pointsOption')}
+              {state?.t('screens.pointsOption')}
             </Text>
             <PaginationDots
               length={Math.round(clientVouchers?.length / 2)}
@@ -374,7 +374,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-               {translateService.t('screens.transactions')}
+               {state?.t('screens.transactions')}
             </Text>
             <View style={styles.trViewHeaderRight}>
               <Image
@@ -400,7 +400,7 @@ const ProfileScreen = () => {
                   fontSize: 10,
                   color: isDarkTheme ? Colors.white : Colors.black,
                 }}>
-                {translateService.t('infoText.transactionsNotFound')}
+                {state?.t('infoText.transactionsNotFound')}
               </Text>
             )}
               {BottomLoading()}

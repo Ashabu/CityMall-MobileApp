@@ -6,7 +6,7 @@ import Layout from '../Components/Layouts/Layout';
 import translateService from '../Services/translateService';
 
 const CheckGiftCardBalanceScreen = () => {
-    const { isDarkTheme } = useContext(AppContext);
+    const { state, isDarkTheme } = useContext(AppContext);
 
     const styles = StyleSheet.create({
         screenContainer: {
@@ -46,10 +46,10 @@ const CheckGiftCardBalanceScreen = () => {
             <View style={styles.cardContainer}>
                 <Image style={{ width: '100%', height: '100%' }} source={require('../assets/images/gift-card-balance.png')} />
                 <View>
-                    <Text>{translateService.t('infoText.cardNumber')}</Text>
+                    <Text>{state?.t('infoText.cardNumber')}</Text>
                 </View>
                 <View>
-                    <Text>{translateService.t('infoText.cardDate')}</Text>
+                    <Text>{state?.t('infoText.cardDate')}</Text>
                 </View>
             </View>
         </Layout>

@@ -67,7 +67,7 @@ const AppStack:React.FC<IProps> = ({init}) => {
 
     if (!isInitialized) return <Text>Loading ...</Text>
 
-    if(!init) return <View style={{backgroundColor: Colors.black, flex: 1}} />
+    //if(!init) return <View style={{backgroundColor: Colors.black, flex: 1}} />
 
     return (
         <NavigationContainer ref={navigationRef}>

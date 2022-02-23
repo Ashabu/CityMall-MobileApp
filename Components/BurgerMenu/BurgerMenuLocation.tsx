@@ -45,7 +45,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName, pag
                             source={isDarkTheme? require('../../assets/images/arrow-sm.png') : require('../../assets/images/arrow-black.png')} /> :
                         null
                 }
-                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}> {translateService.t(item.name || '')}</Text>
+                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}> {state?.t(item.name || '')}</Text>
             </TouchableOpacity>
             {
                 isCollapsed && <View>

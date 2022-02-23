@@ -19,7 +19,7 @@ const ContactUs = () => {
 
   return (
     <Layout 
-    pageName={translateService.t('screens.contactUs')}
+    pageName={state?.t('screens.contactUs')}
     hasBackArrow
     onPressBack={GoBack}>
       <View
@@ -31,10 +31,10 @@ const ContactUs = () => {
         }}>
    
         <View >
-          <Text style={[styles.title,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('screens.messageUs')}</Text>
+          <Text style={[styles.title,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('screens.messageUs')}</Text>
           <View style={{paddingTop: 15}}>
             <Text style={[styles.text,{color: isDarkTheme ? Colors.white : Colors.black}]}>
-            {translateService.t('infoText.messageUsText')}
+            {state?.t('infoText.messageUsText')}
             </Text>
           </View>
         </View>
@@ -43,7 +43,7 @@ const ContactUs = () => {
             style={styles.input}
             value={name}
             onChangeText={text => setName(text)}
-            placeholder={translateService.t('labels.firstName')}
+            placeholder={state?.t('labels.firstName')}
             placeholderTextColor={Colors.white}
             
           />
@@ -51,21 +51,21 @@ const ContactUs = () => {
             style={styles.input}
             value={email}
             onChangeText={text => setEmail(text)}
-            placeholder={translateService.t('labels.email')}
+            placeholder={state?.t('labels.email')}
             placeholderTextColor={Colors.white}
           />
           <TextInput
             style={styles.input}
             value={title}
             onChangeText={text => setTitle(text)}
-            placeholder={translateService.t('screens.title')}
+            placeholder={state?.t('screens.title')}
             placeholderTextColor={Colors.white}
           />
           <TextInput 
           style={styles.textArea}
           value={textArea}
           onChangeText={text => setTextArea(text)}
-          placeholder={translateService.t('screens.info')}
+          placeholder={state?.t('screens.info')}
           placeholderTextColor={Colors.txtGrey}
           multiline
           numberOfLines={5}
@@ -74,7 +74,7 @@ const ContactUs = () => {
         <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => {}}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{translateService.t('common.send')}</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('common.send')}</Text>
           </TouchableOpacity>
       </View>
     </Layout>

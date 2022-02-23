@@ -37,7 +37,7 @@ const HomeScreen = () => {
         handleGetClientCards();
         getClientData();
         // getObjectTypes();
-    }, []);
+    }, [state.lang]);
 
     useEffect(() => {
         handleSetOffers();
@@ -143,9 +143,9 @@ const HomeScreen = () => {
           });
       };
 
-
+console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
     return (
-        <AppLayout pageTitle={translateService.t('screens.home')}>
+        <AppLayout pageTitle={state?.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={{ flex: 4.5, justifyContent: 'center' }}>
                     {!initLoading ?
@@ -164,14 +164,14 @@ const HomeScreen = () => {
                 {clientInfo !== undefined && <View style={styles.amountInfo}>
                     <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        {translateService.t('screens.deposit')}
+                        {state?.t('screens.deposit')}
                         </Text>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.ballance}₾</Text>
                     </View>
 
                     <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
-                        {translateService.t('screens.cityPoint')}
+                        {state?.t('screens.cityPoint')}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.points || 0}
@@ -187,7 +187,7 @@ const HomeScreen = () => {
                     <View style={{ flex: 1 }}>
                         <View style={styles.promotionContainer}>
                             <Text style={[styles.promotionsTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {translateService.t('common.offers')}
+                            {state?.t('common.offers')}
                             </Text>
                             <PaginationDots length={paginationDotCount(offers, 4)} step={offersStep} />
                         </View>

@@ -21,10 +21,10 @@ const MapToggleInfo = () => {
   return (
     <View style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
         <TouchableOpacity onPress={() => navigate('FloorMap', {mallId: mallIds.citiMallGldan})}>
-            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('screens.cityGldani')}</Text>
+            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('screens.cityGldani')}</Text>
         </TouchableOpacity>
         <TouchableOpacity  onPress={() => navigate('FloorMap', {mallId: mallIds.cityMallSaburtalo})}>
-            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{translateService.t('screens.citySaburtalo')}</Text>
+            <Text style={[styles.text,{ color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('screens.citySaburtalo')}</Text>
         </TouchableOpacity>
     </View>
   );

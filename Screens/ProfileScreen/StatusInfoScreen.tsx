@@ -23,12 +23,12 @@ const StatusInfoScreen = () => {
       <ScrollView>
         <View style={[bgThemeColor, styles.main]}>
           <View style={{marginBottom: 40}}>
-            <Text style={[styles.titleText, textThemeColor]}>{translateService.t('screens.statusbar')}</Text>
+            <Text style={[styles.titleText, textThemeColor]}>{state?.t('screens.statusbar')}</Text>
             <StatusBar />
           </View>
           <View style={{marginBottom: 40}}>
             <Text style={[styles.titleText, textThemeColor]}>
-            {translateService.t('infoText.aboutStatus')}
+            {state?.t('infoText.aboutStatus')}
             </Text>
             <Text style={[styles.descriptionText, textThemeColor]}>
               შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი
@@ -41,7 +41,7 @@ const StatusInfoScreen = () => {
           </View>
           <View>
             <Text style={[styles.titleText, textThemeColor]}>
-            {translateService.t('infoText.statusGift')}
+            {state?.t('infoText.statusGift')}
             </Text>
             <Text style={[styles.descriptionText, textThemeColor]}>
               შეუკვეთე სითი მოლის სასაჩუქრე ბარათი შენთვის ან შენი საყვარელი

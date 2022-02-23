@@ -1,3 +1,4 @@
+import { default_lang_key } from '../lang';
 import {IOffer} from '../Services/Api/OffersApi';
 import { IMerchant } from '../Services/Api/ShopsApi';
 
@@ -16,6 +17,9 @@ export interface IAppState {
     categoryArray: number[] | [],
     subCategoryArray: number[] | [],
     objectTypeId: number | undefined,
+    translates: any,
+    t: (key: string) => string,
+    lang: string | undefined
 }
 
 
@@ -32,5 +36,16 @@ export const AppState: IAppState = {
     singleMerchant: {},
     categoryArray: [],
     subCategoryArray: [],
-    objectTypeId: undefined
+    objectTypeId: undefined,
+    translates: {},
+    lang: default_lang_key,
+    t: function(key: string) {
+        let keys = key.split('.');
+        let store = null;
+        for (let t of keys) {
+          if (!store) store = this.translates[t];
+          else store = store[t];
+        }
+        return store || '';
+    }
 }

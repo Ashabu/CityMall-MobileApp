@@ -86,7 +86,7 @@ const VaucherPromptBox: React.FC<any> = data => {
                 {fontFamily: 'HMpangram-Bold'},
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {translateService.t('common.price')}: {data?.data?.voucherPurchasePoints}{' '}
+              {state?.t('common.price')}: {data?.data?.voucherPurchasePoints}{' '}
             </Text>
 
           <Image source={require('./../assets/images/Star.png')} />
@@ -99,7 +99,7 @@ const VaucherPromptBox: React.FC<any> = data => {
                 styles.promotionBottomText,
                 { color: isDarkTheme ? Colors.white : Colors.black },
               ]}>
-              {translateService.t('common.pay')}
+              {state?.t('common.pay')}
             </Text>
             <Image
               style={styles.promotionBottomImg}

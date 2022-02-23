@@ -28,7 +28,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.address')}:{' '}
+            {state?.t('screens.address')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -42,7 +42,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.workingHours')}:{' '}
+            {state?.t('screens.workingHours')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -59,7 +59,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.address')}:{' '}
+            {state?.t('screens.address')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -73,7 +73,7 @@ const WorkingHours = ({data, routeId}: any) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {translateService.t('screens.workingHours')}:{' '}
+            {state?.t('screens.workingHours')}:{' '}
             <Text
               style={[
                 styles.subTxt,
@@ -94,7 +94,7 @@ const WorkingHours = ({data, routeId}: any) => {
             styles.text,
             {color: isDarkTheme ? Colors.white : Colors.black},
           ]}>
-          {translateService.t('screens.socMedia')}:
+          {state?.t('screens.socMedia')}:
         </Text>
         <Image
           source={

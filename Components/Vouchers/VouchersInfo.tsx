@@ -41,11 +41,11 @@ const VouchersInfo = () => {
     <Layout
       hasBackArrow
       hideArrows
-      pageName={translateService.t('screens.myVouchers')}
+      pageName={state?.t('screens.myVouchers')}
       onPressBack={GoBack}>
       <View style={styles.main}>
         <VouchersButton
-          title={translateService.t('screens.buyVoucher')}
+          title={state?.t('screens.buyVoucher')}
           onPress={() => navigate('BuyVouchers')}
         />
       </View>

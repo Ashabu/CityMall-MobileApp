@@ -30,18 +30,20 @@ interface IAppInput {
     ignoreBorder?:boolean
 }
 
-const validations: any = {
-    required: translateService.t('infoText.validate'),
-    phoneNumber: translateService.t('infoText.wrongNumber'),
-    email: translateService.t('infoText.wrongEmail'),
-    idNumber: translateService.t('infoText.wrongId')
-}
+
 
 const AppInput: React.FC<IAppInput> = (props) => {
     const { isRequired, validationRule, addValidation, hasError, errors, name, value, maxLength, style, ignoreBorder } = props;
 
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
+
+    const validations: any = {
+        required: state?.t('infoText.validate'),
+        phoneNumber: state?.t('infoText.wrongNumber'),
+        email: state?.t('infoText.wrongEmail'),
+        idNumber: state?.t('infoText.wrongId')
+    }
 
     const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -61,7 +63,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
     useEffect(() => {
         let index = errors?.findIndex((e: string) => e === name);
         if (hasError && index! >= 0) {
-            setErrorMessage(translateService.t('infoText.validate'));
+            setErrorMessage(state?.t('infoText.validate'));
         };
     }, [hasError, errors]);
 

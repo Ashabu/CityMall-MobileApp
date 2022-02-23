@@ -53,11 +53,11 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
     return (
         <View style={[styles.otpContainer, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
             <Text style={[styles.otpTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-            {translateService.t('infoText.enterCode')}</Text>
+            {state?.t('infoText.enterCode')}</Text>
             <TextInput
                 style={[styles.otpInput, {color: isDarkTheme ? Colors.white : Colors.black}]}
                 value={oneTimeCode}
-                placeholder={translateService.t('common.smsCode')}
+                placeholder={state?.t('common.smsCode')}
                 placeholderTextColor={isDarkTheme ? Colors.white : Colors.black}
                 onChangeText={(val: string) => handleOneTimePasscode(val)}
                 maxLength={4}
@@ -69,9 +69,9 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
                 resend();
                 setOneTimeCode('');
             }}>
-                <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{translateService.t('common.again')}</Text>
+                <Text style={[styles.otpResendText, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.again')}</Text>
             </TouchableOpacity>
-            {hasError ? <Text style={styles.errorText}>{translateService.t('infoText.codeIncorrect')}</Text> : null}
+            {hasError ? <Text style={styles.errorText}>{state?.t('infoText.codeIncorrect')}</Text> : null}
         </View>
     );
 };

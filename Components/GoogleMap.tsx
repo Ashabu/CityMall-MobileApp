@@ -35,7 +35,7 @@ export default () => {
 
   console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
-    <Layout pageName={translateService.t('screens.cityMap')} onPressBack={GoBack} hasBackArrow>
+    <Layout pageName={state?.t('screens.cityMap')} onPressBack={GoBack} hasBackArrow>
     
       <View
         style={[

@@ -52,7 +52,7 @@ const SelectedVouchers = () => {
   return (
     <Layout hasBackArrow
     
-    pageName= {translateService.t('screens.buyVoucher')}
+    pageName= {state?.t('screens.buyVoucher')}
     onPressBack={GoBack}>
       <View
         style={{
@@ -75,7 +75,7 @@ const SelectedVouchers = () => {
                 paddingBottom: 26,
               }}>
               <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
-              {translateService.t('common.price')}: {route.params?.data?.voucherPurchasePoints}{' '}
+              {state?.t('common.price')}: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
@@ -96,7 +96,7 @@ const SelectedVouchers = () => {
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => buy()}>
-            <Text style={styles.btnText}>{translateService.t('common.accept')}</Text>
+            <Text style={styles.btnText}>{state?.t('common.accept')}</Text>
           </TouchableOpacity>
         </View>
         <Modal visible={isLoading} animationType="slide" transparent={true}>

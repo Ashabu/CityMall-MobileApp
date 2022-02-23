@@ -73,14 +73,14 @@ function extractor(obj: any, key: string) {
                         data.floor ?
                             <View>
                                 <Text style={[Platform.OS === 'ios' && { fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                    {`${translateService.t('common.floor')}: ${data.floor[0]}`}
+                                    {`${state?.t('common.floor')}: ${data.floor[0]}`}
                                 </Text>
                             </View>
                             : null
                     }
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        {translateService.t('common.seeMore')}
+                        {state?.t('common.seeMore')}
                         </Text>
                         <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>

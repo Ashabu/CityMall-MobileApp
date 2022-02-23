@@ -14,7 +14,7 @@ const EmailChanged = () => {
   const {isDarkTheme} = state;
 
   return (
-    <Layout hasBackArrow pageName={translateService.t('screens.giftCard')} onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={state?.t('screens.giftCard')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -25,7 +25,7 @@ const EmailChanged = () => {
           <MessagesInfo
             icon={require('../../assets/images/success.png')}
             bgColorProp={Colors.successGreen}
-            title={translateService.t('infoText.emailChange')}
+            title={state?.t('infoText.emailChange')}
             text={''}
             phone={''}
           />
@@ -33,7 +33,7 @@ const EmailChanged = () => {
 
         <View style={{flex: 1}}>
           <TouchableOpacity style={styles.btnStyle} onPress={() => {}}>
-            <Text style={styles.btnText}>{translateService.t('common.close')}</Text>
+            <Text style={styles.btnText}>{state?.t('common.close')}</Text>
           </TouchableOpacity>
         </View>
       </View>
