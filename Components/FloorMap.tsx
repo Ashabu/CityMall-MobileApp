@@ -35,8 +35,8 @@ export default () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [roomId, setRoomId] = useState<number | string | undefined>('');
   const [floors, setFloors] = useState<Array<any>>([]);
-  const [floorIndex, setFloorIndex] = useState<any>(1);
-  const [floorIndexTemp, setFloorIndexTemp] = useState<any>(1);
+  const [floorIndex, setFloorIndex] = useState<any>(undefined);
+  const [floorIndexTemp, setFloorIndexTemp] = useState<any>(undefined);
   const [pickerPositionTop, setPickerPositionTop] = useState<
     number | undefined
   >(undefined);
@@ -111,9 +111,26 @@ export default () => {
     setFloorIndex(floorIndexTemp);
   };
 
+  useEffect(() => {
+    if(floorData && floorIndex === undefined) {
+      try {
+        const i = floorsDetails[0].id;
+        setFloorIndex(i);
+      } catch (e) {}
+    }
+  }, [floorData, route.params?.mallId])
+
+  let floorIndexOnStart = '';
   let btnTitle = '';
   try {
+    console.log(floorsDetails)
     btnTitle = floorsDetails.filter(f => f.id === floorIndex)[0].title;
+
+  } catch (e) {}
+
+  try {
+    const i = floorsDetails[0].id;
+    floorIndexOnStart = i;
   } catch (e) {}
 
   return (
@@ -162,7 +179,7 @@ export default () => {
                       {top: pickerPositionTop},
                     ]}>
                     <Text style={{color: isDarkTheme ? Colors.white : Colors.black}}>
-                      {`${state?.t('common.floor')} ${btnTitle}`}
+                      {`${state?.t('common.floor')} ${btnTitle || floorIndexOnStart}`}
                     </Text>
                     <Image
                       source={isDarkTheme ? require('./../assets/images/arrow-sm.png') : require('./../assets/images/arrow-black.png')}
