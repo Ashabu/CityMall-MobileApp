@@ -27,6 +27,7 @@ export default () => {
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [keyword, setKeyword] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [typeing, seTypeing] = useState(true);
   const ttlRef = useRef<NodeJS.Timeout>();
   const inputRef = useRef<TextInput | null>();
   const itemChunk = 4;
@@ -36,6 +37,7 @@ export default () => {
   };
 
   useEffect(() => {
+    seTypeing(true);
     if (ttlRef.current) clearTimeout(ttlRef.current);
     if (!keyword) {
       if (merchants?.length) {
@@ -43,7 +45,7 @@ export default () => {
       }
       return;
     }
-
+   
     ttlRef.current = setTimeout(() => {
       setIsLoading(true);
       axios
@@ -51,7 +53,8 @@ export default () => {
         .then(res => {
           if (res.data?.data) setMerchants(res.data?.data);
           setIsLoading(false);
-        }).catch(() => setIsLoading(false));
+          seTypeing(false);
+        }).catch(() => {setIsLoading(false);  seTypeing(false);});
     }, 1000);
   }, [keyword]);
 
@@ -104,7 +107,11 @@ export default () => {
           <ScrollView
             contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
             horizontal>
-            {merchants.length === 0 ? <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 400 }}><NotFound /></View> :  (
+            {(merchants.length <=0 && (keyword?.length || 0 > 0) && (!typeing)) && 
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 400, width: Dimensions.get('window').width }}>
+              <NotFound />
+            </View>}
+              {(chunkedData !== undefined) && 
               <ScrollView
                 scrollToOverflowEnabled={true}
                 style={[styles.dataScroller]}
@@ -124,7 +131,7 @@ export default () => {
                   </View>
                 ))}
               </ScrollView>
-            )}
+            }
           </ScrollView>
         </View>
       </View>
