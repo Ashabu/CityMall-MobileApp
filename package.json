@@ -33,6 +33,7 @@
     "react-native-sms-retriever": "^1.1.1",
     "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^12.1.1",
+    "react-native-video": "^5.2.0",
     "rxjs": "^7.5.4"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/jest": "^26.0.20",
     "@types/react-native": "^0.64.0",
     "@types/react-native-datepicker": "^1.7.1",
+    "@types/react-native-video": "^5.0.12",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^27.3.1",
     "eslint": "^7.14.0",
