@@ -17,8 +17,7 @@ import AuthService from '../Services/AuthService';
 import {setItem, getItem} from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
-import translateService from '../Services/translateService';
-import { GoBack } from '../Services/NavigationServices';
+import { navigate } from '../Services/NavigationServices';
 
 
 const AuthScreen = () => {
@@ -190,7 +189,7 @@ const AuthScreen = () => {
   };
 
   return (
-    <Layout pageName='სითი მოლი' >
+    <Layout pageName={state.t('common.cityMall')} >
       
       <View style={{flex: 1, paddingHorizontal: '10%'}}>
       
@@ -268,6 +267,7 @@ const AuthScreen = () => {
                   onChange={toggleAgreedTerms}
                   hasError={agreedTermsError}
                 />
+                <TouchableOpacity onPress={() => navigate('DocView', { docUrl: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'})}>
                 <Text
                   style={[
                     styles.agreeTermsText,
@@ -275,6 +275,7 @@ const AuthScreen = () => {
                   ]}>
                   {state?.t('infoText.agreement')}
                 </Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}

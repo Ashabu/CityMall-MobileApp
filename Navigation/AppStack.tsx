@@ -33,6 +33,7 @@ import ShopDetailBox from '../Components/ShopDetailBox';
 import GoogleMap from '../Components/GoogleMap';
 import Searches from '../Screens/Stores/Searches';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import DocView from '../Components/DocViewer';
 
 
 
@@ -74,6 +75,7 @@ const AppStack:React.FC<IProps> = ({init}) => {
             <Stack.Navigator initialRouteName='AuthScreen'>
                 {isAuthenticated === false? 
                 (
+                    <>
                     <Stack.Screen
                     name='AuthScreen'
                     component={AuthScreen}
@@ -81,6 +83,14 @@ const AppStack:React.FC<IProps> = ({init}) => {
                         headerShown: false,
                     }}
                 />
+                <Stack.Screen
+                    name='DocView'
+                    component={DocView}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                </>
                 ):(
                     <>
                 <Stack.Screen

@@ -17,6 +17,10 @@ target 'citymall' do
 
   pod 'react-native-video', :path => '../node_modules/react-native-video'
 
+  pod 'react-native-blob-util', :path => '../node_modules/react-native-blob-util'
+
+  pod 'react-native-pdf', :path => '../node_modules/react-native-pdf'
+
   target 'citymallTests' do
     inherit! :complete
     # Pods for testing
