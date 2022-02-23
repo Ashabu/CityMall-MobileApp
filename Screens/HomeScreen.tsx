@@ -166,14 +166,14 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                 </View>
 
                 {clientInfo !== undefined && <View style={styles.amountInfo}>
-                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+                    <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {state?.t('screens.deposit')}
                         </Text>
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{clientInfo?.ballance}₾</Text>
                     </View>
 
-                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {height: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
+                    <View style={[styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black}]}>
                         {state?.t('screens.cityPoint')}
                         </Text>
