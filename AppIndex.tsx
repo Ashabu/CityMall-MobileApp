@@ -20,7 +20,7 @@ const AppIndex = () => {
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
-      config.headers['langcode'] = state.lang// || default_lang_key;
+      config.headers['langcode'] = translateService.lang// || default_lang_key;
       console.log('+++++++++++++++++++++++++', config.headers.langcode)
       return config;
     });
