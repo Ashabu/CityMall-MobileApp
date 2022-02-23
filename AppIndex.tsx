@@ -9,6 +9,7 @@ import AuthService, { IInterceptop } from './Services/AuthService';
 import translateService from './Services/translateService';
 import AsyncStorage from './Services/StorageService';
 import { default_lang_key, locale_key } from './lang';
+import SplashScreen from 'react-native-splash-screen';
 
 const AppIndex = () => {
   const { state, setGlobalState } = useContext(AppContext);
@@ -48,6 +49,8 @@ const AppIndex = () => {
       }, (e) => {console.log(e)});
     
     setInitialized(true);
+
+    SplashScreen.hide();
   };
 
   const logOut = useCallback(async () => {
