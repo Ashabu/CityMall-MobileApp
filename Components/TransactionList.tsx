@@ -20,7 +20,7 @@ const TransactionList = (props: any) => {
                     <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{props.item?.merchantName}</Text>
                 </View>
             </View>
-            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.red : Colors.successGreen}]}>{props.item?.amount}</Text>
+            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.red : Colors.successGreen}]}>{props.item?.points}</Text>
         </View> 
     )
 };
