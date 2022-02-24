@@ -283,10 +283,12 @@ const ScreenTwo: React.FC = (props: any) => {
                     {birthDateError ?
                         <Text style={styles.errorText}>{state?.t('infoText.validate')}</Text>
                         : null}
-                    <View>
+                    <View style={{marginTop: 10, height: 60, width: 317}}>
                         <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder={state?.t('screens.selectD')} />
-                        {selectedDistrict === state?.t('screens.other') &&
-                             <View style={{marginTop: 10}}>
+                        
+                    </View>
+                    {selectedDistrict === state?.t('screens.other') &&
+                             <View>
                             <AppInput
                                 placeholder={state?.t('screens.livingPlace')}
                                 value={district}
@@ -300,8 +302,7 @@ const ScreenTwo: React.FC = (props: any) => {
                             />
                             </View>
                         }
-                    </View>
-                    <View style={{marginTop: 10}}>
+                    <View>
                         <AppInput
                             placeholder={state?.t('labels.email')}
                             value={email}
@@ -325,7 +326,7 @@ const ScreenTwo: React.FC = (props: any) => {
                                     disabled={email.length > 0 && !emailError ? false : true} />
                                 <View style={styles.mailVerificationTextWrap}>
                                     <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailText')}</Text>
-                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailGiftText')}         </Text>
+                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailGiftText')}</Text>
                                 </View>
                             </View>
                             {verifyEmail ?
@@ -554,7 +555,8 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 14,
         paddingVertical: 12,
+        paddingHorizontal: 10
     },
-
+    
 
 });

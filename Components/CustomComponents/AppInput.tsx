@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 14,
         paddingVertical: 12,
+        paddingHorizontal: 10
     },
     errorText: {
         color: Colors.red,

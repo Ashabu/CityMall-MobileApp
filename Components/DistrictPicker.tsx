@@ -62,7 +62,10 @@ const DistrictPicker = (props: any) => {
                 {selectedValue ?
                     <Text style={[styles.itemText, {color: isDarkTheme ? Colors.white : Colors.black}]}>{selectedValue.trim()}</Text>
                     :
-                    <Text style={[styles.itemText, { color: isDarkTheme ? Colors.white : Colors.black}]}>{props.placeholder}</Text>
+              
+                        <Text style={[styles.itemText, { color: isDarkTheme ? Colors.white : Colors.black}]}>{props.placeholder}</Text>
+    
+                    
                 }
             </TouchableOpacity>
         </>
@@ -102,11 +105,12 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         paddingHorizontal: 10,
         borderBottomWidth: 1,
-        marginRight: 5
+        marginRight: 5,
+    
     },
 
     itemText: {
-       
+    
     },
 
     infoText: {
