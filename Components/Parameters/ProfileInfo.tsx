@@ -1,6 +1,14 @@
-import React, {useContext, useEffect} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
@@ -12,6 +20,7 @@ import AppLayout from '../AppLayout';
 import UserInfoView from '../CustomComponents/UserInfoView';
 import Layout from '../Layouts/Layout';
 import translateService from '../../Services/translateService';
+import AppInput from '../CustomComponents/AppInput';
 
 const ProfileInfo = () => {
   const {width} = useDimension();
@@ -19,19 +28,117 @@ const ProfileInfo = () => {
   const {isDarkTheme, clientDetails} = state;
 
   const handleGetClientCards = () => {
-    ApiServices.GetClientCards().then(res => {
+    ApiServices.GetClientCards()
+      .then(res => {
         setGlobalState({cardDetails: res.data});
-    })
-        .catch(_ => {
-           
-        });
-};
+        setGlobalState({ clientDetails: res.data });
+      })
+      .catch(_ => {});
+  };
 
-useEffect(() => {
-  handleGetClientCards();
-}, [])
+  useEffect(() => {
+    handleGetClientCards();
+  }, []);
 
-  console.log('clientDetails ==>', clientDetails)
+  const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>(clientDetails?.[0]?.email);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
+  const [emailVerificationCode, setEmailVerificationCode] =
+    useState<string>('');
+  const [verifyEmailError, setVerifyEmailError] = useState<boolean>(false);
+  const [isValidMailOtp, setIsValidMailOtp] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<string>('');
+  const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
+  const [buttonLoading, setButtonLoading] = useState<boolean>(false);
+  const [isloading, setIsloading] = useState<boolean>(false);
+
+  const toggleSwitch = () => {
+    setEmailVerificationCode('');
+    setVerifyEmailError(false);
+    setIsValidMailOtp(false);
+    setVerifyEmail(!verifyEmail);
+  };
+
+  const validateInputs = (actionType: string, inputName: string) => {
+    if (actionType === 'add') {
+      let errorArray = [...errorMessages];
+      errorArray.push(inputName);
+      let uniqueNames = [...new Set(errorArray)];
+      setErrorMessages(prevState => {
+        return [...prevState, ...uniqueNames];
+      });
+    } else {
+      let errorArray = errorMessages.filter(e => e !== inputName);
+      setErrorMessages(errorArray);
+    }
+  };
+
+  const handleCheckMailOtp = () => {
+    setVerifyEmailLoading(true);
+    setVerifyEmailError(false);
+    let data = {
+      email: email,
+      otp: emailVerificationCode,
+    };
+    console.log(data);
+    ApiServices.CheckMailOtp(data)
+      .then((res: any) => {
+        if (res.status === 200) setVerifyEmailLoading(false);
+        setVerifyEmailError(false);
+        setIsValidMailOtp(true);
+      })
+      .catch(e => {
+        setVerifyEmailLoading(false);
+        setVerifyEmailError(true);
+        setIsValidMailOtp(false);
+        console.log(JSON.parse(JSON.stringify(e.response)).data);
+      });
+  };
+
+  const submitMailOtp = () => {
+    if (isloading || !emailVerificationCode) return;
+    setIsloading(true);
+    let data = {
+      email: email,
+      otp: emailVerificationCode,
+      personCode: clientDetails![0]?.personCode,
+    };
+    console.log('###########################', data);
+    ApiServices.SubmitMailOtp(data)
+      .then((res: any) => {
+        console.log('===========================', res.data);
+        setIsloading(false);
+        navigate('EmailChanged');
+      })
+      .catch(e => {
+        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', e.response);
+        setIsloading(false);
+      });
+  };
+
+  const handleSendMailOtp = () => {
+    setButtonLoading(true);
+    let data = {
+      mail: email,
+    };
+    ApiServices.SendMailOtp(data)
+      .then((res: any) => {
+        setButtonLoading(false);
+      })
+      .catch((e: any) => {
+        setButtonLoading(false);
+        console.log(JSON.parse(JSON.stringify(e.response)).data.error);
+      });
+  };
+
+  useEffect(() => {
+    if (verifyEmail) {
+      handleSendMailOtp();
+    }
+  }, [verifyEmail]);
+
+  console.log('clientDetails ==>', clientDetails);
 
   return (
     <Layout
@@ -81,18 +188,130 @@ useEffect(() => {
               label={state?.t('labels.birthday')}
               identification={formatDate(clientDetails?.[0]?.birthDate)}
             />
-            <UserInfoView
-              label={state?.t('labels.email')}
-              identification={clientDetails?.[0]?.email}
-            />
+
+            {clientDetails !== undefined &&
+            clientDetails![0]?.emailConfirmed ? (
+              <UserInfoView
+                label={state?.t('labels.email')}
+                identification={clientDetails?.[0]?.email}
+              />
+            ) : (
+              <>
+                <View style={{top: 17, padding: 15, paddingHorizontal: 10}}>
+                  <View style={{paddingHorizontal: 15}}>
+                    <Text style={styles.label}>{state?.t('labels.email')}</Text>
+                  </View>
+                  <AppInput
+                    style={{
+                      color: Colors.white,
+                      paddingHorizontal: 15,
+                    }}
+                    editable={false}
+                    placeholder={state?.t('labels.email')}
+                    value={email}
+                    name="email"
+                    keyboardType="email-address"
+                    hasError={hasError}
+                    addValidation={validateInputs}
+                    errors={errorMessages}
+                    isRequired={false}
+                    validationRule="email"
+                    onChangeText={(val: string) => setEmail(val)}
+                  />
+                </View>
+                <View style={styles.mailVerification}>
+                  <View
+                    style={{flexDirection: 'row', alignItems: 'flex-start'}}>
+                    <Switch
+                      trackColor={{false: '#767577', true: '#28AD25'}}
+                      thumbColor={Colors.white}
+                      ios_backgroundColor="#3e3e3e"
+                      onValueChange={toggleSwitch}
+                      value={verifyEmail}
+                      disabled={email.length > 0 && !emailError ? false : true}
+                    />
+                    <View style={styles.mailVerificationTextWrap}>
+                      <Text
+                        style={[
+                          styles.mailVerificationText,
+                          {color: isDarkTheme ? Colors.white : Colors.black},
+                        ]}>
+                        {state?.t('infoText.emailText')}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.mailVerificationSubtext,
+                          {color: isDarkTheme ? Colors.white : Colors.black},
+                        ]}>
+                        {state?.t('infoText.emailGiftText')}{' '}
+                      </Text>
+                    </View>
+                  </View>
+                  {verifyEmail ? (
+                    <View style={{position: 'relative', marginTop: 20}}>
+                      <AppInput
+                        placeholder={state?.t('screens.veripicationCode')}
+                        value={emailVerificationCode}
+                        name="mailOtp"
+                        hasError={hasError}
+                        addValidation={validateInputs}
+                        errors={errorMessages}
+                        isRequired={true}
+                        validationRule="required"
+                        keyboardType="number-pad"
+                        maxLength={6}
+                        onChangeText={(val: string) =>
+                          setEmailVerificationCode(val)
+                        }
+                      />
+                      {verifyEmailError ? (
+                        <Text style={styles.errorText}>
+                          {state?.t('infoText.codeIncorrect')}
+                        </Text>
+                      ) : null}
+                      <TouchableOpacity
+                        onPress={handleCheckMailOtp}
+                        style={{position: 'absolute', right: 5, top: 25}}>
+                        {verifyEmailLoading ? (
+                          <ActivityIndicator
+                            animating={verifyEmailLoading}
+                            color={Colors.white}
+                          />
+                        ) : !isValidMailOtp ? (
+                          <Text
+                            style={{
+                              color: isDarkTheme ? Colors.white : Colors.black,
+                            }}>
+                            {state?.t('screens.check')}
+                          </Text>
+                        ) : (
+                          <Image
+                            source={require('./../../assets/images/green-checkmark.png')}
+                            style={{width: 20, height: 14}}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  ) : null}
+                </View>
+              </>
+            )}
           </View>
-          {/* <View style={styles.btnView}>
-        <TouchableOpacity
-          style={styles.btnStyle}
-          onPress={() => navigate('EmailChanged')}>
-          <Text style={styles.btnText}>ცვლილება</Text>
-        </TouchableOpacity>
-        </View> */}
+          {clientDetails !== undefined &&
+            !clientDetails![0]?.emailConfirmed &&
+          <View style={styles.btnView}>
+            <TouchableOpacity
+              style={styles.btnStyle}
+              onPress={() => {
+                if (!isloading) submitMailOtp();
+              }}>
+              {!isloading ? (
+                <Text style={styles.btnText}>ცვლილება</Text>
+              ) : (
+                <ActivityIndicator size={'small'} color={'#fff'} />
+              )}
+            </TouchableOpacity>
+          </View>}
         </View>
       </ScrollView>
     </Layout>
@@ -116,7 +335,40 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   btnView: {
-    top: 100,
+    marginTop: 50,
+  },
+  mailVerification: {
+    width: '100%',
+    marginVertical: 20,
+  },
+
+  mailVerificationTextWrap: {
+    width: '80%',
+    marginLeft: 5,
+  },
+
+  mailVerificationText: {
+    fontFamily: 'HMpangram-Medium',
+    fontSize: 14,
+    lineHeight: 14,
+  },
+
+  mailVerificationSubtext: {
+    fontFamily: 'HMpangram-Medium',
+    fontSize: 10,
+    lineHeight: 14,
+  },
+  errorText: {
+    color: Colors.red,
+    fontSize: 11,
+    fontFamily: 'HMpangram-Medium',
+  },
+  label: {
+    color: Colors.txtGrey,
+    fontSize: 10,
+    fontWeight: '700',
+    fontFamily: 'HM pangram',
+    lineHeight: 17,
   },
 });
 
