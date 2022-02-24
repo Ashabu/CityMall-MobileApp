@@ -14,7 +14,7 @@ export interface RoadMap{
 export default [
     {
         id: 1,
-        name: 'ქალაქის რუკა',
+        name: 'screens.cityMap',
         lightIcon:  require('../assets/images/bigArrow.png'),
         darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: <></>,
@@ -22,7 +22,7 @@ export default [
     },
     {
         id: 2,
-        name: 'სართულის გეგმა',
+        name: 'screens.floorPlan',
         lightIcon:  require('../assets/images/bigArrow.png'),
         darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: <></>,
@@ -30,7 +30,7 @@ export default [
     },
     {
         id: 3,
-        name: 'სამუშაო საათები & კონტაქტი',
+        name: 'screens.workAndContact',
         lightIcon:  require('../assets/images/bigArrow.png'),
         darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: WorkingHours
@@ -38,7 +38,7 @@ export default [
     },
     {
         id: 4,
-        name: 'როგორ მოხვიდე?',
+        name: 'screens.howCome',
         lightIcon:  require('../assets/images/bigArrow.png'),
         darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: HowCome
