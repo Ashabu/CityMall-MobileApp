@@ -147,6 +147,7 @@ const AppIndex = () => {
             resizeMode={'cover'}
             style={styles.video}
           />
+          <View style={styles.header} />
         </View>
       </Modal>
       <StatusBar backgroundColor={isDarkTheme ? Colors.black : Colors.white} barStyle={isDarkTheme ? 'light-content' : 'dark-content'} />
@@ -160,7 +161,16 @@ export default AppIndex;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.black, 
-    flex: 1
+    flex: 1,
+    position: 'relative'
+  },
+  header: {
+    height: 50,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: Colors.black
   },
   video: {
     flex: 1,
