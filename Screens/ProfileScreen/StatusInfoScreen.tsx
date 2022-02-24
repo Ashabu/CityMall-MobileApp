@@ -53,7 +53,7 @@ const StatusInfoScreen = () => {
 
   return (
     <AppLayout>
-      <ScrollView>
+      <ScrollView style={{backgroundColor: isDarkTheme ? Colors.black : Colors.white}}>
         <View style={[bgThemeColor, styles.main]}>
           <View style={{marginBottom: 40}}>
             <Text style={[styles.titleText, textThemeColor]}>{state?.t('screens.statusbar')}</Text>
