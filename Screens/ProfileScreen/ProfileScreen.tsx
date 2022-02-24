@@ -261,7 +261,7 @@ const ProfileScreen = () => {
           </View>
           <View>
             <Text style={styles.balanceWrapTitle}>{state?.t('screens.cityPoint')}</Text>
-            <Text style={styles.balanceWrapAmount}>
+            <Text style={[styles.balanceWrapAmount,isDarkTheme ? {color: Colors.white} : {color: Colors.black}]}>
               {formatNumber(clientInfo.points)}
             </Text>
           </View>
