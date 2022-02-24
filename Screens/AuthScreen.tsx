@@ -18,6 +18,7 @@ import {setItem, getItem} from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 import { navigate } from '../Services/NavigationServices';
+import ApiServices from '../Services/ApiServices';
 
 
 const AuthScreen = () => {
@@ -37,6 +38,7 @@ const AuthScreen = () => {
   const [otpError, setOtpError] = useState<boolean>(false);
   const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
   const [agreedTermsError, setAgreedTermsError] = useState<boolean>(false);
+  const [fullPath, setfullPath] = useState('');
 
   useEffect(() => {
     getItem('hasAgreedTerms').then(value => {
@@ -188,6 +190,15 @@ const AuthScreen = () => {
       });
   };
 
+  useEffect(() => {
+    ApiServices.GetAgerements().then(res => {
+      let files = res.data;
+      if(files?.length) {
+        setfullPath(files[0]?.fullPath);
+      }
+    })
+  }, [])
+
   return (
     <Layout pageName={state.t('common.cityMall')} >
       
@@ -267,7 +278,7 @@ const AuthScreen = () => {
                   onChange={toggleAgreedTerms}
                   hasError={agreedTermsError}
                 />
-                <TouchableOpacity onPress={() => navigate('DocView', { docUrl: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'})}>
+                <TouchableOpacity onPress={() => navigate('DocView', { docUrl: fullPath})}>
                 <Text
                   style={[
                     styles.agreeTermsText,
