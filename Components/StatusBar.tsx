@@ -40,12 +40,14 @@ const data = {
 };
 
 const ProgressCircle = ({
+  hide,
   title,
   desc,
   visible,
   index,
   onBlur,
 }: {
+  hide?: boolean;
   title: string;
   desc: string;
   visible: boolean;
@@ -54,6 +56,8 @@ const ProgressCircle = ({
 }) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+
+if(hide) return null;
 
   return (
     <View style={{position: 'relative'}}>
@@ -376,6 +380,7 @@ const StatusBar = (props: any) => {
             width: '45%',
           }}>
           <ProgressCircle
+            hide={props.hide}
             index={0}
             visible={visible1}
             onBlur={() =>
@@ -388,6 +393,7 @@ const StatusBar = (props: any) => {
             } ${state?.t('common.point')}`}
           />
           <ProgressCircle
+            hide={props.hide}
             index={1}
             visible={visible2}
             onBlur={() =>
@@ -407,6 +413,7 @@ const StatusBar = (props: any) => {
             width: '40%',
           }}>
           <ProgressCircle
+            hide={props.hide}
             index={2}
             visible={visible3}
             onBlur={() =>
@@ -419,6 +426,7 @@ const StatusBar = (props: any) => {
             } ${state?.t('common.point')}`}
           />
           <ProgressCircle
+            hide={props.hide}
             index={3}
             visible={visible4}
             onBlur={() =>

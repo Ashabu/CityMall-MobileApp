@@ -24,7 +24,7 @@ const StatusInfoScreen = () => {
         <View style={[bgThemeColor, styles.main]}>
           <View style={{marginBottom: 40}}>
             <Text style={[styles.titleText, textThemeColor]}>{state?.t('screens.statusbar')}</Text>
-            <StatusBar />
+            <StatusBar hide={true} />
           </View>
           <View style={{marginBottom: 40}}>
             <Text style={[styles.titleText, textThemeColor]}>
