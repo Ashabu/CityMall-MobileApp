@@ -266,7 +266,7 @@ const ScreenTwo: React.FC = (props: any) => {
 
 
     return (
-        <Layout hasBackArrow={true} onPressBack={() => {
+        <Layout pageName={state?.t('common.cityMall')} hasBackArrow={true} onPressBack={() => {
             GoBack();
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
