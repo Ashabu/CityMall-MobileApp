@@ -68,7 +68,7 @@ const ProfileScreen = () => {
     getClientData();
    // getClientTransactions();
     getPersonalOffers(pagPage, true);
-  }, []);
+  }, [translateService.lang]);
 
   const toggleSwitch = () => {
     setIsMoneyTransaction(!isMoneyTransaction);

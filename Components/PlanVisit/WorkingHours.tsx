@@ -15,6 +15,15 @@ import translateService from '../../Services/translateService';
 const WorkingHours = ({data, routeId}: any) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+  let hour0 = '', hour1 = '', addr0 = '', addr1 = '';
+  try {
+    addr0 = data[0]['address'];
+    addr1 = data[1]['address'];
+    hour0 = data[0]['working-hours'];
+    hour1 = data[1]['working-hours'];
+  } catch(_) {
+
+  }
   if (!data.length)
     return (
       <ActivityIndicator style={{alignSelf: 'flex-start'}} color={'#ffffff'} />
@@ -34,7 +43,7 @@ const WorkingHours = ({data, routeId}: any) => {
                 styles.subTxt,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {data[1]['address']}{' '}
+              {addr1}{' '}
             </Text>
           </Text>
           <Text
@@ -48,7 +57,7 @@ const WorkingHours = ({data, routeId}: any) => {
                 styles.subTxt,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {data[1]['working-hours']}{' '}
+              {hour1}{' '}
             </Text>
           </Text>
         </>
@@ -65,7 +74,7 @@ const WorkingHours = ({data, routeId}: any) => {
                 styles.subTxt,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {data[0]['address']}{' '}
+              {addr0}{' '}
             </Text>
           </Text>
           <Text
@@ -79,7 +88,7 @@ const WorkingHours = ({data, routeId}: any) => {
                 styles.subTxt,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              {data[0]['working-hours']}{' '}
+              {hour0}{' '}
             </Text>
           </Text>
         </>
