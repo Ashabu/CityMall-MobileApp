@@ -39,8 +39,10 @@ const AboutUs = ({strings}: {strings: any[]}) => {
 
   try {
     if (strings?.length) {
-      if (contentData?.length >= 0) {
+      if (contentData?.length >= 1) {
         addr = contentData[1].address;
+      }
+      if (contentData?.length >= 0) {
         addr1 = contentData[0].address;
       }
     }

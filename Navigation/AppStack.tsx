@@ -307,6 +307,13 @@ const AppStack:React.FC<IProps> = ({init}) => {
                         headerShown: false,
                     }}
                 />
+                <Stack.Screen
+                    name='DocView'
+                    component={DocView}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
                 </>)}
             </Stack.Navigator>
         </NavigationContainer>

@@ -17,7 +17,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
 
   try {
     if (strings?.length) {
-      const index = strings.findIndex((s: any) => s.type == 1);
+      const index = strings?.findIndex((s: any) => s?.type == 1);
       if (index >= 0) {
         str = strings[index].text;
       }
@@ -50,7 +50,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
           </Text>
         </View>
         {
-          clientDetails.length > 0 ?
+          clientDetails?.length > 0 ?
             null
             :
             <View>
