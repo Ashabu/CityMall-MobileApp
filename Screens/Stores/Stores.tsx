@@ -56,7 +56,7 @@ const Stores: React.FC = () => {
 
   const carouselRef = createRef<ScrollView>();
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, objectTypeId, subCategoryArray, categoryArray} = state;
 
   const itemChunk = 4;
@@ -71,7 +71,7 @@ const Stores: React.FC = () => {
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     handleGetMainCategories();
@@ -216,6 +216,11 @@ const Stores: React.FC = () => {
   const animatedIsCollapsed = useRef(
     new Animated.Value(isFilterCollapsed ? 1 : 0),
   );
+
+  useEffect(() => {
+    setGlobalState({ categoryArray: [] });
+    setGlobalState({ subCategoryArray: [] });
+  }, []);
 
   useEffect(() => {
     Animated.timing(animatedIsCollapsed.current, {

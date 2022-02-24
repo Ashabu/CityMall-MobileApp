@@ -95,7 +95,7 @@ export default {
         quantity: 'quantity',
         workAndContact: 'business hours & contact info',
         howCome: 'directions?',
-        room: 'office',
+        room: 'Private Space',
         statusbar: 'status bar',
         myOffers: 'my offers',
         pointsOption: ' spending points',
