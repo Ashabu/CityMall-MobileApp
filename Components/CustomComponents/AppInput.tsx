@@ -28,6 +28,7 @@ interface IAppInput {
     errorMessage?: string,
     keyboardTpe?: string
     ignoreBorder?:boolean
+    editable?: boolean
 }
 
 

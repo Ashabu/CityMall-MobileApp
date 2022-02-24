@@ -14,7 +14,7 @@ const EmailChanged = () => {
   const {isDarkTheme} = state;
 
   return (
-    <Layout hasBackArrow pageName={state?.t('screens.giftCard')} onPressBack={GoBack}>
+    <Layout pageName={state?.t('screens.giftCard')} >
       <View
         style={{
           flexGrow: 1,
@@ -32,7 +32,7 @@ const EmailChanged = () => {
         </View>
 
         <View style={{flex: 1}}>
-          <TouchableOpacity style={styles.btnStyle} onPress={() => {}}>
+          <TouchableOpacity style={styles.btnStyle} onPress={() => {navigate('HomeScreen')}}>
             <Text style={styles.btnText}>{state?.t('common.close')}</Text>
           </TouchableOpacity>
         </View>

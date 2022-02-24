@@ -65,11 +65,12 @@ const AppIndex = () => {
     SplashScreen.hide();
   };
 
-  const logOut = useCallback(async () => {
+  const logOut = async () => {
     await AuthService.SignOut();
     setUserToken('');
-    setGlobalState({isUserAuthorized: false});
-  }, [userToken]);
+    setGlobalState({isAuthenticated: false});
+    console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+  };
 
   useEffect(() => {
     //console.log('Developer <--Avtandil Shaburishvili, 08.04.2021--> ')
@@ -114,7 +115,7 @@ const AppIndex = () => {
   useEffect(() => {
     AxiosInterceptor.current = [
       RegisterCommonInterceptor(),
-      AuthService.registerAuthInterceptor(async () => await logOut()),
+      AuthService.registerAuthInterceptor(logOut),
     ];
     return () => {
       AxiosInterceptor.current.forEach(sub => sub.unsubscribe());

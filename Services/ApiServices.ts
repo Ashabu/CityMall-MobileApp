@@ -63,6 +63,12 @@ interface ICheckMailOtpRequest {
     otp: string
 }
 
+interface ISubitMailOtpRequest {
+    email: string,
+    personCode: string,
+    otp: string
+}
+
 interface IAddVirtualCardRequest {
     personCode: string,
     birthDate: string | Date,
@@ -136,6 +142,10 @@ class ApiServices {
 
     CheckMailOtp = async (data: ICheckMailOtpRequest) => {
         return await axios.post(`${envs.API_URL}/api/Otp/CheckMailOtp`, data);
+    };
+
+    SubmitMailOtp = async (data: ISubitMailOtpRequest) => {
+        return await axios.post(`${envs.API_URL}/api/Otp/SubmitMailOtp`, data);
     };
 
     AddVirtualCard = async (data: IAddVirtualCardRequest) => {
