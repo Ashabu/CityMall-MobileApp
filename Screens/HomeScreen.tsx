@@ -36,7 +36,7 @@ const HomeScreen = () => {
         handleGetClientCards();
         getClientData();
         // getObjectTypes();
-    }, [state.lang]);
+    }, [translateService.lang]);
 
     useEffect(() => {
         handleSetOffers();
@@ -93,6 +93,7 @@ const HomeScreen = () => {
     };
 
     const handleSetOffers = () => {
+        setOffersView([]);
         if (offers !== undefined) {
             for (let i = 4; i < offers!.length + 4; i += 4) {
                 const renderElement =
@@ -118,7 +119,7 @@ const HomeScreen = () => {
                 let tempOffers = res.data.data;
                 if (tempOffers.length < 16) {
                     isEndFetching = true;
-                }
+                }console.log('modis/////////////////////////////////////', res.data.data)
                 if(renew) {
                     setOffers(tempOffers);
                 } else {
@@ -138,6 +139,9 @@ const HomeScreen = () => {
     const getClientData = () => {
         ApiServices.GetClientInfo()
           .then(res => {
+              setOffers([]);
+              setPagPage(1);
+              setOffersStep(0);
             setClientInfo(res.data);
             getOffers(pagPage, true);
           })
@@ -146,7 +150,7 @@ const HomeScreen = () => {
           });
       };
 
-console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
+console.log('>>>>>>>>>>>>>>>>', offers.length)
     return (
         <AppLayout pageTitle={state?.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
@@ -196,7 +200,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                         </View>
                         <View style={{ flex: 10, position: 'relative' }}>
                             <ScrollView contentContainerStyle={{ flexGrow: 1, flexDirection: "row" }} showsVerticalScrollIndicator={false}>
-                                <ScrollView
+                                {(offersView !== undefined && offersView?.length > 0) && <ScrollView
                                     pagingEnabled={true}
                                     contentContainerStyle={{ flexDirection: 'row' }}
                                     showsHorizontalScrollIndicator={false}
@@ -210,7 +214,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                                         </View>
                                     ))}
                                     
-                                </ScrollView>
+                                </ScrollView>}
                             </ScrollView> 
                             {isLoading && <ActivityIndicator color={'#fff'} style={{alignSelf: 'center', position: 'absolute', top: '50%', transform:[{translateY: -50}]}} />}
                         </View>

@@ -119,7 +119,7 @@ export default {
         registrationText:
           'please complete registration to be eligible for Loyalty program',
         addressCityMall:
-          'City Mall Saburtalo, {q1} City Mall Gldani}, {q2}',
+          'City Mall Saburtalo, {q1} City Mall Gldani, {q2}',
         loialtyText:
           ' Order a City Mall loyalty card for you or your loved ones -  freedom of choice is the best gift ever.',
         citizenText: 'foreign citizen',

@@ -38,7 +38,7 @@ export const AppState: IAppState = {
     subCategoryArray: [],
     objectTypeId: undefined,
     translates: {},
-    lang: default_lang_key,
+    lang: 'ka-GE',
     t: function(key: string) {
         let keys = key.split('.');
         let store = null;

@@ -15,7 +15,7 @@ export interface ToggleList{
 export default [
     {
         id: 1,
-        name: 'ლოკაცია',
+        name: 'common.location',
         iconLight:  require('../assets/images/arrow-sm.png'),
         iconDark: require('../assets/images/arrow-black.png'),
         content: LocationDropdown,
@@ -23,7 +23,7 @@ export default [
     },
     {
         id: 2,
-        name: 'რუქა',
+        name: 'common.map',
         icon:  require('../assets/images/arrow-sm.png'),
         iconLight:  require('../assets/images/arrow-sm.png'),
         iconDark: require('../assets/images/arrow-black.png'),
