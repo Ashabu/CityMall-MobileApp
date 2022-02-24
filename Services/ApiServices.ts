@@ -169,8 +169,12 @@ class ApiServices {
         return await axios.get<IClientInfo>(`${envs.API_URL}/api/Mobile/ClientInfo`);
     }
 
-    GetClientTransactions = async (index: number = 1, PageSize: number = 10) => {
-        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`);
+    GetClientTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
+        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`, {
+            headers: {
+                theme: theme || ''
+            }
+        });
     }
 
     GetWidgets = async () => {

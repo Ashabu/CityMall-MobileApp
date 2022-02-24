@@ -91,7 +91,7 @@ const ProfileScreen = () => {
       setRenewing(false);
     }
     if(stopFetching) return;
-    ApiServices.GetClientTransactions(rowIndex, rowCount)
+    ApiServices.GetClientTransactions(rowIndex, rowCount, isDarkTheme ? 'dark' : 'light')
       .then(res => {
         if(renew) {
           setClientTransactions(res.data.data!);
@@ -205,7 +205,7 @@ const ProfileScreen = () => {
     if(!renewing) {
       getClientTransactions();
     }
-  }, [rowIndex]);
+  }, [rowIndex, isDarkTheme]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (stopFetching) return;
