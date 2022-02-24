@@ -15,6 +15,7 @@ import DrawerItems from '../../Constants/DrawerItems';
 import {AppContext} from '../../AppContext/AppContext';
 import AuthService from '../../Services/AuthService';
 import translateService from '../../Services/translateService';
+import { default_lang_key } from '../../lang';
 
 const BurgerMenu = () => {
   const {state, setGlobalState} = useContext(AppContext);
@@ -28,7 +29,7 @@ const BurgerMenu = () => {
       ]}>
       <View style={styles.burgerMenuHeader}>
         <Image
-       source={isDarkTheme? require('../../assets/images/city-mall-title.png') :require('../../assets/images/cityMallBlak.png') }
+       source={isDarkTheme ? (translateService.lang === default_lang_key ? require('../../assets/images/city-mall-title.png') : require('../../assets/images/cityMallBlakEn.png')) : (translateService.lang === default_lang_key ? require('../../assets/images/cityMallBlak.png') : require('../../assets/images/cityMallBlakEnDark.png')) }
           
           style={{width: 135, height: 17}}
         />
