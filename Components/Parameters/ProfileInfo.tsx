@@ -320,7 +320,7 @@ const ProfileInfo = () => {
                 if (!isloading) submitMailOtp();
               }}>
               {!isloading ? (
-                <Text style={styles.btnText}>ცვლილება</Text>
+                <Text style={styles.btnText}>{state?.t('screens.change')}</Text>
               ) : (
                 <ActivityIndicator size={'small'} color={'#fff'} />
               )}

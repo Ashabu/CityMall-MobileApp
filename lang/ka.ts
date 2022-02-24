@@ -106,6 +106,7 @@ export default {
     transactions :'ტრანზაქციები',
     selectDate: 'აირჩიეთ თარიღი',
     cancel: 'გაუქმება',
+    change: 'ცვლილება'
   
     
 
