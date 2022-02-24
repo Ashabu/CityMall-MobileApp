@@ -52,6 +52,7 @@ const ProfileInfo = () => {
   const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
   const [buttonLoading, setButtonLoading] = useState<boolean>(false);
   const [isloading, setIsloading] = useState<boolean>(false);
+  const [resError, setResError] = useState<string>('');
 
   const toggleSwitch = () => {
     setEmailVerificationCode('');
@@ -98,6 +99,7 @@ const ProfileInfo = () => {
 
   const submitMailOtp = () => {
     if (isloading || !emailVerificationCode) return;
+    setResError('');
     setIsloading(true);
     let data = {
       email: email,
@@ -113,12 +115,19 @@ const ProfileInfo = () => {
       })
       .catch(e => {
         console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', e.response);
+        let error = '';
+        try {
+          error = JSON.parse(JSON.stringify(e.response)).data.error;
+        } catch(_) {
+          setResError(error);
+        }
         setIsloading(false);
       });
   };
 
   const handleSendMailOtp = () => {
     setButtonLoading(true);
+    setResError('');
     let data = {
       mail: email,
     };
@@ -297,9 +306,11 @@ const ProfileInfo = () => {
               </>
             )}
           </View>
+       
           {clientDetails !== undefined &&
             !clientDetails![0]?.emailConfirmed &&
           <View style={styles.btnView}>
+            {resError?.length > 0 && <Text style={{color: Colors.red, fontSize: 10, marginLeft: 25, top: -5}}>{resError}</Text>}
             <TouchableOpacity
               style={styles.btnStyle}
               onPress={() => {
