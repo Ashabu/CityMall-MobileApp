@@ -169,7 +169,7 @@ console.log('>>>>>>>>>>>>>>>>', state?.t('screens.home'))
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {state?.t('screens.deposit')}
                         </Text>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.ballance)}₾</Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.ballance || 0)}₾</Text>
                     </View>
 
                     <View style={[styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
