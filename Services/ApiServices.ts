@@ -126,6 +126,12 @@ interface IClientTransactionResponse {
   data?:IClientTransaction[]
 }
 
+interface IGetAgreementItem {  
+    fileName: string,
+    fullPath: string,
+    type: number   
+}
+
 
 class ApiServices {
     GetClientCards = async () => {
@@ -175,6 +181,10 @@ class ApiServices {
                 theme: theme || ''
             }
         });
+    }
+
+    GetAgerements = async () => {
+        return await axios.get<IGetAgreementItem[]>(`${envs.API_URL}/api/File/GetAgerements`);
     }
 
     GetWidgets = async () => {

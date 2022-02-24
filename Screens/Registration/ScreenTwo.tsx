@@ -68,7 +68,8 @@ const ScreenTwo: React.FC = (props: any) => {
     const [isValidMailOtp, setIsValidMailOtp] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
     const [generalError, setGeneralError] = useState<string>('');
-    const [open, setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false);
+    const [fullPath, setfullPath] = useState('');
 
     useEffect(() => {
         GetDistricts();
@@ -263,7 +264,14 @@ const ScreenTwo: React.FC = (props: any) => {
     />
     }, [open])
 
-
+    useEffect(() => {
+        ApiServices.GetAgerements().then(res => {
+          let files = res.data;
+          if(files?.length) {
+            setfullPath(files[1]?.fullPath);
+          }
+        })
+      }, [])
 
     return (
         <Layout pageName={state?.t('common.cityMall')} hasBackArrow={true} onPressBack={() => {
@@ -370,7 +378,7 @@ const ScreenTwo: React.FC = (props: any) => {
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <TouchableOpacity onPress={() => navigate('DocView', { docUrl: 'http://samples.leanpub.com/thereactnativebook-sample.pdf'})}>
+                            <TouchableOpacity onPress={() => navigate('DocView', { docUrl: fullPath})}>
                                 <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.agreement')}</Text>
                             </TouchableOpacity>
                         </View>
