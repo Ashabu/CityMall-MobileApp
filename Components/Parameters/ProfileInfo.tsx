@@ -198,8 +198,10 @@ const ProfileInfo = () => {
               identification={formatDate(clientDetails?.[0]?.birthDate)}
             />
 
-            {clientDetails !== undefined &&
-            clientDetails![0]?.emailConfirmed ? (
+            {
+            clientDetails !== undefined &&
+            clientDetails![0]?.emailConfirmed
+             ? (
               <UserInfoView
                 label={state?.t('labels.email')}
                 identification={clientDetails?.[0]?.email}
@@ -212,7 +214,7 @@ const ProfileInfo = () => {
                   </View>
                   <AppInput
                     style={{
-                      color: Colors.white,
+                      color: isDarkTheme ? Colors.white : Colors.black,
                       paddingHorizontal: 15,
                     }}
                     editable={false}
@@ -307,7 +309,8 @@ const ProfileInfo = () => {
             )}
           </View>
        
-          {clientDetails !== undefined &&
+          {
+          clientDetails !== undefined &&
             !clientDetails![0]?.emailConfirmed &&
           <View style={styles.btnView}>
             {resError?.length > 0 && <Text style={{color: Colors.red, fontSize: 10, marginLeft: 25, top: -5}}>{resError}</Text>}
