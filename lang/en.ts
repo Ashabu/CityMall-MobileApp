@@ -102,6 +102,7 @@ export default {
         transactions :'transactions',
         selectDate: 'select date',
         cancel: 'cancel',
+        change: 'change'
     },
     infoText: {
         userExist: 'user already exists',
