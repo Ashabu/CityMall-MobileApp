@@ -206,7 +206,7 @@ const ProfileInfo = () => {
                 label={state?.t('labels.email')}
                 identification={clientDetails?.[0]?.email}
               />
-            ) : (
+            ) : (clientDetails![0]?.email &&
               <>
                 <View style={{top: 17, padding: 15, paddingHorizontal: 10}}>
                   <View style={{paddingHorizontal: 15}}>
@@ -239,7 +239,7 @@ const ProfileInfo = () => {
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch}
                       value={verifyEmail}
-                      disabled={email.length > 0 && !emailError ? false : true}
+                      disabled={email?.length > 0 && !emailError ? false : true}
                     />
                     <View style={styles.mailVerificationTextWrap}>
                       <Text
@@ -312,6 +312,7 @@ const ProfileInfo = () => {
           {
           clientDetails !== undefined &&
             !clientDetails![0]?.emailConfirmed &&
+            clientDetails![0]?.email &&
           <View style={styles.btnView}>
             {resError?.length > 0 && <Text style={{color: Colors.red, fontSize: 10, marginLeft: 25, top: -5}}>{resError}</Text>}
             <TouchableOpacity

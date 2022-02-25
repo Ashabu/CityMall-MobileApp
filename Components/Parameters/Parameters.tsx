@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import {Image, StyleSheet, Text, View, Switch} from 'react-native';
+import {Image, StyleSheet, Text, View, Switch, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
@@ -23,10 +23,12 @@ const Parameters = () => {
   const lightUserIcon = require('../../assets/images/user.png');
   const darkUserIcon = require('../../assets/images/darkAvatar.png');
 
-  const getHash = () =>
+  const getHash = () => {
+    if(Platform.OS === 'ios') return;
   RNOtpVerify.getHash()
   .then(e => sethashsh(JSON.stringify(e)))
   .catch(console.log);
+  }
 
   const SwitchDarkTheme = () => {
     AsyncStorage.setItem('isDarkTheme', isDarkTheme ? '0' : '1').then(_ => {
