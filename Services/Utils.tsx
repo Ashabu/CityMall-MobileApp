@@ -29,9 +29,9 @@ export const formatDate = (dateString: string) => {
     let hour = dateObj.getHours();
     let newdate =
         ("0" + day).slice(-2) +
-        "." +
+        "-" +
         ("0" + month).slice(-2) +
-        "." +
+        "-" +
         year 
     return newdate;
 };

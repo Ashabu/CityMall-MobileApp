@@ -30,6 +30,7 @@ import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import { Colors } from '../../Colors/Colors';
 import { minusMonthFromDate } from '../../Utils/utils';
 import envs from './../../config/env';
+import { formatDate } from '../../Services/Utils';
 
 
 
@@ -180,16 +181,16 @@ const ScreenTwo: React.FC = (props: any) => {
 
     console.log('dateofbirth ==> ', dateOfBirth)
 
-    const formatDate = (date: Date) => { 
-        let dateArray: any[] = [];
-        if(Platform.OS === 'ios') {
-            dateArray = date.toLocaleDateString().split('.');
-        } else {
-            dateArray = date.toLocaleDateString().split('/');
-        }
+    // const formatDate = (date: Date) => { 
+    //     let dateArray: any[] = [];
+    //     if(Platform.OS === 'ios') {
+    //         dateArray = date.toLocaleDateString().split('.');
+    //     } else {
+    //         dateArray = date.toLocaleDateString().split('/');
+    //     }
         
-        return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
-    }
+    //     return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
+    // }
 
     const handleAddVirtualCard = () => {
         if (errorMessages.length > 0) {
@@ -291,7 +292,7 @@ const ScreenTwo: React.FC = (props: any) => {
                 <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth) : state?.t('labels.birthday')}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth?.toISOString()) : state?.t('labels.birthday')}</Text>
                     </TouchableOpacity>
                         {memoized}
                     </>
