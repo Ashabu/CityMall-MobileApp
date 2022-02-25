@@ -129,7 +129,7 @@ export default () => {
   } catch (e) {}
 
   try {
-    const i = floorsDetails[0].id;
+    const i = floorsDetails[0].title;
     floorIndexOnStart = i;
   } catch (e) {}
 
