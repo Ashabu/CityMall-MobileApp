@@ -70,6 +70,8 @@ const AppInput: React.FC<IAppInput> = (props) => {
 
 
     useEffect(() => {
+
+        
         if (validationRule === 'email' && value !== '') {
             let regex = /\S+@\S+\.\S+/;
             if (regex.test(value)) {
@@ -79,7 +81,10 @@ const AppInput: React.FC<IAppInput> = (props) => {
                 addValidation!('add', name);
                 setErrorMessage(validations[validationRule]);
             };
-        };
+    } else if (validationRule === 'email' && value === '') {
+        addValidation!('add', name);
+        setErrorMessage('');
+    }
     }, [value, validationRule]);
 
     useEffect(() => {

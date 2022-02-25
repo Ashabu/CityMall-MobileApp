@@ -41,7 +41,7 @@ const ProfileInfo = () => {
   }, []);
 
   const [verifyEmail, setVerifyEmail] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>(clientDetails?.[0]?.email);
+  const [email, setEmail] = useState<string>(clientDetails?.[0]?.email || '');
   const [hasError, setHasError] = useState<boolean>(false);
   const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
   const [emailVerificationCode, setEmailVerificationCode] =
@@ -82,7 +82,6 @@ const ProfileInfo = () => {
       email: email,
       otp: emailVerificationCode,
     };
-    console.log(data);
     ApiServices.CheckMailOtp(data)
       .then((res: any) => {
         if (res.status === 200) setVerifyEmailLoading(false);
@@ -106,15 +105,12 @@ const ProfileInfo = () => {
       otp: emailVerificationCode,
       personCode: clientDetails![0]?.personCode,
     };
-    console.log('###########################', data);
     ApiServices.SubmitMailOtp(data)
       .then((res: any) => {
-        console.log('===========================', res.data);
         setIsloading(false);
         navigate('EmailChanged');
       })
       .catch(e => {
-        console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@', e.response);
         let error = '';
         try {
           error = JSON.parse(JSON.stringify(e.response)).data.error;
@@ -147,7 +143,6 @@ const ProfileInfo = () => {
     }
   }, [verifyEmail]);
 
-  console.log('clientDetails ==>', clientDetails);
 
   return (
     <Layout
@@ -217,7 +212,7 @@ const ProfileInfo = () => {
                       color: isDarkTheme ? Colors.white : Colors.black,
                       paddingHorizontal: 15,
                     }}
-                    editable={false}
+                    editable={true}
                     placeholder={state?.t('labels.email')}
                     value={email}
                     name="email"
@@ -239,7 +234,7 @@ const ProfileInfo = () => {
                       ios_backgroundColor="#3e3e3e"
                       onValueChange={toggleSwitch}
                       value={verifyEmail}
-                      disabled={email?.length > 0 && !emailError ? false : true}
+                      disabled={email !== null && email.length > 0 && !emailError ? false : true}
                     />
                     <View style={styles.mailVerificationTextWrap}>
                       <Text
