@@ -194,7 +194,7 @@ const CategoryTypes: any = {
               styles.promotionsTitle,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {state?.t('common.offers') + '|' + CategoryTypes[routeParams.params.id]}
+            {state?.t('common.offers') + ' | ' + CategoryTypes[routeParams.params.id]}
           </Text>
           <PaginationDots length={chunkedData?.length} step={offersStep} />
         </View>
