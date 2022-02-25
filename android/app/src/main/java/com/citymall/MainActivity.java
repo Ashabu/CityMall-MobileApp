@@ -1,4 +1,4 @@
-package com.citymall;
+package com.citymal;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
