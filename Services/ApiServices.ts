@@ -78,7 +78,8 @@ interface IAddVirtualCardRequest {
     email: string,
     address: string | undefined,
     sex: number,
-    mailOtp: string
+    mailOtp: string,
+    isResident: boolean
 }
 
 export interface IGiftCardOrderRequest {

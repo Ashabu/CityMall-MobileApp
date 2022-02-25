@@ -20,7 +20,6 @@ import {
     GoBack,
     navigate
 } from '../../Services/NavigationServices';
-import translateService from '../../Services/translateService';
 
 export interface IRegistrationProps {
     firstName?: string;
@@ -34,6 +33,7 @@ export interface IRegistrationProps {
     address?: string;
     sex?: Object;
     mailOtp?: string;
+    isResident: boolean
 }
 
 export interface IGenderTypes {
@@ -102,6 +102,7 @@ const ScreenOne: React.FC = () => {
             lastName: lastName,
             personCode: idNumber,
             sex: gender,
+            isResident: isForeignResident
         };
         setGlobalState({ routeObject: data });
         navigate('REGSTEP_TWO');

@@ -100,7 +100,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
         if (validationRule === 'idNumber') {
             if (value === '') {
                 setErrorMessage('');
-            } else if (value.length === 11) {
+            } else if (value.length === 11 || (maxLength === undefined && value !== '')) {
                 addValidation!('remove', name);
                 setErrorMessage('');
             } else if (maxLength && (value.length !== 9 || value !== '')) {

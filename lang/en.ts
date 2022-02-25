@@ -113,10 +113,10 @@ export default {
         notFound: 'page not found',
         enterCode: 'please enter OTP',
         codeIncorrect: 'invalid OTP',
-        standartText: 'till status “Standard',
-        silverText: 'till status “Silver”',
-        goldText: 'till status “Gold”',
-        platinumText: 'till status “Platinum”',
+        standartText: 'till status "STANDARD"',
+        silverText: 'till status "SILVER"',
+        goldText: 'till status "GOLD"',
+        platinumText: 'till status "PLATINUM"',
         registrationText:
           'Register for the membership of City Malls Loyalty program',
         addressCityMall:

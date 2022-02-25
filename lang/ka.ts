@@ -123,10 +123,10 @@ export default {
     notFound: 'მოთხოვნილი გვერდი ვერ მოიძებნა',
     enterCode: 'გთხოვთ შეიყვანოთ ერთჯერადი კოდი',
     codeIncorrect: 'ერთჯერადი კოდი არასწორია',
-    standartText: '"სტანდარტი" სტატუსამდე დაგრჩათ',
-    silverText: '"სილვერი" სტატუსამდე დაგრჩათ',
-    goldText: '"გოლდი" სტატუსამდე დაგრჩათ',
-    platinumText: '"პლატინუმი" სტატუსამდე დაგრჩათ',
+    standartText: '"STANDARD" სტატუსამდე დაგრჩათ',
+    silverText: '"SILVER" სტატუსამდე დაგრჩათ',
+    goldText: '"GOLD" სტატუსამდე დაგრჩათ',
+    platinumText: '"PLATINUM" სტატუსამდე დაგრჩათ',
     registrationText:
       'გაიარე რეგისტრაცია და ᲩაერᲗე ლოიალობის პროგრამაᲨი',
     addressCityMall:

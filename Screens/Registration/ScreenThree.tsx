@@ -29,7 +29,7 @@ const ScreenThree: React.FC = () => {
     };
 
     return (
-        <Layout hasBackArrow onPressBack={handleGetClientCards} >
+        <Layout  onPressBack={handleGetClientCards} >
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={[Grid.row_12_5, {}]}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.register')}</Text>
