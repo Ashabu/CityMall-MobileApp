@@ -102,14 +102,14 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 46,
+        minWidth: 46,
         height: 12,
         borderRadius: 10,
         position: 'absolute',
         top: 9,
         left: 9,
         zIndex: 1,
-
+        paddingHorizontal: 10
     },
 
     promotionRed: {

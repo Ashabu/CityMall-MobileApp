@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     },
 
     offerTitleBox: {
-        width: 73,
+        width: 90,
         height: 20,
         borderRadius: 10,
         alignItems: 'center',
