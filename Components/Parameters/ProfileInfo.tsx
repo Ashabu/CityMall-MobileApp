@@ -173,7 +173,7 @@ const ProfileInfo = () => {
             <UserInfoView
               label={state?.t('labels.gender')}
               identification={
-                clientDetails?.[0]?.sex === 0
+                clientDetails?.[0]?.sex === 2
                   ? state?.t('labels.female')
                   : state?.t('labels.male')
               }
