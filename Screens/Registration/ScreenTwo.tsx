@@ -181,8 +181,11 @@ const ScreenTwo: React.FC = (props: any) => {
             });
     };
 
+
+    console.log('dateofbirth ==> ', dateOfBirth)
+
     const formatDate = (date: Date) => {
-        let dateArray = date.toLocaleDateString().split('/');
+        let dateArray = date.toLocaleDateString().split('.');
         return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
     }
 
@@ -205,11 +208,13 @@ const ScreenTwo: React.FC = (props: any) => {
             email: email,
             address: selectedDistrict === state?.t('screens.other') ? district : selectedDistrict,
             sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
-            mailOtp: emailVerificationCode
+            mailOtp: emailVerificationCode,
+            isResident: routeObject.isForeignResident
         };
-
+        console.log('data reg ==>', data)
         ApiServices.AddVirtualCard(data)
             .then(async res => {
+                
                 let refreshToken = await getItem('refresh_token');
                 const config = {
                     headers: {
