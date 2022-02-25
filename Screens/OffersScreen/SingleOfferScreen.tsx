@@ -45,7 +45,7 @@ const SingleOfferScreen = () => {
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={[ styles.offerTitleBox, Platform.OS === 'ios'&& {width: 83}, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
+                <View style={[ styles.offerTitleBox, Platform.OS === 'ios'&& {minWidth: 85}, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {/* {CategoryTypes[singleOffer.offerType.name]} */}
                     {extractor(singleOffer.offerType, 'name')}
