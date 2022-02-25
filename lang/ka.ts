@@ -128,7 +128,7 @@ export default {
     goldText: '"GOLD" სტატუსამდე დაგრჩათ',
     platinumText: '"PLATINUM" სტატუსამდე დაგრჩათ',
     registrationText:
-      'გაიარე რეგისტრაცია და ᲩაერᲗე ლოიალობის პროგრამაᲨი',
+      'გაიარე რეგისტრაცია და Ჩაერთე ლოიალობის პროგრამაᲨი',
     addressCityMall:
       'სითი მოლი საბურთალო, {q1} სითი მოლი გლდანი, {q2}',
     loialtyText:

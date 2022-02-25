@@ -65,7 +65,7 @@ if(hide) return null;
         style={{
           color: isDarkTheme ? Colors.white : Colors.black,
           fontSize: 10,
-          left: Platform.OS ==='ios' && index === 1? -12 : undefined
+          left: index === 1? -12 : undefined
         }}>
         {title}
       </Text>
