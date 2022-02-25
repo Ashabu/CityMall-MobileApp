@@ -131,10 +131,6 @@ const ScreenTwo: React.FC = (props: any) => {
         setDistrictError('');
     };
 
-    console.log('errorMessages', errorMessages);
-    const handleStep = () => {
-
-    };
 
     const toggleSwitch = () => {
         setEmailVerificationCode('');
@@ -197,7 +193,7 @@ const ScreenTwo: React.FC = (props: any) => {
         };
         setGeneralError('');
         setButtonLoading(true);
-        let date = dateOfBirth?.toLocaleDateString().split('/');
+       
         
         let data = {
             firstName: routeObject.firstName,
