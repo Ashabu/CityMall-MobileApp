@@ -184,8 +184,14 @@ const ScreenTwo: React.FC = (props: any) => {
 
     console.log('dateofbirth ==> ', dateOfBirth)
 
-    const formatDate = (date: Date) => {
-        let dateArray = date.toLocaleDateString().split('.');
+    const formatDate = (date: Date) => { 
+        let dateArray: any[] = [];
+        if(Platform.OS === 'ios') {
+            dateArray = date.toLocaleDateString().split('.');
+        } else {
+            dateArray = date.toLocaleDateString().split('/');
+        }
+        
         return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
     }
 
