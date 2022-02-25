@@ -30,7 +30,7 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
                     const layout = event.nativeEvent.layout;
                     setY(layout.y + layout.height - 60);
                   }} style={styles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
-                <Text style={{ color: Colors.white, position: 'absolute', top: y, fontSize: 20 }}>{cardNumber}</Text>
+                <Text style={{ color: Colors.white, position: 'absolute', top: y, fontSize: 17 }}>{cardNumber}</Text>
             </TouchableOpacity>
     );
 };
