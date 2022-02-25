@@ -5,14 +5,11 @@ import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
 import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
-import AppSwitch from '../CustomComponents/AppSwitch';
 import Layout from '../Layouts/Layout';
-import translateService from '../../Services/translateService';
 import AsyncStorage from '../../Services/StorageService';
 import RNOtpVerify from 'react-native-otp-verify';
 
 const Parameters = () => {
-  const {width} = useDimension();
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
