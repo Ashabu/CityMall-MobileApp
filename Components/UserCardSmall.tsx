@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
@@ -11,6 +11,7 @@ interface ICardSm {
 }
 const UserCardSmall: React.FC<ICardSm> = (props) => {
     const {state} = useContext(AppContext);
+    const [y, setY] = useState(0);
     const { cardNumber, navigateToBarCode, navigateToReg } = props;
 
     return (
@@ -25,8 +26,11 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
             </TouchableOpacity>
             :
             <TouchableOpacity style={{ position: 'relative', justifyContent: 'center', alignItems: 'center', height: '100%' }} onPress={navigateToBarCode}>
-                <Image style={styles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
-                <Text style={{ color: Colors.white, position: 'absolute', bottom: 65, fontSize: 20 }}>{cardNumber}</Text>
+                <Image onLayout={event => {
+                    const layout = event.nativeEvent.layout;
+                    setY(layout.y + layout.height - 60);
+                  }} style={styles.giftCardImg} source={require('../assets/images/loyalty-card.png')} />
+                <Text style={{ color: Colors.white, position: 'absolute', top: y, fontSize: 20 }}>{cardNumber}</Text>
             </TouchableOpacity>
     );
 };
