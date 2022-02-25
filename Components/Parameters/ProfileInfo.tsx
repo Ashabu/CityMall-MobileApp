@@ -105,17 +105,19 @@ const ProfileInfo = () => {
       otp: emailVerificationCode,
       personCode: clientDetails![0]?.personCode,
     };
+    console.log(data)
     ApiServices.SubmitMailOtp(data)
       .then((res: any) => {
         setIsloading(false);
         navigate('EmailChanged');
       })
-      .catch(e => {
+      .catch(e => { 
         let error = '';
         try {
-          error = JSON.parse(JSON.stringify(e.response)).data.error;
-        } catch(_) {
+          error = JSON.parse(JSON.stringify(e.response))?.data?.DisplayText;
           setResError(error);
+        } catch(_) {
+          
         }
         setIsloading(false);
       });
