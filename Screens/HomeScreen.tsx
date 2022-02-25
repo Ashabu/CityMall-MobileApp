@@ -184,7 +184,7 @@ console.log('>>>>>>>>>>>>>>>>', offers.length)
                         <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.points || 0)}
                               
                              </Text>
-                             <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginLeft: 5, width: 9, height: 9}} />
+                             <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginHorizontal: 5, width: 9, height: 9}} />
                   </View>
                     </View>
                 </View>}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
         borderColor: Colors.white,
         borderWidth: 1,
         borderRadius: 5,
-        width: 137
+        minWidth: 137
     },
 accesAmount: {
     padding: 7,
