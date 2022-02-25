@@ -29,7 +29,7 @@ import AppInput from '../../Components/CustomComponents/AppInput';
 import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import { Colors } from '../../Colors/Colors';
 import { minusMonthFromDate } from '../../Utils/utils';
-import translateService from '../../Services/translateService';
+import envs from './../../config/env';
 
 
 
@@ -219,11 +219,11 @@ const ScreenTwo: React.FC = (props: any) => {
                 }
                 const refreshObj = new URLSearchParams();
                 refreshObj.append('grant_type', 'refresh_token');
-                refreshObj.append('client_id', 'ClientApp');
-                refreshObj.append('client_secret', 'secret');
+                refreshObj.append('client_id', envs.client_id);
+                refreshObj.append('client_secret', envs.client_secret);
                 refreshObj.append('refresh_token', refreshToken!);
 
-                await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', refreshObj, config)
+                await axios.post(`${envs.CONNECT_URL}/connect/token`, refreshObj, config)
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);

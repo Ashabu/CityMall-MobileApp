@@ -80,11 +80,11 @@ export default () => {
   useEffect(() => {
     axios.get(`${envs.API_URL}/api/Connect/GetFloors`).then(res => {
       if (res.data) {
-        const ret: any = [];
+        const ret: any[] = [];
         floors.map(f => {
           const data = res.data.filter((fd: any) => fd.id == f.title);
           if (data.length) {
-            ret.push(...data);
+            ret.unshift(...data);
           }
         });
         setFloorsDetails(ret);

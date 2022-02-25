@@ -91,8 +91,9 @@ class AuthService {
       loginObj.append('password', data.password);
     }
     loginObj.append('grant_type', 'password');
-    loginObj.append('client_id', 'ClientApp');
-    loginObj.append('client_secret', 'secret');
+    loginObj.append('client_id', envs.client_id);
+    loginObj.append('client_secret', envs.client_secret);
+    console.log(`${envs.CONNECT_URL}/connect/token`, loginObj)
     return await axios.post(`${envs.CONNECT_URL}/connect/token`, loginObj, config);
   };
 
