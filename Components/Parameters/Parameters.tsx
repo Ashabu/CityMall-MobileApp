@@ -9,17 +9,24 @@ import AppSwitch from '../CustomComponents/AppSwitch';
 import Layout from '../Layouts/Layout';
 import translateService from '../../Services/translateService';
 import AsyncStorage from '../../Services/StorageService';
+import RNOtpVerify from 'react-native-otp-verify';
 
 const Parameters = () => {
   const {width} = useDimension();
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
+  const [hashsh, sethashsh] = useState('');
 
   const lightMoonIcon = require('../../assets/images/moon.png');
   const darkMoonIcon = require('../../assets/images/darkMoon.png');
   const lightUserIcon = require('../../assets/images/user.png');
   const darkUserIcon = require('../../assets/images/darkAvatar.png');
+
+  const getHash = () =>
+  RNOtpVerify.getHash()
+  .then(e => sethashsh(JSON.stringify(e)))
+  .catch(console.log);
 
   const SwitchDarkTheme = () => {
     AsyncStorage.setItem('isDarkTheme', isDarkTheme ? '0' : '1').then(_ => {
@@ -68,7 +75,7 @@ const Parameters = () => {
               />
             </TouchableOpacity>
           </View>
-          {clientDetails?.length && <TouchableOpacity
+          {clientDetails?.length && <TouchableOpacity onLongPress={async() => await getHash()}
             style={styles.iconView}
             onPress={() => {
               navigate('ProfileInfo');
@@ -77,12 +84,12 @@ const Parameters = () => {
               <Image source={isDarkTheme ? lightUserIcon : darkUserIcon} />
             </View>
             <View>
-              <Text
+              <Text selectable={true}
                 style={[
                   styles.name,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-                {state?.t('screens.profile')}
+                {state?.t('screens.profile')} {hashsh}
               </Text>
             </View>
           </TouchableOpacity>}
