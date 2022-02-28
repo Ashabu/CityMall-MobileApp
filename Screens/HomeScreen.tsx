@@ -30,7 +30,6 @@ const HomeScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [offersView, setOffersView] = useState<any[]>();
     const [initLoading, setInitLoading] = useState<boolean>(true);
-    const [clientInfo, setClientInfo] = useState<IClientInfo>({});
 
     useEffect(() => {
         handleGetClientCards();
@@ -142,7 +141,8 @@ const HomeScreen = () => {
               setOffers([]);
               setPagPage(1);
               setOffersStep(0);
-            setClientInfo(res.data);
+              setGlobalState({clientInfo: res.data});
+              console.log('%%%%%%%%%%%%%%%%%%%%%%%', res.data)
             getOffers(pagPage, true);
           })
           .catch(e => {
@@ -168,12 +168,12 @@ console.log('>>>>>>>>>>>>>>>>', offers.length)
                     }
                 </View>
 
-                {clientInfo !== undefined && <View style={styles.amountInfo}>
+                {state.clientInfo !== undefined && <View style={styles.amountInfo}>
                     <View style={[styles.accesAmount, styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50, minWidth: 145},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
                         <Text style={[styles.amountTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {state?.t('screens.deposit')}
                         </Text>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.ballance || 0)}₾</Text>
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(state.clientInfo?.ballance || 0)}₾</Text>
                     </View>
 
                     <View style={[styles.pointsInfo, Platform.OS === 'ios' && {minHeight: 50},{borderColor: isDarkTheme ? Colors.white : Colors.black}]}>
@@ -181,7 +181,7 @@ console.log('>>>>>>>>>>>>>>>>', offers.length)
                         {state?.t('screens.cityPoint')}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(clientInfo?.points || 0)}
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(state.clientInfo?.points || 0)}
                               
                              </Text>
                              <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginHorizontal: 5, width: 9, height: 9}} />

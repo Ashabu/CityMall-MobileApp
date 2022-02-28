@@ -37,7 +37,7 @@ export enum tranTypes {
 }
 
 const ProfileScreen = () => {
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, offersArray} = state;
 
   let isEndFetching = false;
@@ -47,7 +47,7 @@ const ProfileScreen = () => {
   const [offersStepv, setOffersStepv] = useState<number>(0);
   const [personalOffers, setPersonalOffers] = useState<IOffer[]>([]);
   const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
-  const [clientInfo, setClientInfo] = useState<IClientInfo>({});
+  // const [clientInfo, setClientInfo] = useState<IClientInfo>({});
   const [clientTransactions, setClientTransactions] = useState<
     IClientTransaction[]
   >([]);
@@ -77,7 +77,7 @@ const ProfileScreen = () => {
   const getClientData = () => {
     ApiServices.GetClientInfo()
       .then(res => {
-        setClientInfo(res.data);
+        setGlobalState({clientInfo: res.data});
       })
       .catch(e => {
         console.log(e);
@@ -256,13 +256,13 @@ const ProfileScreen = () => {
           <View>
             <Text style={styles.balanceWrapTitle}>{state?.t('screens.deposit')}</Text>
             <Text style={[styles.balanceWrapAmount, isDarkTheme ? {color: Colors.white} : {color: Colors.black} ]}>
-              {formatNumber(clientInfo.ballance)}
+              {formatNumber(state.clientInfo.ballance)}
             </Text>
           </View>
           <View>
             <Text style={styles.balanceWrapTitle}>{state?.t('screens.cityPoint')}</Text>
             <Text style={[styles.balanceWrapAmount,isDarkTheme ? {color: Colors.white} : {color: Colors.black}]}>
-              {formatNumber(clientInfo.points)}
+              {formatNumber(state.clientInfo.points)}
             </Text>
           </View>
         </View>
@@ -286,7 +286,7 @@ const ProfileScreen = () => {
               <Image source={isDarkTheme? lightArrowIcon :  darkArrowIcon} style={styles.icon}/>
             </TouchableOpacity>
           </View>
-          {clientInfo ? <StatusBar data={clientInfo} /> : null}
+          {state.clientInfo ? <StatusBar data={state.clientInfo} /> : null}
         </View>
         <View style={{marginBottom: 20, alignItems: 'center'}}>
           <TouchableOpacity

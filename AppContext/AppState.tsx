@@ -1,9 +1,11 @@
 import { default_lang_key } from '../lang';
 import {IOffer} from '../Services/Api/OffersApi';
 import { IMerchant } from '../Services/Api/ShopsApi';
+import { IClientInfo } from '../Services/ApiServices';
 
 
 export interface IAppState {
+    clientInfo: IClientInfo,
     isAuthenticated: boolean,
     isDarkTheme: boolean,
     clientDetails: any,
@@ -24,6 +26,7 @@ export interface IAppState {
 
 
 export const AppState: IAppState = {
+    clientInfo: {},
     isAuthenticated: false,
     isDarkTheme: true,
     clientDetails: {},
