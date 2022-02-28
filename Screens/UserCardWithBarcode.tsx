@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import Layout from '../Components/Layouts/Layout';  
@@ -14,13 +14,22 @@ const UserCardWithBarcode: React.FC = (props:any ) => {
 
     const {cardDetails, isDarkTheme} = state;
 
-   
+   console.log('data:image/png;base64,'+cardDetails.barcode)
+
+   const win = Dimensions.get('window');
+
+   const ratio = win.width/450; //450 is actual image width
+
+   const imageStyle = {
+    width: win.width,
+    height: 90 * ratio, //90 is actual height of image
+}
     
     return (
         <View style={[styles.centeredView, { backgroundColor: isDarkTheme? Colors.black : Colors.white}]}>
             <TouchableOpacity style={styles.card} onPress = {()=> props.navigation.navigate('HomeScreen')}>
                 <Image source = {require('../assets/images/card-with-barcode.png')} style= {styles.card} />
-                <Image source = {{  uri: 'data:image/png;base64,'+cardDetails.barcode}} style={styles.barCode}/>
+                <Image source = {{  uri: 'data:image/png;base64,'+cardDetails.barcode}} style={[styles.barCode, {...imageStyle}]}/>
                 <Text style={styles.cardNumber}>{cardDetails.cardNumber.replace(
                     /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                     '$1  $2  $3  $4',
@@ -44,15 +53,14 @@ const styles =StyleSheet.create({
         width: 262,
         height: 534,
         borderRadius: 10,
-        
     },
     barCode: {
-        height: 90,
-        width: 450,
+        // height: 90,
+        // width: 450,
         transform: [{rotate: '90deg'}],
         position: 'absolute',
-        top: 240,
-        left: -157,
+        top: 242,
+        left: -129,
       },
       cardNumber: {
         height: 65,

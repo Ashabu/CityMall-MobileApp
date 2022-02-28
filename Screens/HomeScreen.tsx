@@ -142,7 +142,6 @@ const HomeScreen = () => {
               setPagPage(1);
               setOffersStep(0);
               setGlobalState({clientInfo: res.data});
-              console.log('%%%%%%%%%%%%%%%%%%%%%%%', res.data)
             getOffers(pagPage, true);
           })
           .catch(e => {
