@@ -14,7 +14,7 @@ const UserCardWithBarcode: React.FC = (props:any ) => {
 
     const {cardDetails, isDarkTheme} = state;
 
-   console.log('data:image/png;base64,'+cardDetails.barcode)
+   //console.log('data:image/png;base64,'+cardDetails.barcode)
 
  //  const win = Dimensions.get('window');
 
