@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Dimensions, Image, View, StatusBar, Text, ScrollView, StyleSheet, NativeSyntheticEvent, NativeScrollEvent, TouchableOpacity, ActivityIndicator, Button, Platform } from 'react-native';
 import ApiServices, { IClientInfo } from "../Services/ApiServices";
 import { Colors } from '../Colors/Colors';
@@ -30,6 +30,7 @@ const HomeScreen = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [offersView, setOffersView] = useState<any[]>();
     const [initLoading, setInitLoading] = useState<boolean>(true);
+    const infoUpdate = useRef<NodeJS.Timer>();
 
     useEffect(() => {
         handleGetClientCards();
@@ -148,6 +149,27 @@ const HomeScreen = () => {
             console.log(e);
           });
       };
+
+      useEffect(() => {
+        if(infoUpdate.current) clearInterval(infoUpdate.current);
+        infoUpdate.current = setInterval(() => {
+            ApiServices.GetClientInfo()
+            .then(res => {
+                const info = {...res.data};
+                const prevInfo = {...state.clientInfo};
+                prevInfo.points = info.points;
+                prevInfo.ballance = info.ballance;
+                setGlobalState({clientInfo: {...prevInfo}});
+            })
+            .catch(e => {
+              console.log(e);
+            });
+        }, 20000);
+
+        return () => {
+            if(infoUpdate.current) clearInterval(infoUpdate.current);
+        }
+      }, [])
 
 console.log('>>>>>>>>>>>>>>>>', offers.length)
     return (

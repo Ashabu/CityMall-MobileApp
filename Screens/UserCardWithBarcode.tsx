@@ -16,13 +16,13 @@ const UserCardWithBarcode: React.FC = (props:any ) => {
 
    console.log('data:image/png;base64,'+cardDetails.barcode)
 
-   const win = Dimensions.get('window');
+ //  const win = Dimensions.get('window');
 
-   const ratio = win.width/450; //450 is actual image width
+  // const ratio = win.width/450; //246 is actual image width
 
    const imageStyle = {
-    width: win.width,
-    height: 90 * ratio, //90 is actual height of image
+    width: 450,
+    height: 90, //123 is actual height of image
 }
     
     return (
@@ -59,8 +59,8 @@ const styles =StyleSheet.create({
         // width: 450,
         transform: [{rotate: '90deg'}],
         position: 'absolute',
-        top: 242,
-        left: -129,
+        top: 238,
+        left: -157,
       },
       cardNumber: {
         height: 65,
