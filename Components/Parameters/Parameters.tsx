@@ -7,25 +7,16 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import Layout from '../Layouts/Layout';
 import AsyncStorage from '../../Services/StorageService';
-import RNOtpVerify from 'react-native-otp-verify';
 
 const Parameters = () => {
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
-  const [hashsh, sethashsh] = useState('');
 
   const lightMoonIcon = require('../../assets/images/moon.png');
   const darkMoonIcon = require('../../assets/images/darkMoon.png');
   const lightUserIcon = require('../../assets/images/user.png');
   const darkUserIcon = require('../../assets/images/darkAvatar.png');
-
-  const getHash = () => {
-    if(Platform.OS === 'ios') return;
-  RNOtpVerify.getHash()
-  .then(e => sethashsh(JSON.stringify(e)))
-  .catch(console.log);
-  }
 
   const SwitchDarkTheme = () => {
     AsyncStorage.setItem('isDarkTheme', isDarkTheme ? '0' : '1').then(_ => {
@@ -43,12 +34,8 @@ const Parameters = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.nameWrapper}> 
-          <Text selectable={true} style={[{
-            color: Colors.white,
-            fontSize: 14,
-            fontFamily: 'HMpangram-Bold',
-          },{ color: isDarkTheme ? Colors.white : Colors.black }]}>
-            {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}  {hashsh || ''}
+          <Text selectable={true} style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+            {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}
           </Text>
         </View>
         <View style={{top: 83, height: 80, justifyContent: 'space-between'}}>
@@ -78,7 +65,7 @@ const Parameters = () => {
               />
             </TouchableOpacity>
           </View>
-          {clientDetails?.length && <TouchableOpacity onLongPress={async() => await getHash()}
+          {clientDetails?.length && <TouchableOpacity
             style={styles.iconView}
             onPress={() => {
               navigate('ProfileInfo');
