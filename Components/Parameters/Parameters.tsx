@@ -42,9 +42,13 @@ const Parameters = () => {
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
         }}>
-        <View style={styles.nameWrapper}>
-          <Text style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
-            {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}
+        <View style={styles.nameWrapper}> 
+          <Text selectable={true} style={[{
+            color: Colors.white,
+            fontSize: 14,
+            fontFamily: 'HMpangram-Bold',
+          },{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+            {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}  {hashsh || ''}
           </Text>
         </View>
         <View style={{top: 83, height: 80, justifyContent: 'space-between'}}>
@@ -83,15 +87,16 @@ const Parameters = () => {
               <Image source={isDarkTheme ? lightUserIcon : darkUserIcon} />
             </View>
             <View>
-              <Text selectable={true}
+              <Text 
                 style={[
                   styles.name,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-                {state?.t('screens.profile')} {hashsh}
+                {state?.t('screens.profile')} 
               </Text>
             </View>
           </TouchableOpacity>}
+         
           {/* <TouchableOpacity style={styles.iconView}>
             <View style={{width: 30}}>
             <Image source={require('../../assets/images/lock.png')} />
@@ -101,6 +106,7 @@ const Parameters = () => {
             </View>
           </TouchableOpacity> */}
         </View>
+       
       </View>
     </Layout>
   );
@@ -115,7 +121,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     fontFamily: 'HMpangram-Bold',
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
   },
   desighnView: {
     flexDirection: 'row',
