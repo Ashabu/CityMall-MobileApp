@@ -9,7 +9,6 @@ import org.wonday.pdf.RCTPdfView;
 import com.ReactNativeBlobUtil.ReactNativeBlobUtilPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import me.furtado.smsretriever.RNSmsRetrieverPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;

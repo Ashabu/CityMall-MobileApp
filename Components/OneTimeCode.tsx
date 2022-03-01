@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
-import SmsRetriever from 'react-native-sms-retriever';
-import translateService from '../Services/translateService';
+import RNOtpVerify from 'react-native-otp-verify';
 
 interface IOtpProps {
     getValue: (val: string) => void,
@@ -18,26 +17,6 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
 
     const [oneTimeCode, setOneTimeCode] = useState<string>('');
 
-    const onSmsListener = async () => {
-        try {
-          const registered = await SmsRetriever.startSmsRetriever();
-          if (registered) {
-            SmsRetriever.addSmsListener(event => {
-              const otp = /(\d{4})/g.exec(event.message || '');
-              if(otp){
-                setOneTimeCode(otp[1]);
-              }
-            });
-          }
-        } catch (error) {}
-      };
-    
-      useEffect(() => {
-        onSmsListener();
-    
-        return () => SmsRetriever.removeSmsListener();
-      }, []);
-
     useEffect(() => {
         getValue(oneTimeCode);
     }, [oneTimeCode]);
@@ -49,6 +28,35 @@ const OneTimeCode: React.FC<IOtpProps> = (props) => {
             setOneTimeCode(value);
         };
     };
+
+    const startListeningForOtp = () =>
+    RNOtpVerify.getOtp()
+    .then(p => RNOtpVerify.addListener(otpHandler))
+    .catch(p => console.log(p));
+
+ const otpHandler = (message: string) => {
+     try{
+     //@ts-ignore
+        const otp = /(\d{4})/g.exec(message || '');
+        if(otp){
+            setOneTimeCode(otp[1]);
+          }
+     }
+     catch(_) {
+
+     }
+}
+
+// const getHash = () =>
+//     RNOtpVerify.getHash()
+//     .then(console.log)
+//     .catch(console.log);
+
+useEffect(() => {
+    (async () => {
+       await startListeningForOtp()
+    })()
+}, [])
 
     return (
         <View style={[styles.otpContainer, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
