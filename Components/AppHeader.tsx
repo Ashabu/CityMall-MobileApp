@@ -85,7 +85,7 @@ const AppHeader = (props: any) => {
               {/* <View style={[styles.burgerIconLine, themeBgColor]} />
               <View style={[styles.burgerIconLine, themeBgColor]} />
               <View style={[styles.burgerIconLine, themeBgColor]} /> */}
-              <Image source={isDarkTheme ? require('./../assets/images/burger-light.png') : require('./../assets/images/burger-dark.png')} />
+              <Image resizeMode={'contain'} style={styles.burgerIconLine} source={isDarkTheme ? require('./../assets/images/burger-light.png') : require('./../assets/images/burger-dark.png')} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[{width: 70, justifyContent: 'center'}, Platform.OS === 'ios' && {height: 30}]} 
@@ -197,8 +197,7 @@ const styles = StyleSheet.create({
 
   burgerIconLine: {
     width: 26,
-    height: 3,
-    borderRadius: 5,
+    height: 17,
   },
 
   langText: {
