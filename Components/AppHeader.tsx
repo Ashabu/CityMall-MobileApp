@@ -31,9 +31,9 @@ const AppHeader = (props: any) => {
   const {width, height} = useDimension();
   const [isLocationActive, setIsLocationActive] = useState<boolean>(false);
 
-  const themeBgColor = {
-    backgroundColor: isDarkTheme ? Colors.white : Colors.black,
-  };
+  // const themeBgColor = {
+  //   backgroundColor: isDarkTheme ? Colors.white : Colors.black,
+  // };
 
   const toggleDropdown = () => {
     setVisible(!visible);
@@ -82,9 +82,10 @@ const AppHeader = (props: any) => {
             style={styles.burgerIcon}
             onPress={() => toggleDrawer()}>
             <View style={styles.burgerIconInner}>
+              {/* <View style={[styles.burgerIconLine, themeBgColor]} />
               <View style={[styles.burgerIconLine, themeBgColor]} />
-              <View style={[styles.burgerIconLine, themeBgColor]} />
-              <View style={[styles.burgerIconLine, themeBgColor]} />
+              <View style={[styles.burgerIconLine, themeBgColor]} /> */}
+              <Image source={isDarkTheme ? require('./../assets/images/burger-light.png') : require('./../assets/images/burger-dark.png')} />
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={[{width: 70, justifyContent: 'center'}, Platform.OS === 'ios' && {height: 30}]} 
