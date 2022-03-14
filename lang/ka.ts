@@ -48,6 +48,7 @@ export default {
     home: 'მთავარი',
     selectCountry: 'აირჩიეთ ქვეყანა',
     giftCard: 'სასაჩუქრე ბარათი',
+    giftCards: 'სასაჩუქრე ბარათები',
     darkMode: 'მუქი დიზაინი',
     profile: 'პროფილის გვერდი',
     workingHours: 'სამუშაო საათები',
@@ -154,8 +155,8 @@ export default {
     transactionsNotFound :'ტრანზაქციები ვერ მოიძებნა',
     aboutStatus: ' სტატუსის შესახებ ინფო',
     statusGift: 'რა ეკუთვნის თითოეულ სტატუსზე',
-
-
+    orderGidtCard: 'სასაჩუქრე ბარათის შეკვეთა',
+    checkBalance: 'ნაშთის შემოწმება'
 
 
 

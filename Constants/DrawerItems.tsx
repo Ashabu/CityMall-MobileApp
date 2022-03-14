@@ -10,6 +10,7 @@ export interface ILocation {
     name?: string,
     id?: number,
     isPremium?: boolean
+    to?:string;
 }
 
 export interface IDrawerItem {
@@ -19,7 +20,6 @@ export interface IDrawerItem {
     categories?: ICategories[] | [],
     routeName?: string,
     objectTypeId: number | undefined 
-
 
 }
 
@@ -146,6 +146,23 @@ export default [
          id:6,
     },
     {
+        name: 'screens.giftCards',
+         icon: require('../assets/images/arrow-sm.png'),
+        location: [
+            {
+                name: 'infoText.orderGidtCard',
+                
+            },
+            {
+                name: 'infoText.checkBalance',
+                to: 'CheckGiftCardBalanceScreen'
+            }
+        ],
+        routeName: 'OrderGiftCardScreen',
+        categories: [],
+        id:7,
+    },
+    {
         name: 'screens.roadMap',
          icon: require('../assets/images/arrow-sm.png'),
         location: [
@@ -223,18 +240,5 @@ export default [
     //     id:11,
     // },
 
-      // {
-    //     name: 'სასაჩუქრე ბარათები',
-    //      icon: require('../assets/images/arrow-sm.png'),
-    //     location: [
-    //         {
-    //             name: 'სასაჩუქრე ბარათის შეკვეთა',
-    //             routeName: 'OrderGiftCardScreen'
-    //         },
-    //         {
-    //             name: 'ნაშთის შემოწმება'
-    //         }
-    //     ],
-    //     id:7,
-    // },
+
 ]

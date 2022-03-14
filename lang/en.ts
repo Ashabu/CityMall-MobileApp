@@ -44,6 +44,7 @@ export default {
         home: 'Home',
         selectCountry: 'Select Country',
         giftCard: 'Gift Card',
+        giftCards: 'Gift Cards',
         darkMode: 'Dark Mode',
         profile: 'Profile',
         workingHours: 'Business Hours',
@@ -144,6 +145,8 @@ export default {
         transactionsNotFound :'Transaction Not Found',
         aboutStatus: ' About Status',
         statusGift: 'Gifts per status',
+        orderGidtCard: 'Order a gift card',
+        checkBalance: 'Check balance'
     
       },
       labels: {

@@ -34,7 +34,7 @@ const BurgerMenuLocation: React.FC<IBmItem> = ({item, categories, routeName, pag
     return (
         <View style={{ marginLeft: 10, marginVertical: 7 }}>
             <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} 
-            onPress={() =>categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(routeName!, {routeId: item.id, name: pageName})}>
+            onPress={() =>categories!?.length > 0 ? setIsCollapsed(!isCollapsed) : navigate(item.to! || routeName!, {routeId: item.id, name: pageName})}>
                 {
                    categories!?.length > 0 ?
                         <Image

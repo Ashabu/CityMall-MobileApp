@@ -34,6 +34,7 @@ import GoogleMap from '../Components/GoogleMap';
 import Searches from '../Screens/Stores/Searches';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import DocView from '../Components/DocViewer';
+import CheckGiftCardBalanceScreen from '../Screens/CheckGiftCardBalanceScreen';
 
 interface IProps {
   init: boolean;
@@ -146,6 +147,12 @@ const AppStack: React.FC<IProps> = ({init}) => {
                 headerShown: false,
               }}
             />
+            <Stack.Screen
+            name='CheckGiftCardBalanceScreen'
+            component={CheckGiftCardBalanceScreen}
+            options={{
+              headerShown: false,
+            }} />
             <Stack.Screen
               name="ProfileScreen"
               component={ProfileScreen}

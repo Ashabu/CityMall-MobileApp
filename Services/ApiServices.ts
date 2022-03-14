@@ -88,7 +88,8 @@ export interface IGiftCardOrderRequest {
     orderDetails: string,
     deliveryType: number,
     deliveryServiceCenter?: number,
-    courierDetails?: string
+    courierDetails?: string,
+    deliverystatus?: number
 }
 
 export interface IServiceCenter {
@@ -169,6 +170,10 @@ class ApiServices {
 
     OrderGiftCard = async (data: IGiftCardOrderRequest) => {
         return await axios.post(`${envs.API_URL}/api/Cards/order`, data)
+    };
+
+    GetGiftBallance = async ({CardLastNumber, ExpireYear, ExpireMonth}: {CardLastNumber: string, ExpireYear: number, ExpireMonth: number}) => {
+        return await axios.get(`${envs.API_URL}/api/Cards/GetGiftBallance?CardLastNumber=${CardLastNumber}&ExpireYear=${ExpireYear}&ExpireMonth=${ExpireMonth}`)
     };
 
 
