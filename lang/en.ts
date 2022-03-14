@@ -38,6 +38,7 @@ export default {
         subCategories: 'Subcategories',
         location: 'Location',
         map: 'Map',
+        checkbalance: 'Balance check'
     },
     
     screens: {

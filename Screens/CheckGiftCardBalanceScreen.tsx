@@ -119,35 +119,42 @@ const CheckGiftCardBalanceScreen = () => {
       textAlign: 'center',
     },
     btnStyle: {
-        width: '100%',
-        maxWidth: 325,
-  
-        height: 66,
-        backgroundColor: Colors.darkGrey,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignSelf: 'center',
-      },
-      btnTitleStyle: {
-        color: Colors.white,
-        fontFamily: 'HMpangram-Bold',
-        textAlign: 'center',
-        fontSize: 14,
-        lineHeight: 17,
-        textTransform: 'uppercase',
-      },
-      deposite: {
-        fontFamily: 'HMpangram-Bold',
-        fontSize: 12,
-        position: 'absolute', 
-        color: isDarkTheme ? Colors.white : Colors.black,
-        marginTop: 10,
-        textAlign: 'right',
-        right: -10
-      }
+      width: '100%',
+      maxWidth: 325,
+
+      height: 66,
+      backgroundColor: Colors.darkGrey,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+    },
+    btnTitleStyle: {
+      color: Colors.white,
+      fontFamily: 'HMpangram-Bold',
+      textAlign: 'center',
+      fontSize: 14,
+      lineHeight: 17,
+      textTransform: 'uppercase',
+    },
+    deposite: {
+      fontFamily: 'HMpangram-Bold',
+      fontSize: 12,
+      position: 'absolute',
+      color: isDarkTheme ? Colors.white : Colors.black,
+      marginTop: 10,
+      textAlign: 'right',
+      right: -10,
+    },
+    arrowImgStyle: {
+      width: 5,
+      height: 5,
+      position: 'absolute',
+      top: 7,
+      right: 7,
+    },
   });
-  
+
   const ref_input1 = createRef<TextInput>();
   const ref_input2 = createRef<TextInput>();
   const ref_input3 = createRef<TextInput>();
@@ -163,8 +170,12 @@ const CheckGiftCardBalanceScreen = () => {
 
   useEffect(() => {
     const _months: any = [];
-    const currentYear = (new Date()).getFullYear();
-    const range = (start: number, stop: number, step: number) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+    const currentYear = new Date().getFullYear();
+    const range = (start: number, stop: number, step: number) =>
+      Array.from(
+        {length: (stop - start) / step + 1},
+        (_, i) => start + i * step,
+      );
 
     for (let m = 1; m <= 12; m++) {
       _months.push(('0' + m).slice(-2));
@@ -192,30 +203,32 @@ const CheckGiftCardBalanceScreen = () => {
     size: 'small',
     color: Colors.white,
   };
-  
+
   const check = () => {
-      if(!v1 || !v2 || !v3 || !v4 || !expireDay || !expireMonth || btnLoading) {
-          return;
-      }
-      setbtnLoading(true);
-      const data = {
-        CardLastNumber: v1 + v2 + v3 + v4, 
-        ExpireYear: parseInt(expireDay), 
-        ExpireMonth: parseInt(expireMonth)
-      }
-      console.log(data)
-      ApiServices.GetGiftBallance(data).then(res => {
-        if(res.status === 200) {
-            setbalance(res.data.ballance);
+    if (!v1 || !v2 || !v3 || !v4 || !expireDay || !expireMonth || btnLoading) {
+      return;
+    }
+    setbtnLoading(true);
+    const data = {
+      CardLastNumber: v1 + v2 + v3 + v4,
+      ExpireYear: parseInt(expireDay),
+      ExpireMonth: parseInt(expireMonth),
+    };
+    console.log(data);
+    ApiServices.GetGiftBallance(data)
+      .then(res => {
+        if (res.status === 200) {
+          setbalance(res.data.ballance);
         }
         setbtnLoading(false);
-      }).catch(() => {
-        setbtnLoading(false);
       })
-  }
+      .catch(() => {
+        setbtnLoading(false);
+      });
+  };
 
   return (
-    <Layout hasBackArrow={true} onPressBack={GoBack}>
+    <Layout hasBackArrow={true} onPressBack={GoBack} pageName={state.t('common.checkbalance')}>
       <Modal
         visible={choosedays}
         animationType="fade"
@@ -394,29 +407,55 @@ const CheckGiftCardBalanceScreen = () => {
                     <TouchableOpacity
                       onPress={() => setchoosedays(true)}
                       style={[styles.dateitem, styles.item1]}>
+                      <Image
+                        style={[
+                          styles.arrowImgStyle,
+                          {transform: [{rotate: '90deg'}]},
+                        ]}
+                        source={
+                          isDarkTheme
+                            ? require('./../assets/images/arrow-sm.png')
+                            : require('./../assets/images/arrow-black.png')
+                        }
+                      />
                       <Text style={styles.dateValue}>{expireDay}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => setchoosemonths(true)}
                       style={styles.dateitem}>
+                      <Image
+                        style={[
+                          styles.arrowImgStyle,
+                          {transform: [{rotate: '90deg'}]},
+                        ]}
+                        source={
+                          isDarkTheme
+                            ? require('./../assets/images/arrow-sm.png')
+                            : require('./../assets/images/arrow-black.png')
+                        }
+                      />
                       <Text style={styles.dateValue}>{expireMonth}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
-              </View>{balance !== undefined && <Text style={styles.deposite}>{state.t('screens.deposit')}: {balance}454564</Text>}
-              
+              </View>
+              {balance !== undefined && (
+                <Text style={styles.deposite}>
+                  {state.t('screens.deposit')}: {balance}454564
+                </Text>
+              )}
             </View>
           </View>
         </View>
       </View>
       <AppButton
-          btnStyle={styles.btnStyle}
-          titleStyle={styles.btnTitleStyle}
-          loaderStyle={loaderStyle}
-          loading={btnLoading}
-          title={state?.t('common.next')}
-          onPress={check}
-        />
+        btnStyle={styles.btnStyle}
+        titleStyle={styles.btnTitleStyle}
+        loaderStyle={loaderStyle}
+        loading={btnLoading}
+        title={state?.t('common.next')}
+        onPress={check}
+      />
     </Layout>
   );
 };
