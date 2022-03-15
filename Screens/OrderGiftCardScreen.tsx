@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  BackHandler,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {AppContext} from '../AppContext/AppContext';
@@ -329,6 +330,14 @@ const OrderGiftCardScreen = () => {
       });
   };
 
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      setStep(s => s-1);
+      return true;
+    })
+    return () => backHandler.remove()
+  }, [])
+
   const GiftCards = () => (
     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
       <Image
@@ -407,8 +416,24 @@ const OrderGiftCardScreen = () => {
           <Text style={styles.errorText}>{customerError}</Text>
         )}
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: isDarkTheme ? Colors.white: Colors.black}}>
-        <Text style={{color: isDarkTheme ? Colors.white : Colors.black, position: 'relative', bottom: 1}}>995</Text>
-
+        {/* <Text style={{color: isDarkTheme ? Colors.white : Colors.black, position: 'relative', bottom: 1}}>995</Text> */}
+       <View style={{width: 35, height: 23}}> 
+       <AppInput
+          style={{color: isDarkTheme ? Colors.white : Colors.black}}
+          name="code"
+          validationRule="code"
+          hasError={false}
+          isRequired={false}
+          value={'995'}
+          addValidation={() => {}}
+          onChangeText={()=>{}}
+          keyboardType="numeric"
+          ignoreBorder={true}
+          maxLength={3}
+          editable={false}
+        />
+        </View>
+        <View style={{height: 23}}>
         <AppInput
           style={{color: isDarkTheme ? Colors.white : Colors.black}}
           placeholder={state?.t('labels.mobile')}
@@ -423,6 +448,7 @@ const OrderGiftCardScreen = () => {
           ignoreBorder={true}
           maxLength={9}
         />
+        </View>
         </View>
         {phoneNumberError.length > 0 && (
           <Text style={styles.errorText}>{phoneNumberError}</Text>

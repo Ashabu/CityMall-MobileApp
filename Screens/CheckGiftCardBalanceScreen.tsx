@@ -19,6 +19,7 @@ import Layout from '../Components/Layouts/Layout';
 import ApiServices from '../Services/ApiServices';
 import {GoBack} from '../Services/NavigationServices';
 import translateService from '../Services/translateService';
+import { formatNumber } from '../Services/Utils';
 
 const CheckGiftCardBalanceScreen = () => {
   const {state} = useContext(AppContext);
@@ -78,6 +79,7 @@ const CheckGiftCardBalanceScreen = () => {
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginBottom: 12,
+      alignItems: 'center'
     },
     input: {
       borderWidth: 1,
@@ -86,7 +88,7 @@ const CheckGiftCardBalanceScreen = () => {
       borderRadius: 10,
       flex: 1,
       height: 30,
-      lineHeight: 10,
+      lineHeight: 16,
       paddingVertical: 0,
       textAlign: 'center',
     },
@@ -441,7 +443,7 @@ const CheckGiftCardBalanceScreen = () => {
               </View>
               {balance !== undefined && (
                 <Text style={styles.deposite}>
-                  {state.t('screens.deposit')}: {balance}454564
+                  {state.t('screens.deposit')}: {formatNumber(balance)}
                 </Text>
               )}
             </View>
