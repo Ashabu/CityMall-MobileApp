@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     marginLeft: 13,
     textAlign: 'center',
+    textTransform: 'uppercase'
   },
 
   icons: {

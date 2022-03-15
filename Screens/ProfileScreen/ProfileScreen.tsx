@@ -10,6 +10,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   NativeSyntheticEvent,
+  Linking,
 } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
@@ -229,6 +230,10 @@ const ProfileScreen = () => {
     }
   };
 
+  const lounchpayunicard = () => {
+    Linking.openURL('https://www.payunicard.ge');
+  }
+
   const BottomLoading = () =>
   fetchingMore ? (
     <View style={[styles.bottomLoading, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
@@ -371,6 +376,15 @@ const ProfileScreen = () => {
             ))}
           </ScrollView>
         </View>
+
+        <View style={styles.lounchcontent}>
+            <Image source={isDarkTheme ? require('../../assets/images/payunicard_dark.png') : require('../../assets/images/payunicard_light.png')} style={styles.payunicard} />
+            <TouchableOpacity style={styles.lounchbutton} onPress={lounchpayunicard}>
+              <Text style={styles.lounchtext}>დამატებითი ოპერაციები ფეიუნიქარდში</Text>
+              <Image source={require('../../assets/images/lounch.png')} style={styles.lounchicon} />
+            </TouchableOpacity>
+          </View>
+
         <View style={styles.transactionView}>
           <View style={styles.trViewHeader}>
             <Text
@@ -393,6 +407,7 @@ const ProfileScreen = () => {
               />
             </View>
           </View>
+
           <View>
             {clientTransactions &&
               clientTransactions.map((item, index) => (
@@ -502,6 +517,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 50,
   },
+  payunicard: {
+    marginRight: 20,
+    maxHeight: 27,
+  },
+  lounchcontent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 36
+  },
+  lounchbutton: {
+    flexDirection: 'row',
+    flex: 1,
+    height: 39,
+    backgroundColor: '#636363',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    paddingHorizontal: 15
+  },
+  lounchtext: {
+    color: Colors.white,
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 12,
+    lineHeight: 14,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  lounchicon: {
+    marginLeft: 5
+  }
 });
 
 export default ProfileScreen;
