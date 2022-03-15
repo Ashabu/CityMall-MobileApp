@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
   BackHandler,
+  Platform,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {AppContext} from '../AppContext/AppContext';
@@ -415,7 +416,7 @@ const OrderGiftCardScreen = () => {
         {customerError.length > 0 && (
           <Text style={styles.errorText}>{customerError}</Text>
         )}
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: isDarkTheme ? Colors.white: Colors.black}}>
+        <View style={[{flex: 1, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: isDarkTheme ? Colors.white: Colors.black}, Platform.OS === 'ios' && {marginTop:15}]}>
         {/* <Text style={{color: isDarkTheme ? Colors.white : Colors.black, position: 'relative', bottom: 1}}>995</Text> */}
        <View style={{width: 35}}> 
        <AppInput
