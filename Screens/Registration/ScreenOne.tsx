@@ -277,13 +277,13 @@ const styles = StyleSheet.create({
     inputWithLabel: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 15,
     },
 
     genderCheck: {
         marginTop: '6%',
         borderBottomWidth: 1,
-        paddingBottom: 12,
+        paddingBottom: 17,
     },
 
     errorText: {

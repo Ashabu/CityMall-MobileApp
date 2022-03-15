@@ -417,7 +417,7 @@ const OrderGiftCardScreen = () => {
         )}
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', borderBottomWidth: 1, borderBottomColor: isDarkTheme ? Colors.white: Colors.black}}>
         {/* <Text style={{color: isDarkTheme ? Colors.white : Colors.black, position: 'relative', bottom: 1}}>995</Text> */}
-       <View style={{width: 35, height: 23}}> 
+       <View style={{width: 35}}> 
        <AppInput
           style={{color: isDarkTheme ? Colors.white : Colors.black}}
           name="code"
@@ -433,7 +433,7 @@ const OrderGiftCardScreen = () => {
           editable={false}
         />
         </View>
-        <View style={{height: 23}}>
+        <View>
         <AppInput
           style={{color: isDarkTheme ? Colors.white : Colors.black}}
           placeholder={state?.t('labels.mobile')}

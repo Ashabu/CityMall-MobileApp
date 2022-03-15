@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, TextInput, StyleSheet, Text, KeyboardType, Platform } from 'react-native';
+import { View, TextInput, StyleSheet, Text, KeyboardType, Platform, Dimensions } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import { useDimension } from '../../Hooks/UseDimension';
@@ -116,7 +116,7 @@ const AppInput: React.FC<IAppInput> = (props) => {
     }, [value, validationRule, maxLength])
 
     return (
-        <>
+        <View style={{position: 'relative'}}>
             <View style={[styles.inputWrap, ignoreBorder && {borderBottomWidth: 0}, Platform.OS === 'ios' && {paddingVertical: 4}, { borderColor: isDarkTheme ? Colors.white : Colors.black }]}>
                 <TextInput
                     style={[style || styles.input, { color: isDarkTheme ? Colors.white : Colors.black }]}
@@ -124,10 +124,10 @@ const AppInput: React.FC<IAppInput> = (props) => {
                     selectionColor={isDarkTheme ? Colors.white : Colors.black}
                     placeholderTextColor={isDarkTheme ? Colors.white : Colors.black} />
             </View>
-            {errorMessage !== '' || props.errorMessage !== '' ?
+            {(errorMessage?.trim()?.length > 0 || (props.errorMessage?.trim() || '')?.length > 0) &&
                 <Text style={[styles.errorText, Platform.OS === 'ios' && {marginTop: 5}]}>{errorMessage || props.errorMessage}</Text>
-                : null}
-        </>
+                }
+        </View>
     );
 };
 
@@ -148,6 +148,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
     },
     errorText: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        width: Dimensions.get('screen').width,
+        bottom: -17,
+        flex: 1,
         color: Colors.red,
         fontSize: 11,
         fontFamily: 'HMpangram-Medium',
