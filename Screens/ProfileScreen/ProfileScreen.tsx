@@ -354,15 +354,6 @@ const ProfileScreen = () => {
             />
           </View>
 
-          {/* <View style={styles.redirectView}>
-                    <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
-                    <TouchableOpacity style={styles.redirectBtn}>
-                        <Text style={styles.redirectBtnText}>
-                            დამატებითი ოპერაციები ფეიუნიქარდში
-                        </Text>
-                        <Image source={require('../../assets/images/redirect_icon.png')} style={{ width: 9, height: 9 }} />
-                    </TouchableOpacity>
-                </View> */}
           <ScrollView
             contentContainerStyle={{flexDirection: 'row'}}
             pagingEnabled={true}
@@ -380,7 +371,7 @@ const ProfileScreen = () => {
         <View style={styles.lounchcontent}>
             <Image source={isDarkTheme ? require('../../assets/images/payunicard_dark.png') : require('../../assets/images/payunicard_light.png')} style={styles.payunicard} />
             <TouchableOpacity style={styles.lounchbutton} onPress={lounchpayunicard}>
-              <Text style={styles.lounchtext}>დამატებითი ოპერაციები ფეიუნიქარდში</Text>
+              <Text style={styles.lounchtext}>{state.t('common.payuninfo')}</Text>
               <Image source={require('../../assets/images/lounch.png')} style={styles.lounchicon} />
             </TouchableOpacity>
           </View>
@@ -473,28 +464,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     textTransform: 'uppercase',
     textAlign: 'center',
-  },
-  redirectView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 30,
-  },
-  redirectBtn: {
-    width: '100%',
-    maxWidth: 272,
-    height: 39,
-    borderRadius: 50,
-    backgroundColor: Colors.darkGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  redirectBtnText: {
-    fontSize: 10,
-    fontFamily: 'HMpangram-Medium',
-    marginRight: 5,
   },
   transactionView: {
     marginBottom: 20,
