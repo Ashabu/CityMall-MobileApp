@@ -14,6 +14,7 @@ const ShopDetailBox = (props: any) => {
         setGlobalState({ singleMerchant: props.data })
         navigate('ShopDetailsScreen');
     };
+    // <Image resizeMode={'contain'} style={styles.promotionImg} source={{ uri: props.data.logo || props.data.imageUrl }} />
 
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>

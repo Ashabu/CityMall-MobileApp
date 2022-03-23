@@ -39,7 +39,8 @@ export default {
         location: 'Location',
         map: 'Map',
         checkbalance: 'Balance check',
-        payuninfo: 'Additional operations in Payunicard'
+        payuninfo: 'Additional operations in Payunicard',
+        skip: 'Skip'
     },
     
     screens: {

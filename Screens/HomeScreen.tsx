@@ -13,6 +13,7 @@ import { formatNumber, paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
 import { GetOffers, IOffer } from "../Services/Api/OffersApi";
 import translateService from "../Services/translateService";
+import AsyncStorage from "../Services/StorageService";
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -34,7 +35,13 @@ const HomeScreen = () => {
 
     useEffect(() => {
         handleGetClientCards();
-        getClientData();
+        AsyncStorage.getItem('skip_token').then(res => {
+            if(res === null) {
+                getClientData();
+            } else {
+                getOffers(pagPage, true, false);
+            }
+        })
         // getObjectTypes();
     }, [translateService.lang]);
 
@@ -110,11 +117,11 @@ const HomeScreen = () => {
         };
     };
 
-    const getOffers = (page: number = 1, renew?:boolean) => {
+    const getOffers = (page: number = 1, renew?:boolean, _private: boolean = false) => {  console.log('**********************-------------------')
         if (startFetching) return;
         startFetching = true;
         setIsLoading(true);
-        GetOffers(false, page)
+        GetOffers(_private, page)
             .then(res => {
                 let tempOffers = res.data.data;
                 if (tempOffers.length < 16) {
@@ -152,19 +159,23 @@ const HomeScreen = () => {
 
       useEffect(() => {
         if(infoUpdate.current) clearInterval(infoUpdate.current);
-        infoUpdate.current = setInterval(() => {
-            ApiServices.GetClientInfo()
-            .then(res => {
-                const info = {...res.data};
-                const prevInfo = {...state.clientInfo};
-                prevInfo.points = info.points;
-                prevInfo.ballance = info.ballance;
-                setGlobalState({clientInfo: {...prevInfo}});
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }, 20000);
+        AsyncStorage.getItem('skip_token').then(res => {
+            if(res === null) {
+                infoUpdate.current = setInterval(() => {
+                    ApiServices.GetClientInfo()
+                    .then(res => {
+                        const info = {...res.data};
+                        const prevInfo = {...state.clientInfo};
+                        prevInfo.points = info.points;
+                        prevInfo.ballance = info.ballance;
+                        setGlobalState({clientInfo: {...prevInfo}});
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
+                }, 20000);
+            }
+        })
 
         return () => {
             if(infoUpdate.current) clearInterval(infoUpdate.current);

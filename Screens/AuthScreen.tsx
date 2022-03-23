@@ -14,7 +14,7 @@ import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
 import Layout from '../Components/Layouts/Layout';
 import {AppContext} from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
-import {setItem, getItem} from '../Services/StorageService';
+import AsyncStorage, {setItem, getItem} from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
 import { navigate } from '../Services/NavigationServices';
@@ -199,6 +199,21 @@ const AuthScreen = () => {
     })
   }, [])
 
+  const skip = () => {
+    AsyncStorage.setItem('skip_token', '1').then(_ => {
+        setGlobalState({
+          userPhoneNumber,
+          isAuthenticated: true,
+        });
+    })
+  }
+
+  useEffect(() => {
+    (async() => {
+      await AsyncStorage.removeItem('skip_token');
+    })();
+  }, []);
+
   return (
     <Layout pageName={state.t('common.cityMall')} >
       
@@ -303,6 +318,15 @@ const AuthScreen = () => {
             </Text>
           )}
         </TouchableOpacity>
+
+        {step === 0 && <TouchableOpacity
+          style={styles.authSkip}
+          onPress={skip}
+          disabled={buttonLoading}>
+            <Text style={styles.btnText}>
+              { state?.t('common.skip')}
+            </Text>
+        </TouchableOpacity>}
       </View>
     </Layout>
   );
@@ -341,6 +365,26 @@ const styles = StyleSheet.create({
     height: '100%',
     maxHeight: 66,
     backgroundColor: Colors.darkGrey,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    marginBottom: 30,
+  },
+
+  authSkip: {
+    alignSelf: 'center',
+    width: 325,
+    height: '100%',
+    maxHeight: 66,
+    borderWidth: 1,
+    borderColor: Colors.darkGrey,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',

@@ -69,6 +69,7 @@ class AuthService {
 
 
   async removeToken(): Promise<void> {
+    await storage.removeItem('skip_token');
     await storage.removeItem('access_token');
     await storage.removeItem('refresh_token');
   };
@@ -156,7 +157,10 @@ class AuthService {
       async (error: any) => {
         //  console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
-
+        const isSkip = storage.getItem('skip_token');
+        if(isSkip !== null) {
+          return Promise.reject(error);
+        }
         //Reject promise if usual error
         if ((error?.response?.status !== 401 && error?.response?.status !== 403) || error.config.anonymous || error.config.skipRefresh) {
           return Promise.reject(error);
