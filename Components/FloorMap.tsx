@@ -123,7 +123,6 @@ export default () => {
   let floorIndexOnStart = '';
   let btnTitle = '';
   try {
-    console.log(floorsDetails)
     btnTitle = floorsDetails.filter(f => f.id === floorIndex)[0].title;
 
   } catch (e) {}

@@ -42,7 +42,6 @@ const AuthScreen = () => {
 
   useEffect(() => {
     getItem('hasAgreedTerms').then(value => {
-      console.log(value);
       if (!value) {
         setSameUser('');
       } else {
@@ -165,7 +164,6 @@ const AuthScreen = () => {
       .catch(e => {
         setButtonLoading(false);
         let error = JSON.parse(JSON.stringify(e.response)).data.error;
-        console.log(error);
         switch (error) {
           case 'require_otp':
             setStep(2);

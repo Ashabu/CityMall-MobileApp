@@ -29,7 +29,6 @@ const AppIndex = () => {
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
       config.headers['langcode'] = translateService.lang === default_lang_key ? 'ka-GE' : 'en-US'; // || default_lang_key;
-      console.log('+++++++++++++++++++++++++', config.headers.langcode);
       return config;
     });
     let responseInterceptor = axios.interceptors.response.use(
@@ -69,7 +68,6 @@ const AppIndex = () => {
     await AuthService.SignOut();
     setUserToken('');
     setGlobalState({isAuthenticated: false});
-    console.log('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
   };
 
   useEffect(() => {
@@ -100,7 +98,6 @@ const AppIndex = () => {
   useEffect(() => {
     AsyncStorage.getItem(locale_key)
       .then(res => {
-        console.log(res);
         if (res !== null) {
           initialize(res);
         } else {

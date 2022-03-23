@@ -41,12 +41,10 @@ const SelectedVouchers = () => {
       navigate('VouchersDone');
     }).catch(e => {
       setIsLoading(false);
-      console.log(e.response)
       setError(e?.response?.data?.DisplayText);
     })
   };
 
-  console.log(route.params.data)
 
 
   return (

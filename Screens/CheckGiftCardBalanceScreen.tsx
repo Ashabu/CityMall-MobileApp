@@ -216,7 +216,6 @@ const CheckGiftCardBalanceScreen = () => {
       ExpireYear: parseInt(expireDay),
       ExpireMonth: parseInt(expireMonth),
     };
-    console.log(data);
     ApiServices.GetGiftBallance(data)
       .then(res => {
         if (res.status === 200) {

@@ -83,7 +83,6 @@ const HomeScreen = () => {
             setInitLoading(false);
         })
             .catch(e => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data);
                 setInitLoading(false);
             });
     };
@@ -117,7 +116,7 @@ const HomeScreen = () => {
         };
     };
 
-    const getOffers = (page: number = 1, renew?:boolean, _private: boolean = false) => {  console.log('**********************-------------------')
+    const getOffers = (page: number = 1, renew?:boolean, _private: boolean = false) => { 
         if (startFetching) return;
         startFetching = true;
         setIsLoading(true);
@@ -126,7 +125,7 @@ const HomeScreen = () => {
                 let tempOffers = res.data.data;
                 if (tempOffers.length < 16) {
                     isEndFetching = true;
-                }console.log('modis/////////////////////////////////////', res.data.data)
+                }
                 if(renew) {
                     setOffers(tempOffers);
                 } else {
@@ -182,7 +181,6 @@ const HomeScreen = () => {
         }
       }, [])
 
-console.log('>>>>>>>>>>>>>>>>', offers.length)
     return (
         <AppLayout pageTitle={state?.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>

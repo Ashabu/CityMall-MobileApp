@@ -106,7 +106,6 @@ const DistrictPiker = (props: any) => {
             marginHorizontal: 15,
         }
     })
-console.log('>>>>.',props.districts)
     return (
         <>
                     <TouchableOpacity

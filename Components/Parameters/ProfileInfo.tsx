@@ -92,7 +92,6 @@ const ProfileInfo = () => {
         setVerifyEmailLoading(false);
         setVerifyEmailError(true);
         setIsValidMailOtp(false);
-        console.log(JSON.parse(JSON.stringify(e.response)).data);
       });
   };
 
@@ -105,7 +104,6 @@ const ProfileInfo = () => {
       otp: emailVerificationCode,
       personCode: clientDetails![0]?.personCode,
     };
-    console.log(data)
     ApiServices.SubmitMailOtp(data)
       .then((res: any) => {
         setIsloading(false);
@@ -135,7 +133,6 @@ const ProfileInfo = () => {
       })
       .catch((e: any) => {
         setButtonLoading(false);
-        console.log(JSON.parse(JSON.stringify(e.response)).data.error);
       });
   };
 

@@ -73,7 +73,6 @@ const CategoryTypes: any = {
     GetOffers(false, page, routeParams.params.routeId)
       .then(res => {
         let tempOffers = res.data.data;
-        console.log(tempOffers, 'asdadasdasdadasd');
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
@@ -165,7 +164,6 @@ const CategoryTypes: any = {
     );
     let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
 
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);

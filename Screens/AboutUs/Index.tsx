@@ -24,7 +24,6 @@ const AboutUsIndex = () => {
         axios.get(`${envs.API_URL}/api/Mobile/GetGeneralTxt`).then(res => {
           if (res.data) {
             setStrings(res.data);
-           // console.log(res.data)
           }
         });
       }, [state.lang]);
