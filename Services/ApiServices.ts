@@ -18,6 +18,7 @@ export interface IClientInfo {
     category?: number,
     categoryStatus?: number,
     categoryPointInfo?: ICategoryPointInfo[],
+    hasPayCard?: boolean;
 }
 
 export interface IMerchants {
@@ -128,6 +129,21 @@ interface IClientTransactionResponse {
   data?:IClientTransaction[]
 }
 
+export interface IClientPaymentTransaction {
+    tranID: number,
+    accountNumber: string,
+    ccy: string,
+    amount: number,
+    description: string,
+    shortDescription: string,
+    imageUrl: string,
+    tranDate?: string,
+}
+
+export interface IClientPaymentTransactionResponse {
+    data?: IClientPaymentTransaction[]
+}
+
 interface IGetAgreementItem {  
     fileName: string,
     fullPath: string,
@@ -183,6 +199,14 @@ class ApiServices {
 
     GetClientTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
         return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`, {
+            headers: {
+                theme: theme || ''
+            }
+        });
+    }
+
+    GetClientPayTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
+        return await axios.get<IClientPaymentTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientPayTransactions?Page=${index}&PageSize=${PageSize}`, {
             headers: {
                 theme: theme || ''
             }

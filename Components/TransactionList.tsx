@@ -10,18 +10,18 @@ const TransactionList = (props: any) => {
   
     return (
         <View style={styles.trListWrap}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
                 <Image
                     resizeMode={'contain'}
-                    source={{uri: props.item?.imageURL}}
-                    style={{ width: 25, height: 25 }}
+                    source={{uri: props.isPayment ? props.item?.imageUrl : props.item?.imageURL}}
+                    style={{ width: 25, height: 25}}
                 />
-                <View style={{ marginLeft: 10 }}>
-                    <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{new Date(props.item?.authDate).toLocaleDateString().split('/').join('.')} {new Date(props.item?.authDate).toLocaleTimeString()}</Text>
-                    <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{props.item?.merchantName}</Text>
+                <View style={{ marginLeft: 10, flex: 1 }}>
+                    <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{new Date(props.isPayment ? props.item?.tranDate : props.item?.authDate).toLocaleDateString().split('/').join('.')} {new Date(props.isPayment ? props.item?.tranDate : props.item?.authDate).toLocaleTimeString()}</Text>
+                    <Text numberOfLines={2} style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{props.isPayment ? props.item.shortDescription : props.item?.merchantName}</Text>
                 </View>
             </View>
-            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.successGreen : Colors.red}]}>{props.item?.points}</Text>
+            <Text style={[{color: props.item.transactionType === tranTypes.accumulate ? Colors.successGreen : Colors.red}]}>{props.isPayment ? props.item.amount + ' ' + props.item.ccy : props.item?.points}</Text>
         </View> 
     )
 };
