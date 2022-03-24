@@ -17,11 +17,18 @@ import AuthService from '../Services/AuthService';
 import AsyncStorage, {setItem, getItem} from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
-import { navigate } from '../Services/NavigationServices';
+import { GoBack, navigate } from '../Services/NavigationServices';
 import ApiServices from '../Services/ApiServices';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
+type RouteParamList = {
+  params: {
+    skip?: boolean;
+  };
+};
 
 const AuthScreen = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme} = state;
 
@@ -148,12 +155,16 @@ const AuthScreen = () => {
         otp: otp,
         password: password,
       };
-    }
+    }console.log(data)
     setButtonLoading(true);
     AuthService.SignIn(data)
       .then(res => {
         AuthService.setToken(res.data.access_token, res.data.refresh_token);
         setButtonLoading(false);
+        if(route?.params?.skip) {
+          navigate('AboutUs', { routeId: 2, userPhoneNumber, skip: route?.params?.skip });
+          return;
+        }
         setGlobalState({
           userPhoneNumber,
           isAuthenticated: true,
@@ -198,6 +209,10 @@ const AuthScreen = () => {
   }, [])
 
   const skip = () => {
+    if(route?.params?.skip) {
+      GoBack();
+      return;
+    }
     AsyncStorage.setItem('skip_token', '1').then(_ => {
         setGlobalState({
           userPhoneNumber,

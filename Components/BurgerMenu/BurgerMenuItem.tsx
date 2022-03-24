@@ -28,11 +28,12 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
     const { isDarkTheme, clientDetails } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
     const [isSkip, setIsSkip] = useState<boolean>(false);
-
+    
     const handleOnMenuItemPress = () => {
         if (item.location?.length == 0) {
             if((clientDetails.length === 0 || isSkip) && item.id === 10) {
-                return navigate('AboutUs', {routeId: 2})
+                isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 });
+                return;
             } else {
                 return navigate(item.routeName!, {name: item.name});
             };
@@ -75,7 +76,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 setIsSkip(true);
             }
         }).catch(() => setIsSkip(false));
-    }, []);
+    }, [clientDetails]);
 
     return (
         <View style={{ marginBottom: 20 }}>

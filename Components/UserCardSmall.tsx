@@ -7,12 +7,13 @@ import translateService from '../Services/translateService';
 interface ICardSm {
     cardNumber: string,
     navigateToBarCode?: () => void,
-    navigateToReg?: () => void
+    navigateToReg?: () => void,
+    skip: boolean
 }
 const UserCardSmall: React.FC<ICardSm> = (props) => {
     const {state} = useContext(AppContext);
     const [y, setY] = useState(0);
-    const { cardNumber, navigateToBarCode, navigateToReg } = props;
+    const { cardNumber, navigateToBarCode, navigateToReg, skip } = props;
 
     return (
         !cardNumber ?
@@ -20,7 +21,7 @@ const UserCardSmall: React.FC<ICardSm> = (props) => {
                 <Text style={styles.warningText}>{state?.t('infoText.registrationText')}</Text>
                 <Image style={[styles.giftCardImg, { opacity: 0.2 }]} source={require('../assets/images/loyalty-card.png')} />
                 <View style={styles.container}>
-                    <Text style={styles.authBtnText}>{state?.t('common.register')}</Text>
+                    <Text style={styles.authBtnText}>{state?.t('common.register') + (skip ? ' / ' + state?.t('common.signin') : '') }</Text>
                     <Image style={{ marginLeft: 7, width: 7, height: 7 }} source={require('../assets/images/arrow-sm.png')} />
                 </View>
             </TouchableOpacity>

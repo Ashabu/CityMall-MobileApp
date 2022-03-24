@@ -156,7 +156,8 @@ class AuthService {
       async (error: any) => {
         //  console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
-        const isSkip = storage.getItem('skip_token');
+        const isSkip = await storage.getItem('skip_token');
+       
         if(isSkip !== null) {
           return Promise.reject(error);
         }

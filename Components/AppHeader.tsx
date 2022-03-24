@@ -40,11 +40,11 @@ const AppHeader = (props: any) => {
   const toggleDropdown = () => {
     setVisible(!visible);
   };
-  
 
   const handleIconPress = () => {
     if(clientDetails.length === 0 || isSkip){
-      return navigate('AboutUs',{routeId:2})
+      isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 })
+      return;
     }
     setNews(!news);
    
@@ -58,7 +58,7 @@ const AppHeader = (props: any) => {
             setIsSkip(true);
         }
     }).catch(() => setIsSkip(false));
-}, []);
+}, [clientDetails]);
 
   return (
     <>

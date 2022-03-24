@@ -102,6 +102,13 @@ const AppStack: React.FC<IProps> = ({init}) => {
                 headerShown: false,
               }}
             />
+             <Stack.Screen
+              name="AuthScreenWithSkip"
+              component={AuthScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
             <Stack.Screen
               name="REGSTEP_ONE"
               component={ScreenOne}

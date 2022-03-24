@@ -34,7 +34,7 @@ const Parameters = () => {
             setIsSkip(true);
         }
     }).catch(() => setIsSkip(false));
-}, []);
+}, [clientDetails]);
 
   return (
     <Layout hasBackArrow onPressBack={GoBack} pageName={state?.t('screens.parameters')}>

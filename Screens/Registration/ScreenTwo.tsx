@@ -203,7 +203,7 @@ const ScreenTwo: React.FC = (props: any) => {
             lastName: routeObject.lastName,
             personCode: routeObject.personCode,
             birthDate: dateOfBirth || new Date(),
-            phone: userPhoneNumber,
+            phone: routeObject?.skip ? routeObject?.userPhoneNumber : userPhoneNumber,
             email: email,
             address: selectedDistrict === state?.t('screens.other') ? district : selectedDistrict,
             sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
@@ -230,7 +230,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
-                        navigate('REGSTEP_THREE');
+                        navigate('REGSTEP_THREE', {skip: routeObject?.skip});
                     })
                     .catch((e: any) => {
                         setButtonLoading(false);

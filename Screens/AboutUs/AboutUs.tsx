@@ -18,7 +18,6 @@ const AboutUs = ({strings}: {strings: any[]}) => {
   }, [])
     const getWidgets = () => {
       ApiServices.GetWidgets().then(res => {
-       // console.log(res.data)
         setContentData(res.data)
       }).catch(e => {
         console.log(JSON.parse(JSON.stringify(e.response)))

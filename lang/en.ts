@@ -40,7 +40,8 @@ export default {
         map: 'Map',
         checkbalance: 'Balance check',
         payuninfo: 'Additional operations in Payunicard',
-        skip: 'Skip'
+        skip: 'Skip',
+        signin: 'SignIn'
     },
     
     screens: {

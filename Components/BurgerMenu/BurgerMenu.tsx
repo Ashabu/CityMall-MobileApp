@@ -31,7 +31,7 @@ const BurgerMenu = () => {
             setIsSkip(true);
         }
     }).catch(() => setIsSkip(false));
-}, []);
+}, [clientDetails]);
 
   return (
     <SafeAreaView

@@ -11,7 +11,9 @@ import { AppContext } from '../../AppContext/AppContext';
 type RouteParamList = {
     params: {
         id: number,
-        routeId: number
+        routeId: number,
+        userPhoneNumber?: string;
+        skip?: boolean;
     }
 }
 
@@ -32,7 +34,7 @@ const AboutUsIndex = () => {
         routeParams.params.routeId === 1 ?
             <AboutUs strings={strings} />
             :
-            <Loyalty strings={strings} />
+            <Loyalty strings={strings} userPhoneNumber={routeParams?.params?.userPhoneNumber} skip={routeParams?.params?.skip} />
 
     );
 }

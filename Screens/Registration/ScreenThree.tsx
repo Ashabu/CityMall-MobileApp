@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
 import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
@@ -5,26 +6,48 @@ import { Colors } from '../../Colors/Colors';
 import Layout from '../../Components/Layouts/Layout';
 import ApiServices from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
+import AsyncStorage from '../../Services/StorageService';
 import Grid from '../../Styles/grid';
 
+type RouteParamList = {
+    params: {
+        skip?: boolean;
+    }
+}
 
 const ScreenThree: React.FC = () => {
+    const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme} = state;
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
     const handleGetClientCards = () => {
         setButtonLoading(false);
-        ApiServices.GetClientCards().then(res => {
-            setGlobalState({cardDetails: res.data});
-            setGlobalState({ clientDetails: res.data });
-            setButtonLoading(false);
-            navigate('HomeScreen')
-        })
-            .catch(e => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data);
+       
+        ApiServices.GetClientCards().then((res) => {
+            const fn = () => {
+                setGlobalState({cardDetails: res.data});
+                setGlobalState({ clientDetails: res.data });
                 setButtonLoading(false);
+                if(routeParams?.params?.skip) {
+                    setGlobalState({ isAuthenticated: true });
+                }
                 navigate('HomeScreen')
+            }
+            AsyncStorage.removeItem('skip_token').then(_ => {
+                fn();
+            }).catch(() => fn());    
+        })
+            .catch((e) => {
+                const fn = () => {
+                    console.log(JSON.parse(JSON.stringify(e.response)).data);
+                    setButtonLoading(false);
+                    navigate('HomeScreen')
+                }
+                AsyncStorage.removeItem('skip_token').then(_ => {
+                    fn();
+                }).catch(() => fn());
+
             });
     };
 
