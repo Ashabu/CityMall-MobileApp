@@ -38,7 +38,6 @@ const BurgerMenuCategories: React.FC<IBmCategoriesItem> = ({
   pageName,
   isPremium,
 }) => {
-  // console.log('From Burger Menu routeId ==>', 'routeId', routeId, 'itemid', item?.id)
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
   const [emails, setEmails] = useState<IEmails[]>([]);

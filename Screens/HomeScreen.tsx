@@ -13,6 +13,8 @@ import { formatNumber, paginationDotCount } from "../Services/Utils";
 import { navigate } from "../Services/NavigationServices";
 import { GetOffers, IOffer } from "../Services/Api/OffersApi";
 import translateService from "../Services/translateService";
+import AsyncStorage from "../Services/StorageService";
+import AuthService from "../Services/AuthService";
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -31,10 +33,19 @@ const HomeScreen = () => {
     const [offersView, setOffersView] = useState<any[]>();
     const [initLoading, setInitLoading] = useState<boolean>(true);
     const infoUpdate = useRef<NodeJS.Timer>();
+    const [isSkip, setIsSkip] = useState(false);
 
     useEffect(() => {
         handleGetClientCards();
-        getClientData();
+        AsyncStorage.getItem('skip_token').then(res => {
+            if(res === null) {
+                getClientData();
+                setIsSkip(false);
+            } else {
+                setIsSkip(true);
+                getOffers(pagPage, true, false);
+            }
+        })
         // getObjectTypes();
     }, [translateService.lang]);
 
@@ -76,7 +87,6 @@ const HomeScreen = () => {
             setInitLoading(false);
         })
             .catch(e => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data);
                 setInitLoading(false);
             });
     };
@@ -110,16 +120,16 @@ const HomeScreen = () => {
         };
     };
 
-    const getOffers = (page: number = 1, renew?:boolean) => {
+    const getOffers = (page: number = 1, renew?:boolean, _private: boolean = false) => { 
         if (startFetching) return;
         startFetching = true;
         setIsLoading(true);
-        GetOffers(false, page)
+        GetOffers(_private, page)
             .then(res => {
                 let tempOffers = res.data.data;
                 if (tempOffers.length < 16) {
                     isEndFetching = true;
-                }console.log('modis/////////////////////////////////////', res.data.data)
+                }
                 if(renew) {
                     setOffers(tempOffers);
                 } else {
@@ -152,27 +162,42 @@ const HomeScreen = () => {
 
       useEffect(() => {
         if(infoUpdate.current) clearInterval(infoUpdate.current);
-        infoUpdate.current = setInterval(() => {
-            ApiServices.GetClientInfo()
-            .then(res => {
-                const info = {...res.data};
-                const prevInfo = {...state.clientInfo};
-                prevInfo.points = info.points;
-                prevInfo.ballance = info.ballance;
-                setGlobalState({clientInfo: {...prevInfo}});
-            })
-            .catch(e => {
-              console.log(e);
-            });
-        }, 20000);
+        AsyncStorage.getItem('skip_token').then(res => { 
+            if(res === null) {
+                infoUpdate.current = setInterval(() => {
+                    ApiServices.GetClientInfo()
+                    .then(res => {
+                        const info = {...res.data};
+                        const prevInfo = {...state.clientInfo};
+                        prevInfo.points = info.points;
+                        prevInfo.ballance = info.ballance;
+                        setGlobalState({clientInfo: {...prevInfo}});
+                    })
+                    .catch(e => {
+                      console.log(e);
+                    });
+                }, 20000);
+            } else {
+                setIsSkip(true);
+            }
+        })
 
         return () => {
             if(infoUpdate.current) clearInterval(infoUpdate.current);
         }
       }, [])
 
-console.log('>>>>>>>>>>>>>>>>', offers.length)
-    return (
+      useEffect(() => {
+        AsyncStorage.getItem('skip_token').then(res => { 
+            if(res === null) {
+                setIsSkip(false);
+            } else {
+                setIsSkip(true);
+            }
+        })
+      }, [clientDetails])
+
+      return (
         <AppLayout pageTitle={state?.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
                 <View style={{ flex: 4.5, justifyContent: 'center' }}>
@@ -182,8 +207,9 @@ console.log('>>>>>>>>>>>>>>>>', offers.length)
                                 /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                                 '$1  $2  $3  $4',
                             )}
+                            skip={isSkip}
                             navigateToBarCode={() => navigate('UserCardWithBarcode')}
-                            navigateToReg={() => navigate('AboutUs', { routeId: 2 })} />
+                            navigateToReg={() => isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 })} />
                         :
                         <ActivityIndicator animating={initLoading} color='#dadde1' />
                     }

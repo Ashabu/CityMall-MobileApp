@@ -16,10 +16,22 @@ import {AppContext} from '../../AppContext/AppContext';
 import AuthService from '../../Services/AuthService';
 import translateService from '../../Services/translateService';
 import { default_lang_key } from '../../lang';
+import AsyncStorage from '../../Services/StorageService';
 
 const BurgerMenu = () => {
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
+  const [isSkip, setIsSkip] = useState<boolean>(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem('skip_token').then(res => {
+        if(res === null) {
+            setIsSkip(false);
+        } else {
+            setIsSkip(true);
+        }
+    }).catch(() => setIsSkip(false));
+}, [clientDetails]);
 
   return (
     <SafeAreaView
@@ -33,13 +45,13 @@ const BurgerMenu = () => {
           
           style={{width: 135, height: 17}}
         />
-        <Text
+        {!isSkip && <Text
           style={[
             styles.usernameText,
             {color: isDarkTheme ? Colors.white : Colors.black},
           ]}>
           {clientDetails?.[0]?.firstName} {clientDetails?.[0]?.lastName}
-        </Text>
+        </Text>}
         <Image
           source={require('../../assets/images/gradient-line.png')}
           style={{width: '100%'}}
@@ -58,7 +70,7 @@ const BurgerMenu = () => {
               <View style={{borderColor: isDarkTheme? '#ffffff45' : '#bab8b887', borderWidth: 1}}></View>
             </View>
           ) : (
-            <BurgerMenuItem item={item} key={index} />
+           (item.id === 7 && isSkip) ? null : <BurgerMenuItem item={item} key={index} />
           ),
         )}
       </ScrollView>
@@ -68,7 +80,7 @@ const BurgerMenu = () => {
           style={styles.logoutBtn}
           onPress={() => {
             AuthService.SignOut();
-            setGlobalState({isAuthenticated: false});
+            setGlobalState({isAuthenticated: false, clientDetails: {}, clientInfo: {}});
           }}>
           <Text style={styles.logoutBtnText}>
             {state?.t('common.exit')}

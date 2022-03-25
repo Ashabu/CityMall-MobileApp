@@ -11,7 +11,9 @@ import { AppContext } from '../../AppContext/AppContext';
 type RouteParamList = {
     params: {
         id: number,
-        routeId: number
+        routeId: number,
+        userPhoneNumber?: string;
+        skip?: boolean;
     }
 }
 
@@ -24,7 +26,6 @@ const AboutUsIndex = () => {
         axios.get(`${envs.API_URL}/api/Mobile/GetGeneralTxt`).then(res => {
           if (res.data) {
             setStrings(res.data);
-           // console.log(res.data)
           }
         });
       }, [state.lang]);
@@ -33,7 +34,7 @@ const AboutUsIndex = () => {
         routeParams.params.routeId === 1 ?
             <AboutUs strings={strings} />
             :
-            <Loyalty strings={strings} />
+            <Loyalty strings={strings} userPhoneNumber={routeParams?.params?.userPhoneNumber} skip={routeParams?.params?.skip} />
 
     );
 }

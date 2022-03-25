@@ -49,7 +49,6 @@ const ScreenTwo: React.FC = (props: any) => {
 
     // const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-    // console.log(routeObj.params)
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
@@ -76,7 +75,6 @@ const ScreenTwo: React.FC = (props: any) => {
         GetDistricts();
 
     }, []);
-    console.log(district)
 
     useEffect(() => {
         if (errorMessages.length === 0) {
@@ -119,7 +117,7 @@ const ScreenTwo: React.FC = (props: any) => {
 
     const GetDistricts = () => {
         ApiServices.GetDistricts()
-            .then((res: any) => {console.log('.....',res.data)
+            .then((res: any) => {
                 setDistricts(res.data)
             })
             .catch((e: any) => {
@@ -179,7 +177,6 @@ const ScreenTwo: React.FC = (props: any) => {
     };
 
 
-    console.log('dateofbirth ==> ', dateOfBirth)
 
     // const formatDate = (date: Date) => { 
     //     let dateArray: any[] = [];
@@ -195,7 +192,6 @@ const ScreenTwo: React.FC = (props: any) => {
     const handleAddVirtualCard = () => {
         if (errorMessages.length > 0) {
             setHasError(true);
-            console.log(errorMessages)
             return;
         };
         setGeneralError('');
@@ -207,14 +203,13 @@ const ScreenTwo: React.FC = (props: any) => {
             lastName: routeObject.lastName,
             personCode: routeObject.personCode,
             birthDate: dateOfBirth || new Date(),
-            phone: userPhoneNumber,
+            phone: routeObject?.skip ? routeObject?.userPhoneNumber : userPhoneNumber,
             email: email,
             address: selectedDistrict === state?.t('screens.other') ? district : selectedDistrict,
             sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
             mailOtp: emailVerificationCode,
             isResident: routeObject.isForeignResident
         };
-        console.log('data reg ==>', data)
         ApiServices.AddVirtualCard(data)
             .then(async res => {
                 
@@ -235,7 +230,7 @@ const ScreenTwo: React.FC = (props: any) => {
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
-                        navigate('REGSTEP_THREE');
+                        navigate('REGSTEP_THREE', {skip: routeObject?.skip});
                     })
                     .catch((e: any) => {
                         setButtonLoading(false);

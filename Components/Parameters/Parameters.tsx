@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {Image, StyleSheet, Text, View, Switch, Platform} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppContext} from '../../AppContext/AppContext';
@@ -12,6 +12,7 @@ const Parameters = () => {
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isSkip, setIsSkip] = useState<boolean>(false);
 
   const lightMoonIcon = require('../../assets/images/moon.png');
   const darkMoonIcon = require('../../assets/images/darkMoon.png');
@@ -25,6 +26,16 @@ const Parameters = () => {
   };
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+  useEffect(() => {
+    AsyncStorage.getItem('skip_token').then(res => {
+        if(res === null) {
+            setIsSkip(false);
+        } else {
+            setIsSkip(true);
+        }
+    }).catch(() => setIsSkip(false));
+}, [clientDetails]);
+
   return (
     <Layout hasBackArrow onPressBack={GoBack} pageName={state?.t('screens.parameters')}>
       <View
@@ -34,9 +45,9 @@ const Parameters = () => {
           paddingHorizontal: '7%',
         }}>
         <View style={styles.nameWrapper}> 
-          <Text selectable={true} style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
+          {!isSkip && <Text selectable={true} style={[styles.name,{ color: isDarkTheme ? Colors.white : Colors.black }]}>
             {clientDetails?.[0]?.firstName + ' ' + clientDetails?.[0]?.lastName}
-          </Text>
+          </Text>}
         </View>
         <View style={{top: 83, height: 80, justifyContent: 'space-between'}}>
           <View style={styles.desighnView}>

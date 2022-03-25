@@ -38,9 +38,10 @@ export default {
     subCategories: 'ქვეკატეგორიები',
     location: 'ლოკაცია',
     map: 'რუქა',
-    checkbalance: 'ნაშთის შემოწმბა'
-
-
+    checkbalance: 'ნაშთის შემოწმბა',
+    payuninfo: 'დამატებითი ოპერაციები ფეიუნიქარდში',
+    skip: 'გამოტოვება',
+    signin: 'ავტორიზაცია'
     
 
   },

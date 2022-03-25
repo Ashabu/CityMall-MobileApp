@@ -6,7 +6,7 @@ import {
   Keyboard,
   TouchableOpacity,
   ActivityIndicator,
-  Image
+  Image,
 } from 'react-native';
 import {Colors} from '../Colors/Colors';
 import OneTimeCode from '../Components/OneTimeCode';
@@ -14,14 +14,21 @@ import AppCheckBox from '../Components/CustomComponents/AppCheckBox';
 import Layout from '../Components/Layouts/Layout';
 import {AppContext} from '../AppContext/AppContext';
 import AuthService from '../Services/AuthService';
-import {setItem, getItem} from '../Services/StorageService';
+import AsyncStorage, {setItem, getItem} from '../Services/StorageService';
 import AppInput from '../Components/CustomComponents/AppInput';
 import DialCodePicker from '../Components/CustomComponents/DialCodePicker';
-import { navigate } from '../Services/NavigationServices';
+import {GoBack, navigate} from '../Services/NavigationServices';
 import ApiServices from '../Services/ApiServices';
+import {RouteProp, useRoute} from '@react-navigation/native';
 
+type RouteParamList = {
+  params: {
+    skip?: boolean;
+  };
+};
 
 const AuthScreen = () => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme} = state;
 
@@ -42,7 +49,6 @@ const AuthScreen = () => {
 
   useEffect(() => {
     getItem('hasAgreedTerms').then(value => {
-      console.log(value);
       if (!value) {
         setSameUser('');
       } else {
@@ -59,30 +65,29 @@ const AuthScreen = () => {
     }
   }, [step, userPhoneNumber]);
 
-    useEffect(() => {
-        getItem('hasAgreedTerms').then(value => {
-            if (!value) {
-                setSameUser('');
-            } else {
-                setSameUser(value);
-            };
-        });
-    }, []);
+  useEffect(() => {
+    getItem('hasAgreedTerms').then(value => {
+      if (!value) {
+        setSameUser('');
+      } else {
+        setSameUser(value);
+      }
+    });
+  }, []);
 
-    useEffect(() => {
-        if((sameUser === userPhoneNumber) && step === 2) {   
-            setAgreedTerms(true);
-        } else {
-            setAgreedTerms(false);
-        }
-    }, [step, userPhoneNumber])
+  useEffect(() => {
+    if (sameUser === userPhoneNumber && step === 2) {
+      setAgreedTerms(true);
+    } else {
+      setAgreedTerms(false);
+    }
+  }, [step, userPhoneNumber]);
 
-    useEffect(() => {
-        if (errorMessages.length === 0) {
-            setHasError(false);
-        };
-    }, [errorMessages]);
-
+  useEffect(() => {
+    if (errorMessages.length === 0) {
+      setHasError(false);
+    }
+  }, [errorMessages]);
 
   useEffect(() => {
     if (errorMessages.length === 0) {
@@ -154,18 +159,76 @@ const AuthScreen = () => {
     AuthService.SignIn(data)
       .then(res => {
         AuthService.setToken(res.data.access_token, res.data.refresh_token);
-        setButtonLoading(false);
-        setGlobalState({
-          userPhoneNumber,
-          isAuthenticated: true,
-        });
+        if (route?.params?.skip) {
+          setTimeout(() => {
+            ApiServices.GetClientInfo()
+              .then(res => {
+                if (res.data?.isRegisterd) {
+                  AsyncStorage.removeItem('skip_token')
+                    .then(_ => {
+                      setGlobalState({
+                        userPhoneNumber,
+                        isAuthenticated: true,
+                      });
+                      ApiServices.GetClientCards()
+                        .then(res => {
+                          setGlobalState({cardDetails: res.data});
+                          setGlobalState({clientDetails: res.data});
+                          setButtonLoading(false);
+                          navigate('HomeScreen');
+                        })
+                        .catch(_ => {
+                          setButtonLoading(false);
+                        });
+                    })
+                    .catch(() => {
+                      setGlobalState({
+                        userPhoneNumber,
+                        isAuthenticated: true,
+                      });
+                      ApiServices.GetClientCards()
+                        .then(res => {
+                          setGlobalState({cardDetails: res.data});
+                          setGlobalState({clientDetails: res.data});
+                          navigate('HomeScreen');
+                        })
+                        .catch(_ => {});
+                      setButtonLoading(false);
+                    });
+                } else {
+                  setButtonLoading(false);
+                  navigate('AboutUs', {
+                    routeId: 2,
+                    userPhoneNumber,
+                    skip: route?.params?.skip,
+                  });
+                  return;
+                }
+              })
+              .catch(e => {
+                console.log(e);
+                setButtonLoading(false);
+                navigate('AboutUs', {
+                  routeId: 2,
+                  userPhoneNumber,
+                  skip: route?.params?.skip,
+                });
+                return;
+              });
+          }, 100);
+        } else {
+          setButtonLoading(false);
+          setGlobalState({
+            userPhoneNumber,
+            isAuthenticated: true,
+          });
+        }
         // setPhoneNumber(userPhoneNumber);
         // setIsAuth(true);
       })
       .catch(e => {
         setButtonLoading(false);
         let error = JSON.parse(JSON.stringify(e.response)).data.error;
-        console.log(error);
         switch (error) {
           case 'require_otp':
             setStep(2);
@@ -193,20 +256,42 @@ const AuthScreen = () => {
   useEffect(() => {
     ApiServices.GetAgerements().then(res => {
       let files = res.data;
-      if(files?.length) {
+      if (files?.length) {
         setfullPath(files[0]?.fullPath);
       }
-    })
-  }, [])
+    });
+  }, []);
+
+  const skip = () => {
+    if (route?.params?.skip) {
+      GoBack();
+      return;
+    }
+    AsyncStorage.setItem('skip_token', '1').then(_ => {
+      setGlobalState({
+        userPhoneNumber,
+        isAuthenticated: true,
+      });
+    });
+  };
+
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.removeItem('skip_token');
+    })();
+  }, []);
 
   return (
-    <Layout pageName={state.t('common.cityMall')} >
-      
+    <Layout pageName={state.t('common.cityMall')}>
       <View style={{flex: 1, paddingHorizontal: '10%'}}>
-      
         <View style={{flex: 4, justifyContent: 'center'}}>
-          
-          <Text style={[styles.authTitle,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('screens.firstAuthorization')}</Text>
+          <Text
+            style={[
+              styles.authTitle,
+              {color: isDarkTheme ? Colors.white : Colors.black},
+            ]}>
+            {state?.t('screens.firstAuthorization')}
+          </Text>
         </View>
         <View style={{flex: 6}}>
           <View style={{flexDirection: 'row', position: 'relative'}}>
@@ -278,14 +363,15 @@ const AuthScreen = () => {
                   onChange={toggleAgreedTerms}
                   hasError={agreedTermsError}
                 />
-                <TouchableOpacity onPress={() => navigate('DocView', { docUrl: fullPath})}>
-                <Text
-                  style={[
-                    styles.agreeTermsText,
-                    {color: isDarkTheme ? Colors.white : Colors.black},
-                  ]}>
-                  {state?.t('infoText.agreement')}
-                </Text>
+                <TouchableOpacity
+                  onPress={() => navigate('DocView', {docUrl: fullPath})}>
+                  <Text
+                    style={[
+                      styles.agreeTermsText,
+                      {color: isDarkTheme ? Colors.white : Colors.black},
+                    ]}>
+                    {state?.t('infoText.agreement')}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -299,14 +385,24 @@ const AuthScreen = () => {
             <ActivityIndicator animating={buttonLoading} color="#dadde1" />
           ) : (
             <Text style={styles.btnText}>
-              {step === 0 ? state?.t('screens.giveCode') : state?.t('screens.authorization')}
+              {step === 0
+                ? state?.t('screens.giveCode')
+                : state?.t('screens.authorization')}
             </Text>
           )}
         </TouchableOpacity>
+
+        {step === 0 && (
+          <TouchableOpacity
+            style={styles.authSkip}
+            onPress={skip}
+            disabled={buttonLoading}>
+            <Text style={styles.btnText}>{state?.t('common.skip')}</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </Layout>
   );
-
 };
 
 const styles = StyleSheet.create({
@@ -341,6 +437,26 @@ const styles = StyleSheet.create({
     height: '100%',
     maxHeight: 66,
     backgroundColor: Colors.darkGrey,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    marginBottom: 30,
+  },
+
+  authSkip: {
+    alignSelf: 'center',
+    width: 325,
+    height: '100%',
+    maxHeight: 66,
+    borderWidth: 1,
+    borderColor: Colors.darkGrey,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',

@@ -8,7 +8,7 @@ import Layout from '../../Components/Layouts/Layout';
 import AppButton from '../../Components/CustomComponents/AppButton';
 import translateService from '../../Services/translateService';
 
-const Loyalty = ({strings}: {strings: any[]}) => {
+const Loyalty = ({strings, userPhoneNumber, skip}: {strings: any[], userPhoneNumber?: string, skip?: boolean}) => {
   const {width} = useDimension();
   const {state} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
@@ -54,7 +54,7 @@ const Loyalty = ({strings}: {strings: any[]}) => {
             null
             :
             <View>
-              <AppButton onPress={() => navigate('REGSTEP_ONE')} title={state?.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: Colors.white }]} />
+              <AppButton onPress={() => navigate('REGSTEP_ONE', {userPhoneNumber, skip})} title={state?.t('common.register')} btnStyle={styles.authBtn} titleStyle={[styles.btnText, { color: Colors.white }]} />
             </View>
         }
       </View>

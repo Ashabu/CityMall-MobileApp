@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Image,
   Platform,
@@ -21,12 +21,14 @@ import NewsToggle from './NewsToggle';
 import {Portal, PortalHost} from '@gorhom/portal';
 import translateService from '../Services/translateService';
 import { default_lang_key, en_key } from '../lang';
+import AsyncStorage from '../Services/StorageService';
 
 const AppHeader = (props: any) => {
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [visible, setVisible] = useState(false);
   const [news, setNews] = useState(false);
+  const [isSkip, setIsSkip] = useState<boolean>(false);
 
   const {width, height} = useDimension();
   const [isLocationActive, setIsLocationActive] = useState<boolean>(false);
@@ -38,15 +40,25 @@ const AppHeader = (props: any) => {
   const toggleDropdown = () => {
     setVisible(!visible);
   };
-  
 
   const handleIconPress = () => {
-    if(clientDetails.length === 0){
-      return navigate('AboutUs',{routeId:2})
+    if(clientDetails.length === 0 || isSkip){
+      isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 })
+      return;
     }
     setNews(!news);
    
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem('skip_token').then(res => {
+        if(res === null) {
+            setIsSkip(false);
+        } else {
+            setIsSkip(true);
+        }
+    }).catch(() => setIsSkip(false));
+}, [clientDetails]);
 
   return (
     <>
@@ -136,7 +148,7 @@ const AppHeader = (props: any) => {
               style={styles.icons}
               source={require('../assets/images/bell.png')}
             />
-            {clientDetails.length === 0 ? (
+            {(clientDetails.length === 0 || isSkip) ? (
               <Text style={styles.notificationStyle}>1</Text>
             ) : null}
           </TouchableOpacity>

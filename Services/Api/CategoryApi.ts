@@ -35,7 +35,6 @@ export const GetSubCategories = async (data: Array<number>) => {
         queryParams = data.map((el: number) => `ObjectTypes=${el}`).join('&');
         queryParams = `?${queryParams}`
     };
-    console.log(`${env.API_URL}/api/Category/GetSubCategories${queryParams}`)
     return await axios.get<IMainCategories[]>(`${env.API_URL}/api/Category/GetSubCategories${queryParams}`);
 };
 

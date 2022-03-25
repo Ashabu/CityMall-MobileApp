@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, {
     useState,
     useEffect,
@@ -21,6 +22,13 @@ import {
     navigate
 } from '../../Services/NavigationServices';
 
+type RouteParamList = {
+    params: {
+        userPhoneNumber?: string;
+        skip?: boolean;
+    }
+}
+
 export interface IRegistrationProps {
     firstName?: string;
     lastName?: string;
@@ -33,7 +41,9 @@ export interface IRegistrationProps {
     address?: string;
     sex?: Object;
     mailOtp?: string;
-    isResident: boolean
+    isResident: boolean;
+    userPhoneNumber?:string;
+    skip?:boolean;
 }
 
 export interface IGenderTypes {
@@ -42,6 +52,7 @@ export interface IGenderTypes {
 }
 
 const ScreenOne: React.FC = () => {
+    const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
@@ -102,7 +113,9 @@ const ScreenOne: React.FC = () => {
             lastName: lastName,
             personCode: idNumber,
             sex: gender,
-            isResident: isForeignResident
+            isResident: isForeignResident,
+            userPhoneNumber: routeParams?.params?.userPhoneNumber,
+            skip: routeParams?.params?.skip,
         };
         setGlobalState({ routeObject: data });
         navigate('REGSTEP_TWO');

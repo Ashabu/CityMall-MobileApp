@@ -33,7 +33,6 @@ export default () => {
   const {isDarkTheme} = state;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
     <Layout pageName={state?.t('screens.cityMap')} onPressBack={GoBack} hasBackArrow>
     

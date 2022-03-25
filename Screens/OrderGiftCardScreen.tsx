@@ -313,10 +313,8 @@ const OrderGiftCardScreen = () => {
         courierDetails: address,
       };
     }
-    console.log('***', data);
     ApiServices.OrderGiftCard(data)
       .then(res => {
-        console.log(':::::', res.data);
         if (res.status === 200) {
           setRespSuccess(true);
           setBtnLoading(false);

@@ -50,11 +50,6 @@ const OneTimeCode: React.FC<IOtpProps> = props => {
     } catch (_) {}
   };
 
-  // const getHash = () =>
-  //     RNOtpVerify.getHash()
-  //     .then(console.log)
-  //     .catch(console.log);
-
   useEffect(() => {
     (async () => {
       await startListeningForOtp();

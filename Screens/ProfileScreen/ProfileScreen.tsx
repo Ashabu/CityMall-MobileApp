@@ -22,6 +22,7 @@ import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
 import ApiServices, {
   IClientInfo,
+  IClientPaymentTransaction,
   IClientTransaction,
 } from '../../Services/ApiServices';
 import {navigate} from '../../Services/NavigationServices';
@@ -34,7 +35,7 @@ import translateService from '../../Services/translateService';
 //transactionType
 export enum tranTypes {
   accumulate = 1,
-  transfer = 4
+  transfer = 4,
 }
 
 const ProfileScreen = () => {
@@ -52,6 +53,9 @@ const ProfileScreen = () => {
   const [clientTransactions, setClientTransactions] = useState<
     IClientTransaction[]
   >([]);
+  const [clientPaymentTransactions, setClientPaymentTransactions] = useState<
+    IClientPaymentTransaction[]
+  >([]);
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
 
@@ -61,24 +65,34 @@ const ProfileScreen = () => {
   const [fetchingMore, setFetchingMore] = useState(false);
 
   const [renewing, setRenewing] = useState(false);
+  const [canOperation, setCanOperation] = useState(true);
 
-  const darkArrowIcon = require('../../assets/images/arrow-black.png')
-  const lightArrowIcon =require('../../assets/images/arrow-sm.png')
+  const darkArrowIcon = require('../../assets/images/arrow-black.png');
+  const lightArrowIcon = require('../../assets/images/arrow-sm.png');
 
   useEffect(() => {
     getClientData();
-   // getClientTransactions();
+    // getClientTransactions();
     getPersonalOffers(pagPage, true);
   }, [translateService.lang]);
 
-  const toggleSwitch = () => {
-    setIsMoneyTransaction(!isMoneyTransaction);
+  const toggleSwitch = (status: boolean) => {
+    setCanOperation(false);
+    setRowIndex(1);
+    setClientTransactions([]);
+    setClientPaymentTransactions([]);
+    setStopFetching(false);
+    setRenewing(false);
+    setIsMoneyTransaction(status);
   };
+
+  const [cinfo, setcinfo] = useState<IClientInfo | undefined>();
 
   const getClientData = () => {
     ApiServices.GetClientInfo()
       .then(res => {
         setGlobalState({clientInfo: res.data});
+        setcinfo(res.data);
       })
       .catch(e => {
         console.log(e);
@@ -86,18 +100,58 @@ const ProfileScreen = () => {
   };
 
   const rowCount = 10;
-
-  const getClientTransactions = (renew?:boolean) => {
-    if(renew) {
+  const getClientPayTransactions = (renew?: boolean) => {
+    if (renew) {
       setRenewing(false);
     }
-    if(stopFetching) return;
-    ApiServices.GetClientTransactions(rowIndex, rowCount, isDarkTheme ? 'dark' : 'light')
+    if (stopFetching) return;
+    ApiServices.GetClientPayTransactions(
+      rowIndex,
+      rowCount,
+      isDarkTheme ? 'dark' : 'light',
+    )
       .then(res => {
-        if(renew) {
+        if (renew) {
+          setClientPaymentTransactions(res.data.data!);
+        } else {
+          setClientPaymentTransactions([
+            ...clientPaymentTransactions,
+            ...res.data.data!,
+          ]);
+        }
+        if (
+          (res.data?.data?.length || 0) < rowCount ||
+          (res.data?.data?.length || 0) <= 0
+        ) {
+          setStopFetching(true);
+        } else {
+          setStopFetching(false);
+        }
+        setFetchingMore(false);
+        setCanOperation(true);
+      })
+      .catch(e => {
+        setCanOperation(true);
+        setFetchingMore(false);
+      });
+  };
+
+  const getClientTransactions = (renew?: boolean) => {
+    if (renew) {
+      setRenewing(false);
+    }
+    if (stopFetching) return;
+    ApiServices.GetClientTransactions(
+      rowIndex,
+      rowCount,
+      isDarkTheme ? 'dark' : 'light',
+    )
+      .then(res => {
+        setCanOperation(true);
+        if (renew) {
           setClientTransactions(res.data.data!);
         } else {
-        setClientTransactions([...clientTransactions, ...res.data.data!]);
+          setClientTransactions([...clientTransactions, ...res.data.data!]);
         }
         if (
           (res.data?.data?.length || 0) < rowCount ||
@@ -110,8 +164,8 @@ const ProfileScreen = () => {
         setFetchingMore(false);
       })
       .catch(e => {
-        console.log('error tran', e.response);
-        setFetchingMore(false)
+        setCanOperation(true);
+        setFetchingMore(false);
       });
   };
 
@@ -124,13 +178,13 @@ const ProfileScreen = () => {
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
-        if(renew) {
+        if (renew) {
           setPersonalOffers(tempOffers);
         } else {
-        setPersonalOffers(prevState => {
-          return [...prevState, ...tempOffers];
-        });
-      }
+          setPersonalOffers(prevState => {
+            return [...prevState, ...tempOffers];
+          });
+        }
         setIsFetchingData(false);
         startFetching = false;
       })
@@ -171,8 +225,6 @@ const ProfileScreen = () => {
     }
   };
 
-
-
   useEffect(() => {
     getVouchersToBuy();
   }, []);
@@ -194,7 +246,11 @@ const ProfileScreen = () => {
     getClientData();
     setRenewing(true);
     setRowIndex(1);
-    getClientTransactions(true);
+    if (isMoneyTransaction) {
+      getClientPayTransactions(true);
+    } else {
+      getClientTransactions(true);
+    }
     getPersonalOffers(1, true);
   };
 
@@ -203,10 +259,14 @@ const ProfileScreen = () => {
   const [stopFetching, setStopFetching] = useState(false);
 
   useEffect(() => {
-    if(!renewing) {
-      getClientTransactions();
+    if (!renewing) {
+      if (isMoneyTransaction) {
+        getClientPayTransactions();
+      } else {
+        getClientTransactions();
+      }
     }
-  }, [rowIndex, isDarkTheme]);
+  }, [rowIndex, isDarkTheme, isMoneyTransaction]);
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (stopFetching) return;
@@ -216,7 +276,7 @@ const ProfileScreen = () => {
         event.nativeEvent.contentOffset.y >=
       event.nativeEvent.contentSize.height - paddingToBottom;
 
-    if (isChunk && !fetchingMore) {
+    if (isChunk && !fetchingMore && canOperation) {
       setFetchingMore(true);
       setRowIndex(prev => {
         let rowIndex = prev + 1;
@@ -232,25 +292,33 @@ const ProfileScreen = () => {
 
   const lounchpayunicard = () => {
     Linking.openURL('https://www.payunicard.ge');
-  }
+  };
 
   const BottomLoading = () =>
-  fetchingMore ? (
-    <View style={[styles.bottomLoading, {backgroundColor: isDarkTheme ? Colors.black : Colors.white}]}>
-      <ActivityIndicator size="small" color={isDarkTheme ? Colors.white : Colors.black} />
-    </View>
-  ) : null;
+    fetchingMore ? (
+      <View
+        style={[
+          styles.bottomLoading,
+          {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
+        ]}>
+        <ActivityIndicator
+          size="small"
+          color={isDarkTheme ? Colors.white : Colors.black}
+        />
+      </View>
+    ) : null;
 
   return (
     <AppLayout pageTitle={state?.t('screens.room')}>
       <ScrollView
-      ref={scrollRef}
-      onScroll={handleScroll}
+        ref={scrollRef}
+        onScroll={handleScroll}
         contentContainerStyle={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
-        }} refreshControl={
+        }}
+        refreshControl={
           <RefreshControl
             progressBackgroundColor={isDarkTheme ? Colors.white : Colors.black}
             refreshing={refreshing}
@@ -259,14 +327,26 @@ const ProfileScreen = () => {
         }>
         <View style={styles.balanceView}>
           <View>
-            <Text style={styles.balanceWrapTitle}>{state?.t('screens.deposit')}</Text>
-            <Text style={[styles.balanceWrapAmount, isDarkTheme ? {color: Colors.white} : {color: Colors.black} ]}>
+            <Text style={styles.balanceWrapTitle}>
+              {state?.t('screens.deposit')}
+            </Text>
+            <Text
+              style={[
+                styles.balanceWrapAmount,
+                isDarkTheme ? {color: Colors.white} : {color: Colors.black},
+              ]}>
               {formatNumber(state.clientInfo.ballance)}
             </Text>
           </View>
           <View>
-            <Text style={styles.balanceWrapTitle}>{state?.t('screens.cityPoint')}</Text>
-            <Text style={[styles.balanceWrapAmount,isDarkTheme ? {color: Colors.white} : {color: Colors.black}]}>
+            <Text style={styles.balanceWrapTitle}>
+              {state?.t('screens.cityPoint')}
+            </Text>
+            <Text
+              style={[
+                styles.balanceWrapAmount,
+                isDarkTheme ? {color: Colors.white} : {color: Colors.black},
+              ]}>
               {formatNumber(state.clientInfo.points)}
             </Text>
           </View>
@@ -278,17 +358,22 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-            {state?.t('screens.statusbar')}
+              {state?.t('screens.statusbar')}
             </Text>
-            <TouchableOpacity onPress={() => navigate('StatusInfoScreen')} style={{flexDirection:'row', alignItems:'center'}}>
+            <TouchableOpacity
+              onPress={() => navigate('StatusInfoScreen')}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={[
                   styles.promotionsTitle,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-               {state?.t('common.seeMore')}
+                {state?.t('common.seeMore')}
               </Text>
-              <Image source={isDarkTheme? lightArrowIcon :  darkArrowIcon} style={styles.icon}/>
+              <Image
+                source={isDarkTheme ? lightArrowIcon : darkArrowIcon}
+                style={styles.icon}
+              />
             </TouchableOpacity>
           </View>
           {state.clientInfo ? <StatusBar data={state.clientInfo} /> : null}
@@ -309,7 +394,9 @@ const ProfileScreen = () => {
               source={require('../../assets/images/vaucher.png')}
               style={{width: 22, height: 16, marginRight: 10}}
             />
-            <Text style={styles.promotionsTitle}>{state?.t('screens.myVouchers')}</Text>
+            <Text style={styles.promotionsTitle}>
+              {state?.t('screens.myVouchers')}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{marginBottom: 30}}>
@@ -354,15 +441,6 @@ const ProfileScreen = () => {
             />
           </View>
 
-          {/* <View style={styles.redirectView}>
-                    <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
-                    <TouchableOpacity style={styles.redirectBtn}>
-                        <Text style={styles.redirectBtnText}>
-                            დამატებითი ოპერაციები ფეიუნიქარდში
-                        </Text>
-                        <Image source={require('../../assets/images/redirect_icon.png')} style={{ width: 9, height: 9 }} />
-                    </TouchableOpacity>
-                </View> */}
           <ScrollView
             contentContainerStyle={{flexDirection: 'row'}}
             pagingEnabled={true}
@@ -378,12 +456,24 @@ const ProfileScreen = () => {
         </View>
 
         <View style={styles.lounchcontent}>
-            <Image source={isDarkTheme ? require('../../assets/images/payunicard_dark.png') : require('../../assets/images/payunicard_light.png')} style={styles.payunicard} />
-            <TouchableOpacity style={styles.lounchbutton} onPress={lounchpayunicard}>
-              <Text style={styles.lounchtext}>დამატებითი ოპერაციები ფეიუნიქარდში</Text>
-              <Image source={require('../../assets/images/lounch.png')} style={styles.lounchicon} />
-            </TouchableOpacity>
-          </View>
+          <Image
+            source={
+              isDarkTheme
+                ? require('../../assets/images/payunicard_dark.png')
+                : require('../../assets/images/payunicard_light.png')
+            }
+            style={styles.payunicard}
+          />
+          <TouchableOpacity
+            style={styles.lounchbutton}
+            onPress={lounchpayunicard}>
+            <Text style={styles.lounchtext}>{state.t('common.payuninfo')}</Text>
+            <Image
+              source={require('../../assets/images/lounch.png')}
+              style={styles.lounchicon}
+            />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.transactionView}>
           <View style={styles.trViewHeader}>
@@ -392,17 +482,28 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-               {state?.t('screens.transactions')}
+              {state?.t('screens.transactions')}
             </Text>
             <View style={styles.trViewHeaderRight}>
               <Image
-                source={require('../../assets/images/points_active.png')}
+                source={
+                  isDarkTheme
+                    ? require('../../assets/images/points_active.png')
+                    : require('../../assets/images/points_inactive.png')
+                }
                 style={{width: 19, height: 19}}
               />
 
-              <AppSwitch />
+              <AppSwitch
+                onPress={toggleSwitch}
+                pressable={cinfo?.hasPayCard === true}
+              />
               <Image
-                source={require('../../assets/images/GEL_inactive.png')}
+                source={
+                  isDarkTheme
+                    ? require('../../assets/images/GEL_active.png')
+                    : require('../../assets/images/GEL_inactive.png')
+                }
                 style={{width: 15, height: 18}}
               />
             </View>
@@ -413,16 +514,23 @@ const ProfileScreen = () => {
               clientTransactions.map((item, index) => (
                 <TransactionList item={item} key={index} />
               ))}
-            {(!clientTransactions || clientTransactions.length <= 0) && (
-              <Text
-                style={{
-                  fontSize: 10,
-                  color: isDarkTheme ? Colors.white : Colors.black,
-                }}>
-                {state?.t('infoText.transactionsNotFound')}
-              </Text>
-            )}
-              {BottomLoading()}
+
+            {clientPaymentTransactions &&
+              clientPaymentTransactions.map((item, index) => (
+                <TransactionList item={item} key={index} isPayment={true} />
+              ))}
+            {(!clientTransactions || clientTransactions.length <= 0) &&
+              (!clientPaymentTransactions ||
+                clientPaymentTransactions.length <= 0) && (
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  }}>
+                  {state?.t('infoText.transactionsNotFound')}
+                </Text>
+              )}
+            {BottomLoading()}
           </View>
         </View>
       </ScrollView>
@@ -474,28 +582,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textAlign: 'center',
   },
-  redirectView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 30,
-  },
-  redirectBtn: {
-    width: '100%',
-    maxWidth: 272,
-    height: 39,
-    borderRadius: 50,
-    backgroundColor: Colors.darkGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  redirectBtnText: {
-    fontSize: 10,
-    fontFamily: 'HMpangram-Medium',
-    marginRight: 5,
-  },
   transactionView: {
     marginBottom: 20,
   },
@@ -510,7 +596,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 8,
     height: 8,
-    left: 6
+    left: 6,
   },
   bottomLoading: {
     justifyContent: 'center',
@@ -527,7 +613,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 20,
-    marginBottom: 36
+    marginBottom: 36,
   },
   lounchbutton: {
     flexDirection: 'row',
@@ -537,7 +623,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
   },
   lounchtext: {
     color: Colors.white,
@@ -549,8 +635,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   lounchicon: {
-    marginLeft: 5
-  }
+    marginLeft: 5,
+  },
 });
 
 export default ProfileScreen;

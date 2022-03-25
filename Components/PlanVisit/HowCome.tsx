@@ -9,7 +9,6 @@ const HowCome = ({ data, routeId }: any) => {
     const { state } = useContext(AppContext);
     const { isDarkTheme } = state;
 
-   // console.log('props.contentData===>', data[3]["bus-saburtalo"].title);
 
    let busSaburtalo3title = '', busSaburtalo3teaser = '', busGldani2title = '', busGldani2teaser = '',
    taxiSaburtalo3title = '', taxiSaburtalo3teaser = '', minibusGldani2title = '', minibusGldani2teaser = '',
