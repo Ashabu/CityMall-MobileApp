@@ -199,19 +199,11 @@ class ApiServices {
     }
 
     GetClientTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
-        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`, {
-            headers: {
-                theme: theme || ''
-            }
-        });
+        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`);
     }
 
     GetClientPayTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
-        return await axios.get<IClientPaymentTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientPayTransactions?Page=${index}&PageSize=${PageSize}`, {
-            headers: {
-                theme: theme || ''
-            }
-        });
+        return await axios.get<IClientPaymentTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientPayTransactions?Page=${index}&PageSize=${PageSize}`);
     }
 
     GetAgerements = async () => {
