@@ -19,6 +19,7 @@ export interface IClientInfo {
     categoryStatus?: number,
     categoryPointInfo?: ICategoryPointInfo[],
     hasPayCard?: boolean;
+    isRegisterd?:boolean;
 }
 
 export interface IMerchants {

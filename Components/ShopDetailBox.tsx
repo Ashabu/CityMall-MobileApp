@@ -15,11 +15,11 @@ const ShopDetailBox = (props: any) => {
         navigate('ShopDetailsScreen');
     };
     // <Image resizeMode={'contain'} style={styles.promotionImg} source={{ uri: props.data.logo || props.data.imageUrl }} />
-
+{/* <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} /> */}
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
-                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} />
+            <Image resizeMode={'contain'} style={styles.promotionImg} source={{ uri: props.data.logo || props.data.imageUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {props.data.name}
                 </Text>
