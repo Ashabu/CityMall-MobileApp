@@ -14,7 +14,7 @@ import { navigate } from "../Services/NavigationServices";
 import { GetOffers, IOffer } from "../Services/Api/OffersApi";
 import translateService from "../Services/translateService";
 import AsyncStorage from "../Services/StorageService";
-import AuthService from "../Services/AuthService";
+import { subscriptionService } from "../Services/SubscriptionServive";
 
 const HomeScreen = () => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -46,7 +46,7 @@ const HomeScreen = () => {
                 getOffers(pagPage, true, false);
             }
         })
-        // getObjectTypes();
+   
     }, [translateService.lang]);
 
     useEffect(() => {
@@ -197,6 +197,28 @@ const HomeScreen = () => {
         })
       }, [clientDetails])
 
+    useEffect(() => {
+        const subscription = subscriptionService?.getData()?.subscribe(data => {
+          if (data?.key === 'theme_changed') {
+            handleGetClientCards();
+            AsyncStorage.getItem('skip_token').then(res => {
+                if(res === null) {
+                    getClientData();
+                    setIsSkip(false);
+                } else {
+                    setIsSkip(true);
+                    getOffers(pagPage, true, false);
+                }
+            })
+          }
+        });
+    
+        return () => {
+          subscriptionService?.clearData();
+          subscription?.unsubscribe();
+        };
+      }, []);
+
       return (
         <AppLayout pageTitle={state?.t('screens.home')}>
             <View style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
@@ -263,7 +285,7 @@ const HomeScreen = () => {
                                     
                                 </ScrollView>}
                             </ScrollView> 
-                            {isLoading && <ActivityIndicator color={'#fff'} style={{alignSelf: 'center', position: 'absolute', top: '50%', transform:[{translateY: -50}]}} />}
+                            {isLoading && <ActivityIndicator color={isDarkTheme ? Colors.white : Colors.black} style={{alignSelf: 'center', position: 'absolute', top: '50%', transform:[{translateY: -50}]}} />}
                         </View>
                     </View>
                 </View>

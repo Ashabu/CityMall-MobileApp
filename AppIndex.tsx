@@ -118,7 +118,7 @@ const AppIndex = () => {
     return () => {
       AxiosInterceptor.current.forEach(sub => sub.unsubscribe());
     };
-  }, [userToken]);
+  }, [userToken, isDarkTheme]);
 
   useEffect(() => {
     AsyncStorage.getItem('isDarkTheme').then(res => {

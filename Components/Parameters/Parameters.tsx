@@ -7,6 +7,7 @@ import {useDimension} from '../../Hooks/UseDimension';
 import {GoBack, navigate} from '../../Services/NavigationServices';
 import Layout from '../Layouts/Layout';
 import AsyncStorage from '../../Services/StorageService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 const Parameters = () => {
   const {state, setGlobalState} = useContext(AppContext);
@@ -22,6 +23,10 @@ const Parameters = () => {
   const SwitchDarkTheme = () => {
     AsyncStorage.setItem('isDarkTheme', isDarkTheme ? '0' : '1').then(_ => {
       setGlobalState({isDarkTheme: !isDarkTheme});
+      subscriptionService?.sendData(
+        'theme_changed',
+        true,
+      );
     });
   };
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
@@ -37,7 +42,7 @@ const Parameters = () => {
 }, [clientDetails]);
 
   return (
-    <Layout hasBackArrow onPressBack={GoBack} pageName={state?.t('screens.parameters')}>
+    <Layout pageName={state?.t('screens.parameters')} onPressBack={GoBack} hasBackArrow={true} >
       <View
         style={{
           flexGrow: 1,

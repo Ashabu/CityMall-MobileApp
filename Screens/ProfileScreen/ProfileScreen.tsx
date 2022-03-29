@@ -31,6 +31,7 @@ import {GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {GetVouchersToBuy, IVouchers} from '../../Services/Api/VouchersApi';
 import VaucherPromptBox from '../../Components/VaucherPromptBox';
 import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 //transactionType
 export enum tranTypes {
@@ -38,7 +39,7 @@ export enum tranTypes {
   transfer = 4,
 }
 
-const ProfileScreen = () => {
+const ProfileScreen = (props: any) => {
   const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, offersArray} = state;
 
@@ -307,6 +308,25 @@ const ProfileScreen = () => {
         />
       </View>
     ) : null;
+
+useEffect(() => {
+  const subscription = subscriptionService?.getData()?.subscribe(data => {
+    if (data?.key === 'theme_changed') {
+      if (!renewing) {
+        if (isMoneyTransaction) {
+          getClientPayTransactions();
+        } else {
+          getClientTransactions();
+        }
+      }
+    }
+  });
+
+  return () => {
+    subscriptionService?.clearData();
+    subscription?.unsubscribe();
+  };
+}, []);
 
   return (
     <AppLayout pageTitle={state?.t('screens.room')}>

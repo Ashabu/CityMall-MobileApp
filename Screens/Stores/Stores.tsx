@@ -27,6 +27,7 @@ import {
 import {GetMerchants, IMerchant} from '../../Services/Api/ShopsApi';
 import NotFound from '../../Components/NotFound';
 import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 export interface IServiceCategories {
   id?: number;
@@ -266,6 +267,21 @@ const Stores: React.FC = () => {
     ));
   };
 
+  useEffect(() => {
+    const subscription = subscriptionService?.getData()?.subscribe(data => {
+      if (data?.key === 'theme_changed') {
+        setMerchants([]);
+        setSectStep(0);
+        handleGetMerchants();
+      }
+    });
+  
+    return () => {
+      subscriptionService?.clearData();
+      subscription?.unsubscribe();
+    };
+  }, []);
+
   return (
     <>
       <AppLayout>
@@ -388,7 +404,7 @@ const Stores: React.FC = () => {
                         paddingVertical: 20,
                       },
                 ]}>
-                <ActivityIndicator size={'small'} color={'#FFFFFF'} />
+                <ActivityIndicator size={'small'} color={isDarkTheme ? Colors.white : Colors.black} />
               </View>
             ) : null}
           </View>
@@ -396,7 +412,7 @@ const Stores: React.FC = () => {
         {isLoading && !(merchants.length > 0 && isFetchingData && pagPage > 1) && <View style={styles.loader}>
         <ActivityIndicator
           size={'small'}
-          color={'#ffffff'}
+          color={isDarkTheme ? Colors.white : Colors.black}
           style={{
             alignSelf: 'center',
             transform: [{translateY: Dimensions.get('screen').height / 2}],
