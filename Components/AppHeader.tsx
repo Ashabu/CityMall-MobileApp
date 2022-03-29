@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Image,
   Platform,
@@ -19,32 +19,46 @@ import {navigate} from '../Services/NavigationServices';
 import ToggleDropdown from './ToggleDropdown/ToggleDropdown';
 import NewsToggle from './NewsToggle';
 import {Portal, PortalHost} from '@gorhom/portal';
+import translateService from '../Services/translateService';
+import { default_lang_key, en_key } from '../lang';
+import AsyncStorage from '../Services/StorageService';
 
 const AppHeader = (props: any) => {
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, clientDetails} = state;
   const [visible, setVisible] = useState(false);
   const [news, setNews] = useState(false);
+  const [isSkip, setIsSkip] = useState<boolean>(false);
 
   const {width, height} = useDimension();
   const [isLocationActive, setIsLocationActive] = useState<boolean>(false);
 
-  const themeBgColor = {
-    backgroundColor: isDarkTheme ? Colors.white : Colors.black,
-  };
+  // const themeBgColor = {
+  //   backgroundColor: isDarkTheme ? Colors.white : Colors.black,
+  // };
 
   const toggleDropdown = () => {
     setVisible(!visible);
   };
-  
 
   const handleIconPress = () => {
-    if(clientDetails.length === 0){
-      return navigate('AboutUs',{routeId:2})
+    if(clientDetails.length === 0 || isSkip){
+      isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 })
+      return;
     }
     setNews(!news);
    
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem('skip_token').then(res => {
+        if(res === null) {
+            setIsSkip(false);
+        } else {
+            setIsSkip(true);
+        }
+    }).catch(() => setIsSkip(false));
+}, [clientDetails]);
 
   return (
     <>
@@ -80,20 +94,30 @@ const AppHeader = (props: any) => {
             style={styles.burgerIcon}
             onPress={() => toggleDrawer()}>
             <View style={styles.burgerIconInner}>
+              {/* <View style={[styles.burgerIconLine, themeBgColor]} />
               <View style={[styles.burgerIconLine, themeBgColor]} />
-              <View style={[styles.burgerIconLine, themeBgColor]} />
-              <View style={[styles.burgerIconLine, themeBgColor]} />
+              <View style={[styles.burgerIconLine, themeBgColor]} /> */}
+              <Image resizeMode={'contain'} style={styles.burgerIconLine} source={isDarkTheme ? require('./../assets/images/burger-light.png') : require('./../assets/images/burger-dark.png')} />
             </View>
           </TouchableOpacity>
-          <View style={{width: 70}}>
+          <TouchableOpacity style={[{width: 70, justifyContent: 'center'}, Platform.OS === 'ios' && {height: 30}]} 
+          onPress={() => {
+                            const curLang = state.lang === en_key ? default_lang_key : en_key;
+                            translateService.use(curLang, (t) => {
+                              setGlobalState({ lang: curLang });
+                              setGlobalState({ translates: t });
+                            });
+                        }}
+                        >
             <Text
               style={[
                 styles.langText,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ENG{' '}
+              {state.lang === en_key ? 'GEO' : 'ENG'}{' '}
+            
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <Text
           style={[
@@ -124,7 +148,7 @@ const AppHeader = (props: any) => {
               style={styles.icons}
               source={require('../assets/images/bell.png')}
             />
-            {clientDetails.length === 0 ? (
+            {(clientDetails.length === 0 || isSkip) ? (
               <Text style={styles.notificationStyle}>1</Text>
             ) : null}
           </TouchableOpacity>
@@ -185,8 +209,7 @@ const styles = StyleSheet.create({
 
   burgerIconLine: {
     width: 26,
-    height: 3,
-    borderRadius: 5,
+    height: 17,
   },
 
   langText: {
@@ -202,6 +225,7 @@ const styles = StyleSheet.create({
     lineHeight: 17,
     marginLeft: 13,
     textAlign: 'center',
+    textTransform: 'uppercase'
   },
 
   icons: {
@@ -212,8 +236,8 @@ const styles = StyleSheet.create({
   iconCircle: {
     width: 30,
     height: 30,
-    borderRadius: 15,
-    borderWidth: 1,
+    // borderRadius: 15,
+    // borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -233,12 +257,19 @@ const styles = StyleSheet.create({
 
   notificationStyle: {
     fontFamily: 'HMpangram-Bold',
-    color: Colors.red,
-    fontSize: 20,
+    color: Colors.white,
+    fontSize: 12,
     fontWeight: 'bold',
     position: 'absolute',
-    top: -13,
-    right: 0,
+    top: -7,
+    right: -7,
+    backgroundColor: Colors.red,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   dropDown: {
     position: 'absolute',

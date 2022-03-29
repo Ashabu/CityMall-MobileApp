@@ -22,6 +22,7 @@ import MapComponent from '../Components/FloorMap/Map';
 import axios from 'axios';
 import envs from './../config/env';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../Services/translateService';
 type RouteParamList = {
   params: {
     mallId: number;
@@ -115,7 +116,7 @@ const ShopDetailsScreen = () => {
             style={{ width: width, height: height / 2 }}
           />
           <Text style={[styles.pageTitle, textColorStyle]}>
-            საბურთალოს ფილიალი
+          {state?.t('screens.saburtalo')}
           </Text>
           <TouchableOpacity
             onPress={() => GoBack()}
@@ -129,7 +130,7 @@ const ShopDetailsScreen = () => {
               justifyContent: 'center',
             }}>
             <Image
-              source={require('../assets/images/back-arrow.png')}
+              source={isDarkTheme? require('../assets/images/back-arrow.png') : require('../assets/images/left-arrow-black.png')}
               style={{ width: 12, height: 12 }}
             />
           </TouchableOpacity>
@@ -156,7 +157,7 @@ const ShopDetailsScreen = () => {
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
-                <Text style={[styles.shopDesc, textColorStyle]}>სართული: </Text>
+                <Text style={[styles.shopDesc, textColorStyle]}>{state?.t('common.floor')}: </Text>
                 {floor?.map((floor: string) => (
                   <Text key={floor} style={[styles.shopDesc, textColorStyle]}>
                     {floor}
@@ -184,7 +185,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                ტელეფონი:{' '}
+                {state?.t('screens.mobile')}:{' '}
               </Text>
               <Text
                 style={[
@@ -202,7 +203,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                სამუშაო საათები:{' '}
+                {state?.t('screens.workingHours')}:{' '}
               </Text>
               <Text
                 style={[
@@ -220,7 +221,7 @@ const ShopDetailsScreen = () => {
                   textColorStyle,
                   { fontFamily: 'HMpangram-Bold' },
                 ]}>
-                მისამართი:{' '}
+                 {state?.t('screens.address')}:{' '}
               </Text>
               <Text
                 style={[
@@ -262,7 +263,7 @@ const ShopDetailsScreen = () => {
               textColorStyle,
               { marginBottom: 20, marginLeft: '8%' },
             ]}>
-            სართულის გეგმა
+            {state?.t('screens.floorPlan')}
           </Text>
 
           {floorData !== undefined && (
@@ -306,6 +307,7 @@ const styles = StyleSheet.create({
     top: 47,
     width: '80%',
     left: 30,
+    color: Colors.white
   },
   shopDetailsWrap: {
     paddingTop: 30,

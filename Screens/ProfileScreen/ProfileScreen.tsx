@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,10 @@ import {
   ScrollView,
   NativeScrollEvent,
   Image,
+  RefreshControl,
+  ActivityIndicator,
+  NativeSyntheticEvent,
+  Linking,
 } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import {Colors} from '../../Colors/Colors';
@@ -18,6 +22,7 @@ import StatusBar from '../../Components/StatusBar';
 import TransactionList from '../../Components/TransactionList';
 import ApiServices, {
   IClientInfo,
+  IClientPaymentTransaction,
   IClientTransaction,
 } from '../../Services/ApiServices';
 import {navigate} from '../../Services/NavigationServices';
@@ -25,9 +30,17 @@ import {formatNumber} from '../../Services/Utils';
 import {GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {GetVouchersToBuy, IVouchers} from '../../Services/Api/VouchersApi';
 import VaucherPromptBox from '../../Components/VaucherPromptBox';
+import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
-const ProfileScreen = () => {
-  const {state} = useContext(AppContext);
+//transactionType
+export enum tranTypes {
+  accumulate = 1,
+  transfer = 4,
+}
+
+const ProfileScreen = (props: any) => {
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, offersArray} = state;
 
   let isEndFetching = false;
@@ -37,60 +50,142 @@ const ProfileScreen = () => {
   const [offersStepv, setOffersStepv] = useState<number>(0);
   const [personalOffers, setPersonalOffers] = useState<IOffer[]>([]);
   const [isMoneyTransaction, setIsMoneyTransaction] = useState<boolean>(false);
-  const [clientInfo, setClientInfo] = useState<IClientInfo>({});
+  // const [clientInfo, setClientInfo] = useState<IClientInfo>({});
   const [clientTransactions, setClientTransactions] = useState<
     IClientTransaction[]
+  >([]);
+  const [clientPaymentTransactions, setClientPaymentTransactions] = useState<
+    IClientPaymentTransaction[]
   >([]);
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
 
   const [clientVouchers, setClientVouchers] = useState<IVouchers[] | []>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [fetchingMore, setFetchingMore] = useState(false);
+
+  const [renewing, setRenewing] = useState(false);
+  const [canOperation, setCanOperation] = useState(true);
+
+  const darkArrowIcon = require('../../assets/images/arrow-black.png');
+  const lightArrowIcon = require('../../assets/images/arrow-sm.png');
 
   useEffect(() => {
     getClientData();
-    getClientTransactions();
-    getPersonalOffers();
-  }, []);
+    // getClientTransactions();
+    getPersonalOffers(pagPage, true);
+  }, [translateService.lang]);
 
-  const toggleSwitch = () => {
-    setIsMoneyTransaction(!isMoneyTransaction);
+  const toggleSwitch = (status: boolean) => {
+    setCanOperation(false);
+    setRowIndex(1);
+    setClientTransactions([]);
+    setClientPaymentTransactions([]);
+    setStopFetching(false);
+    setRenewing(false);
+    setIsMoneyTransaction(status);
   };
+
+  const [cinfo, setcinfo] = useState<IClientInfo | undefined>();
 
   const getClientData = () => {
     ApiServices.GetClientInfo()
       .then(res => {
-        setClientInfo(res.data);
+        setGlobalState({clientInfo: res.data});
+        setcinfo(res.data);
       })
       .catch(e => {
         console.log(e);
       });
   };
 
-  const getClientTransactions = () => {
-    ApiServices.GetClientTransactions()
+  const rowCount = 10;
+  const getClientPayTransactions = (renew?: boolean) => {
+    if (renew) {
+      setRenewing(false);
+    }
+    if (stopFetching) return;
+    ApiServices.GetClientPayTransactions(
+      rowIndex,
+      rowCount,
+      isDarkTheme ? 'dark' : 'light',
+    )
       .then(res => {
-        console.log('ტრანასაცტიონს', res.data.data);
-        setClientTransactions(res.data.data!);
+        if (renew) {
+          setClientPaymentTransactions(res.data.data!);
+        } else {
+          setClientPaymentTransactions([
+            ...clientPaymentTransactions,
+            ...res.data.data!,
+          ]);
+        }
+        if (
+          (res.data?.data?.length || 0) < rowCount ||
+          (res.data?.data?.length || 0) <= 0
+        ) {
+          setStopFetching(true);
+        } else {
+          setStopFetching(false);
+        }
+        setFetchingMore(false);
+        setCanOperation(true);
       })
       .catch(e => {
-        console.log('error tran', e.response);
+        setCanOperation(true);
+        setFetchingMore(false);
       });
   };
 
-  const getPersonalOffers = (page: number = 1) => {
+  const getClientTransactions = (renew?: boolean) => {
+    if (renew) {
+      setRenewing(false);
+    }
+    if (stopFetching) return;
+    ApiServices.GetClientTransactions(
+      rowIndex,
+      rowCount,
+      isDarkTheme ? 'dark' : 'light',
+    )
+      .then(res => {
+        setCanOperation(true);
+        if (renew) {
+          setClientTransactions(res.data.data!);
+        } else {
+          setClientTransactions([...clientTransactions, ...res.data.data!]);
+        }
+        if (
+          (res.data?.data?.length || 0) < rowCount ||
+          (res.data?.data?.length || 0) <= 0
+        ) {
+          setStopFetching(true);
+        } else {
+          setStopFetching(false);
+        }
+        setFetchingMore(false);
+      })
+      .catch(e => {
+        setCanOperation(true);
+        setFetchingMore(false);
+      });
+  };
+
+  const getPersonalOffers = (page: number = 1, renew?: boolean) => {
     if (startFetching) return;
     startFetching = true;
-    console.log('aqane2');
     GetOffers(true, page)
       .then(res => {
         let tempOffers = res.data.data;
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
-        setPersonalOffers(prevState => {
-          return [...prevState, ...tempOffers];
-        });
+        if (renew) {
+          setPersonalOffers(tempOffers);
+        } else {
+          setPersonalOffers(prevState => {
+            return [...prevState, ...tempOffers];
+          });
+        }
         setIsFetchingData(false);
         startFetching = false;
       })
@@ -112,14 +207,12 @@ const ProfileScreen = () => {
       nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width,
     );
     let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
       setTimeout(() => {
         getPersonalOffers(pagPage);
       }, 1000);
-      console.log(pagPage);
     }
   };
 
@@ -132,8 +225,6 @@ const ProfileScreen = () => {
       setOffersStepv(slide);
     }
   };
-
-
 
   useEffect(() => {
     getVouchersToBuy();
@@ -152,25 +243,131 @@ const ProfileScreen = () => {
       });
   };
 
+  const onRefresh = () => {
+    getClientData();
+    setRenewing(true);
+    setRowIndex(1);
+    if (isMoneyTransaction) {
+      getClientPayTransactions(true);
+    } else {
+      getClientTransactions(true);
+    }
+    getPersonalOffers(1, true);
+  };
+
+  const scrollRef = useRef<ScrollView | null>(null);
+  const [rowIndex, setRowIndex] = useState<number>(1);
+  const [stopFetching, setStopFetching] = useState(false);
+
+  useEffect(() => {
+    if (!renewing) {
+      if (isMoneyTransaction) {
+        getClientPayTransactions();
+      } else {
+        getClientTransactions();
+      }
+    }
+  }, [rowIndex, isDarkTheme, isMoneyTransaction]);
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (stopFetching) return;
+    const paddingToBottom = 20;
+    const isChunk =
+      event.nativeEvent.layoutMeasurement.height +
+        event.nativeEvent.contentOffset.y >=
+      event.nativeEvent.contentSize.height - paddingToBottom;
+
+    if (isChunk && !fetchingMore && canOperation) {
+      setFetchingMore(true);
+      setRowIndex(prev => {
+        let rowIndex = prev + 1;
+        return rowIndex;
+      });
+      scrollRef.current?.scrollTo({
+        x: 0,
+        y: event.nativeEvent.contentSize.height + paddingToBottom,
+        animated: true,
+      });
+    }
+  };
+
+  const lounchpayunicard = () => {
+    Linking.openURL('https://www.payunicard.ge');
+  };
+
+  const BottomLoading = () =>
+    fetchingMore ? (
+      <View
+        style={[
+          styles.bottomLoading,
+          {backgroundColor: isDarkTheme ? Colors.black : Colors.white},
+        ]}>
+        <ActivityIndicator
+          size="small"
+          color={isDarkTheme ? Colors.white : Colors.black}
+        />
+      </View>
+    ) : null;
+
+useEffect(() => {
+  const subscription = subscriptionService?.getData()?.subscribe(data => {
+    if (data?.key === 'theme_changed') {
+      if (!renewing) {
+        if (isMoneyTransaction) {
+          getClientPayTransactions();
+        } else {
+          getClientTransactions();
+        }
+      }
+    }
+  });
+
+  return () => {
+    subscriptionService?.clearData();
+    subscription?.unsubscribe();
+  };
+}, []);
+
   return (
-    <AppLayout pageTitle={'კაბინეტი'}>
+    <AppLayout pageTitle={state?.t('screens.room')}>
       <ScrollView
+        ref={scrollRef}
+        onScroll={handleScroll}
         contentContainerStyle={{
           flexGrow: 1,
           backgroundColor: isDarkTheme ? Colors.black : Colors.white,
           paddingHorizontal: '7%',
-        }}>
+        }}
+        refreshControl={
+          <RefreshControl
+            progressBackgroundColor={isDarkTheme ? Colors.white : Colors.black}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }>
         <View style={styles.balanceView}>
           <View>
-            <Text style={styles.balanceWrapTitle}>ხელმისაწვდომი თანხა</Text>
-            <Text style={styles.balanceWrapAmount}>
-              {formatNumber(clientInfo.ballance)}
+            <Text style={styles.balanceWrapTitle}>
+              {state?.t('screens.deposit')}
+            </Text>
+            <Text
+              style={[
+                styles.balanceWrapAmount,
+                isDarkTheme ? {color: Colors.white} : {color: Colors.black},
+              ]}>
+              {formatNumber(state.clientInfo.ballance)}
             </Text>
           </View>
           <View>
-            <Text style={styles.balanceWrapTitle}>სითი ქულა</Text>
-            <Text style={styles.balanceWrapAmount}>
-              {formatNumber(clientInfo.points)}
+            <Text style={styles.balanceWrapTitle}>
+              {state?.t('screens.cityPoint')}
+            </Text>
+            <Text
+              style={[
+                styles.balanceWrapAmount,
+                isDarkTheme ? {color: Colors.white} : {color: Colors.black},
+              ]}>
+              {formatNumber(state.clientInfo.points)}
             </Text>
           </View>
         </View>
@@ -181,19 +378,25 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              სტატუსბარი
+              {state?.t('screens.statusbar')}
             </Text>
-            <TouchableOpacity onPress={() => navigate('StatusInfoScreen')}>
+            <TouchableOpacity
+              onPress={() => navigate('StatusInfoScreen')}
+              style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text
                 style={[
                   styles.promotionsTitle,
                   {color: isDarkTheme ? Colors.white : Colors.black},
                 ]}>
-                ვრცლად
+                {state?.t('common.seeMore')}
               </Text>
+              <Image
+                source={isDarkTheme ? lightArrowIcon : darkArrowIcon}
+                style={styles.icon}
+              />
             </TouchableOpacity>
           </View>
-          {clientInfo ? <StatusBar data={clientInfo} /> : null}
+          {state.clientInfo ? <StatusBar data={state.clientInfo} /> : null}
         </View>
         <View style={{marginBottom: 20, alignItems: 'center'}}>
           <TouchableOpacity
@@ -211,7 +414,9 @@ const ProfileScreen = () => {
               source={require('../../assets/images/vaucher.png')}
               style={{width: 22, height: 16, marginRight: 10}}
             />
-            <Text style={styles.promotionsTitle}>ჩემი ვაუჩერები</Text>
+            <Text style={styles.promotionsTitle}>
+              {state?.t('screens.myVouchers')}
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={{marginBottom: 30}}>
@@ -221,7 +426,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              პირადი შეთავაზებები
+              {state?.t('screens.myOffers')}
             </Text>
             <PaginationDots
               length={Math.round(personalOffers?.length / 2)}
@@ -248,7 +453,7 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ქულების გახარჯვის ოფცია
+              {state?.t('screens.pointsOption')}
             </Text>
             <PaginationDots
               length={Math.round(clientVouchers?.length / 2)}
@@ -256,15 +461,6 @@ const ProfileScreen = () => {
             />
           </View>
 
-          {/* <View style={styles.redirectView}>
-                    <Image source={require('../../assets/images/payunicard_white.png')} style={{ width: 49, height: 26, marginRight: 10 }} />
-                    <TouchableOpacity style={styles.redirectBtn}>
-                        <Text style={styles.redirectBtnText}>
-                            დამატებითი ოპერაციები ფეიუნიქარდში
-                        </Text>
-                        <Image source={require('../../assets/images/redirect_icon.png')} style={{ width: 9, height: 9 }} />
-                    </TouchableOpacity>
-                </View> */}
           <ScrollView
             contentContainerStyle={{flexDirection: 'row'}}
             pagingEnabled={true}
@@ -278,6 +474,27 @@ const ProfileScreen = () => {
             ))}
           </ScrollView>
         </View>
+
+        <View style={styles.lounchcontent}>
+          <Image
+            source={
+              isDarkTheme
+                ? require('../../assets/images/payunicard_dark.png')
+                : require('../../assets/images/payunicard_light.png')
+            }
+            style={styles.payunicard}
+          />
+          <TouchableOpacity
+            style={styles.lounchbutton}
+            onPress={lounchpayunicard}>
+            <Text style={styles.lounchtext}>{state.t('common.payuninfo')}</Text>
+            <Image
+              source={require('../../assets/images/lounch.png')}
+              style={styles.lounchicon}
+            />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.transactionView}>
           <View style={styles.trViewHeader}>
             <Text
@@ -285,35 +502,55 @@ const ProfileScreen = () => {
                 styles.promotionsTitle,
                 {color: isDarkTheme ? Colors.white : Colors.black},
               ]}>
-              ტრანზაქციები
+              {state?.t('screens.transactions')}
             </Text>
             <View style={styles.trViewHeaderRight}>
               <Image
-                source={require('../../assets/images/points_active.png')}
+                source={
+                  isDarkTheme
+                    ? require('../../assets/images/points_active.png')
+                    : require('../../assets/images/points_inactive.png')
+                }
                 style={{width: 19, height: 19}}
               />
 
-              <AppSwitch />
+              <AppSwitch
+                onPress={toggleSwitch}
+                pressable={cinfo?.hasPayCard === true}
+              />
               <Image
-                source={require('../../assets/images/GEL_inactive.png')}
+                source={
+                  isDarkTheme
+                    ? require('../../assets/images/GEL_active.png')
+                    : require('../../assets/images/GEL_inactive.png')
+                }
                 style={{width: 15, height: 18}}
               />
             </View>
           </View>
+
           <View>
             {clientTransactions &&
               clientTransactions.map((item, index) => (
                 <TransactionList item={item} key={index} />
               ))}
-            {(!clientTransactions || clientTransactions.length <= 0) && (
-              <Text
-                style={{
-                  fontSize: 10,
-                  color: isDarkTheme ? Colors.white : Colors.black,
-                }}>
-                ტრანზაქციები ვერ მოიძებნა
-              </Text>
-            )}
+
+            {clientPaymentTransactions &&
+              clientPaymentTransactions.map((item, index) => (
+                <TransactionList item={item} key={index} isPayment={true} />
+              ))}
+            {(!clientTransactions || clientTransactions.length <= 0) &&
+              (!clientPaymentTransactions ||
+                clientPaymentTransactions.length <= 0) && (
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  }}>
+                  {state?.t('infoText.transactionsNotFound')}
+                </Text>
+              )}
+            {BottomLoading()}
           </View>
         </View>
       </ScrollView>
@@ -330,14 +567,13 @@ const styles = StyleSheet.create({
   },
   balanceWrap: {},
   balanceWrapTitle: {
-    fontSize: 14,
+    fontSize: 11,
     fontFamily: 'HMpangram-Medium',
     color: Colors.darkGrey,
   },
   balanceWrapAmount: {
     fontSize: 24,
     fontFamily: 'HMpangram-Bold',
-    color: Colors.white,
   },
 
   statusBarView: {
@@ -366,28 +602,6 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     textAlign: 'center',
   },
-  redirectView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 30,
-  },
-  redirectBtn: {
-    width: '100%',
-    maxWidth: 272,
-    height: 39,
-    borderRadius: 50,
-    backgroundColor: Colors.darkGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  redirectBtnText: {
-    fontSize: 10,
-    fontFamily: 'HMpangram-Medium',
-    marginRight: 5,
-  },
   transactionView: {
     marginBottom: 20,
   },
@@ -398,6 +612,50 @@ const styles = StyleSheet.create({
   trViewHeaderRight: {
     flexDirection: 'row',
     marginBottom: 20,
+  },
+  icon: {
+    width: 8,
+    height: 8,
+    left: 6,
+  },
+  bottomLoading: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50,
+  },
+  payunicard: {
+    marginRight: 20,
+    maxHeight: 27,
+  },
+  lounchcontent: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 36,
+  },
+  lounchbutton: {
+    flexDirection: 'row',
+    flex: 1,
+    height: 39,
+    backgroundColor: '#636363',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    paddingHorizontal: 15,
+  },
+  lounchtext: {
+    color: Colors.white,
+    fontFamily: 'HMpangram-Bold',
+    fontSize: 12,
+    lineHeight: 14,
+    fontWeight: '900',
+    textTransform: 'uppercase',
+    textAlign: 'center',
+  },
+  lounchicon: {
+    marginLeft: 5,
   },
 });
 

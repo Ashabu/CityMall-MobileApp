@@ -52,7 +52,7 @@ const ToggleDropdownLayout: React.FC<ToggleListProps> = props => {
             {fontWeight: collapse ? '700' : '400'},
             {color: isDarkTheme ? Colors.white : Colors.black},
           ]}>
-          {name}
+          {state?.t(name)}
         </Text>
       </TouchableOpacity>
       {collapse ? <Content /> : null}

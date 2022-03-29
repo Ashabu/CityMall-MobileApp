@@ -1,30 +1,30 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react'
 import {Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import {  } from 'react-native-gesture-handler';
 import { Colors } from '../../Colors/Colors';
 
 export interface IAppSwitch {
-
+    onPress: (status: boolean) => void;
+    pressable: boolean;
 }
 
-const AppSwitch: React.FC<IAppSwitch> =() => {
+const AppSwitch: React.FC<IAppSwitch> = (props) => {
     const animatedBall = useRef(new Animated.Value(0));
     const [isActive, setIsActive] = useState<boolean>(false);
+    const isInit = useRef<boolean>(false);
 
     useEffect(() => {
         if(isActive) {
             Animated.timing(animatedBall.current, {
                 toValue: 1,
-                duration: 2000,
+                duration: 500,
                 useNativeDriver: false
             }).start();
             
         } else {
             Animated.timing(animatedBall.current, {
-                toValue: 1,
-                duration: 2000,
+                toValue: 0,
+                duration: 500,
                 useNativeDriver: false
             }).start();
         }
@@ -33,27 +33,25 @@ const AppSwitch: React.FC<IAppSwitch> =() => {
     const activeBallStyle = {
         left: animatedBall.current.interpolate({
             inputRange: [0, 1],
-            outputRange: [26, 3],
-        })
-    }
-    const inactiveBallStyle = {
-        left: animatedBall.current.interpolate({
-            inputRange: [0, 1],
             outputRange: [3, 26],
         })
     }
 
-
-
     const toggleSwitchBall = () => {
-        setIsActive(!isActive)
+        if(!props.pressable) return;
+        setIsActive(!isActive);
     }
 
-
+    useEffect(() => {
+        if(isInit.current) {
+            props.onPress(isActive);
+        }
+        isInit.current = true;
+    }, [isActive]);
 
     return (
-        <TouchableOpacity style={styles.switchView} >
-            <Animated.View style={[styles.switchBall, isActive? inactiveBallStyle : activeBallStyle  ]}/>
+        <TouchableOpacity style={styles.switchView} onPress={toggleSwitchBall}>
+            <Animated.View style={[styles.switchBall, activeBallStyle  ]}/>
         </TouchableOpacity>
     )
 }

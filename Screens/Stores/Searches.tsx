@@ -18,6 +18,8 @@ import {ChunkArrays} from '../../Utils/utils';
 import {IMerchant} from '../../Services/Api/ShopsApi';
 import axios from 'axios';
 import envs from './../../config/env';
+import translateService from '../../Services/translateService';
+import NotFound from '../../Components/NotFound';
 
 export default () => {
   const {state} = useContext(AppContext);
@@ -25,6 +27,7 @@ export default () => {
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [keyword, setKeyword] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const [typeing, seTypeing] = useState(true);
   const ttlRef = useRef<NodeJS.Timeout>();
   const inputRef = useRef<TextInput | null>();
   const itemChunk = 4;
@@ -34,6 +37,7 @@ export default () => {
   };
 
   useEffect(() => {
+    seTypeing(true);
     if (ttlRef.current) clearTimeout(ttlRef.current);
     if (!keyword) {
       if (merchants?.length) {
@@ -41,7 +45,7 @@ export default () => {
       }
       return;
     }
-
+   
     ttlRef.current = setTimeout(() => {
       setIsLoading(true);
       axios
@@ -49,9 +53,12 @@ export default () => {
         .then(res => {
           if (res.data?.data) setMerchants(res.data?.data);
           setIsLoading(false);
-        }).catch(() => setIsLoading(false));
+          seTypeing(false);
+        }).catch(() => {setIsLoading(false);  seTypeing(false);});
     }, 1000);
   }, [keyword]);
+
+  
 
   const chunkedData = ChunkArrays<IMerchant>(merchants!, itemChunk);
   const fillSpace = (ln: number) => {
@@ -62,7 +69,7 @@ export default () => {
   };
   return (
     <>
-    <AppLayout pageTitle={'ძიება'}>
+    <AppLayout pageTitle={state?.t('common.searching')}>
       <View
         style={{
           flex: 1,
@@ -73,7 +80,7 @@ export default () => {
           <TouchableOpacity
           onPress={() => inputRef.current?.focus()}
             style={[Platform.OS === 'ios' && {paddingBottom: 10}, {
-              borderBottomColor: '#fff',
+              borderBottomColor: isDarkTheme? Colors.white : Colors.black,
               borderBottomWidth: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
@@ -81,9 +88,9 @@ export default () => {
               
             }]}>
             <TextInput
-              placeholder="ძიება"
-              placeholderTextColor={'#fff'}
-              style={{color: '#fff'}}
+              placeholder={state?.t('common.searching')}
+              placeholderTextColor={isDarkTheme? Colors.white : Colors.black}
+              style={{color: isDarkTheme? Colors.white : Colors.black}}
               value={keyword}
               onChangeText={e => setKeyword(e)}
               autoFocus={true}
@@ -100,7 +107,11 @@ export default () => {
           <ScrollView
             contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
             horizontal>
-            {merchants.length > 0 && (
+            {(merchants.length <=0 && (keyword?.length || 0 > 0) && (!typeing)) && 
+            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', height: 400, width: Dimensions.get('window').width }}>
+              <NotFound />
+            </View>}
+              {(chunkedData !== undefined) && 
               <ScrollView
                 scrollToOverflowEnabled={true}
                 style={[styles.dataScroller]}
@@ -120,7 +131,7 @@ export default () => {
                   </View>
                 ))}
               </ScrollView>
-            )}
+            }
           </ScrollView>
         </View>
       </View>

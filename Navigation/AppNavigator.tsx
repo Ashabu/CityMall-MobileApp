@@ -20,8 +20,8 @@ const AppNavigator: React.FC = (props) => {
             <Drawer.Screen name="HomeScreen2" children={() => (
                 <View>{props.children}</View>
             )} options={{ headerShown: false }} />
-            <Drawer.Screen name="OrderGiftCardScreen" component = {OrderGiftCardScreen}
-             options={{ headerShown: false }} />
+            {/* <Drawer.Screen name="OrderGiftCardScreen" component = {OrderGiftCardScreen}
+             options={{ headerShown: false }} /> */}
         </Drawer.Navigator>
     );
 };

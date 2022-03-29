@@ -37,7 +37,6 @@ export const GetOffers = async (isPrivate: boolean, page: number, address?: numb
     if(address) {
         queryParams =  `&Addres=${address}`
     };
-    console.log(`${env.API_URL}/api/Offers/GetOffers?isPrivate=${isPrivate}&Page=${page}&PageSize=16${queryParams}`)
     return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetOffers?isPrivate=${isPrivate}&Page=${page}&PageSize=16${queryParams}`);
 };
 
@@ -47,7 +46,6 @@ export const GetNews = async (page: number, address?: number | undefined) => {
     if(address) {
         queryParams = `&Addres=${address}`
     };
-    console.log((`${env.API_URL}/api/Offers/GetNews?Page=${page}&PageSize=16${queryParams}`))
     
     return await axios.get<IOffersResponse>(`${env.API_URL}/api/Offers/GetNews?Page=${page}&PageSize=16${queryParams}`);
 };

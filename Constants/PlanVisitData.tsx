@@ -5,7 +5,8 @@ import WorkingHours from "../Components/PlanVisit/WorkingHours";
 export interface RoadMap{
     id: number,
     name: string,
-    icon: string,
+    lightIcon: string,
+    darkIcon: string,
     content: JSX.Element
     routeName?: string
 }
@@ -13,29 +14,33 @@ export interface RoadMap{
 export default [
     {
         id: 1,
-        name: 'ქალაქის რუკა',
-        icon:  require('../assets/images/bigArrow.png'),
+        name: 'screens.cityMap',
+        lightIcon:  require('../assets/images/bigArrow.png'),
+        darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: <></>,
         routeName: 'GoogleMap'
     },
     {
         id: 2,
-        name: 'სართულის გეგმა',
-        icon:  require('../assets/images/bigArrow.png'),
+        name: 'screens.floorPlan',
+        lightIcon:  require('../assets/images/bigArrow.png'),
+        darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: <></>,
         routeName: 'FloorMap'
     },
     {
         id: 3,
-        name: 'სამუშაო საათები & კონტაქტი',
-        icon:  require('../assets/images/bigArrow.png'),
+        name: 'screens.workAndContact',
+        lightIcon:  require('../assets/images/bigArrow.png'),
+        darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: WorkingHours
        
     },
     {
         id: 4,
-        name: 'როგორ მოხვიდე?',
-        icon:  require('../assets/images/bigArrow.png'),
+        name: 'screens.howCome',
+        lightIcon:  require('../assets/images/bigArrow.png'),
+        darkIcon:  require('../assets/images/big-black-arrow.png'),
         content: HowCome
 
       

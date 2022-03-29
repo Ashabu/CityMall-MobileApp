@@ -12,6 +12,7 @@ import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
 import { IOffer } from '../Services/Api/OffersApi';
+import translateService from '../Services/translateService';
 
 
 interface IPromotionData {
@@ -58,7 +59,7 @@ function extractor(obj: any, key: string) {
         <TouchableOpacity onPress={handlePromotionBoxClick} style={style}>
             <View style={styles.promotionBox}>
                 <View style={[styles.container, {backgroundColor: extractor(data.offerType, 'color')}]}>
-                    <Text style={{ fontSize: 5, color: isDarkTheme ? Colors.white : Colors.black }}> {extractor(data.offerType, 'name')}</Text>
+                    <Text style={{ fontSize: 5, color: Colors.white}}> {extractor(data.offerType, 'name')}</Text>
                 </View>
                 <Image style={styles.promotionImg} source={{ uri: data.imgUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
@@ -72,14 +73,14 @@ function extractor(obj: any, key: string) {
                         data.floor ?
                             <View>
                                 <Text style={[Platform.OS === 'ios' && { fontSize: 9}, styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                    {`სართული: ${data.floor[0]}`}
+                                    {`${state?.t('common.floor')}: ${data.floor[0]}`}
                                 </Text>
                             </View>
                             : null
                     }
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            ვრცლად
+                        {state?.t('common.seeMore')}
                         </Text>
                         <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>
@@ -101,14 +102,14 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         justifyContent: 'center',
-        width: 46,
+        minWidth: 46,
         height: 12,
         borderRadius: 10,
         position: 'absolute',
         top: 9,
         left: 9,
         zIndex: 1,
-
+        paddingHorizontal: 10
     },
 
     promotionRed: {

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { Picker, PickerIOS } from '@react-native-picker/picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import translateService from "../../Services/translateService";
+import { AppContext } from '../../AppContext/AppContext';
 
 const AppPicker = (props: any) => {
+    const { state } = useContext(AppContext);
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [isSelecting, setIsSelecting] = useState<boolean>(false);
 
@@ -22,7 +25,7 @@ const AppPicker = (props: any) => {
                 
                 <View style={styles.card}>
                     <TouchableOpacity onPress={haldeClosePicker} style={{width: '100%'}}>
-                        <Text style={[styles.textStyles, {textAlign: 'right'}]}>არჩევა</Text>
+                        <Text style={[styles.textStyles, {textAlign: 'right'}]}>{state?.t('common.select')}</Text>
                     </TouchableOpacity>
                 <Picker
                     style={styles.pickerStyle}

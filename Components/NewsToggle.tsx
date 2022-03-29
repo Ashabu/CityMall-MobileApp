@@ -6,6 +6,7 @@ import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
 import {navigate} from '../Services/NavigationServices';
 import { mallIds } from './ToggleDropdown/LocationDropdown';
+import translateService from '../Services/translateService';
 
 const NewsToggle: React.FC<any> = (props) => {
   const {width} = useDimension();
@@ -13,6 +14,7 @@ const NewsToggle: React.FC<any> = (props) => {
   const {isDarkTheme} = state;
   const [collapseFirst, setCollapseFirst] = useState<boolean>(false);
   const [collapseSecond, setCollapseSecond] = useState<boolean>(false);
+ 
 
   return (
     <Portal hostName="News">
@@ -44,7 +46,7 @@ const NewsToggle: React.FC<any> = (props) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            სითი მოლი გლდანი
+            {state?.t('screens.cityGldani')}
           </Text>
         </TouchableOpacity>
         {/* {collapseFirst && (
@@ -71,7 +73,7 @@ const NewsToggle: React.FC<any> = (props) => {
               styles.text,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            სითი მოლი საბურთალო
+            {state?.t('screens.citySaburtalo')}
           </Text>
         </TouchableOpacity>
         {/* {collapseSecond && (
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     top: 80,
     left: 190,
     zIndex: 200,
-    width: 170,
+    width: 179,
     height: 'auto',
     borderRadius: 10,
     justifyContent: 'center',

@@ -18,6 +18,8 @@ export interface IClientInfo {
     category?: number,
     categoryStatus?: number,
     categoryPointInfo?: ICategoryPointInfo[],
+    hasPayCard?: boolean;
+    isRegisterd?:boolean;
 }
 
 export interface IMerchants {
@@ -63,6 +65,12 @@ interface ICheckMailOtpRequest {
     otp: string
 }
 
+interface ISubitMailOtpRequest {
+    email: string,
+    personCode: string,
+    otp: string
+}
+
 interface IAddVirtualCardRequest {
     personCode: string,
     birthDate: string | Date,
@@ -72,7 +80,8 @@ interface IAddVirtualCardRequest {
     email: string,
     address: string | undefined,
     sex: number,
-    mailOtp: string
+    mailOtp: string,
+    isResident: boolean
 }
 
 export interface IGiftCardOrderRequest {
@@ -81,7 +90,8 @@ export interface IGiftCardOrderRequest {
     orderDetails: string,
     deliveryType: number,
     deliveryServiceCenter?: number,
-    courierDetails?: string
+    courierDetails?: string,
+    deliverystatus?: number
 }
 
 export interface IServiceCenter {
@@ -120,6 +130,27 @@ interface IClientTransactionResponse {
   data?:IClientTransaction[]
 }
 
+export interface IClientPaymentTransaction {
+    tranID: number,
+    accountNumber: string,
+    ccy: string,
+    amount: number,
+    description: string,
+    shortDescription: string,
+    imageUrl: string,
+    tranDate?: string,
+}
+
+export interface IClientPaymentTransactionResponse {
+    data?: IClientPaymentTransaction[]
+}
+
+interface IGetAgreementItem {  
+    fileName: string,
+    fullPath: string,
+    type: number   
+}
+
 
 class ApiServices {
     GetClientCards = async () => {
@@ -138,6 +169,10 @@ class ApiServices {
         return await axios.post(`${envs.API_URL}/api/Otp/CheckMailOtp`, data);
     };
 
+    SubmitMailOtp = async (data: ISubitMailOtpRequest) => {
+        return await axios.post(`${envs.API_URL}/api/Otp/SubmitMailOtp`, data);
+    };
+
     AddVirtualCard = async (data: IAddVirtualCardRequest) => {
         return await axios.post(`${envs.API_URL}/api/Clients/AddVirtCard`, data);
     };
@@ -154,13 +189,25 @@ class ApiServices {
         return await axios.post(`${envs.API_URL}/api/Cards/order`, data)
     };
 
+    GetGiftBallance = async ({CardLastNumber, ExpireYear, ExpireMonth}: {CardLastNumber: string, ExpireYear: number, ExpireMonth: number}) => {
+        return await axios.get(`${envs.API_URL}/api/Cards/GetGiftBallance?CardLastNumber=${CardLastNumber}&ExpireYear=${ExpireYear}&ExpireMonth=${ExpireMonth}`)
+    };
+
 
     GetClientInfo = async () => {
         return await axios.get<IClientInfo>(`${envs.API_URL}/api/Mobile/ClientInfo`);
     }
 
-    GetClientTransactions = async () => {
-        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=1&PageSize=10`);
+    GetClientTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
+        return await axios.get<IClientTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientTransactions?Page=${index}&PageSize=${PageSize}`);
+    }
+
+    GetClientPayTransactions = async (index: number = 1, PageSize: number = 10, theme?:string) => {
+        return await axios.get<IClientPaymentTransactionResponse>(`${envs.API_URL}/api/Mobile/GetClientPayTransactions?Page=${index}&PageSize=${PageSize}`);
+    }
+
+    GetAgerements = async () => {
+        return await axios.get<IGetAgreementItem[]>(`${envs.API_URL}/api/File/GetAgerements`);
     }
 
     GetWidgets = async () => {

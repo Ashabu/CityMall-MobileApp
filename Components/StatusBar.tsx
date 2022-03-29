@@ -5,6 +5,7 @@ import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import {useDimension} from '../Hooks/UseDimension';
+import translateService from '../Services/translateService';
 
 const data = {
   name: 'ცისანა',
@@ -38,20 +39,90 @@ const data = {
   ],
 };
 
+const ProgressCircle = ({
+  hide,
+  title,
+  desc,
+  visible,
+  index,
+  onBlur,
+}: {
+  hide?: boolean;
+  title: string;
+  desc: string;
+  visible: boolean;
+  index: number;
+  onBlur: () => void;
+}) => {
+  const {state} = useContext(AppContext);
+  const {isDarkTheme} = state;
+
+if(hide) return null;
+
+  return (
+    <View style={{position: 'relative'}}>
+      <Text
+        style={{
+          color: isDarkTheme ? Colors.white : Colors.black,
+          fontSize: 10,
+          left: index === 1? -12 : undefined
+        }}>
+        {title}
+      </Text>
+      <View
+        style={{
+          backgroundColor: 'red',
+        }}>
+        {visible ? (
+          <TouchableOpacity
+            style={[
+              {
+                position: 'absolute',
+                top: -130,
+                elevation: 999999999,
+                zIndex: 9999,
+              },
+              index === 3 && {right: 0},
+            ]}
+            onPress={onBlur}>
+            <View
+              style={{
+                backgroundColor: Colors.darkGrey,
+                width: 113,
+                //height: 89,
+                borderRadius: 10,
+              }}
+              onStartShouldSetResponder={event => true}>
+              <Text
+                style={[
+                  Platform.OS === 'ios' ? {fontSize: 10} : {fontSize: 9},
+                  {color: Colors.white, padding: 10},
+                ]}>
+                {desc}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
+      </View>
+    </View>
+  );
+};
+
 const StatusBar = (props: any) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
   const {width, height} = useDimension();
 
   const [pointArray, setPointArray] = useState<Array<number>>([]);
-  const [visible, setVisible] = useState(false);
+  const [{visible1, visible2, visible3, visible4}, setVisible] = useState({
+    visible1: false,
+    visible2: false,
+    visible3: false,
+    visible4: false,
+  });
 
   const lineWidth = width / 2 - 70 - (width * 15) / 100;
   const curPoints = props?.data?.points; // ეს არის სერვისის მიერ დაბრუნებული მნიშვნელობა
-
-  const toggleDropdown = () => {
-    setVisible(!visible);
-  };
 
   useEffect(() => {
     setPointArray([]);
@@ -80,8 +151,8 @@ const StatusBar = (props: any) => {
 
   const activeCategoryStandart = {
     backgroundColor: Colors.standard,
-    borderWidth: 0
-  }
+    borderWidth: 0,
+  };
 
   const activeCategorySilver = {
     backgroundColor: Colors.silver,
@@ -106,33 +177,6 @@ const StatusBar = (props: any) => {
 
   return (
     <View style={{position: 'relative'}}>
-      {visible ? (
-        <View>
-          <Portal>
-            <TouchableOpacity
-              style={[styles.dropDown, {height: height, width: width}]}
-              onPress={() => setVisible(false)}>
-              <View
-                style={{
-                  backgroundColor: Colors.black,
-                  top: 275,
-                  width: 113,
-                  height: 89,
-                  borderRadius: 10,
-                }}
-                onStartShouldSetResponder={event => true}>
-                <Text
-                  style={[
-                    Platform.OS === 'ios' && {fontSize: 10},
-                    {color: Colors.white, padding: 10},
-                  ]}>
-                  "სილვერის" სტატუსამდე დაგრჩათ 100 ქულა
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Portal>
-        </View>
-      ) : null}
       <View
         style={{
           flexDirection: 'row',
@@ -141,9 +185,19 @@ const StatusBar = (props: any) => {
         }}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <TouchableOpacity
-            onPress={toggleDropdown}
+            onPress={() =>
+              setVisible({
+                visible1: !visible1,
+                visible2: false,
+                visible3: false,
+                visible4: false,
+              })
+            }
             style={[
               styles.round,
+              props?.data?.category >= 1
+                ? activeCategoryStandart
+                : inActiveCategory,
               {borderColor: isDarkTheme ? Colors.white : Colors.black},
             ]}>
             <View
@@ -179,7 +233,15 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
+          <TouchableOpacity
+            onPress={() =>
+              setVisible({
+                visible1: false,
+                visible2: !visible2,
+                visible3: false,
+                visible4: false,
+              })
+            }
             style={[
               styles.round,
               props?.data?.category >= 2
@@ -195,7 +257,7 @@ const StatusBar = (props: any) => {
                 },
               ]}
             />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <View style={{position: 'relative'}}>
@@ -225,7 +287,15 @@ const StatusBar = (props: any) => {
         </View>
 
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
+          <TouchableOpacity
+            onPress={() =>
+              setVisible({
+                visible1: false,
+                visible2: false,
+                visible3: !visible3,
+                visible4: false,
+              })
+            }
             style={[
               styles.round,
               props?.data?.category >= 3
@@ -241,7 +311,7 @@ const StatusBar = (props: any) => {
                 },
               ]}
             />
-          </View>
+          </TouchableOpacity>
           <View style={{position: 'relative'}}>
             <View
               style={[
@@ -268,7 +338,15 @@ const StatusBar = (props: any) => {
             />
           </View>
         </View>
-        <View
+        <TouchableOpacity
+          onPress={() =>
+            setVisible({
+              visible1: false,
+              visible2: false,
+              visible3: false,
+              visible4: !visible4,
+            })
+          }
           style={[
             styles.round,
             {borderColor: isDarkTheme ? Colors.white : Colors.black},
@@ -285,7 +363,7 @@ const StatusBar = (props: any) => {
               },
             ]}
           />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <View
@@ -301,20 +379,32 @@ const StatusBar = (props: any) => {
             justifyContent: 'space-between',
             width: '45%',
           }}>
-          <Text
-            style={{
-              color: isDarkTheme ? Colors.white : Colors.black,
-              fontSize: 10,
-            }}>
-            სტანდარტი
-          </Text>
-          <Text
-            style={{
-              color: isDarkTheme ? Colors.white : Colors.black,
-              fontSize: 10,
-            }}>
-            ვერცხლი
-          </Text>
+          <ProgressCircle
+            hide={props.hide}
+            index={0}
+            visible={visible1}
+            onBlur={() =>
+              setVisible({visible1: false, visible2, visible3, visible4})
+            }
+            title={`${state?.t('common.standart')}`}
+            desc={`${state?.t('infoText.standartText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[0]?.pointsLeft
+            } ${state?.t('common.point')}`}
+          />
+          <ProgressCircle
+            hide={props.hide}
+            index={1}
+            visible={visible2}
+            onBlur={() =>
+              setVisible({visible1, visible2: false, visible3, visible4})
+            }
+            title={`${state?.t('common.silver')}`}
+            desc={`${state?.t('infoText.silverText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[1]?.pointsLeft
+            } ${state?.t('common.point')}`}
+          />
         </View>
         <View
           style={{
@@ -322,20 +412,32 @@ const StatusBar = (props: any) => {
             justifyContent: 'space-between',
             width: '40%',
           }}>
-          <Text
-            style={{
-              color: isDarkTheme ? Colors.white : Colors.black,
-              fontSize: 10,
-            }}>
-            ოქრო
-          </Text>
-          <Text
-            style={{
-              color: isDarkTheme ? Colors.white : Colors.black,
-              fontSize: 10,
-            }}>
-            პლატინა
-          </Text>
+          <ProgressCircle
+            hide={props.hide}
+            index={2}
+            visible={visible3}
+            onBlur={() =>
+              setVisible({visible1, visible2, visible3: false, visible4})
+            }
+            title={`${state?.t('common.gold')}`}
+            desc={`${state?.t('infoText.goldText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[2]?.pointsLeft
+            } ${state?.t('common.point')}`}
+          />
+          <ProgressCircle
+            hide={props.hide}
+            index={3}
+            visible={visible4}
+            onBlur={() =>
+              setVisible({visible1, visible2, visible3, visible4: false})
+            }
+            title={`${state?.t('common.platin')}`}
+            desc={`${state?.t('infoText.platinumText')} ${
+              props?.data?.categoryPointInfo?.length &&
+              props?.data?.categoryPointInfo[3]?.pointsLeft
+            } ${state?.t('common.point')}`}
+          />
         </View>
       </View>
     </View>
@@ -374,9 +476,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    bottom: 0,
     right: 0,
-    zIndex: 100,
-    backgroundColor: '#a8a7a761',
+    //zIndex: 100,
+    //backgroundColor: '#a8a7a761',
   },
 });

@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, {
     useState,
     useEffect,
@@ -21,6 +22,13 @@ import {
     navigate
 } from '../../Services/NavigationServices';
 
+type RouteParamList = {
+    params: {
+        userPhoneNumber?: string;
+        skip?: boolean;
+    }
+}
+
 export interface IRegistrationProps {
     firstName?: string;
     lastName?: string;
@@ -33,6 +41,9 @@ export interface IRegistrationProps {
     address?: string;
     sex?: Object;
     mailOtp?: string;
+    isResident: boolean;
+    userPhoneNumber?:string;
+    skip?:boolean;
 }
 
 export interface IGenderTypes {
@@ -41,6 +52,7 @@ export interface IGenderTypes {
 }
 
 const ScreenOne: React.FC = () => {
+    const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
@@ -101,6 +113,9 @@ const ScreenOne: React.FC = () => {
             lastName: lastName,
             personCode: idNumber,
             sex: gender,
+            isResident: isForeignResident,
+            userPhoneNumber: routeParams?.params?.userPhoneNumber,
+            skip: routeParams?.params?.skip,
         };
         setGlobalState({ routeObject: data });
         navigate('REGSTEP_TWO');
@@ -110,7 +125,7 @@ const ScreenOne: React.FC = () => {
         <Layout 
         hasBackArrow={true} 
         onPressBack={() => GoBack()}
-        pageName={'სითი მოლი'}>
+        pageName={state?.t('common.cityMall')}>
             <ScrollView
                 keyboardShouldPersistTaps="always"
                 contentContainerStyle={{
@@ -120,12 +135,12 @@ const ScreenOne: React.FC = () => {
                 }}>
                 <View style={{ flex: 1 }}>
                     <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                        რეგისტრაცია
+                       {state?.t('common.register')}
                     </Text>
                 </View>
                 <ScrollView style={{ flex: 9 }}>
                     <AppInput
-                        placeholder="სახელი"
+                        placeholder={state?.t('labels.firstName')}
                         name="name"
                         value={name}
                         hasError={hasError}
@@ -136,7 +151,7 @@ const ScreenOne: React.FC = () => {
                         onChangeText={(val: string) => setName(val)}
                     />
                     <AppInput
-                        placeholder="გვარი"
+                        placeholder={state?.t('labels.lastName')}
                         name="lastName"
                         value={lastName}
                         hasError={hasError}
@@ -148,7 +163,7 @@ const ScreenOne: React.FC = () => {
                     />
                     <View>
                         <AppInput
-                            placeholder="პირადი ნომერი"
+                            placeholder={state?.t('labels.idNumber')}
                             name="idNumber"
                             value={idNumber}
                             hasError={hasError}
@@ -170,7 +185,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={false}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                უცხო ქვეყნის მოქალაქე
+                            {state?.t('infoText.citizenText')}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -180,7 +195,7 @@ const ScreenOne: React.FC = () => {
                             { borderBottomColor: isDarkTheme ? Colors.white : Colors.black },
                         ]}>
                         <Text style={{ color: isDarkTheme ? Colors.white : Colors.black, fontFamily: 'HMpangram-Medium', fontWeight: '500', paddingLeft: 12 }}>
-                            სქესი
+                        {state?.t('labels.gender')}
                         </Text>
                         <TouchableOpacity
                             style={styles.inputWithLabel}
@@ -194,7 +209,7 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                მდედრობითი
+                            {state?.t('labels.female')}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -209,15 +224,15 @@ const ScreenOne: React.FC = () => {
                                 isRequired={true}
                             />
                             <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                                მამრობითი
+                            {state?.t('labels.male')}
                             </Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
                 <View style={{ flex: 2, alignItems: 'flex-end', marginVertical: 20 }}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleStep}>
-                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            შემდეგი
+                        <Text style={[styles.btnText, { color: Colors.white }]}>
+                        {state?.t('common.next')}
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -275,13 +290,13 @@ const styles = StyleSheet.create({
     inputWithLabel: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 15,
     },
 
     genderCheck: {
         marginTop: '6%',
         borderBottomWidth: 1,
-        paddingBottom: 12,
+        paddingBottom: 17,
     },
 
     errorText: {

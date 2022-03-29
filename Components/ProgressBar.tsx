@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { useDimension } from '../Hooks/UseDimension';
+import translateService from '../Services/translateService';
 
 const StatusBar = () => {
     const { width } = useDimension();
+    const { state } = useContext(AppContext);
     return (
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', }}>
             <View style={{backgroundColor: 'red'  }}>
@@ -13,7 +16,7 @@ const StatusBar = () => {
                     </View>
                 </View>
                 <Text style={{ color: Colors.white, fontSize: 8 }}>
-                    ვერცხლი
+                {state?.t('common.silver')}
                 </Text>
             </View>
             <View style={[styles.line, { width: width / 2 - 30 - width * 15 / 100, backgroundColor: Colors.silver }]} />
@@ -23,7 +26,7 @@ const StatusBar = () => {
                     <View style={[styles.round, { backgroundColor: Colors.gold }]}>
                     </View>
                     <Text style={{ color: Colors.white, fontSize: 8 }}>
-                        ოქრო
+                    {state?.t('common.gold')}
                     </Text>
                 </View>
                 <View style={[styles.line, { width: width / 2 - 30 - width * 15 / 100, backgroundColor: Colors.gold }]} />
@@ -32,7 +35,7 @@ const StatusBar = () => {
                 <View style={[styles.round, { backgroundColor: Colors.platinum }]}>
                 </View>
                 <Text style={{ color: Colors.white, fontSize: 8 }}>
-                    პლატინა
+                {state?.t('common.platin')}
                 </Text>
             </View>
         </View>

@@ -25,6 +25,9 @@ import {
   IMainCategories,
 } from '../../Services/Api/CategoryApi';
 import {GetMerchants, IMerchant} from '../../Services/Api/ShopsApi';
+import NotFound from '../../Components/NotFound';
+import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 export interface IServiceCategories {
   id?: number;
@@ -44,6 +47,7 @@ type RouteParamList = {
     id: number;
     routeId: number;
     name: string,
+    isPremium?:boolean
   };
 };
 
@@ -53,7 +57,7 @@ const Stores: React.FC = () => {
 
   const carouselRef = createRef<ScrollView>();
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const {state} = useContext(AppContext);
+  const {state, setGlobalState} = useContext(AppContext);
   const {isDarkTheme, objectTypeId, subCategoryArray, categoryArray} = state;
 
   const itemChunk = 4;
@@ -68,7 +72,7 @@ const Stores: React.FC = () => {
   const [merchants, setMerchants] = useState<IMerchant[]>([]);
   const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
   const [pagPage, setPagPage] = useState<number>(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     handleGetMainCategories();
@@ -79,7 +83,6 @@ const Stores: React.FC = () => {
   }, [categoryArray.length]);
 
   useEffect(() => {
-    console.log('update - 1');
     if (merchants.length <= 0) {
       return;
     } else {
@@ -131,10 +134,10 @@ const Stores: React.FC = () => {
 
   const handleGetMerchants = (push: boolean = false, p: number = 1) => {
     let isPremium;
-    if (routeParams.params.id === 1) {
-      isPremium = false;
-    } else {
+    if (routeParams.params.isPremium) {
       isPremium = true;
+    } else {
+      isPremium = false;
     }
     if (startFetching) return;
     startFetching = true;
@@ -197,7 +200,6 @@ const Stores: React.FC = () => {
       ? Math.floor(nativeEvent.contentSize.height)
       : Math.floor(nativeEvent.contentSize.width);
 
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
@@ -205,7 +207,6 @@ const Stores: React.FC = () => {
         handleGetMerchants(true, pagPage);
       }, 1000);
 
-      console.log(pagPage);
     }
   };
 
@@ -216,6 +217,11 @@ const Stores: React.FC = () => {
   const animatedIsCollapsed = useRef(
     new Animated.Value(isFilterCollapsed ? 1 : 0),
   );
+
+  useEffect(() => {
+    setGlobalState({ categoryArray: [] });
+    setGlobalState({ subCategoryArray: [] });
+  }, []);
 
   useEffect(() => {
     Animated.timing(animatedIsCollapsed.current, {
@@ -261,7 +267,20 @@ const Stores: React.FC = () => {
     ));
   };
 
-  console.log(routeParams.params.name)
+  useEffect(() => {
+    const subscription = subscriptionService?.getData()?.subscribe(data => {
+      if (data?.key === 'theme_changed') {
+        setMerchants([]);
+        setSectStep(0);
+        handleGetMerchants();
+      }
+    });
+  
+    return () => {
+      subscriptionService?.clearData();
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   return (
     <>
@@ -269,20 +288,20 @@ const Stores: React.FC = () => {
         <View style={[styles.container, containerStyle]}>
           <Animated.View style={[styles.collapsible, collapsibleHeight]}>
             <Text style={[styles.headerText, textStyle]}>
-              <Text style={styles.baseText}>{routeParams.params.name}</Text> | {routeParams.params.routeId === 1? 'სითი მოლი საბურთალო' : 'სითი მოლი გლდანი'}
+              <Text style={styles.baseText}>{state?.t(routeParams.params.name)}</Text> | {routeParams.params.routeId === 1? state?.t('screens.citySaburtalo') : state?.t('screens.cityGldani')}
             </Text>
             {mainCategories && mainCategories.length > 0 && (
               <RenderCategories
                 isCategory
                 data={mainCategories!}
-                title="კატეგორიები"
+                title= {state?.t('common.categories')}
               />
             )}
 
             {subCategories.length > 0 && (
               <RenderCategories
                 data={subCategories}
-                title="ქვეკატეგორიები"
+                title={state?.t('common.subCategories')}
                 style={styles.subCategories}
                 isCategory={false}
               />
@@ -329,7 +348,9 @@ const Stores: React.FC = () => {
                   },
             ]}>
               {!isLoading && merchants.length <=0 ? 
-              <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>:
+              // <Text style={{ fontSize: 10, color: isDarkTheme ? Colors.white : Colors.black}}>ქონთენთი ვერ მოიძებნა</Text>
+              <NotFound />
+              :
             <ScrollView
               contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
               onScroll={({nativeEvent}) => {
@@ -383,7 +404,7 @@ const Stores: React.FC = () => {
                         paddingVertical: 20,
                       },
                 ]}>
-                <ActivityIndicator size={'small'} color={'#FFFFFF'} />
+                <ActivityIndicator size={'small'} color={isDarkTheme ? Colors.white : Colors.black} />
               </View>
             ) : null}
           </View>
@@ -391,7 +412,7 @@ const Stores: React.FC = () => {
         {isLoading && !(merchants.length > 0 && isFetchingData && pagPage > 1) && <View style={styles.loader}>
         <ActivityIndicator
           size={'small'}
-          color={'#ffffff'}
+          color={isDarkTheme ? Colors.white : Colors.black}
           style={{
             alignSelf: 'center',
             transform: [{translateY: Dimensions.get('screen').height / 2}],

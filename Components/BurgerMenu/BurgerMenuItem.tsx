@@ -14,7 +14,9 @@ import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
 import { IDrawerItem } from "../../Constants/DrawerItems";
 import { navigate } from "../../Services/NavigationServices";
+import AsyncStorage from "../../Services/StorageService";
 import { subscriptionService } from "../../Services/SubscriptionServive";
+import translateService from "../../Services/translateService";
 import BurgerMenuLocation from "./BurgerMenuLocation";
 
 interface IBmItem {
@@ -25,11 +27,13 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme, clientDetails } = state;
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-
+    const [isSkip, setIsSkip] = useState<boolean>(false);
+    
     const handleOnMenuItemPress = () => {
         if (item.location?.length == 0) {
-            if(clientDetails.length === 0 && item.id === 10) {
-                return navigate('AboutUs', {routeId: 2})
+            if((clientDetails.length === 0 || isSkip) && item.id === 10) {
+                isSkip ? navigate('AuthScreenWithSkip', { skip: true }) : navigate('AboutUs', { routeId: 2 });
+                return;
             } else {
                 return navigate(item.routeName!, {name: item.name});
             };
@@ -64,6 +68,16 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
         color: Colors.red
     }
 
+    useEffect(() => {
+        AsyncStorage.getItem('skip_token').then(res => {
+            if(res === null) {
+                setIsSkip(false);
+            } else {
+                setIsSkip(true);
+            }
+        }).catch(() => setIsSkip(false));
+    }, [clientDetails]);
+
     return (
         <View style={{ marginBottom: 20 }}>
             <TouchableOpacity style={styles.mainContStyle}
@@ -76,8 +90,8 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                         :
                         null
                 }
-                <Text style={[styles.listName, clientDetails.length ===0 && item.id === 10? notRegisteredTextColor :  themeTextColor]}>
-                    {item.name}
+                <Text style={[styles.listName, ((clientDetails.length === 0 || isSkip) && item.id === 10)? notRegisteredTextColor :  themeTextColor]}>
+                    {state?.t(item.name || '')}
                 </Text>
             </TouchableOpacity>
             {
@@ -85,7 +99,7 @@ const BurgerMenuItem: React.FC<IBmItem> = ({ item }) => {
                 <View style={{ marginBottom: 5 }}>
                     {
                         item?.location?.map((el, i) => (
-                            <BurgerMenuLocation item={el} key={i} categories={item.categories} routeName={item.routeName!} pageName={item.name} />
+                            <BurgerMenuLocation item={el} key={i} categories={item.categories} isPremium={el.isPremium} routeName={item.routeName!} pageName={item.name} />
                         ))
                     }
                 </View>

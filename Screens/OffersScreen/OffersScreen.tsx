@@ -15,9 +15,12 @@ import PaginationDots from '../../Components/PaginationDots';
 import PromotionBox from '../../Components/PromotionBox';
 import {paginationDotCount} from '../../Services/Utils';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {CategoryTypes} from '../../Constants/Categories';
+//import {CategoryTypes} from '../../Constants/Categories';
 import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {ChunkArrays} from '../../Utils/utils';
+import NotFound from '../../Components/NotFound';
+import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 type RouteParamList = {
   params: {
@@ -26,9 +29,16 @@ type RouteParamList = {
   };
 };
 
-const OffersScreen = () => {
+const OffersScreen = (props: any) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
+
+const CategoryTypes: any = {
+    100007: state?.t('common.sale'),
+    0: state?.t('common.sale'),
+    1: state?.t('common.news'),
+    2: state?.t('common.event')
+}
 
   const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
 
@@ -46,9 +56,9 @@ const OffersScreen = () => {
     setOffersView([]);
     setFilteredOffers([]);
     if (routeParams.params.id === 0) {
-      handleGetOffers();
+      handleGetOffers(pagPage, true);
     } else {
-      handleGetNews();
+      handleGetNews(pagPage, true);
     }
   }, [routeParams.params.routeId, routeParams.params.id]);
 
@@ -56,21 +66,24 @@ const OffersScreen = () => {
     handleSetOffers();
   }, [filteredOffers]);
 
-  const handleGetOffers = (page: number = 1) => {
+  const handleGetOffers = (page: number = 1, renew?: boolean) => {
     // setOffersView([]);
     if (startFetching) return;
     startFetching = true;
     setIsLoading(true);
     GetOffers(false, page, routeParams.params.routeId)
-      .then(res => {
+      .then(res => { 
         let tempOffers = res.data.data;
-        console.log(tempOffers, 'asdadasdasdadasd');
         if (tempOffers.length < 16) {
           isEndFetching = true;
         }
+        if(renew) {
+          setFilteredOffers(tempOffers);
+        } else {
         setFilteredOffers(prevState => {
           return [...(prevState || []), ...tempOffers];
         });
+      }
         setIsFetchingData(false);
         startFetching = false;
         setIsLoading(false);
@@ -81,7 +94,7 @@ const OffersScreen = () => {
       });
   };
 
-  const handleGetNews = (page: number = 1) => {
+  const handleGetNews = (page: number = 1, renew?: boolean) => {
     if (startFetching) return;
     startFetching = true;
     setIsLoading(true);
@@ -91,9 +104,13 @@ const OffersScreen = () => {
         if (tempNews.length < 16) {
           isEndFetching = true;
         }
+        if(renew) {
+          setFilteredOffers(tempNews);
+        } else {
         setFilteredOffers(prevState => {
           return [...(prevState || []), ...tempNews];
         });
+      }
         setIsFetchingData(false);
         startFetching = false;
         setIsLoading(false);
@@ -148,7 +165,6 @@ const OffersScreen = () => {
     );
     let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
 
-    console.log(scrollPoint, scrollContentSize);
     if (scrollPoint >= scrollContentSize - 1) {
       setPagPage(prevState => prevState + 1);
       setIsFetchingData(true);
@@ -161,10 +177,27 @@ const OffersScreen = () => {
           handleGetNews(pagPage);
         }, 1000);
       }
-
-      console.log(pagPage);
     }
   };
+
+useEffect(() => {
+  const subscription = subscriptionService?.getData()?.subscribe(data => {
+    if (data?.key === 'theme_changed') {
+      setOffersView([]);
+      setFilteredOffers([]);
+      if (routeParams.params.id === 0) {
+        handleGetOffers(pagPage, true);
+      } else {
+        handleGetNews(pagPage, true);
+      }
+    }
+  });
+
+  return () => {
+    subscriptionService?.clearData();
+    subscription?.unsubscribe();
+  };
+}, []);
 
   return (
     <AppLayout>
@@ -179,7 +212,7 @@ const OffersScreen = () => {
               styles.promotionsTitle,
               {color: isDarkTheme ? Colors.white : Colors.black},
             ]}>
-            {'შეთავაზებები | ' + CategoryTypes[routeParams.params.id]}
+            {state?.t('common.offers') + ' | ' + CategoryTypes[routeParams.params.id]}
           </Text>
           <PaginationDots length={chunkedData?.length} step={offersStep} />
         </View>
@@ -190,13 +223,14 @@ const OffersScreen = () => {
               : {flex: 11},
           ]}>
           {!isLoading && (!filteredOffers || filteredOffers.length <= 0) ? (
-            <Text
-              style={{
-                fontSize: 10,
-                color: isDarkTheme ? Colors.white : Colors.black,
-              }}>
-              ქონთენთი ვერ მოიძებნა
-            </Text>
+            // <Text
+            //   style={{
+            //     fontSize: 10,
+            //     color: isDarkTheme ? Colors.white : Colors.black,
+            //   }}>
+            //   ქონთენთი ვერ მოიძებნა
+            // </Text>
+            <NotFound />
           ) : (
             <ScrollView
               contentContainerStyle={{flexGrow: 1, flexDirection: 'row'}}
@@ -220,7 +254,7 @@ const OffersScreen = () => {
         <View style={styles.loader}>
           <ActivityIndicator
             size={'small'}
-            color={'#ffffff'}
+            color={isDarkTheme ? Colors.white : Colors.black}
             style={{
               alignSelf: 'center',
               transform: [

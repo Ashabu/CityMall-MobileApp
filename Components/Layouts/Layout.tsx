@@ -19,6 +19,8 @@ import {
 } from 'react-native';
 import { AppContext } from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
+import { default_lang_key, en_key } from '../../lang';
+import translateService from '../../Services/translateService';
 
 interface ILayoutProp {
     pageName?: string,
@@ -28,7 +30,7 @@ interface ILayoutProp {
 }
 
 const Layout: React.FC<ILayoutProp> = (props) => {
-    const { state } = useContext(AppContext);
+    const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme } = state;
 
     const DownArrowAnim = useRef(new Animated.Value(0));
@@ -91,7 +93,7 @@ const Layout: React.FC<ILayoutProp> = (props) => {
         <SafeAreaView style={{ flex: 1, backgroundColor: isDarkTheme ? Colors.black : Colors.white }}>
             <View style={{ flexDirection: 'row', height: keyBoardShown || props.hideArrows ? 'auto' : 89 }}>
                 <View style={styles.headerAction}>
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', flex: 1 }}>
                         {
                             props.hasBackArrow ?
                                 <TouchableOpacity style={{ marginLeft: 25 }} onPress={props.onPressBack}>
@@ -100,15 +102,24 @@ const Layout: React.FC<ILayoutProp> = (props) => {
                                 :
                                 null
                         }
-                        <TouchableOpacity >
+                        <TouchableOpacity  onPress={() => {
+                            const curLang = state.lang === en_key ? default_lang_key : en_key;
+                            translateService.use(curLang, (t) => {
+                              setGlobalState({ lang: curLang });
+                              setGlobalState({ translates: t });
+                            });
+                        }}>
                             <Text style={{fontFamily: 'HMpangram-Medium', paddingHorizontal: 15 ,color: isDarkTheme ? Colors.white : Colors.black }}>
-                                ENG
+                            {state.lang === en_key ? 'GEO' : 'ENG'}{' '}
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <View style={{flex: 2}}>
                     <Text style={[styles.cityMall, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                         {props.pageName}
                     </Text>
+                    </View>
+                    
                 </View>
                 {
                     (keyBoardShown && Platform.OS === 'android') || props.hideArrows ?
@@ -157,8 +168,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '68%'
+        // justifyContent: 'space-between',
+        width: '74%'
     },
 
     cityMall: {

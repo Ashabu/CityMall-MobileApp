@@ -8,6 +8,7 @@ import AppLayout from '../AppLayout';
 import MessagesInfo from '../CustomComponents/MessagesInfo';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
 import Layout from '../Layouts/Layout';
+import translateService from '../../Services/translateService';
 
 const VouchersDone = () => {
   const {width} = useDimension();
@@ -26,17 +27,15 @@ const VouchersDone = () => {
           <MessagesInfo
             icon={require('../../assets/images/success.png')}
             bgColorProp={Colors.successGreen}
-            title={'შეკვეთა წარმატებით დასრულდა'}
-            text={
-              'დამატებითი დეტალებისათვის დაგიკავშირდებით სატელეფონო ცენტრიდან'
-            }
-            phone={'0322 555 222'}
+            title={state?.t('infoText.successMsg')}
+            text={''}
+            phone={''}
           />
         </View>
 
         <View style={{flex: 1, top: 40, alignItems: 'center'}}>
           <TouchableOpacity style={styles.btnStyle} onPress={()=> navigate('ProfileScreen')}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დახურვა</Text>
+            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>{state?.t('common.close')}</Text>
           </TouchableOpacity>
         </View>
       </View>

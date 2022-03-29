@@ -1,21 +1,36 @@
 
 
 import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
-import { ActivityIndicator, Keyboard, Image, StyleSheet, Switch, Text, TouchableOpacity, View, Platform,  ScrollView } from 'react-native';
+import { 
+    ActivityIndicator, 
+    Keyboard, 
+    Image, 
+    StyleSheet, 
+    Switch, 
+    Text, 
+    TouchableOpacity, 
+    View, 
+    Platform,  
+    ScrollView 
+} from 'react-native';
 import axios from 'axios';
 import DatePicker from 'react-native-date-picker';
-// import { IRegistrationProps } from '../RegistrationScreen';
 import ApiServices from '../../Services/ApiServices';
 import { AppContext } from '../../AppContext/AppContext';
 import { getItem } from '../../Services/StorageService';
 import AuthService from '../../Services/AuthService';
-import { GoBack, navigate } from '../../Services/NavigationServices';
+import { 
+    GoBack, 
+    navigate 
+} from '../../Services/NavigationServices';
 import Layout from '../../Components/Layouts/Layout';
 import DistrictPiker from '../../Components/CustomComponents/DistrictPiker';
 import AppInput from '../../Components/CustomComponents/AppInput';
 import AppCheckBox from '../../Components/CustomComponents/AppCheckBox';
 import { Colors } from '../../Colors/Colors';
-
+import { minusMonthFromDate } from '../../Utils/utils';
+import envs from './../../config/env';
+import { formatDate } from '../../Services/Utils';
 
 
 
@@ -34,13 +49,12 @@ const ScreenTwo: React.FC = (props: any) => {
 
     // const routeObj = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-    // console.log(routeObj.params)
 
     const [hasError, setHasError] = useState<boolean>(false);
     const [errorMessages, setErrorMessages] = useState<string[] | []>([]);
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
     const [verifyEmailLoading, setVerifyEmailLoading] = useState<boolean>(false);
-    const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date());
+    const [dateOfBirth, setDateOfBirth] = useState<Date | undefined>();
     const [birthDateError, setBirthDateError] = useState<boolean>(false);
     const [district, setDistrict] = useState<string>('');
     const [districts, setDistricts] = useState<any>([]);
@@ -54,13 +68,13 @@ const ScreenTwo: React.FC = (props: any) => {
     const [isValidMailOtp, setIsValidMailOtp] = useState<boolean>(false);
     const [agreedTerms, setAgreedTerms] = useState<boolean>(false);
     const [generalError, setGeneralError] = useState<string>('');
-    const [open, setOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false);
+    const [fullPath, setfullPath] = useState('');
 
     useEffect(() => {
         GetDistricts();
 
     }, []);
-    console.log(district)
 
     useEffect(() => {
         if (errorMessages.length === 0) {
@@ -69,7 +83,7 @@ const ScreenTwo: React.FC = (props: any) => {
     }, [errorMessages]);
 
     useEffect(() => {
-        if(selectedDistrict !== 'სხვა'){
+        if(selectedDistrict !== state?.t('screens.other')){
             let errorArray = errorMessages.filter(e => e !== 'district');
             setErrorMessages(errorArray);
         }
@@ -103,11 +117,11 @@ const ScreenTwo: React.FC = (props: any) => {
 
     const GetDistricts = () => {
         ApiServices.GetDistricts()
-            .then((res: any) => {console.log('.....',res.data)
+            .then((res: any) => {
                 setDistricts(res.data)
             })
             .catch((e: any) => {
-                console.log(';;;;;;;;',e, JSON.parse(JSON.stringify(e.response)));
+                console.log(JSON.parse(JSON.stringify(e.response)));
             })
     };
 
@@ -116,10 +130,6 @@ const ScreenTwo: React.FC = (props: any) => {
         setDistrictError('');
     };
 
-    console.log('errorMessages', errorMessages);
-    const handleStep = () => {
-
-    };
 
     const toggleSwitch = () => {
         setEmailVerificationCode('');
@@ -166,35 +176,43 @@ const ScreenTwo: React.FC = (props: any) => {
             });
     };
 
-    const formatDate = (date: Date) => {
-        let dateArray = date.toLocaleDateString().split('/');
-        return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
-    }
+
+
+    // const formatDate = (date: Date) => { 
+    //     let dateArray: any[] = [];
+    //     if(Platform.OS === 'ios') {
+    //         dateArray = date.toLocaleDateString().split('.');
+    //     } else {
+    //         dateArray = date.toLocaleDateString().split('/');
+    //     }
+        
+    //     return `${dateArray[1]} - ${dateArray[0]} - ${dateArray[2]}`
+    // }
 
     const handleAddVirtualCard = () => {
         if (errorMessages.length > 0) {
             setHasError(true);
-            console.log(errorMessages)
             return;
         };
         setGeneralError('');
         setButtonLoading(true);
-        let date = dateOfBirth.toLocaleDateString().split('/');
+       
         
         let data = {
             firstName: routeObject.firstName,
             lastName: routeObject.lastName,
             personCode: routeObject.personCode,
-            birthDate: dateOfBirth,
-            phone: userPhoneNumber,
+            birthDate: dateOfBirth || new Date(),
+            phone: routeObject?.skip ? routeObject?.userPhoneNumber : userPhoneNumber,
             email: email,
-            address: selectedDistrict === 'სხვა' ? district : selectedDistrict,
-            sex: routeObject.male? 1 : 0,
-            mailOtp: emailVerificationCode
+            address: selectedDistrict === state?.t('screens.other') ? district : selectedDistrict,
+            sex: routeObject?.sex?.male == true ? 1 : routeObject?.sex?.female == true ? 2 : 0,
+            mailOtp: emailVerificationCode,
+            isResident: routeObject.isForeignResident
         };
-
         ApiServices.AddVirtualCard(data)
             .then(async res => {
+                
                 let refreshToken = await getItem('refresh_token');
                 const config = {
                     headers: {
@@ -204,15 +222,15 @@ const ScreenTwo: React.FC = (props: any) => {
                 }
                 const refreshObj = new URLSearchParams();
                 refreshObj.append('grant_type', 'refresh_token');
-                refreshObj.append('client_id', 'ClientApp');
-                refreshObj.append('client_secret', 'secret');
+                refreshObj.append('client_id', envs.client_id);
+                refreshObj.append('client_secret', envs.client_secret);
                 refreshObj.append('refresh_token', refreshToken!);
 
-                await axios.post('https://citymallidentity.payunicard.ge:8060/connect/token', refreshObj, config)
+                await axios.post(`${envs.CONNECT_URL}/connect/token`, refreshObj, config)
                     .then(async (response: any) => {
                         AuthService.setToken(response.data.access_token, response.data.refresh_token);
                         setButtonLoading(false);
-                        navigate('REGSTEP_THREE');
+                        navigate('REGSTEP_THREE', {skip: routeObject?.skip});
                     })
                     .catch((e: any) => {
                         setButtonLoading(false);
@@ -231,7 +249,7 @@ const ScreenTwo: React.FC = (props: any) => {
         return <DatePicker
         style={{backgroundColor: 'red'}}
         open={open}
-        date={dateOfBirth}
+        date={dateOfBirth || minusMonthFromDate(12*18)}
         onConfirm={(date) => {
             setDateOfBirth(date);
             setOpen(false)
@@ -241,40 +259,49 @@ const ScreenTwo: React.FC = (props: any) => {
         }}
         modal={true}
         mode='date'
-        title='აირჩიეთ თარიღი'
-        confirmText='არჩევა'
-        cancelText='გაუქმება'
+        title={state?.t('screens.selectDate')}
+        confirmText={state?.t('common.select')}
+        cancelText={state?.t('screens.cancel')}
         locale="ka-GE"
         androidVariant='nativeAndroid'
     />
     }, [open])
 
-
+    useEffect(() => {
+        ApiServices.GetAgerements().then(res => {
+          let files = res.data;
+          if(files?.length) {
+            setfullPath(files[1]?.fullPath);
+          }
+        })
+      }, [])
 
     return (
-        <Layout hasBackArrow={true} onPressBack={() => {
+        <Layout pageName={state?.t('common.cityMall')} hasBackArrow={true} onPressBack={() => {
             GoBack();
         }}>
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={{flex: 1}}>
-                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
+                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.register')}</Text>
                 </View>
                 <View style={{ flex: 10 }}>
                     <>
                     <TouchableOpacity style={[styles.inputWrap, {borderColor: isDarkTheme ? Colors.white : Colors.black}]} onPress={() => setOpen(true)}>
-                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatDate(dateOfBirth)|| 'დაბადების თარიღი'}</Text>
+                        <Text style={[styles.input, {color: isDarkTheme ? Colors.white : Colors.black}]}>{dateOfBirth ? formatDate(dateOfBirth?.toISOString()) : state?.t('labels.birthday')}</Text>
                     </TouchableOpacity>
                         {memoized}
                     </>
                     {birthDateError ?
-                        <Text style={styles.errorText}>გთხოვთ შეავსოთ ველი</Text>
+                        <Text style={styles.errorText}>{state?.t('infoText.validate')}</Text>
                         : null}
-                    <View>
-                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder='აირჩიეთ რაიონი' />
-                        {selectedDistrict === 'სხვა' &&
-                             <View style={{marginTop: 10}}>
+                    <View style={{marginTop: 10, height: 60, width: 317}}>
+                        <DistrictPiker districts={districts} onSelect={handleDistrictSelect} placeholder={state?.t('screens.selectD')} />
+                        
+                    </View>
+                    {selectedDistrict === state?.t('screens.other') &&
+                             <View>
                             <AppInput
-                                placeholder='საცხოვრებელი რაიონი'
+                                placeholder={state?.t('screens.livingPlace')}
                                 value={district}
                                 name='district'
                                 hasError={hasError}
@@ -286,10 +313,9 @@ const ScreenTwo: React.FC = (props: any) => {
                             />
                             </View>
                         }
-                    </View>
-                    <View style={{marginTop: 10}}>
+                    <View>
                         <AppInput
-                            placeholder='ელ-ფოსტა'
+                            placeholder={state?.t('labels.email')}
                             value={email}
                             name='email'
                             keyboardType='email-address'
@@ -310,14 +336,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                     value={verifyEmail}
                                     disabled={email.length > 0 && !emailError ? false : true} />
                                 <View style={styles.mailVerificationTextWrap}>
-                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ-ფოსტის ვერიფიკაცია</Text>
-                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ელ. ფოსტის მითითებისა და ვერიფიკაციის შემთხვევაში საჩუქრად დაგერიცხებათ 100 სითი ქულა         </Text>
+                                    <Text style={[styles.mailVerificationText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailText')}</Text>
+                                    <Text style={[styles.mailVerificationSubtext, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.emailGiftText')}</Text>
                                 </View>
                             </View>
                             {verifyEmail ?
                                 <View style={{ position: 'relative' }}>
                                     <AppInput
-                                        placeholder='ვერიფიკაციის კოდი'
+                                        placeholder={state?.t('screens.veripicationCode')} 
                                         value={emailVerificationCode}
                                         name='mailOtp'
                                         hasError={hasError}
@@ -329,14 +355,14 @@ const ScreenTwo: React.FC = (props: any) => {
                                         maxLength={6}
                                         onChangeText={(val: string) => setEmailVerificationCode(val)} />
                                     {verifyEmailError ?
-                                        <Text style={styles.errorText}>ერთჯერადი კოდი არასწორია</Text>
+                                        <Text style={styles.errorText}>{state?.t('infoText.codeIncorrect')}</Text>
                                         : null}
                                     <TouchableOpacity onPress={handleCheckMailOtp} style={{ position: 'absolute', right: 5, top: 25 }}>
                                         {verifyEmailLoading ?
                                             <ActivityIndicator animating={verifyEmailLoading} color={Colors.white} />
                                             :
                                             !isValidMailOtp ?
-                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>შეამოწმე</Text>
+                                                <Text style={{ color: isDarkTheme ? Colors.white : Colors.black }}>{state?.t('screens.check')}</Text>
                                                 :
                                                 <Image source={require('../../assets/images/green-checkmark.png')} style={{ width: 20, height: 14 }} />
                                         }
@@ -355,7 +381,9 @@ const ScreenTwo: React.FC = (props: any) => {
                                 addValidation={validateInputs}
                                 isRequired={true}
                             />
-                            <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>ვეთანხმები წესებს და პირობებს</Text>
+                            <TouchableOpacity onPress={() => navigate('DocView', { docUrl: fullPath})}>
+                                <Text style={[styles.labelText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.agreement')}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     {generalError !== '' ?
@@ -371,7 +399,7 @@ const ScreenTwo: React.FC = (props: any) => {
                         {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
-                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დადასტურება</Text>
+                            <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('common.accept')}</Text>
                         }
                     </TouchableOpacity>
                 </View>
@@ -538,7 +566,8 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         fontSize: 14,
         paddingVertical: 12,
+        paddingHorizontal: 10
     },
-
+    
 
 });

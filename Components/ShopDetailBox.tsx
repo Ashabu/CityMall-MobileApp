@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image, Platform } from 'react
 import { AppContext } from '../AppContext/AppContext';
 import { Colors } from '../Colors/Colors';
 import { navigate } from '../Services/NavigationServices';
+import translateService from '../Services/translateService';
 
 const ShopDetailBox = (props: any) => {
     const { state, setGlobalState } = useContext(AppContext);
@@ -13,11 +14,12 @@ const ShopDetailBox = (props: any) => {
         setGlobalState({ singleMerchant: props.data })
         navigate('ShopDetailsScreen');
     };
-
+    // <Image resizeMode={'contain'} style={styles.promotionImg} source={{ uri: props.data.logo || props.data.imageUrl }} />
+{/* <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} /> */}
     return (
         <TouchableOpacity onPress={handlePromotionBoxClick} style={props.style}>
             <View style={styles.promotionBox}>
-                <Image style={styles.promotionImg} source={{ uri: props.data.imgUrl || props.data.imageUrl }} />
+            <Image resizeMode={'contain'} style={styles.promotionImg} source={{ uri: props.data.logo || props.data.imageUrl }} />
                 <Text style={[styles.promotionTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {props.data.name}
                 </Text>
@@ -28,12 +30,12 @@ const ShopDetailBox = (props: any) => {
                     
                     <View>
                         <Text  style={[styles.promotionBottomText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            {`სართული: ${props.data.floor}`}
+                            {`${state?.t('common.floor')}: ${props.data.floor}`}
                         </Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Text style={[ styles.promotionBottomText, Platform.OS === 'ios' && {fontSize: 9}, { color: isDarkTheme ? Colors.white : Colors.black }]}>
-                            ვრცლად
+                        {state?.t('common.seeMore')}
                         </Text>
                         <Image style={styles.promotionBottomImg} source={isDarkTheme? require('../assets/images/arrow-sm.png') : require('../assets/images/arrow-black.png')} />
                     </View>

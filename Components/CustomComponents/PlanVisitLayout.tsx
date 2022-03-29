@@ -39,7 +39,7 @@ const PlanVisitLayout: React.FC<IAppBtnProps> = props => {
   return (
     <>
       <TouchableOpacity onPress={handlePress} style={[styles.main,{backgroundColor: isDarkTheme ? Colors.black : Colors.white }]}>
-        <Text style={[styles.name,{color: isDarkTheme ? Colors.white : Colors.black }]}>{title}</Text>
+        <Text style={[styles.name,{color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t(title)}</Text>
         <Image source={icon} style={collapse ? { transform: [{ rotate: '90deg' }] } : null} />
       </TouchableOpacity>
       {

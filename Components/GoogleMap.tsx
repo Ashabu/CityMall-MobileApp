@@ -1,10 +1,13 @@
 import React, {useContext} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AppLayout from './AppLayout';
 import {AppContext} from '../AppContext/AppContext';
 import {Colors} from '../Colors/Colors';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../Services/translateService';
+import { GoBack } from '../Services/NavigationServices';
+import Layout from './Layouts/Layout';
 
 
 type RouteParamList = {
@@ -30,9 +33,9 @@ export default () => {
   const {isDarkTheme} = state;
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log('gugli', route.params.mallId) // molis misamartis id: 1 - saburtalo, 2 - gldani
   return (
-    <AppLayout pageTitle={'ქალაქის რუკა'}>
+    <Layout pageName={state?.t('screens.cityMap')} onPressBack={GoBack} hasBackArrow>
+    
       <View
         style={[
           styles.mapcontainer,
@@ -56,7 +59,7 @@ export default () => {
           //  showsScale={true}
           //  showsPointsOfInterest={true}
           // toolbarEnabled={true}
-          followsUserLocation={true}
+          followsUserLocation={Platform.OS === 'android'}
           zoomControlEnabled={true}
           zoomEnabled={true}
           // pitchEnabled={true}
@@ -78,7 +81,7 @@ export default () => {
                
         </MapView>
       </View>
-    </AppLayout>
+      </Layout>
   );
 };
 

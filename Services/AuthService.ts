@@ -69,6 +69,7 @@ class AuthService {
 
 
   async removeToken(): Promise<void> {
+    await storage.removeItem('skip_token');
     await storage.removeItem('access_token');
     await storage.removeItem('refresh_token');
   };
@@ -91,8 +92,8 @@ class AuthService {
       loginObj.append('password', data.password);
     }
     loginObj.append('grant_type', 'password');
-    loginObj.append('client_id', 'ClientApp');
-    loginObj.append('client_secret', 'secret');
+    loginObj.append('client_id', envs.client_id);
+    loginObj.append('client_secret', envs.client_secret);
     return await axios.post(`${envs.CONNECT_URL}/connect/token`, loginObj, config);
   };
 
@@ -107,7 +108,7 @@ class AuthService {
     await this.removeToken();
   };
 
-  registerAuthInterceptor(callBack: () => void) {
+  registerAuthInterceptor(callBack: any) {
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
       let token = await this.getToken();
@@ -153,9 +154,13 @@ class AuthService {
         return response;
       },
       async (error: any) => {
-        // console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
+        //  console.log('<----- Error in Auth Interceptor ----->', JSON.stringify(error.response), JSON.parse(JSON.stringify(error.response)).data.error)
         error.response = error.response || {};
-
+        const isSkip = await storage.getItem('skip_token');
+       
+        if(isSkip !== null) {
+          return Promise.reject(error);
+        }
         //Reject promise if usual error
         if ((error?.response?.status !== 401 && error?.response?.status !== 403) || error.config.anonymous || error.config.skipRefresh) {
           return Promise.reject(error);
@@ -184,6 +189,7 @@ class AuthService {
         refreshObj.append('client_secret', 'secret');
         refreshObj.append('refresh_token', await this.getRefreshToken() || '');
         return await axios.post<IAuthResponse>(`${envs.CONNECT_URL}/connect/token`, refreshObj, config).then(async response => {
+         
           if (!response.data.access_token) throw response;
           await this.setToken(
             response.data.access_token,
@@ -194,7 +200,7 @@ class AuthService {
           return axios(originalRequest);
         }).catch(err => {
           this.refreshStarted = false;
-          callBack();
+          callBack().then(() => {});
           return Promise.reject(err);
         });
       },

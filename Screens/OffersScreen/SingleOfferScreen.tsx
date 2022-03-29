@@ -4,9 +4,10 @@ import { View, Text, StyleSheet, Image, SafeAreaView, TouchableOpacity, Platform
 import { ScrollView } from "react-native-gesture-handler";
 import { AppContext } from "../../AppContext/AppContext";
 import { Colors } from "../../Colors/Colors";
-import { CategoryTypes } from "../../Constants/Categories";
+//import { CategoryTypes } from "../../Constants/Categories";
 import { useDimension } from "../../Hooks/UseDimension";
 import { GoBack } from "../../Services/NavigationServices";
+import translateService from '../../Services/translateService';
 
 
 type RouteParamList = {
@@ -39,11 +40,12 @@ const SingleOfferScreen = () => {
             <ScrollView contentContainerStyle={{flexGrow: 1}} showsVerticalScrollIndicator={false}>
         
             <View style={{ flex: 6 }}>
-                <Image source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
+            {/* /width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 */}
+                <Image resizeMode={'cover'} source={{uri: singleOffer.imgUrl}} style={{ width: '100%', maxWidth: 418, height: height / 2, maxHeight: 433 }} />
                 <Image source={require('../../assets/images/gradient-line.png')} style={{ width: '100%' }} />
             </View>
             <View style={{ flex: 6, paddingHorizontal: '7%' }}>
-                <View style={[ styles.offerTitleBox, Platform.OS === 'ios'&& {width: 83}, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
+                <View style={[ styles.offerTitleBox, Platform.OS === 'ios'&& {minWidth: 85}, {backgroundColor: extractor(singleOffer.offerType, 'color')}]}>
                     <Text style={[styles.offerTitleBoxText, { color: isDarkTheme ? Colors.white : Colors.black }]}>
                     {/* {CategoryTypes[singleOffer.offerType.name]} */}
                     {extractor(singleOffer.offerType, 'name')}
@@ -70,14 +72,14 @@ const SingleOfferScreen = () => {
                 <View style={{ marginTop: 25 }}>
                    {singleOffer.contactiInfoMerchant? 
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>მაღაზია: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.shop')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactiInfoMerchant}</Text>
                     </View> 
                     :
                     null}
                     {singleOffer.contactInfoCityMall? 
                      <View style={{ flexDirection: 'row' }}>
-                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>სითი მოლი: </Text>
+                        <Text style={[styles.contactTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.cityMall')}: </Text>
                         <Text style={[styles.contactDetails, { color: isDarkTheme ? Colors.white : Colors.black }]}>{singleOffer.contactInfoCityMall}</Text>
                     </View>
                     :null}
@@ -88,7 +90,7 @@ const SingleOfferScreen = () => {
                 <TouchableOpacity style={styles.backButton} onPress={()=>GoBack()}>
                     <Image source={require('../../assets/images/back-arrow.png')} style={{ width: 16, height: 16 }} />
                 </TouchableOpacity>
-                <Text style={[styles.pageTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>
+                <Text style={[styles.pageTitle, { color:  Colors.white }]}>
                     {singleOffer.name}
                 </Text>
             </View>
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     },
 
     offerTitleBox: {
-        width: 73,
+        width: 90,
         height: 20,
         borderRadius: 10,
         alignItems: 'center',

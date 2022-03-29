@@ -9,6 +9,7 @@ import PlanVisitLayout from '../../Components/CustomComponents/PlanVisitLayout';
 import data from '../../Constants/PlanVisitData';
 import ApiServices from '../../Services/ApiServices';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import translateService from '../../Services/translateService';
 
 
 type RouteParamList = {
@@ -27,15 +28,13 @@ const PlanVisit = () => {
 
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
 
-  console.log(route.params.routeId)
 
   const [contentData, setContentData] = useState<any>([]);
 useEffect(() => {
   getWidgets();
-}, [])
+}, [state.lang])
   const getWidgets = () => {
     ApiServices.GetWidgets().then(res => {
-      console.log(res.data)
       setContentData(res.data)
     }).catch(e => {
       console.log(JSON.parse(JSON.stringify(e.response)))
@@ -43,7 +42,7 @@ useEffect(() => {
   }
 
   return (
-    <Layout hasBackArrow pageName="დაგეგმე ვიზიტი" onPressBack={GoBack}>
+    <Layout hasBackArrow pageName={state?.t('screens.planVisit')} onPressBack={GoBack}>
       <View
         style={{
           flexGrow: 1,
@@ -51,7 +50,7 @@ useEffect(() => {
           paddingHorizontal: '7%',
         }}>
           {data.map((el: any, i: React.Key) => (
-            <PlanVisitLayout key={i} title={el.name} icon={el.icon} Content={el.content} routeName={el.routeName} contentData = {contentData} routeId = {route.params.routeId} />
+            <PlanVisitLayout key={i} title={el.name} icon={isDarkTheme? el.lightIcon : el.darkIcon} Content={el.content} routeName={el.routeName} contentData = {contentData} routeId = {route.params.routeId} />
           ))}
         
       </View>

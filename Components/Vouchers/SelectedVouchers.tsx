@@ -1,16 +1,15 @@
-import React, {useContext, useState} from 'react';
-import {ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AppContext} from '../../AppContext/AppContext';
-import {Colors} from '../../Colors/Colors';
-import {useDimension} from '../../Hooks/UseDimension';
-import {GoBack, navigate} from '../../Services/NavigationServices';
-import AppLayout from '../AppLayout';
+import React, { useContext, useState } from 'react';
+import { ActivityIndicator, Dimensions, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AppContext } from '../../AppContext/AppContext';
+import { Colors } from '../../Colors/Colors';
+import { useDimension } from '../../Hooks/UseDimension';
+import { GoBack, navigate } from '../../Services/NavigationServices';
 import VoucherCardLayout from '../CustomComponents/VoucherCardLayout';
-import  Data  from '../../Constants/VouchersDummyData'
-import OneTimeCode from '../OneTimeCode';
+import Data from '../../Constants/VouchersDummyData'
 import Layout from '../Layouts/Layout';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { BuyVoucher, IBuyVoucherRequest } from '../../Services/Api/VouchersApi';
+import translateService from '../../Services/translateService';
 
 let hm = require('../../assets/images/H&M.png');
 
@@ -22,16 +21,16 @@ type RouteParamList = {
 
 const SelectedVouchers = () => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const {width} = useDimension();
-  const {state} = useContext(AppContext);
-  const {isDarkTheme, clientDetails} = state;
+  const { width } = useDimension();
+  const { state } = useContext(AppContext);
+  const { isDarkTheme, clientDetails } = state;
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
-  
+
 
   const buy = () => {
     setError(undefined);
-    if(isLoading) return;
+    if (isLoading) return;
     setIsLoading(true);
     const data: IBuyVoucherRequest = {
       voucherCode: route.params.data.voucherCode,
@@ -42,16 +41,16 @@ const SelectedVouchers = () => {
       navigate('VouchersDone');
     }).catch(e => {
       setIsLoading(false);
-      console.log(e.response)
       setError(e?.response?.data?.DisplayText);
     })
   };
-  
+
+
 
   return (
     <Layout hasBackArrow
     
-    pageName="ვაუჩერის შეძენა"
+    pageName= {state?.t('screens.buyVoucher')}
     onPressBack={GoBack}>
       <View
         style={{
@@ -64,7 +63,7 @@ const SelectedVouchers = () => {
             <View>
               {Data.length > 0 && <VoucherCardLayout
                 item={route?.params?.data}
-              />} 
+              />}
             </View>
 
             <View
@@ -74,7 +73,7 @@ const SelectedVouchers = () => {
                 paddingBottom: 26,
               }}>
               <Text style={[{fontFamily: 'HMpangram-Bold'},{color: isDarkTheme ? Colors.white : Colors.black}]}>
-                ფასი: {route.params?.data?.voucherPurchasePoints}{' '}
+              {state?.t('common.price')}: {route.params?.data?.voucherPurchasePoints}{' '}
               </Text>
 
               <Image source={require('../../assets/images/Star.png')} />
@@ -86,7 +85,7 @@ const SelectedVouchers = () => {
             </View> */}
           </View>
         </View>
-        
+
       </View>
       <View style={{alignItems: 'center', height: 100}}>
       {error !== undefined ?
@@ -95,7 +94,7 @@ const SelectedVouchers = () => {
           <TouchableOpacity
             style={styles.btnStyle}
             onPress={() => buy()}>
-            <Text style={[styles.btnText,{color: isDarkTheme ? Colors.white : Colors.black}]}>დადასტურება</Text>
+            <Text style={styles.btnText}>{state?.t('common.accept')}</Text>
           </TouchableOpacity>
         </View>
         <Modal visible={isLoading} animationType="slide" transparent={true}>
@@ -113,12 +112,12 @@ const SelectedVouchers = () => {
 };
 
 const styles = StyleSheet.create({
-  cardWrapper: {  
+  cardWrapper: {
     top: 20,
     alignItems: 'center'
   },
   btnStyle: {
-   
+
     width: 325,
     height: 66,
     borderRadius: 50,
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     top: -10,
     left: 25
-}
+  }
 });
 
 export default SelectedVouchers;

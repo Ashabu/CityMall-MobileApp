@@ -126,11 +126,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.citymall"
+        applicationId "com.citymal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "1.8"
     }
     splits {
         abi {
@@ -147,6 +147,13 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+
+        release {
+            storeFile file('citymall.keystore')
+            storePassword '9%$3vh/z{aBhL=]y'
+            keyAlias 'citymallalias'
+            keyPassword '9%$3vh/z{aBhL=]y'
+        }
     }
     buildTypes {
         debug {
@@ -155,7 +162,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -175,6 +182,15 @@ android {
             }
 
         }
+    }
+
+    packagingOptions {
+      pickFirst 'lib/x86/libc++_shared.so'
+      pickFirst 'lib/x86_64/libjsc.so'
+      pickFirst 'lib/arm64-v8a/libjsc.so'
+      pickFirst 'lib/arm64-v8a/libc++_shared.so'
+      pickFirst 'lib/x86_64/libc++_shared.so'
+      pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
 }
 

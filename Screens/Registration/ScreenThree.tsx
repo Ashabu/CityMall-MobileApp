@@ -1,49 +1,72 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
-import { ActivityIndicator, Keyboard, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import {AppContext} from '../../AppContext/AppContext';
 import { Colors } from '../../Colors/Colors';
 import Layout from '../../Components/Layouts/Layout';
 import ApiServices from '../../Services/ApiServices';
 import { navigate } from '../../Services/NavigationServices';
+import AsyncStorage from '../../Services/StorageService';
 import Grid from '../../Styles/grid';
 
-
+type RouteParamList = {
+    params: {
+        skip?: boolean;
+    }
+}
 
 const ScreenThree: React.FC = () => {
+    const routeParams = useRoute<RouteProp<RouteParamList, 'params'>>();
     const { state, setGlobalState } = useContext(AppContext);
     const { isDarkTheme} = state;
     const [buttonLoading, setButtonLoading] = useState<boolean>(false);
 
     const handleGetClientCards = () => {
         setButtonLoading(false);
-        ApiServices.GetClientCards().then(res => {
-            setGlobalState({cardDetails: res.data});
-            setButtonLoading(false);
-            navigate('HomeScreen')
-        })
-            .catch(e => {
-                console.log(JSON.parse(JSON.stringify(e.response)).data);
+       
+        ApiServices.GetClientCards().then((res) => {
+            const fn = () => {
+                setGlobalState({cardDetails: res.data});
+                setGlobalState({ clientDetails: res.data });
                 setButtonLoading(false);
+                if(routeParams?.params?.skip) {
+                    setGlobalState({ isAuthenticated: true });
+                }
                 navigate('HomeScreen')
+            }
+            AsyncStorage.removeItem('skip_token').then(_ => {
+                fn();
+            }).catch(() => fn());    
+        })
+            .catch((e) => {
+                const fn = () => {
+                    console.log(JSON.parse(JSON.stringify(e.response)).data);
+                    setButtonLoading(false);
+                    navigate('HomeScreen')
+                }
+                AsyncStorage.removeItem('skip_token').then(_ => {
+                    fn();
+                }).catch(() => fn());
+
             });
     };
 
     return (
-        <Layout hasBackArrow onPressBack={handleGetClientCards} >
+        <Layout  onPressBack={handleGetClientCards} >
             <ScrollView keyboardShouldPersistTaps='always' contentContainerStyle={{ paddingHorizontal: '10%', position: 'relative', flexGrow: 1 }}>
                 <View style={[Grid.row_12_5, {}]}>
-                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>რეგისტრაცია</Text>
+                    <Text style={[styles.regTitle, { color: isDarkTheme ? Colors.white : Colors.black }]}>{state?.t('common.register')}</Text>
                 </View>
                 <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
                     <Image source={require('../../assets/images/success-mark.png')} style={{ width: 64, height: 64, marginBottom: 20 }} />
-                    <Text style={[styles.registerSuccess, { color: isDarkTheme ? Colors.white : Colors.black, }]}>რეგისტაცია წარმატებით დასრულდა</Text>
+                    <Text style={[styles.registerSuccess, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('infoText.registerSuccess')}</Text>
                 </View>
                 <View style={[Grid.row_12_5, { marginBottom: 20 }]}>
                     <TouchableOpacity style={styles.authBtn} onPress={handleGetClientCards}>
                     {buttonLoading ?
                             <ActivityIndicator animating={buttonLoading} color='#dadde1' />
                             :
-                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>დახურვა</Text>
+                        <Text style={[styles.btnText, { color: isDarkTheme ? Colors.white : Colors.black, }]}>{state?.t('common.close')}</Text>
                     }
                     </TouchableOpacity>
                 </View>
