@@ -20,6 +20,7 @@ import {GetNews, GetOffers, IOffer} from '../../Services/Api/OffersApi';
 import {ChunkArrays} from '../../Utils/utils';
 import NotFound from '../../Components/NotFound';
 import translateService from '../../Services/translateService';
+import { subscriptionService } from '../../Services/SubscriptionServive';
 
 type RouteParamList = {
   params: {
@@ -28,7 +29,7 @@ type RouteParamList = {
   };
 };
 
-const OffersScreen = () => {
+const OffersScreen = (props: any) => {
   const {state} = useContext(AppContext);
   const {isDarkTheme} = state;
 
@@ -71,7 +72,7 @@ const CategoryTypes: any = {
     startFetching = true;
     setIsLoading(true);
     GetOffers(false, page, routeParams.params.routeId)
-      .then(res => {
+      .then(res => { 
         let tempOffers = res.data.data;
         if (tempOffers.length < 16) {
           isEndFetching = true;
@@ -179,6 +180,25 @@ const CategoryTypes: any = {
     }
   };
 
+useEffect(() => {
+  const subscription = subscriptionService?.getData()?.subscribe(data => {
+    if (data?.key === 'theme_changed') {
+      setOffersView([]);
+      setFilteredOffers([]);
+      if (routeParams.params.id === 0) {
+        handleGetOffers(pagPage, true);
+      } else {
+        handleGetNews(pagPage, true);
+      }
+    }
+  });
+
+  return () => {
+    subscriptionService?.clearData();
+    subscription?.unsubscribe();
+  };
+}, []);
+
   return (
     <AppLayout>
       <View
@@ -234,7 +254,7 @@ const CategoryTypes: any = {
         <View style={styles.loader}>
           <ActivityIndicator
             size={'small'}
-            color={'#ffffff'}
+            color={isDarkTheme ? Colors.white : Colors.black}
             style={{
               alignSelf: 'center',
               transform: [

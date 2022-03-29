@@ -397,7 +397,7 @@ const AuthScreen = () => {
             style={styles.authSkip}
             onPress={skip}
             disabled={buttonLoading}>
-            <Text style={styles.btnText}>{state?.t('common.skip')}</Text>
+            <Text style={[styles.btnText, {color: isDarkTheme ? Colors.white: Colors.black}]}>{state?.t('common.skip')}</Text>
           </TouchableOpacity>
         )}
       </View>
