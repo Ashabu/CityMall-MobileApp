@@ -442,7 +442,7 @@ const CheckGiftCardBalanceScreen = () => {
               </View>
               {balance !== undefined && (
                 <Text style={styles.deposite}>
-                  {state.t('screens.deposit')}: {formatNumber(balance)}
+                  {state.t('screens.deposit')}: {formatNumber(balance) || 0}
                 </Text>
               )}
             </View>

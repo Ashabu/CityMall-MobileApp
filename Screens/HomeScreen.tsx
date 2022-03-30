@@ -250,7 +250,7 @@ const HomeScreen = () => {
                         {state?.t('screens.cityPoint')}
                         </Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(state.clientInfo?.points || 0)}
+                        <Text style={[styles.amountValue, {color: isDarkTheme ? Colors.white : Colors.black}]}>{formatNumber(state.clientInfo?.points || 0) || 0}
                               
                              </Text>
                              <Image resizeMode={'contain'} source={require('./../assets/images/Star.png')} style={{marginHorizontal: 5, width: 9, height: 9}} />

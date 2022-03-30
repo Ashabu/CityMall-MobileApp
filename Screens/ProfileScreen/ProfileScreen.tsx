@@ -355,7 +355,7 @@ useEffect(() => {
                 styles.balanceWrapAmount,
                 isDarkTheme ? {color: Colors.white} : {color: Colors.black},
               ]}>
-              {formatNumber(state.clientInfo.ballance)}
+              {formatNumber(state.clientInfo.ballance) || 0}
             </Text>
           </View>
           <View>
@@ -367,7 +367,7 @@ useEffect(() => {
                 styles.balanceWrapAmount,
                 isDarkTheme ? {color: Colors.white} : {color: Colors.black},
               ]}>
-              {formatNumber(state.clientInfo.points)}
+              {formatNumber(state.clientInfo.points) || 0}
             </Text>
           </View>
         </View>
