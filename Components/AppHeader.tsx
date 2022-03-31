@@ -149,7 +149,7 @@ const AppHeader = (props: any) => {
               source={require('../assets/images/bell.png')}
             />
             {(clientDetails.length === 0 || isSkip) ? (
-              <Text style={styles.notificationStyle}>1</Text>
+              <View style={styles.notificationStyle}><Text style={styles.notificationTextStyle}>1</Text></View>
             ) : null}
           </TouchableOpacity>
           <TouchableOpacity
@@ -256,10 +256,6 @@ const styles = StyleSheet.create({
   },
 
   notificationStyle: {
-    fontFamily: 'HMpangram-Bold',
-    color: Colors.white,
-    fontSize: 12,
-    fontWeight: 'bold',
     position: 'absolute',
     top: -7,
     right: -7,
@@ -267,6 +263,12 @@ const styles = StyleSheet.create({
     width: 16,
     height: 16,
     borderRadius: 8,
+  },
+  notificationTextStyle: {
+    fontFamily: 'HMpangram-Bold',
+    color: Colors.white,
+    fontSize: 12,
+    fontWeight: 'bold',
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center'
